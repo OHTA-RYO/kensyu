@@ -1,0 +1,135 @@
+@charset "utf-8";
+
+body {
+ margin: 0;
+}
+
+header {
+ display: flex;
+}
+
+.logo {
+  width: 160px;
+  height: 80px;
+  margin-left: 24px;
+  /* background: skyblue; */
+  
+}
+
+nav {
+  /* background: pink; */
+  line-height: 80px;
+  margin-left: auto;
+}
+
+a {
+  text-decoration: none;
+  color: #7A4E27;
+  padding: 8px;
+  font-size: small;
+}
+
+button {
+  width: 102px;
+  height: 102px;
+  font-size: small;
+}
+
+
+/* 一旦やり直そう
+.kv {
+  width: 1600px;
+  margin-left: auto;
+  background-image: url(FV_pc.jpg);
+  background-size: cover;
+  text-align: center;
+  position: relative;
+}
+
+.text {
+  margin: 0;
+  background: lightgray;
+  position: absolute;
+  bottom: 0;
+}
+
+.text p {
+  background:#7A4E27;
+  color: white;
+  width: 540px;
+  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 8px;
+} */
+
+.kv {
+  background-image: url(FV_pc.jpg);
+  background-size: cover;
+  margin-left: 160px;
+}
+
+.text {
+  background: #7A4E27;
+}
+
+
+
+article {
+  background: pink;
+  width: 320px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  font-size: 40px;
+  color: #7A4E27;
+}
+
+article p {
+  text-align: center;
+  font-size: 24px;
+  color: #7A4E27;
+}
+
+.container { 
+  flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-1 {
+  background: pink;
+  width: 160px;
+  height: 160px;
+}
+
+.item-2 {
+  background: pink;
+  width: 160px;
+  height: 160px;
+}
+
+.item-3 {
+  background: pink;
+  width: 160px;
+  height: 160px;
+}
+
+.item-4 {
+  background: pink;
+  width: 160px;
+  height: 160px;
+}
+
+.item-5 {
+  background: pink;
+  width: 160px;
+  height: 160px;
+}
+
+.item-6 {
+  background: pink;
+  width: 160px;
+  height: 160px;
+}
