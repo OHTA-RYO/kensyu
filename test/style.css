@@ -6,6 +6,10 @@ body {
 
 header {
  display: flex;
+ /* position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%; */
 }
 
 .logo {
@@ -25,11 +29,34 @@ nav {
 a {
   text-decoration: none;
   color: #7A4E27;
-  padding: 8px;
+  padding: 16px;
   font-size: small;
 }
 
-button {
+.info {
+  font-size: small;
+  all: unset;
+  background: #F8B62B;
+  padding-top: 16px;
+  padding-left: 16px; 
+}
+
+.info a {
+  text-align: center;
+  padding-left: 24px;
+  color: white;
+}
+
+nav a:hover {
+background: lightgray;
+/* text-decoration: underline; */
+border-bottom: 2px solid #7A4E27;
+}
+
+/* ↑本来ならもっとぬるっと下線を引きたい */
+
+
+/* button {
   width: 102px;
   height: 102px;
   font-size: small;
@@ -39,7 +66,7 @@ button {
 
 button a {
   color: #efefeb;
-}
+} */
 
 
 /* 一旦やり直そう
@@ -68,14 +95,15 @@ button a {
   margin-bottom: 8px;
 } */
 
-/* main {
-  background: lightgrey;
-  margin-top: 128px;
-} */
+main {
+  position: relative;
+  /* background: lightgrey; */
+  /* margin-top: 128px; */
+}
 
 .text {
   background: #efefeb;
-  position:absolute;
+  /* position:absolute; */
   width: 1600px;
   height: 500px;
   margin-top: 148px;
@@ -84,13 +112,14 @@ button a {
 
 .text-1 {
   background: #7A4E27;
-  margin-top: 320px;
+  /* margin-top: 320px; */
   font-size: 32px;
-  position: relative;
+  /* position: absolute; */
   z-index: 1;
 }
 
 .kv {
+  /* position: absolute; */
   background-image: url(FV_pc.jpg);
   background-size: cover;
   margin-left: 160px;
