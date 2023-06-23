@@ -506,3 +506,7 @@ h3 .system {
   text-decoration: none;
   color: black;
 }
+
+.column {
+  margin-top: -125px;
+}
