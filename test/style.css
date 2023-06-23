@@ -458,6 +458,7 @@ flex-direction: column;
 }
 
 .container-movie {
+  height: 640px;
 }
 
 .movie-haikei {
@@ -482,4 +483,8 @@ flex-direction: column;
 
 video {
   width: 480px;
+}
+
+h3 .system {
+  font-size: 24px;
 }
