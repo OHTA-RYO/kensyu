@@ -564,7 +564,8 @@ h3 .system {
 
 .news-main {
   background: #F5F5F3;
-  margin: 128px 0;
+  margin-top: 128px;
+  margin-bottom: 0;
   padding-top: 64px;
   height: 480px;
 }
@@ -596,11 +597,9 @@ h3 .system {
 }
 
 .jouhou div:nth-child(1) {
-  /* border-top: 1px solid lightgray; */
 }
 
 .jouhou-day {
-  /* border: 1px solid black; */
   font-size: 16px;
   color: #7A4E27;
 }
@@ -608,4 +607,104 @@ h3 .system {
 .jouhou-title {
   
   color: #7A4E27;
+}
+
+.information-main {
+  background-image: url(img/bg_cta.jpg);
+  background-size: cover;
+  height: 400px;
+  /* opacity: 0.5; */
+  background-color:rgba(255, 255, 255, 0.5);
+}
+
+.information-text p {
+  margin: 0;
+  padding-top: 32px;
+  padding-bottom: 24px;
+  text-align: center;
+  font-size: 30px;
+  color: #7A4E27;
+  font-weight: bold;
+}
+
+.information-container {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.tell {
+  width: 400px;
+  height: 200px;
+  /* border: 1px solid black; */
+  background: white;
+  text-align: center;
+}
+
+.tell-mail-1 {
+  color: #7A4E27;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.tell-mail-2 {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #7A4E27;
+}
+
+.tellnumber {
+  color:rgb(71, 223, 71);
+  font-size: 40px;
+  margin: 0;
+}
+
+.uketsuke {
+  margin-top: 0;
+  color: #7A4E27;
+  font-size: 12px;
+}
+
+.mail {
+  width: 400px;
+  height: 200px;
+  /* border: 1px solid black; */
+  background: white;
+  text-align: center;
+}
+
+.mailnumber {
+  background: orange;
+  width: 320px;
+  margin: 0 auto;
+  margin-top: 24px;
+  padding: 16px 0;
+  color: white;
+}
+
+
+
+.adress {
+  width: 400px;
+  background: pink;
+  border: 1px solid black;
+}
+
+.footernav {
+  width: 400px;
+  background: pink;
+  border: 1px solid black;
+}
+
+.footernav-2 {
+  width: 400px;
+  background: pink;
+  border: 1px solid black;
+}
+
+.footernav-3 {
+  width: 400px;
+  background: pink;
+  border: 1px solid black;
 }
