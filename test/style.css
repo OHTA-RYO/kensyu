@@ -11,6 +11,7 @@ header {
  left: 0;
  width: 100%;
  z-index: 1;
+ background: white;
 }
 
 .logo {
@@ -59,9 +60,6 @@ border-bottom: 2px solid #7A4E27;
 
 /* ↑本来ならもっとぬるっと下線を引きたい */
 
-
-
-
 .text {
   margin: 0;
   background: lightgray;
@@ -89,7 +87,8 @@ main {
   position:absolute;
   width: 1600px;
   height: 500px;
-  margin-top: 148px;
+  /* margin-top: 148px; */
+  top: 25%;
   z-index: -1;
 }
 
@@ -203,6 +202,10 @@ article p {
   height: 200px;
   object-fit: cover;
   }
+
+  /* .container-item {
+    overflow:hidden;
+  } */
 
   .container-text {
     margin-bottom: 0;
@@ -431,10 +434,14 @@ flex-direction: column;
   position: relative;
   top:-32px;
   background: orange;
-  border-radius: 24px;
+  border-radius: 16px;
   box-shadow: 8px 8px 8px;
   font-size: 16px;
   color: black;
+}
+
+.siryoumain p {
+  padding: 10px;
 }
 
 .movei-title {
@@ -459,17 +466,19 @@ flex-direction: column;
 
 .container-movie {
   height: 640px;
+  margin: 0 auto;
 }
 
 .movie-haikei {
-  width: 960px;
+  width: 1080px;
   margin: 0 auto;
+  /* padding: 0; */
 }
 
 .movie {
   display: flex;
   justify-content: center;
-  padding-left: 80px;
+  padding-left: 16px;
   position: relative;
   top: -240px;
 }
@@ -509,4 +518,46 @@ h3 .system {
 
 .column {
   margin-top: -125px;
+}
+
+.kurashi-main {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.kurashi-image {
+  width: 320px;
+  height: 200px;
+  border: 1px solid black;
+}
+
+.kurashi-image img {
+  width: 320px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.kurashi-textarea {
+  display: flex;
+  justify-content: center;
+  gap: 32px 32px;
+}
+
+.kurashi-text {
+  width: 320px;
+  height: 200px;
+  /* border: 1px solid black; */
+  /* background: pink; */
+}
+
+.title, .day {
+  color: #7A4E27;;
+}
+
+.oshirase {
+  border: 1px solid lightgray;
+  width: 80px;
+  border-radius: 16px;
+  text-align: center;
 }
