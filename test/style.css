@@ -488,3 +488,21 @@ video {
 h3 .system {
   font-size: 24px;
 }
+
+.service {
+  height: 540px;
+  margin: 0;
+}
+
+.service2 {
+  background: #F5F5F3;;
+}
+
+.container-card-cver2:hover {
+  transform: scale(1.1);
+}
+
+.point a {
+  text-decoration: none;
+  color: black;
+}
