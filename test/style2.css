@@ -833,6 +833,47 @@ h3 .system {
 margin: 0;
 }
 
+.bottom {
+  background: black;
+}
+
+.bottom-icon {
+  width: 400px;
+  margin-left: auto;
+}
+
+.sankaku {
+width: 0;
+height: 0;
+  /* border-top: 15px solid transparent; */
+  border-right: 50px solid transparent;
+  border-left: 50px solid transparent;
+  border-bottom: 50px solid black;
+  margin-right: 10px;
+  position: relative;
+  left: 260px;
+  top: -50px;
+}
+
+.minsankaku {
+width: 0;
+height: 0;
+  /* border-top: 10px solid transparent; */
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-bottom: 10px solid gray;
+  position: relative;
+  left: 300px;
+  top: -70px;
+}
+
+.sankaku-title {
+position: relative;
+left: 270px;
+top: -80px;
+color: white;
+}
+
 .footernav {
   display: flex;
   flex-direction: column;
