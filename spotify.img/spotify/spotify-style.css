@@ -293,22 +293,51 @@ main {
 
 /* ここからカードエリア */
 
+/* カードエリアの背景
+flexで横並びにして、
+padding left-rightで両端にスペースを入れた。 */
 .cardarea-main {
-  background: black;
   display: flex;
-  /* width: 100%; */
   gap: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
+/* カードエリアの一番後ろの箱の
+幅を指定 */
 .cardarea-container {
-  width: 180px;
-  height: 340px;
-  background: white;
-  border: 1px solid red;
+  width: 240px;
+  background: rgb(22, 22, 22);
+  border-radius: 8px;
+  margin: 16px 0;
 }
 
-.cardarea-image-box  {
-  width: 480px;
-  width: 320px;
-  background: pink;
+/* カードエリアの画像の幅を
+paddingで調整
+本来はboxにwidthで幅を調整したかった。 */
+.cardarea-image-box   {
+/* height: 320px; */
+padding: 16px;
+
 }
+
+/* width100%で
+画像をboxいっぱいに表示させる */
+.cardarea-image-box img {
+width: 100%;
+border-radius: 8px;
+}
+
+.cardarea-title {
+  font-size: 14px;
+  color: white;
+  font-weight: bold;
+}
+
+.cardarea-text {
+  font-size: 12px;
+  color: lightgray;
+  font-weight: bold;
+}
+
+
