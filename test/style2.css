@@ -1,0 +1,871 @@
+@charset "utf-8";
+
+body {
+  margin: 0;
+  /* width: 1800px; */
+  /* ↑これは何の為に入れたのか？ */
+}
+
+a {
+  text-decoration: none;
+  color: #7a4e27;
+}
+
+/* ナビゲーションを固定 */
+
+.header-main {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+/* 横並びにする */
+.header-main {
+  display: flex;
+
+}
+
+/* ヘッダーの高さを決める */
+.header-logo {
+  width: 240px;
+  height: 80px;
+  padding: 8px;
+  text-align: center;
+}
+
+/* ヘッダーロゴサイズを決める */
+.header-logo img {
+  width: 200px;
+  height: 80px;
+}
+
+/* 教えてもらうこと */
+/* ヘッダーナビと問合せをleft autoで右寄せに
+テキストの高さをline-hightで中央に
+上手く中央にする為にはどうするのか？
+ナビのスタートと位置をendで右寄せにした。 */
+
+.header-nav {
+  margin-left: auto;
+  line-height: 96px;
+  width: 1560px;
+  text-align: end;
+}
+
+
+/* ↓箱をもう一つ用意する。 */
+
+/* 確認すること */ 
+/* a要素のデフォルト設定をnoneで消した。
+ナビの右側に余白を作った。
+ナビにマウスカーソルを合わせた時に
+ブロックに背景をつけたいので
+display-inlineを指定
+↑にしたら高さいっぱいに背景がついてしまう */
+
+.header-nav a {
+  text-decoration: none;
+  margin-right: 4px;
+  color: #7A4E27;
+  font-size: 13px;
+  padding: 16px;
+}
+
+/* ↓教えてもらうこと。 */
+/* ホバー時にちょうど良い高さが指定出来ない。 */
+.header-nav a:hover {
+  background: lightgray;
+  /* width: auto; */
+  border-bottom: 1px solid #7A4E27;
+  transform: scale(0,1);
+  transform-origin: left top;
+  /* transition-duration: 0.5s; */
+  transition: 0.3s;
+  }
+
+  /* リンクの作成とaのデフォルト初期化。 */
+  .header-mail-link {
+    text-decoration: none;
+    background: rgb(255, 177, 32);
+  }
+
+  /* infoの幅を調整して
+  テキストを中央に */
+.header-info {
+  width: 100px;
+  text-align: center;
+}
+
+/* メール文字を中央近くに配置 */
+/* googlefontの配置方法が不明 */
+.header-maillogo {
+  margin-top: 16px;
+}
+
+/* 文字サイズと色
+メール文字との間隔を調整 */
+.header-otoiawase {
+  font-size: small;
+  color: white;
+  margin-top: 8px;
+}
+
+/* ここからmainの画像 */
+
+/* シルバーの背景と高さ・幅を調整
+margin-topで高さを下げている */
+.silver {
+  width: 1750px;
+  height: 450px;
+  background: #efefeb;
+  margin-top: 200px;
+}
+
+/* メイン画像を背景の上に設定
+margin-leftで右に寄せて、左側にシルバーの背景が出るように設定。 */
+
+.main-img {
+  width: 1650px;
+  height: 500px;
+  background-image: url(img/FV_pc.jpg);
+  background-size: cover;
+  background-position: center;
+  /* object-fit: cover; */
+  margin-left: auto;
+  margin-top: -553px;
+}
+
+
+/* 確認すること
+テキストの背景幅を個別に設定するには？ */
+
+.main-text {
+  width: 640px;
+  height: 200px;
+  margin-left: 30px;
+  margin-top: -170px;
+}
+
+
+/* お客様に寄り添いを微調整 */
+
+.main-text p {
+  font-size: 28px;
+  margin-bottom: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  font-weight: bold;
+  color: white;
+  background: #7A4E27;
+  margin-right: 192px;
+  margin-top: 8px;
+}
+
+/* 確認すること。
+お客様に寄り添いの茶色の範囲だけ短くしたかったが、
+そもそも効いていない。 */
+ .yorisoi {
+  width: 264px;
+}
+
+/* 確認すること。
+マイナスマージンで６つの丸を良い位置に調整。
+マイナスマージンはTOP480が限界なのはなぜか？
+どこまでもいかないのか */
+
+.orb img {
+ margin-top: -650px;
+ margin-left: 460px;
+}
+
+/* 施工事例Box幅をbodyと同じ幅に設定 */
+.sekoujirei-main {
+  width: 1920px;
+  margin-top: 32px;
+}
+
+.sekoujirei-link:hover {
+  background-color: gray;
+}
+
+/* 施工事例テキスト部分の幅を調整
+文字をセンターに */
+.sekoujirei-text {
+  width: 480px;
+  margin: 0 auto;
+  /* background: green; */
+  text-align: center;
+  color: #7A4E27;
+}
+
+.sekoujirei-text h1 {
+  font-size: 40px;
+  border-bottom: 2px solid skyblue;
+  margin-left: 88px;
+  margin-right: 88px;
+  /* text-align: center; */
+}
+
+.sekoujirei-text p {
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* ↓からパクった */
+
+h1::before,
+h1:after {
+  position: absolute;
+  top: 751px;
+  left: 50%;
+  content: "";
+  height: 0;
+  width: 0;
+}
+
+h1:before {
+  border: 12px solid;
+  border-color: transparent;
+  border-top-color:skyblue;
+  margin-left: -16px;
+}
+
+/* 三角を２つ作成して
+うまい具合にh1afterでleftとtopで少しだけずらした */
+
+h1:after {
+  border: 12px solid ;
+  border-color: transparent;
+  border-top-color: white;
+  margin-left: -16px;
+  margin-top: -3px;
+}
+
+/* ３つのカードエリアを横並びに設定
+中央配置、ギャップで隙間を調整 */
+.card-area-main {
+  display: flex;
+  justify-content: center;
+  width: 1080px;
+  margin: 40px auto;
+  gap: 16px;
+}
+
+/* カードエリアの幅と高さを指定し、枠線をつけた */
+.card-area {
+  width: 320px;
+  height: 480px;
+  border: 1px solid lightgray;
+  cursor: pointer;
+  /* border: 1px solid black; */
+}
+
+.kakudai {
+  width: 320px;
+  height: 240px;
+  overflow: hidden;
+}
+
+.card-area:hover {
+  border: 1px solid black;
+}
+
+/* カードエリアの上段のみに画像を配置する為に
+適当な幅と高さを指定し、カバーで全体にした。 */
+.card-area img {
+  width: 320px;
+  height: 240px;
+  object-fit: cover;
+}
+
+/* ポインターを合わせた時に拡大させる為の箱の幅 */
+.kakudai2 {
+  width: 352px;
+  height: 240px;
+  overflow: hidden;
+}
+
+/* ポインターを合わせた時に拡大させる為 */
+.card-area img:hover {
+  transition-duration: 0.5s;
+  transform: scale(1.1,1.1); 
+  cursor: pointer; 
+}
+
+.kakudai3 {
+  width: 322px;
+  height: 202px;
+  border: 1px solid black;
+  overflow: hidden;
+}
+
+.kurashi-image img:hover {
+  transition-duration: 0.5s;
+  transform: scale(1.1,1.1); 
+  cursor: pointer; 
+}
+
+
+
+
+
+/* 本来動きがある部分を＞のみで
+見栄えのみ設定 */
+
+.ku {
+  margin-top: 208px;
+  font-size: 48px;
+}
+
+ /* カードエリアのテキスト全体部分 */
+.card-area p {
+  /* padding-left: 24px; */
+  margin-left: 24px;
+  font-size: 14px;
+}
+
+/* タイトル部分のみ */
+.card-area-title {
+  padding-top: 32px;
+  width: 256px;
+  height: 80px;
+  margin: 0;
+}
+
+/* 築年数 */
+.tikunensuu {
+  margin: 0;
+  margin-top: -16px;
+  color: #333;
+  opacity: 0.5;
+}
+
+/* 施工地 */
+.sekouti {
+  margin: 0;
+  color: #333;
+  opacity: 0.5;
+}
+
+/* 丸枠の文字サイズのみ変更 */
+.type p {
+ font-size: 12px;
+}
+
+/* 浄水 */
+.jousui {
+  border: 2px solid #4279a9;
+  color: #4279a9;
+  width: 80px;
+  text-align: center;
+  padding: 2px 6px;
+  border-radius: 16px;
+}
+
+/* 屋根 */
+.yane {
+  border: 2px solid #d8a235;
+  color: #d8a235;
+  width: 80px;
+  text-align: center;
+  padding: 2px 6px;
+  border-radius: 16px;
+}
+
+/* 外壁 */
+.gaiheki {
+  border: 2px solid #7a4e27;
+  color: #7a4e27;
+  width: 96px;
+  text-align: center;
+  padding: 2px 6px;
+  border-radius: 16px;
+}
+
+/* 施工事例 */
+.sekoujirei {
+  width: 400px;
+  height: 64px;
+  margin: 0 auto;
+  text-align: center;
+  color: #7a4e27;
+  border: 1px solid #7a4e27;
+  line-height: 64px;
+  margin-top: 64px;
+  margin-bottom: 128px;
+}
+
+/* お困りごと
+背景をグレイに */
+.okomarigoto-main {
+  background: #F3F3EF;
+  padding-bottom: 48px;
+}
+
+/* お困りごとテキストの幅と高さ
+色を調整 */
+.okomarigoto-text {
+  width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 108px;
+  color: #7a4e27;
+}
+
+/* お困りごとの下線を調整する為に再度記法 */
+.okomarigoto  {
+  font-size: 24px;
+  width: 320px;
+  margin: 0 auto;
+  text-align: center;
+  border-bottom: 2px solid skyblue;
+}
+
+/* お任せの文字サイズ */
+.omakase {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+/* お困りごとの下線の調整 */
+h2::before,
+h2:after {
+  position: absolute;
+  top: 1814px;
+  left: 50%;
+  content: "";
+  height: 0;
+  width: 0;
+}
+
+/* お困りごとの下線の調整 */
+h2:before {
+  border: 12px solid;
+  border-color: transparent;
+  border-top-color:skyblue;
+  margin-left: -16px;
+}
+
+/* お困りごとの下線の調整 */
+h2:after {
+  border: 12px solid ;
+  border-color: transparent;
+  border-top-color: #F3F3EF;
+  margin-left: -16px;
+  margin-top: -3px;
+}
+
+
+
+/* ６つのカード */
+.main-box {
+  display: flex;
+  justify-content: center;
+  width: 1080px;
+  margin: 0 auto;
+  gap: 24px;
+}
+
+/* .main-sub-box {
+ 
+} */
+
+/* 画像サイズ */
+.kakudaibox img {
+  width: 352px;
+  height: 240px;
+  object-fit: cover;
+}
+
+.kakudaibox img:hover {
+  transition-duration: 0.5s;
+  transform: scale(1.1,1.1); 
+}
+
+/* テクストボックスサイズと
+ポジションで上に被せた。 */
+
+.text-box {
+  width: 264px;
+  height: 164px;
+  background: white;
+  padding: 24px;
+  position: relative;
+  top: -64px;
+}
+
+/* テキストタイトル */
+.text-box-title {
+  color: #7a4e27;
+  font-size: 20px;
+}
+
+/* テキストの中身 */
+.text-box-text {
+  width: 240px;
+  font-size: 14px;
+  padding-top: 16px;
+  /* padding-right: 16px; */
+}
+
+.number-box {
+  width: 64px;
+  height:64px;
+  border: 1px solid skyblue;
+  border-radius: 50%;
+  background: skyblue;
+  position: relative;
+  top: -480px;
+  left: -18px;
+}
+
+.point {
+  text-align: center;
+  font-size: 12px;
+  padding-top: 4px;
+  color: white;
+}
+
+.number {
+  text-align: center;
+  font-size: 24px;
+  color: white;
+}
+
+.siryou {
+  width: 400px;
+  height: 48px;
+  background: orange;
+  margin: 0 auto;
+  font-size: 24px;
+  text-align: center;
+  padding-top: 8px;
+  border-radius: 8px;
+  box-shadow: 2px 6px 12px;
+  /* border: 1px solid black; */
+  margin-top: -92px;
+}
+
+/* ここから使い回し */
+.movei-title {
+  margin: 48px 0;
+}
+
+
+.movei-title p {
+  width: 480px;
+  margin: auto;
+  text-align: center;
+  color: rgb(165, 165, 165);
+}
+
+.movei-title h3 {
+  width: 480px;
+  margin: auto;
+  color: #7A4E27;
+  text-align: center;
+  font-size: 36px;
+}
+
+.container-movie {
+  height: 640px;
+  margin: 0 auto;
+}
+
+.movie-haikei {
+  width: 1080px;
+  margin: 0 auto;
+  /* padding: 0; */
+}
+
+.movie {
+  display: flex;
+  justify-content: center;
+  padding-left: 16px;
+  position: relative;
+  top: -240px;
+}
+
+.movie-text {
+  width: 480px;
+  font-size: 24px;
+  color: white;
+}
+
+
+video {
+  width: 480px;
+}
+
+h3 .system {
+  font-size: 24px;
+}
+
+.service {
+  height: 540px;
+  margin: 0;
+}
+
+.service2 {
+  background: #F5F5F3;;
+}
+
+/* ここはオリジナル */
+.ver2 {
+  height: 400px;
+}
+
+/* ここはオリジナル */
+.ver3 {
+  background: #F5F5F3;
+  height: 96px;
+}
+
+/* 使い回し */
+.column {
+  /* margin-top: -125px; */
+}
+
+.kurashi-main {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.kurashi-image {
+  width: 320px;
+  height: 200px;
+  /* border: 1px solid black; */
+}
+
+.kurashi-image img {
+  width: 320px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.kurashi-textarea {
+  display: flex;
+  justify-content: center;
+  gap: 32px 32px;
+}
+
+.kurashi-text {
+  width: 320px;
+  height: 200px;
+  /* border: 1px solid black; */
+  /* background: pink; */
+}
+
+.sekoujirei:hover {
+  background: lightgray;
+  transition-duration: 0.5s; 
+}
+
+.title, .day {
+  color: #7A4E27;
+}
+
+.oshirase {
+  border: 1px solid lightgray;
+  width: 80px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.news-main {
+  background: #F5F5F3;
+  margin-top: 128px;
+  margin-bottom: 0;
+  padding-top: 64px;
+  height: 480px;
+}
+
+.news p {
+  font-size: 16px;
+  color: lightgray;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.news h3 {
+  color: #7A4E27;
+  font-size: 32px;
+  text-align: center;
+  margin-top: 0;
+}
+
+.jouhou {
+  display:grid;
+  grid-template-columns	:100px 400px;
+  grid-template-rows	:50px;
+  justify-content: center;
+  /* margin-right: 400px; */
+  border-bottom: 1px solid lightgray;
+  max-width: 960px;
+  margin-left: 320px;
+
+}
+
+.jouhou div:nth-child(1) {
+}
+
+.jouhou-day {
+  font-size: 16px;
+  color: #7A4E27;
+}
+
+.jouhou-title {
+  
+  color: #7A4E27;
+}
+
+.information-main {
+  height: 400px;
+}
+
+.haikei2 {
+  background-image: url(img/bg_cta.jpg);
+  background-size: cover;
+  height: 400px;
+  opacity: 0.5;
+  background-color:rgba(255, 255, 255, 0.5);
+  margin-top: -80px;
+}
+
+.haikei3 {
+  position: relative;
+  top: -360px;
+}
+
+.information-text p {
+  margin: 0;
+  padding-top: 32px;
+  padding-bottom: 24px;
+  text-align: center;
+  font-size: 30px;
+  color: #7A4E27;
+  font-weight: bold;
+}
+
+.information-container {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.tell {
+  width: 400px;
+  height: 200px;
+  /* border: 1px solid black; */
+  background: white;
+  text-align: center;
+}
+
+.tell-mail-1 {
+  color: #7A4E27;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.tell-mail-2 {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #7A4E27;
+}
+
+.tellnumber {
+  color:rgb(71, 223, 71);
+  font-size: 40px;
+  margin: 0;
+}
+
+.uketsuke {
+  margin-top: 0;
+  color: #7A4E27;
+  font-size: 12px;
+}
+
+.mail {
+  width: 400px;
+  height: 200px;
+  /* border: 1px solid black; */
+  background: white;
+  text-align: center;
+}
+
+.mailnumber {
+  background: orange;
+  width: 320px;
+  margin: 0 auto;
+  margin-top: 24px;
+  padding: 16px 0;
+  color: white;
+}
+
+/* フッター */
+
+.footer {
+  background: black;
+}
+
+.footer-main {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  gap: 80px;
+  padding-top: 60px;
+  background: black;
+}
+
+.adress {
+  color: white;
+  margin-top: 30px;
+}
+
+.adress  p {
+margin: 0;
+}
+
+.footernav {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  height: 480px;
+  color: white;
+  margin-top: 30px;
+}
+
+
+
+/* .footernav-2 {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  height: 320px;
+  justify-content: center;
+  color: white;
+} */
+
+/* .footernav-3 {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  height: 160px;
+  justify-content: space-between;
+  color: white;} */
+
+
+.end {
+ background: black;
+ text-align: center;
+ color: white;
+ margin: 0;
+ padding: 48px 0;
+}
