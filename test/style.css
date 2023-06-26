@@ -187,6 +187,7 @@ article p {
 
 .container-item:hover {
   transform: scale(1.1);
+
 }
 
 .container-card {
@@ -201,11 +202,12 @@ article p {
   width: 320px;
   height: 200px;
   object-fit: cover;
+  overflow: hidden;
   }
 
-  /* .container-item {
+  .container-item {
     overflow:hidden;
-  } */
+  }
 
   .container-text {
     margin-bottom: 0;
@@ -504,7 +506,7 @@ h3 .system {
 }
 
 .service2 {
-  background: #F5F5F3;;
+  background: #F5F5F3;
 }
 
 .container-card-cver2:hover {
