@@ -6,28 +6,41 @@ body {
   /* max-width: 1800px; */
 }
 
+/* 全体を100%に設定し、２カラムに設定 
+当初gapで隙間を作っていたが、↓の記法によって
+gap 8pxを考慮した幅の指定がわからなかった。 */
 .left-right {
   width: 100%;
   display: flex;
-  gap: 8px;
+  /* gap: 8px; */
+  position: relative;
 }
 
+/* レフトの幅を25%に設定し、ポジションで固定に */
 .left {
   background: black;
   width: 25%;
-  /* position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 1; */
+  z-index: 1;
 }
 
+/* ↓確認すること */
+/* ライトの幅を75%に設定し、 
+ポジションでスタート位置をleftから25%の位置に設定した。*/
+
 .right {
-  background: green;
   width: 75%;
-  /* max-width: 1260px; */
-  height: 1800px;
-  /* z-index: -1; */
+  /* background: green; */
+  position: absolute;
+  top: 0;
+  left: 25%;
+
 }
+
+
+/* ここからレフト */
 
 
 /* 左の上段ナビゲーション一番外の箱 */
@@ -175,6 +188,127 @@ ul {
  background: rgb(22, 22, 22);
  color: white;
  border: 1px solid white;
+}
+
+/* header {
+  margin-left: auto;
+} */
+
+/* ここからライト */
+
+/* ヘッダーを横並びに設定 */
+.header-box {
+  display: flex;
+  /* width: 75%; */
+  margin-left: auto;
+  background: rgb(22, 22, 22);
+  color: lightgray;
+}
+
+/* くを横並びに設定 */
+.header-left {
+  display: flex;
+ 
+}
+
+/* くの幅と高さを設定 */
+.ku {
+  padding-left: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  /* border: 1px solid black; */
+  /* border-radius: 50%; */
+  /* width: 16px; */
+  /* height: 16px; */
 
 }
 
+/* サインアップとログインを横並びに設定 
+右側に配置設定*/
+.header-right {
+  display: flex;
+  margin-left: auto;
+}
+
+/* サインアップとログインの隙間を設定 */
+.signup {
+  margin-right: 40px;
+}
+
+/* サインアップの高さをセンターに設定 */
+.signup p {
+  padding: 12px 0;
+} 
+
+/* ログインの枠線と枠幅を設定 */
+.login p {
+  border: 1px solid white;
+  background: white;
+  border-radius: 40px;
+  padding: 12px 32px;
+  color: rgb(22, 22, 22);
+}
+
+/* ここからメインのトップ */
+/* メインの背景 */
+main {
+  background: rgb(33, 33, 33);
+}
+
+/* メインのトップ部分 */
+/* 横並びにして左の隙間を調整 */
+.main-top {
+  display: flex;
+  padding-left: 24px;
+}
+
+/* フォーカスとすべて表示を調整
+何でクラス名を同じにしたのかがわからない */
+.main-title {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* フォーカスの上下のマージンを0にして
+高さを調整する為にパディングトップで調整 */
+.main-title p {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 8px; 
+}
+
+/* すべて表示にレフトオートで右側に配置 */
+.all {
+  margin-left: auto;
+}
+
+/* すべて表示の配置を調整 */
+.all p {
+  font-size: 14px;
+  color: lightslategray;
+  margin-right: 24px;
+  padding-top: 8px;
+}
+
+/* ここからカードエリア */
+
+.cardarea-main {
+  background: black;
+  display: flex;
+  /* width: 100%; */
+  gap: 24px;
+}
+
+.cardarea-container {
+  width: 180px;
+  height: 340px;
+  background: white;
+  border: 1px solid red;
+}
+
+.cardarea-image-box  {
+  width: 480px;
+  width: 320px;
+  background: pink;
+}
