@@ -13,10 +13,8 @@ body {
 }
 
 .left {
-  background: pink;
+  background: black;
   width: 25%;
-  /* max-width: 540px; */
-  height: 600px;
   /* position: fixed;
   top: 0;
   left: 0;
@@ -73,6 +71,7 @@ body {
   display: flex;
   margin: 8px;
   /* background: rgb(33, 33, 33); */
+  
 }
 
 
@@ -89,6 +88,7 @@ body {
   margin-right: 8px;
   background: rgb(22, 22, 22);
   border-radius: 8px;
+  padding-bottom: 32px;
 }
 
 /* 初めてのプレイリストとフォロー */
@@ -134,6 +134,7 @@ body {
   margin-left: 16px;
   font-size: 16px;
   margin-bottom: 8px;
+  font-weight: bold;
 }
 
 /* ポッドキャストの幅のみ調整 */
@@ -143,11 +144,37 @@ body {
 
 /* プライバシー（リスト）部分 */
 .privacy {
-  color: white;
+  color: lightgray;
+  margin-top: 160px;
+  padding-bottom: 24px;
+  font-size: 8px;
 }
 
+/* プライバシー（リスト）部分点を削除 */
 ul {
   list-style: none;
+  padding-left: 0;
 }
 
+/* プライバシー横並びに */
+.list-item {
+  display: flex;
+  margin-bottom: 16px;
+  padding-left: 8px;
+}
+
+/* プライバシー配置調整 */
+ li {
+  padding-left: 16px;
+}
+
+/* 左側一番下、日本語部分 */
+.language {
+ width: 20%;
+ display: flex;
+ background: rgb(22, 22, 22);
+ color: white;
+ border: 1px solid white;
+
+}
 
