@@ -620,4 +620,48 @@ color: white;
   display: block;
  }
 
- 
+ /* ここからレスポンシブ */
+
+ .left {
+  min-width: 410px;
+ }
+
+ /* 5つ */
+ @media (max-width:1690px) {
+  .cardarea-main {
+    display: flex;
+    flex-wrap: wrap;
+  }
+ }
+
+ /* ４つ */
+ @media (max-width:1490px) {
+  .cardarea-main {
+    display: flex;
+    flex-wrap: wrap;
+  }
+ }
+
+ /* ３つ */
+ @media (max-width:1190px) {
+  .cardarea-main {
+    display: flex;
+    flex-wrap: wrap;
+  }
+ }
+
+ /* ２つ */
+ @media (max-width:970px) {
+  .cardarea-main {
+    display: flex;
+    flex-wrap: wrap;
+  }
+ }
+
+ /* 1つ */
+ @media (max-width:610px) {
+  .cardarea-main {
+    display: flex;
+    flex-wrap: wrap;
+  }
+ }
