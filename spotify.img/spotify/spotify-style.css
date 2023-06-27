@@ -109,11 +109,25 @@ color: white;
   transform: scale(1.1);
 } 
 
-.boder-henka {
-  
+
+/* ↓ここ上手くいってない */
+.boder-henka :hover {
+ border: white
 }
 
+.color-kakudai-henka :hover {
+  transform: scale(1.1);
+  color: white;
+}
 
+.boder-bottom-henka :hover {
+  text-decoration: underline;
+}
+
+.background-henka :hover {
+  background: gray;
+  border-radius: 50%;
+}
 
 
 /* プラスアイコンを調整 */
@@ -204,6 +218,10 @@ ul {
   padding-left: 8px;
 }
 
+.list-item a {
+  color: gray;
+}
+
 /* プライバシー配置調整 */
  li {
   padding-left: 16px;
@@ -266,6 +284,7 @@ ul {
 /* サインアップの高さをセンターに設定 */
 .signup p {
   padding: 12px 0;
+  color: silver;
 } 
 
 /* ログインの枠線と枠幅を設定 */
@@ -421,7 +440,7 @@ footer li {
   width: 32px;
   height: 32px;
   background: rgb(22, 22, 22);
-  /* color: white; */
+  color: white;
 }
 
 /* アイコンをセンターに設定 */
