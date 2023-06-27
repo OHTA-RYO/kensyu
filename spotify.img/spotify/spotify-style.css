@@ -90,8 +90,9 @@ gap 8pxを考慮した幅の指定がわからなかった。 */
   display: flex;
   margin: 8px;
   /* background: rgb(33, 33, 33); */
-  
 }
+
+
 
 /* 追加分hover */
 
@@ -534,6 +535,7 @@ color: white;
 }
 
 /* ここから再生ボタンについて */
+
 /* .cardarea-container 親 */
 /* ↑こいつにホバーしたら、再生ボタンが浮き出る。 */
 
@@ -573,3 +575,49 @@ color: white;
   left: 132px;
   transition:2.8s;
   }
+
+  /* ここからプラスボタンを押すと飛び出す。 */
+
+  .plus-container {
+    width: 248px;
+    height: 80px;
+    position: absolute;
+    background: rgb(44, 44, 44);
+    border-radius: 12px;
+  color: gray;
+  display: none;
+  }
+
+  .plus-item-box {
+    display: flex;
+    padding-left: 14px;
+    padding-top: 14px;
+    font-size: 14px;
+  }
+
+ .plus-item-box2 {
+  padding-top: 0;
+  padding-bottom: 14px;
+ }
+
+ .shinki {
+  padding-left: 8px;
+ }
+
+.material-symbols-outlined,.material-symbols-outlined {
+  color: white;
+}
+
+/* ↓もいらないのはなぜ？ */
+
+.plus-box {
+  /* position: relative; */
+}
+
+/* ↓ポジションアブソリュートじゃなくてもいけるのはなぜ？ */
+ .plus-box:hover .plus-container {
+  /* position: absolute; */
+  display: block;
+ }
+
+ 
