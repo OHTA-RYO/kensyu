@@ -353,11 +353,15 @@ padding left-rightで両端にスペースを入れた。 */
 
 /* カードエリアの一番後ろの箱の
 幅を指定 */
+/* 再生ボタンをカードエリアを起点にする為に
+リレーティブに設定 */
+
 .cardarea-container {
   width: 240px;
   background: rgb(22, 22, 22);
   border-radius: 8px;
   margin: 16px 0;
+  position: relative;
 }
 
 /* カードエリアの画像の幅を
@@ -526,5 +530,46 @@ color: white;
   margin: 24px 0;
   /* font-weight: bold; */
   background: white;
+  color: black;
 }
 
+/* ここから再生ボタンについて */
+/* .cardarea-container 親 */
+/* ↑こいつにホバーしたら、再生ボタンが浮き出る。 */
+
+.cardarea-main a {
+ padding: 0;
+ margin: 0;
+ border: 0;
+}
+
+/* ディスプレイノンで領域から見えなく出来る
+幅と高さも消える */
+.saisei-box p {
+  width: 45px;
+  height: 45px;
+  color: rgb(22, 22, 22);
+  border-radius: 50%;
+  margin: 0;
+  margin-left: auto;
+  text-align: center;
+  line-height: 45px;
+  display: none;
+}
+
+/* .cardarea-image-box {
+  transition:0.8s;
+  pointer-events : none;
+} */
+
+/* ↓アブソリュートの勉強をすること */
+.cardarea-image-box:hover .saisei-box p  {
+  /* transform:scale(1.5); */
+  background: green;
+  border-radius: 50%;
+  position: absolute;
+  display: block;
+  top:140px;
+  left: 132px;
+  transition:2.8s;
+  }
