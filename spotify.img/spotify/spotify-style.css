@@ -6,6 +6,11 @@ body {
   /* max-width: 1800px; */
 }
 
+/* aタグの下線を消す */
+a {
+  text-decoration: none;
+}
+
 /* 全体を100%に設定し、２カラムに設定 
 当初gapで隙間を作っていたが、↓の記法によって
 gap 8pxを考慮した幅の指定がわからなかった。 */
@@ -24,6 +29,7 @@ gap 8pxを考慮した幅の指定がわからなかった。 */
   top: 0;
   left: 0;
   z-index: 1;
+  height: 100%;
 }
 
 /* ↓確認すること */
@@ -32,10 +38,10 @@ gap 8pxを考慮した幅の指定がわからなかった。 */
 
 .right {
   width: 75%;
-  /* background: green; */
   position: absolute;
   top: 0;
   left: 25%;
+  height: 100%;
 
 }
 
@@ -86,6 +92,28 @@ gap 8pxを考慮した幅の指定がわからなかった。 */
   /* background: rgb(33, 33, 33); */
   
 }
+
+/* 追加分hover */
+
+.color-henka :hover{
+  cursor: pointer;
+color: white;
+}
+
+.playlist-link {
+  overflow: hidden;
+}
+
+.zoom-henka :hover {
+  cursor: pointer;
+  transform: scale(1.1);
+} 
+
+.boder-henka {
+  
+}
+
+
 
 
 /* プラスアイコンを調整 */
@@ -158,7 +186,7 @@ gap 8pxを考慮した幅の指定がわからなかった。 */
 /* プライバシー（リスト）部分 */
 .privacy {
   color: lightgray;
-  margin-top: 160px;
+  margin-top: 200px;
   padding-bottom: 24px;
   font-size: 8px;
 }
@@ -187,7 +215,7 @@ ul {
  display: flex;
  background: rgb(22, 22, 22);
  color: white;
- border: 1px solid white;
+ border: 1px solid gray;
 }
 
 /* header {
@@ -356,20 +384,128 @@ border-radius: 8px;
 .footer-nav-main ul {
   display: flex;
   color: white;
+  gap: 80px;
   /* ↑後でタイトルだけ白にする。 */
+  padding-bottom: 32px;
 }
 
+/* メインからフッターの高さを下げて、
+左にスタート位置を調整 */
 .kaisyajouhou {
 margin-top: 32px;
- margin-left: 64px;
+ margin-left: 48px;
 }
 
+/* フッターのアイコンを横並びに設定
+マージンレフトオートで右寄せに設定
+スタート位置を右から少しずらした
+gapで間隔を設定 */
 .footer-icon {
   display: flex;
+  margin-left: auto;
+  margin-right: 80px;
+  gap: 32px;
+
 }
 
+/* リストの高さの間隔を設定 */
 footer li {
-  padding: 8px;
+  padding: 0;
+  padding-top: 8px;
 }
 
+/* アイコン用の円の設定と調整 */
+.icon-line {
+  border: 1px solid rgb(33, 33, 33);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background: rgb(22, 22, 22);
+  /* color: white; */
+}
+
+/* アイコンをセンターに設定 */
+.icon-line span {
+padding: 4px;
+}
+
+/* アイコンの高さをセンターに設定 */
+.icon-line li {
+  padding: 0;
+}
+
+.kaisyajouhou a {
+  text-decoration: none;
+  color: gray;
+}
+
+
+
+
+/* コピーライト調整 */
+.copyright {
+  /* background: rgb(22, 22, 22);
+  background: red; */
+  color: gray;
+  /* height: 400px; */
+  padding-top:48px;
+  padding-bottom: 180px;
+  border-top: 1px solid rgb(80, 78, 78);
+  padding-left: 16px; 
+  width: 95%;
+  margin: 0 auto;
+  font-size: 14px;
+}
+
+
+/* ここから一番下 */
+
+
+.touroku {
+  background: red;
+  width: 100%;
+  /* position: absolute; */
+  position: fixed;
+  z-index: 1;
+  top: 872px;
+  left: 0;
+}
+
+.touroku-main {
+  display: flex;
+  background: #af2896;
+}
+
+.touroku-container {
+padding-left: 16px;
+padding-top: 32px;
+color: white;
+}
+
+.preview {
+  margin: 0;
+  font-size: 12px;
+}
+
+.muryou {
+  margin: 0;
+  
+}
+
+.imasugu {
+  margin-left: auto;
+  padding-right: 80px;
+ 
+}
+
+.imasugu p {
+  
+  font-size: 20px;
+  border: 1px solid white;
+  padding: 8px 24px;
+  border-radius: 32px;
+  margin: 24px 0;
+  /* font-weight: bold; */
+  background: white;
+}
 
