@@ -89,6 +89,7 @@ gap 8pxを考慮した幅の指定がわからなかった。 */
 .my-libraly {
   display: flex;
   margin: 8px;
+  padding: 8px 0;
   /* background: rgb(33, 33, 33); */
 }
 
@@ -195,13 +196,16 @@ color: white;
 
 /* ポッドキャストの幅のみ調整 */
 .pod {
-  width: 50%;
+  width: 60%;
+  padding-left: 0;
+  padding-right: 0;
+
 }
 
 /* プライバシー（リスト）部分 */
 .privacy {
   color: lightgray;
-  margin-top: 200px;
+  margin-top: 240px;
   padding-bottom: 24px;
   font-size: 8px;
 }
@@ -491,8 +495,10 @@ padding: 4px;
   /* position: absolute; */
   position: fixed;
   z-index: 1;
-  top: 872px;
+  top: 910px;
   left: 0;
+  /* padding-top: 8px;
+  padding-bottom: 8px; */
 }
 
 .touroku-main {
@@ -557,6 +563,9 @@ color: white;
   text-align: center;
   line-height: 45px;
   display: none;
+  /* transition-duration: 5s; */
+  transition-property: display;
+  transition-duration: 5.8s;
 }
 
 /* .cardarea-image-box {
@@ -573,7 +582,7 @@ color: white;
   display: block;
   top:140px;
   left: 132px;
-  transition:2.8s;
+
   }
 
   /* ここからプラスボタンを押すと飛び出す。 */
@@ -626,42 +635,1279 @@ color: white;
   min-width: 410px;
  }
 
- /* 5つ */
+/* PC画面 */
  @media (max-width:1690px) {
-  .cardarea-main {
-    display: flex;
-    flex-wrap: wrap;
-  }
+
  }
 
- /* ４つ */
- @media (max-width:1490px) {
+/* タブレット画面 */
+ @media (max-width:900px) {
+
+  body {
+    margin: 0;
+    width: 820px;
+    /* max-width: 1800px; */
+  }
+  
+  /* aタグの下線を消す */
+  a {
+    text-decoration: none;
+  }
+  
+  /* 全体を100%に設定し、２カラムに設定 
+  当初gapで隙間を作っていたが、↓の記法によって
+  gap 8pxを考慮した幅の指定がわからなかった。 */
+  .left-right {
+    width: 100%;
+    display: flex;
+    /* gap: 8px; */
+    position: relative;
+    /* display: none; */
+  }
+  
+  /* レフトの幅を25%に設定し、ポジションで固定に */
+  .left {
+    background: black;
+    width: 25%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: 100%;
+    display: none;
+  }
+  
+  /* ↓確認すること */
+  /* ライトの幅を75%に設定し、 
+  ポジションでスタート位置をleftから25%の位置に設定した。*/
+  
+  .right {
+    width: 100%;
+    /* position: absolute; */
+    /* top: 0;
+    left: 25%; */
+    /* height: 100%; */
+  
+  }
+  
+  
+  /* ここからレフト */
+  
+  
+  /* 左の上段ナビゲーション一番外の箱 */
+  .left-nav {
+    margin-left: 8px;
+    margin-right: 8px;
+    background: rgb(22, 22, 22);
+    border-radius: 8px;
+  
+  }
+  
+  /* ナビゲーションの外の箱 */
+  .nav-container {
+    display: flex;
+    margin: 8px;
+    background: rgb(22, 22, 22);
+    /* margin-left: 16px; */
+  }
+  
+  /* アイコン調整 */
+  .icon {
+    width: 10%;
+    padding-top: 8px;
+    padding-bottom: 4px;
+    color: lightgray;
+    text-align: center;
+  }
+  
+  /* ナビゲーションのテキストを調整 */
+  .nav-text {
+    width: 90%;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    color: lightgray;
+    font-size: 16px;
+    margin-left: 4px;
+  }
+  
+  .my-libraly {
+    display: flex;
+    margin: 8px;
+    padding: 8px 0;
+    /* background: rgb(33, 33, 33); */
+  }
+  
+  
+  
+  /* 追加分hover */
+  
+  .color-henka :hover{
+    cursor: pointer;
+  color: white;
+  }
+  
+  .playlist-link {
+    overflow: hidden;
+  }
+  
+  .zoom-henka :hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  } 
+  
+  
+  /* ↓ここ上手くいってない */
+  .boder-henka :hover {
+   border: white
+  }
+  
+  .color-kakudai-henka :hover {
+    transform: scale(1.1);
+    color: white;
+  }
+  
+  .boder-bottom-henka :hover {
+    text-decoration: underline;
+  }
+  
+  .background-henka :hover {
+    background: gray;
+    border-radius: 50%;
+  }
+  
+  
+  /* プラスアイコンを調整 */
+  .plus-icon {
+    width: 10%;
+    color: lightgray;
+    padding-top: 8px;
+  }
+  
+  /* 左の下段のボックス */
+  .my-libraly-container {
+    margin-left: 8px;
+    margin-right: 8px;
+    background: rgb(22, 22, 22);
+    border-radius: 8px;
+    padding-bottom: 32px;
+  }
+  
+  /* 初めてのプレイリストとフォロー */
+  .playlist {
+    background: rgb(33, 33, 33);
+    color: white;
+    margin: 8px;
+    margin-top: 0;
+    margin-bottom: 24px;
+    border-radius: 16px;
+    padding-bottom: 16px;
+  }
+  
+  /* プレイリストとフォローの上下のマージンを０に */
+  .playlist p {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  
+  /* プレイリストとフォローのタイトルを調整 */
+  .playlist-title {
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 16px;
+    padding-top: 16px;
+  
+  }
+  
+  /* プレリストとフォローの説明分を調整 */
+  .playlist-text {
+    padding: 16px;
+    margin: 0;
+  }
+  
+  /* プレイリストとフォローのリンクを調整 */
+  .playlist-link {
+    padding: 4px;
+    background: white;
+    color: black;
+    width: 40%;
+    text-align: center;
+    border-radius: 16px;
+    margin-left: 16px;
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  /* ポッドキャストの幅のみ調整 */
+  .pod {
+    width: 60%;
+    padding-left: 0;
+    padding-right: 0;
+  
+  }
+  
+  /* プライバシー（リスト）部分 */
+  .privacy {
+    color: lightgray;
+    margin-top: 240px;
+    padding-bottom: 24px;
+    font-size: 8px;
+  }
+  
+  /* プライバシー（リスト）部分点を削除 */
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  /* プライバシー横並びに */
+  .list-item {
+    display: flex;
+    margin-bottom: 16px;
+    padding-left: 8px;
+  }
+  
+  .list-item a {
+    color: gray;
+  }
+  
+  /* プライバシー配置調整 */
+   li {
+    padding-left: 16px;
+  }
+  
+  /* 左側一番下、日本語部分 */
+  .language {
+   width: 20%;
+   display: flex;
+   background: rgb(22, 22, 22);
+   color: white;
+   border: 1px solid gray;
+  }
+  
+  /* header {
+    margin-left: auto;
+  } */
+  
+  /* ここからライト */
+  
+  /* ヘッダーを横並びに設定 */
+  .header-box {
+    display: flex;
+    /* width: 75%; */
+    margin-left: auto;
+    background: rgb(22, 22, 22);
+    color: lightgray;
+  }
+  
+  /* くを横並びに設定 */
+  .header-left {
+    display: flex;
+   
+  }
+  
+  /* くの幅と高さを設定 */
+  .ku {
+    padding-left: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    /* border: 1px solid black; */
+    /* border-radius: 50%; */
+    /* width: 16px; */
+    /* height: 16px; */
+  
+  }
+  
+  /* サインアップとログインを横並びに設定 
+  右側に配置設定*/
+  .header-right {
+    display: flex;
+    margin-left: auto;
+  }
+  
+  /* サインアップとログインの隙間を設定 */
+  .signup {
+    margin-right: 40px;
+  }
+  
+  /* サインアップの高さをセンターに設定 */
+  .signup p {
+    padding: 12px 0;
+    color: silver;
+  } 
+  
+  /* ログインの枠線と枠幅を設定 */
+  .login p {
+    border: 1px solid white;
+    background: white;
+    border-radius: 40px;
+    padding: 12px 32px;
+    color: rgb(22, 22, 22);
+  }
+  
+  /* ここからメインのトップ */
+  /* メインの背景 */
+  main {
+    background: rgb(33, 33, 33);
+    height: auto;
+  }
+  
+  /* メインのトップ部分 */
+  /* 横並びにして左の隙間を調整 */
+  .main-top {
+    display: flex;
+    padding-left: 24px;
+  }
+  
+  /* フォーカスとすべて表示を調整
+  何でクラス名を同じにしたのかがわからない */
+  .main-title {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* フォーカスの上下のマージンを0にして
+  高さを調整する為にパディングトップで調整 */
+  .main-title p {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 8px; 
+  }
+  
+  /* すべて表示にレフトオートで右側に配置 */
+  .all {
+    margin-left: auto;
+  }
+  
+  /* すべて表示の配置を調整 */
+  .all p {
+    font-size: 14px;
+    color: lightslategray;
+    margin-right: 24px;
+    padding-top: 8px;
+  }
+  
+  /* ここからカードエリア */
+  
+  /* カードエリアの背景
+  flexで横並びにして、
+  padding left-rightで両端にスペースを入れた。 */
   .cardarea-main {
     display: flex;
-    flex-wrap: wrap;
+    gap: 24px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
+  
+  /* カードエリアの一番後ろの箱の
+  幅を指定 */
+  /* 再生ボタンをカードエリアを起点にする為に
+  リレーティブに設定 */
+  
+  .cardarea-container {
+    width: 240px;
+    background: rgb(22, 22, 22);
+    border-radius: 8px;
+    margin: 16px 0;
+    position: relative;
+  }
+  
+  /* カードエリアの画像の幅を
+  paddingで調整
+  本来はboxにwidthで幅を調整したかった。 */
+  .cardarea-image-box   {
+  /* height: 320px; */
+  padding: 16px;
+  
+  }
+  
+  /* width100%で
+  画像をboxいっぱいに表示させる */
+  .cardarea-image-box img {
+  width: 100%;
+  border-radius: 8px;
+  }
+  
+  /* カードタイトル
+  文字サイズ調整 */
+  .cardarea-title {
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  /* カードテキスト
+  文字サイズ調整 */
+  .cardarea-text {
+    font-size: 12px;
+    color: lightgray;
+    font-weight: bold;
+  }
+  
+  /* margin-rightで無理やり幅揃えた */
+  .karanobox {
+    /* color: rgb(33, 33, 33); */
+    margin-right: 880px;
+  }
+  
+  /* ここからフッター */
+  
+  .footer-nav-main ul {
+    display: flex;
+    color: white;
+    gap: 80px;
+    /* ↑後でタイトルだけ白にする。 */
+    padding-bottom: 32px;
+  }
+  
+  /* メインからフッターの高さを下げて、
+  左にスタート位置を調整 */
+  .kaisyajouhou {
+  margin-top: 32px;
+   margin-left: 48px;
+  }
+  
+  /* フッターのアイコンを横並びに設定
+  マージンレフトオートで右寄せに設定
+  スタート位置を右から少しずらした
+  gapで間隔を設定 */
+  .footer-icon {
+    display: flex;
+    margin-left: auto;
+    margin-right: 80px;
+    gap: 32px;
+  
+  }
+  
+  /* リストの高さの間隔を設定 */
+  footer li {
+    padding: 0;
+    padding-top: 8px;
+  }
+  
+  /* アイコン用の円の設定と調整 */
+  .icon-line {
+    border: 1px solid rgb(33, 33, 33);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    background: rgb(22, 22, 22);
+    color: white;
+  }
+  
+  /* アイコンをセンターに設定 */
+  .icon-line span {
+  padding: 4px;
+  }
+  
+  /* アイコンの高さをセンターに設定 */
+  .icon-line li {
+    padding: 0;
+  }
+  
+  .kaisyajouhou a {
+    text-decoration: none;
+    color: gray;
+  }
+  
+  
+  
+  
+  /* コピーライト調整 */
+  .copyright {
+    /* background: rgb(22, 22, 22);
+    background: red; */
+    color: gray;
+    /* height: 400px; */
+    padding-top:48px;
+    padding-bottom: 180px;
+    border-top: 1px solid rgb(80, 78, 78);
+    padding-left: 16px; 
+    width: 95%;
+    margin: 0 auto;
+    font-size: 14px;
+  }
+  
+  
+  /* ここから一番下 */
+  
+  
+  .touroku {
+    background: red;
+    width: 100%;
+    /* position: absolute; */
+    position: fixed;
+    z-index: 1;
+    top: 910px;
+    left: 0;
+    /* padding-top: 8px;
+    padding-bottom: 8px; */
+  }
+  
+  .touroku-main {
+    display: flex;
+    background: #af2896;
+  }
+  
+  .touroku-container {
+  padding-left: 16px;
+  padding-top: 32px;
+  color: white;
+  }
+  
+  .preview {
+    margin: 0;
+    font-size: 12px;
+  }
+  
+  .muryou {
+    margin: 0;
+    
+  }
+  
+  .imasugu {
+    margin-left: auto;
+    padding-right: 80px;
+   
+  }
+  
+  .imasugu p {
+    
+    font-size: 20px;
+    border: 1px solid white;
+    padding: 8px 24px;
+    border-radius: 32px;
+    margin: 24px 0;
+    /* font-weight: bold; */
+    background: white;
+    color: black;
+  }
+  
+  /* ここから再生ボタンについて */
+  
+  /* .cardarea-container 親 */
+  /* ↑こいつにホバーしたら、再生ボタンが浮き出る。 */
+  
+  .cardarea-main a {
+   padding: 0;
+   margin: 0;
+   border: 0;
+  }
+  
+  /* ディスプレイノンで領域から見えなく出来る
+  幅と高さも消える */
+  .saisei-box p {
+    width: 45px;
+    height: 45px;
+    color: rgb(22, 22, 22);
+    border-radius: 50%;
+    margin: 0;
+    margin-left: auto;
+    text-align: center;
+    line-height: 45px;
+    display: none;
+    /* transition-duration: 5s; */
+    transition-property: display;
+    transition-duration: 5.8s;
+  }
+  
+  /* .cardarea-image-box {
+    transition:0.8s;
+    pointer-events : none;
+  } */
+  
+  /* ↓アブソリュートの勉強をすること */
+  .cardarea-image-box:hover .saisei-box p  {
+    /* transform:scale(1.5); */
+    background: green;
+    border-radius: 50%;
+    position: absolute;
+    display: block;
+    top:140px;
+    left: 132px;
+  
+    }
+  
+    /* ここからプラスボタンを押すと飛び出す。 */
+  
+    .plus-container {
+      width: 248px;
+      height: 80px;
+      position: absolute;
+      background: rgb(44, 44, 44);
+      border-radius: 12px;
+    color: gray;
+    display: none;
+    }
+  
+    .plus-item-box {
+      display: flex;
+      padding-left: 14px;
+      padding-top: 14px;
+      font-size: 14px;
+    }
+  
+   .plus-item-box2 {
+    padding-top: 0;
+    padding-bottom: 14px;
+   }
+  
+   .shinki {
+    padding-left: 8px;
+   }
+  
+  .material-symbols-outlined,.material-symbols-outlined {
+    color: white;
+  }
+  
+  /* ↓もいらないのはなぜ？ */
+  
+  .plus-box {
+    /* position: relative; */
+  }
+  
+  /* ↓ポジションアブソリュートじゃなくてもいけるのはなぜ？ */
+   .plus-box:hover .plus-container {
+    /* position: absolute; */
+    display: block;
+   }
+  
+   }
  }
 
- /* ３つ */
- @media (max-width:1190px) {
-  .cardarea-main {
-    display: flex;
-    flex-wrap: wrap;
+
+ /* スマホ画面 */
+ @media (max-width:500px) {
+
+body {
+  margin: 0;
+  /* max-width: 1800px; */
+}
+
+/* aタグの下線を消す */
+a {
+  text-decoration: none;
+}
+
+/* 全体を100%に設定し、２カラムに設定 
+当初gapで隙間を作っていたが、↓の記法によって
+gap 8pxを考慮した幅の指定がわからなかった。 */
+.left-right {
+  width: 100%;
+  display: flex;
+  /* gap: 8px; */
+  position: relative;
+}
+
+/* レフトの幅を25%に設定し、ポジションで固定に */
+.left {
+  background: black;
+  width: 25%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: 100%;
+  display: none;
+}
+
+/* ↓確認すること */
+/* ライトの幅を75%に設定し、 
+ポジションでスタート位置をleftから25%の位置に設定した。*/
+
+.right {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 25%;
+  height: 100%;
+
+}
+
+
+/* ここからレフト */
+
+
+/* 左の上段ナビゲーション一番外の箱 */
+.left-nav {
+  margin-left: 8px;
+  margin-right: 8px;
+  background: rgb(22, 22, 22);
+  border-radius: 8px;
+
+}
+
+/* ナビゲーションの外の箱 */
+.nav-container {
+  display: flex;
+  margin: 8px;
+  background: rgb(22, 22, 22);
+  /* margin-left: 16px; */
+}
+
+/* アイコン調整 */
+.icon {
+  width: 10%;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  color: lightgray;
+  text-align: center;
+}
+
+/* ナビゲーションのテキストを調整 */
+.nav-text {
+  width: 90%;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  color: lightgray;
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+.my-libraly {
+  display: flex;
+  margin: 8px;
+  padding: 8px 0;
+  /* background: rgb(33, 33, 33); */
+}
+
+
+
+/* 追加分hover */
+
+.color-henka :hover{
+  cursor: pointer;
+color: white;
+}
+
+.playlist-link {
+  overflow: hidden;
+}
+
+.zoom-henka :hover {
+  cursor: pointer;
+  transform: scale(1.1);
+} 
+
+
+/* ↓ここ上手くいってない */
+.boder-henka :hover {
+ border: white
+}
+
+.color-kakudai-henka :hover {
+  transform: scale(1.1);
+  color: white;
+}
+
+.boder-bottom-henka :hover {
+  text-decoration: underline;
+}
+
+.background-henka :hover {
+  background: gray;
+  border-radius: 50%;
+}
+
+
+/* プラスアイコンを調整 */
+.plus-icon {
+  width: 10%;
+  color: lightgray;
+  padding-top: 8px;
+}
+
+/* 左の下段のボックス */
+.my-libraly-container {
+  margin-left: 8px;
+  margin-right: 8px;
+  background: rgb(22, 22, 22);
+  border-radius: 8px;
+  padding-bottom: 32px;
+}
+
+/* 初めてのプレイリストとフォロー */
+.playlist {
+  background: rgb(33, 33, 33);
+  color: white;
+  margin: 8px;
+  margin-top: 0;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  padding-bottom: 16px;
+}
+
+/* プレイリストとフォローの上下のマージンを０に */
+.playlist p {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+/* プレイリストとフォローのタイトルを調整 */
+.playlist-title {
+  font-size: 16px;
+  font-weight: bold;
+  padding-left: 16px;
+  padding-top: 16px;
+
+}
+
+/* プレリストとフォローの説明分を調整 */
+.playlist-text {
+  padding: 16px;
+  margin: 0;
+}
+
+/* プレイリストとフォローのリンクを調整 */
+.playlist-link {
+  padding: 4px;
+  background: white;
+  color: black;
+  width: 40%;
+  text-align: center;
+  border-radius: 16px;
+  margin-left: 16px;
+  font-size: 16px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* ポッドキャストの幅のみ調整 */
+.pod {
+  width: 60%;
+  padding-left: 0;
+  padding-right: 0;
+
+}
+
+/* プライバシー（リスト）部分 */
+.privacy {
+  color: lightgray;
+  margin-top: 240px;
+  padding-bottom: 24px;
+  font-size: 8px;
+}
+
+/* プライバシー（リスト）部分点を削除 */
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* プライバシー横並びに */
+.list-item {
+  display: flex;
+  margin-bottom: 16px;
+  padding-left: 8px;
+}
+
+.list-item a {
+  color: gray;
+}
+
+/* プライバシー配置調整 */
+ li {
+  padding-left: 16px;
+}
+
+/* 左側一番下、日本語部分 */
+.language {
+ width: 20%;
+ display: flex;
+ background: rgb(22, 22, 22);
+ color: white;
+ border: 1px solid gray;
+}
+
+/* header {
+  margin-left: auto;
+} */
+
+/* ここからライト */
+
+/* ヘッダーを横並びに設定 */
+.header-box {
+  display: flex;
+  /* width: 75%; */
+  margin-left: auto;
+  background: rgb(22, 22, 22);
+  color: lightgray;
+}
+
+/* くを横並びに設定 */
+.header-left {
+  display: flex;
+ 
+}
+
+/* くの幅と高さを設定 */
+.ku {
+  padding-left: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  /* border: 1px solid black; */
+  /* border-radius: 50%; */
+  /* width: 16px; */
+  /* height: 16px; */
+
+}
+
+/* サインアップとログインを横並びに設定 
+右側に配置設定*/
+.header-right {
+  display: flex;
+  margin-left: auto;
+}
+
+/* サインアップとログインの隙間を設定 */
+.signup {
+  margin-right: 40px;
+}
+
+/* サインアップの高さをセンターに設定 */
+.signup p {
+  padding: 12px 0;
+  color: silver;
+} 
+
+/* ログインの枠線と枠幅を設定 */
+.login p {
+  border: 1px solid white;
+  background: white;
+  border-radius: 40px;
+  padding: 12px 32px;
+  color: rgb(22, 22, 22);
+}
+
+/* ここからメインのトップ */
+/* メインの背景 */
+main {
+  background: rgb(33, 33, 33);
+  height: auto;
+}
+
+/* メインのトップ部分 */
+/* 横並びにして左の隙間を調整 */
+.main-top {
+  display: flex;
+  padding-left: 24px;
+}
+
+/* フォーカスとすべて表示を調整
+何でクラス名を同じにしたのかがわからない */
+.main-title {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* フォーカスの上下のマージンを0にして
+高さを調整する為にパディングトップで調整 */
+.main-title p {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 8px; 
+}
+
+/* すべて表示にレフトオートで右側に配置 */
+.all {
+  margin-left: auto;
+}
+
+/* すべて表示の配置を調整 */
+.all p {
+  font-size: 14px;
+  color: lightslategray;
+  margin-right: 24px;
+  padding-top: 8px;
+}
+
+/* ここからカードエリア */
+
+/* カードエリアの背景
+flexで横並びにして、
+padding left-rightで両端にスペースを入れた。 */
+.cardarea-main {
+  display: flex;
+  gap: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* カードエリアの一番後ろの箱の
+幅を指定 */
+/* 再生ボタンをカードエリアを起点にする為に
+リレーティブに設定 */
+
+.cardarea-container {
+  width: 240px;
+  background: rgb(22, 22, 22);
+  border-radius: 8px;
+  margin: 16px 0;
+  position: relative;
+}
+
+/* カードエリアの画像の幅を
+paddingで調整
+本来はboxにwidthで幅を調整したかった。 */
+.cardarea-image-box   {
+/* height: 320px; */
+padding: 16px;
+
+}
+
+/* width100%で
+画像をboxいっぱいに表示させる */
+.cardarea-image-box img {
+width: 100%;
+border-radius: 8px;
+}
+
+/* カードタイトル
+文字サイズ調整 */
+.cardarea-title {
+  font-size: 14px;
+  color: white;
+  font-weight: bold;
+}
+
+/* カードテキスト
+文字サイズ調整 */
+.cardarea-text {
+  font-size: 12px;
+  color: lightgray;
+  font-weight: bold;
+}
+
+/* margin-rightで無理やり幅揃えた */
+.karanobox {
+  /* color: rgb(33, 33, 33); */
+  margin-right: 880px;
+}
+
+/* ここからフッター */
+
+.footer-nav-main ul {
+  display: flex;
+  color: white;
+  gap: 80px;
+  /* ↑後でタイトルだけ白にする。 */
+  padding-bottom: 32px;
+}
+
+/* メインからフッターの高さを下げて、
+左にスタート位置を調整 */
+.kaisyajouhou {
+margin-top: 32px;
+ margin-left: 48px;
+}
+
+/* フッターのアイコンを横並びに設定
+マージンレフトオートで右寄せに設定
+スタート位置を右から少しずらした
+gapで間隔を設定 */
+.footer-icon {
+  display: flex;
+  margin-left: auto;
+  margin-right: 80px;
+  gap: 32px;
+
+}
+
+/* リストの高さの間隔を設定 */
+footer li {
+  padding: 0;
+  padding-top: 8px;
+}
+
+/* アイコン用の円の設定と調整 */
+.icon-line {
+  border: 1px solid rgb(33, 33, 33);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background: rgb(22, 22, 22);
+  color: white;
+}
+
+/* アイコンをセンターに設定 */
+.icon-line span {
+padding: 4px;
+}
+
+/* アイコンの高さをセンターに設定 */
+.icon-line li {
+  padding: 0;
+}
+
+.kaisyajouhou a {
+  text-decoration: none;
+  color: gray;
+}
+
+
+
+
+/* コピーライト調整 */
+.copyright {
+  /* background: rgb(22, 22, 22);
+  background: red; */
+  color: gray;
+  /* height: 400px; */
+  padding-top:48px;
+  padding-bottom: 180px;
+  border-top: 1px solid rgb(80, 78, 78);
+  padding-left: 16px; 
+  width: 95%;
+  margin: 0 auto;
+  font-size: 14px;
+}
+
+
+/* ここから一番下 */
+
+
+.touroku {
+  background: red;
+  width: 100%;
+  /* position: absolute; */
+  position: fixed;
+  z-index: 1;
+  top: 910px;
+  left: 0;
+  /* padding-top: 8px;
+  padding-bottom: 8px; */
+}
+
+.touroku-main {
+  display: flex;
+  background: #af2896;
+}
+
+.touroku-container {
+padding-left: 16px;
+padding-top: 32px;
+color: white;
+}
+
+.preview {
+  margin: 0;
+  font-size: 12px;
+}
+
+.muryou {
+  margin: 0;
+  
+}
+
+.imasugu {
+  margin-left: auto;
+  padding-right: 80px;
+ 
+}
+
+.imasugu p {
+  
+  font-size: 20px;
+  border: 1px solid white;
+  padding: 8px 24px;
+  border-radius: 32px;
+  margin: 24px 0;
+  /* font-weight: bold; */
+  background: white;
+  color: black;
+}
+
+/* ここから再生ボタンについて */
+
+/* .cardarea-container 親 */
+/* ↑こいつにホバーしたら、再生ボタンが浮き出る。 */
+
+.cardarea-main a {
+ padding: 0;
+ margin: 0;
+ border: 0;
+}
+
+/* ディスプレイノンで領域から見えなく出来る
+幅と高さも消える */
+.saisei-box p {
+  width: 45px;
+  height: 45px;
+  color: rgb(22, 22, 22);
+  border-radius: 50%;
+  margin: 0;
+  margin-left: auto;
+  text-align: center;
+  line-height: 45px;
+  display: none;
+  /* transition-duration: 5s; */
+  transition-property: display;
+  transition-duration: 5.8s;
+}
+
+/* .cardarea-image-box {
+  transition:0.8s;
+  pointer-events : none;
+} */
+
+/* ↓アブソリュートの勉強をすること */
+.cardarea-image-box:hover .saisei-box p  {
+  /* transform:scale(1.5); */
+  background: green;
+  border-radius: 50%;
+  position: absolute;
+  display: block;
+  top:140px;
+  left: 132px;
+
   }
+
+  /* ここからプラスボタンを押すと飛び出す。 */
+
+  .plus-container {
+    width: 248px;
+    height: 80px;
+    position: absolute;
+    background: rgb(44, 44, 44);
+    border-radius: 12px;
+  color: gray;
+  display: none;
+  }
+
+  .plus-item-box {
+    display: flex;
+    padding-left: 14px;
+    padding-top: 14px;
+    font-size: 14px;
+  }
+
+ .plus-item-box2 {
+  padding-top: 0;
+  padding-bottom: 14px;
  }
 
- /* ２つ */
- @media (max-width:970px) {
-  .cardarea-main {
-    display: flex;
-    flex-wrap: wrap;
-  }
+ .shinki {
+  padding-left: 8px;
  }
 
- /* 1つ */
- @media (max-width:610px) {
-  .cardarea-main {
-    display: flex;
-    flex-wrap: wrap;
-  }
+.material-symbols-outlined,.material-symbols-outlined {
+  color: white;
+}
+
+/* ↓もいらないのはなぜ？ */
+
+.plus-box {
+  /* position: relative; */
+}
+
+/* ↓ポジションアブソリュートじゃなくてもいけるのはなぜ？ */
+ .plus-box:hover .plus-container {
+  /* position: absolute; */
+  display: block;
+ }
+
  }
