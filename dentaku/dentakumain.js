@@ -12,7 +12,7 @@
         console.log(calcFlow);
         let result=eval(calcFlow).toString();
         if(result>9){
-          result=result.slice(0,9);
+          result=result.slice(0,8);
         }
         $display.textContent = eval(calcFlow).toString();
         calcFlow = $display.textContent;
