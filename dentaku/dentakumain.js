@@ -9,6 +9,7 @@
       const targetElement = e.target;
       const val = targetElement.getAttribute("data-calc");
       if(val==="="){
+        console.log(calcFlow);
         $display.textContent = eval(calcFlow);
         calcFlow = $display.textContent;
         return;
@@ -25,7 +26,7 @@
       if($display.textContent.length < 9){
         $display.textContent += targetElement.textContent
         calcFlow += val;
-        return
+        return;
       };
     });
   });
