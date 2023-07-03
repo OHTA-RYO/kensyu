@@ -1,46 +1,34 @@
 "use strict";
-
-//夜 JavaScriptでフォントサイズと位置を指定してたのを
-//cssに書き足した。
-
 {
-  //ディスプレイのデータを取得
   const $display = document.querySelector(".display-textarea");
-
-  //AC〜＝までのボタンデータを取得
   const $buttons = document.querySelectorAll(".push-text");
-
-
-  //関数
-  //forEachでボタンデータを1つずつ処理
-  //関数でボタンに対するクリックイベントを実施
-  //event.targetでクリックされた要素を取得
-  //ディスプレイに表示される情報をターゲットテキストで代入して表示
+  let calcFlow="";
+  const calcKigou = ['+','-','*','/'];
   $buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
-      //条件分岐 文字数が9以上ならクリックしても表示されない。
-      //↓のletをlength9の中で宣言していた。外に持ってきたらエラー解消された。
       const targetElement = e.target;
-      if (length < 9) {
-        length++;
-        $display.textContent += targetElement.textContent;
-        console.log(targetElement.textContent);
+      const val = targetElement.getAttribute("data-calc");
+      if(val==="="){
+        $display.textContent = eval(calcFlow);
+        calcFlow = $display.textContent;
+        return;
       }
-      if (targetElement.textContent === "AC") {
+      if (val === "AC"){ 
+        $display.textContent = ""
+        return;
+      };
+      if (calcKigou.includes(val)) {
+        calcFlow += val;
         $display.textContent = "";
-        length = 0;
+        return;
       }
-      //↓が上手く作用しない ↑の関数をconstに入れて、↓に使いたい。
-      //＝をクリックした時に結果を表示させたい。
-      if (targetElement.textContent === '+') {
-        Number($display.textContent + targetElement.textContent);
-        console.log(targetElement.textContent);
-      }
+      if($display.textContent.length < 9){
+        $display.textContent += targetElement.textContent
+        calcFlow += val;
+        return
+      };
     });
   });
-
-
-
 }
 
 
