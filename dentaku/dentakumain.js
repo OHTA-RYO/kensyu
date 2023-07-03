@@ -15,7 +15,8 @@
         return;
       }
       if (val === "AC"){ 
-        $display.textContent = ""
+        $display.textContent = "";
+        calcFlow = "";
         return;
       };
       if (calcKigou.includes(val)) {
