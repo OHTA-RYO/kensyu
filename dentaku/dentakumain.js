@@ -11,7 +11,7 @@
       const val = targetElement.getAttribute("data-calc");
       if(val==="="){
         let result=eval(calcFlow).toString();
-        if(result>9){
+        if(result.length>9){
           result=result.slice(0,8);
         }
         $display.textContent = eval(calcFlow).toString();
