@@ -1,53 +1,65 @@
 // "use strict";
 
 {
-let shoeText = ''
-let length = 0;
+  let shoeText = ''
+  let length = 0;
+  let PlusNumber = 0;
 
-//ディスプレイのデータを取得
-const $display = document.querySelector('.display-textarea')
+  //ディスプレイのデータを取得
+  const $display = document.querySelector('.display-textarea')
 
-/** ボタンをクリック */
-function clickKey (text) {
-  if (typeof text === 'number' && shoeText.length < 9) {
-    shoeText += String(text)
-    $display.textContent = shoeText
+  /** ボタンをクリック */
+  function clickKey(text) {
+    if (typeof text === 'number' && shoeText.length < 9) {
+      shoeText += String(text);
+      $display.textContent = shoeText
+    }
+
+    if (text === 'AC') {
+      $display.textContent = "";
+      shoeText = '';
+      length = 0;
+    } console.log(text) // ACの関数
+
+    if (text === '+') {
+      plusNumber = Number($display.textContent);
+      shoeText = '';
+    }
+
+    if (text === '=') {
+      const currentValue = Number($display.textContent);
+      const result = plusNumber + currentValue;
+      $display.textContent = result;
+      shoeText = String(result);
+    }
+
+    // if (text === '+') {
+    //   const plus = Number($display.textContent);
+    //   $display.textContent = plus + plus ;
+    // } // +の関数
+
+    if (text === '÷') {
+      $display.textContent = ($display.textContent / $display.textContent);
+    } console.log(text) // ÷の関数
+
+    if (text === '×') {
+      $display.textContent = ($display.textContent * $display.textContent);
+    } console.log(text) // ×の関数
+
+    if (text === '-') {
+      $display.textContent = ($display.textContent - $display.textContent);
+    } console.log(text) // -の関数
+
+
+
+
+
+    //   if (text === '=') {
+    //     $display.textContent = ($display.textContent + $display.textContent);
+    //     console.log(text) // =の関数
+    // }
+
   }
-
-  if (text === 'AC'){
-    $display.textContent = "";
-    shoeText = '';
-        length = 0;
-  } console.log(text) // ACの関数
-
-  if (text === '+') {
-    const plus = Number($display.textContent);
-    $display.textContent = $display.textContent + plus ;
-  } // +の関数
-
-  if (text === '÷') {
-    $display.textContent = ($display.textContent / $display.textContent);
-  }console.log(text) 
-  }// ÷の関数
-
-  if (text === '×'){
-    $display.textContent = ($display.textContent * $display.textContent);
-  } console.log(text) // ×の関数
-
-  if (text === '-') {
-    $display.textContent = ($display.textContent - $display.textContent);
-  }console.log(text) // -の関数
-
-
-
-
-
-//   if (text === '=') {
-//     $display.textContent = ($display.textContent + $display.textContent);
-//     console.log(text) // =の関数
-// }
-
-}
 }
 
 
