@@ -10,7 +10,7 @@
       const val = targetElement.getAttribute("data-calc");
       if(val==="="){
         console.log(calcFlow);
-        const result=eval(calcFlow).toString();
+        let result=eval(calcFlow).toString();
         if(result>9){
           result=result.slice(0,9);
         }
