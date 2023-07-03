@@ -15,40 +15,50 @@
       $display.textContent = shoeText
     }
 
-    if (text === 'AC') {
-      $display.textContent = "";
-      shoeText = '';
-      length = 0;
-    } console.log(text) // ACの関数
-
-    if (text === '+') {
-      plusNumber = Number($display.textContent);
-      shoeText = '';
+    switch ($display.textContent) {
+      case '+':
+      $display.textContent = ''; 
+      break;
+      case '=':
+        $display.textContent = $display.textContent + $display.textContent; 
+        console.log($display.textContent);
+        break;
     }
 
-    if (text === '=') {
-      const currentValue = Number($display.textContent);
-      const result = plusNumber + currentValue;
-      $display.textContent = result;
-      shoeText = String(result);
-    }
+    // if (text === 'AC') {
+    //   $display.textContent = "";
+    //   shoeText = '';
+    //   length = 0;
+    // } console.log(text) // ACの関数
 
     // if (text === '+') {
-    //   const plus = Number($display.textContent);
-    //   $display.textContent = plus + plus ;
-    // } // +の関数
+    //   plusNumber = Number($display.textContent);
+    //   shoeText = '';
+    // }
 
-    if (text === '÷') {
-      $display.textContent = ($display.textContent / $display.textContent);
-    } console.log(text) // ÷の関数
+    // if (text === '=') {
+    //   const currentValue = Number($display.textContent);
+    //   const result = plusNumber + currentValue;
+    //   $display.textContent = result;
+    //   shoeText = String(result);
+    // }
 
-    if (text === '×') {
-      $display.textContent = ($display.textContent * $display.textContent);
-    } console.log(text) // ×の関数
+    // // if (text === '+') {
+    // //   const plus = Number($display.textContent);
+    // //   $display.textContent = plus + plus ;
+    // // } // +の関数
 
-    if (text === '-') {
-      $display.textContent = ($display.textContent - $display.textContent);
-    } console.log(text) // -の関数
+    // if (text === '÷') {
+    //   $display.textContent = ($display.textContent / $display.textContent);
+    // } console.log(text) // ÷の関数
+
+    // if (text === '×') {
+    //   $display.textContent = ($display.textContent * $display.textContent);
+    // } console.log(text) // ×の関数
+
+    // if (text === '-') {
+    //   $display.textContent = ($display.textContent - $display.textContent);
+    // } console.log(text) // -の関数
 
 
 
