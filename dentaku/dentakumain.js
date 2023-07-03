@@ -1,47 +1,106 @@
-"use strict";
-
-//夜 JavaScriptでフォントサイズと位置を指定してたのを
-//cssに書き足した。
+// "use strict";
 
 {
-  //ディスプレイのデータを取得
-  const $display = document.querySelector(".display-textarea");
+let shoeText = ''
+let length = 0;
 
-  //AC〜＝までのボタンデータを取得
-  const $buttons = document.querySelectorAll(".push-text");
+//ディスプレイのデータを取得
+const $display = document.querySelector('.display-textarea')
 
+/** ボタンをクリック */
+function clickKey (text) {
+  if (typeof text === 'number' && shoeText.length < 9) {
+    shoeText += String(text)
+    $display.textContent = shoeText
+  }
 
-  //関数
-  //forEachでボタンデータを1つずつ処理
-  //関数でボタンに対するクリックイベントを実施
-  //event.targetでクリックされた要素を取得
-  //ディスプレイに表示される情報をターゲットテキストで代入して表示
-  $buttons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-      //条件分岐 文字数が9以上ならクリックしても表示されない。
-      //↓のletをlength9の中で宣言していた。外に持ってきたらエラー解消された。
-      const targetElement = e.target;
-      if (length < 9) {
-        length++;
-        $display.textContent += targetElement.textContent;
-        console.log(targetElement.textContent);
-      }
-      if (targetElement.textContent === "AC") {
-        $display.textContent = "";
+  if (text === 'AC'){
+    $display.textContent = "";
+    shoeText = '';
         length = 0;
-      }
-      //↓が上手く作用しない ↑の関数をconstに入れて、↓に使いたい。
-      //＝をクリックした時に結果を表示させたい。
-      if (targetElement.textContent === '+') {
-        Number($display.textContent + targetElement.textContent);
-        console.log(targetElement.textContent);
-      }
-    });
-  });
+  } console.log(text) // ACの関数
+
+  if (text === '+') {
+    const plus = Number($display.textContent);
+    $display.textContent = $display.textContent + plus ;
+  } // +の関数
+
+  if (text === '÷') {
+    $display.textContent = ($display.textContent / $display.textContent);
+  }console.log(text) 
+  }// ÷の関数
+
+  if (text === '×'){
+    $display.textContent = ($display.textContent * $display.textContent);
+  } console.log(text) // ×の関数
+
+  if (text === '-') {
+    $display.textContent = ($display.textContent - $display.textContent);
+  }console.log(text) // -の関数
 
 
+
+
+
+//   if (text === '=') {
+//     $display.textContent = ($display.textContent + $display.textContent);
+//     console.log(text) // =の関数
+// }
 
 }
+}
+
+
+
+
+
+
+// //onclick使用前
+// //夜 JavaScriptでフォントサイズと位置を指定してたのを
+// //cssに書き足した。
+
+// {
+//   //ディスプレイのデータを取得
+//   const $display = document.querySelector(".display-textarea");
+
+//   //AC〜＝までのボタンデータを取得
+//   const $buttons = document.querySelectorAll(".push-text");
+
+//   const calcPlus = (type) => {
+//     if (type !== '+') return
+//     console.log(type)
+//   }
+
+//   //関数
+//   //forEachでボタンデータを1つずつ処理
+//   //関数でボタンに対するクリックイベントを実施
+//   //event.targetでクリックされた要素を取得
+//   //ディスプレイに表示される情報をターゲットテキストで代入して表示
+//   $buttons.forEach((button) => {
+//     button.addEventListener("click", (e) => {
+//       //条件分岐 文字数が9以上ならクリックしても表示されない。
+//       //↓のletをlength9の中で宣言していた。外に持ってきたらエラー解消された。
+//       const targetElement = e.target;
+//       if (length < 9) {
+//         length++;
+//         $display.textContent += targetElement.textContent;
+//         console.log(targetElement.textContent);
+//       }
+//       if (targetElement.textContent === "AC") {
+//         $display.textContent = "";
+//         length = 0;
+//       }
+//       //↓が上手く作用しない ↑の関数をconstに入れて、↓に使いたい。
+//       //＝をクリックした時に結果を表示させたい。
+//       // if (targetElement.textContent === '+') {
+//       //   Number($display.textContent + targetElement.textContent);
+//       //   console.log(targetElement.textContent);
+//       // }
+
+//       calcPlus(targetElement.textContent);
+//     });
+//   });
+// }
 
 
 //残骸
@@ -607,4 +666,4 @@
 // // // //   // document.querySelectorAll('li')[1].textContent = 'Changed!';
 // // // //   // document.querySelectorAll('li')[2].textContent = 'Changed!';
 // // // //   document.querySelector('dentaku-display').textContent = 1;
-// // // // });
+// // // // })
