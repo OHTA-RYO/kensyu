@@ -1,98 +1,216 @@
 "use strict";
 
+//夜 JavaScriptでフォントサイズと位置を指定してたのを
+//cssに書き足した。
+
 {
-  const display = document.querySelector('.display-textarea');
-  console.log(display)
-  const num1 = document.getElementById('num1');
-  const num2 = document.getElementById('num2');
-  const num3 = document.getElementById('num3');
-  const num4 = document.getElementById('num4');
-  const num5 = document.getElementById('num5');
-  const num6 = document.getElementById('num6');
-  const num7 = document.getElementById('num7');
-  const num8 = document.getElementById('num8');
-  const num9 = document.getElementById('num9');
-  const num0 = document.getElementById('num0');
-  const sakujo = document.getElementById('sakujo');
-  let length = display.textContent.length;
+  //ディスプレイのデータを取得
+  const $display = document.querySelector(".display-textarea");
+
+  //AC〜＝までのボタンデータを取得
+  const $buttons = document.querySelectorAll(".push-text");
 
 
-  num1.addEventListener('click', () => {
+  //関数
+  //forEachでボタンデータを1つずつ処理
+  //関数でボタンに対するクリックイベントを実施
+  //event.targetでクリックされた要素を取得
+  //ディスプレイに表示される情報をターゲットテキストで代入して表示
+  $buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      //条件分岐 文字数が9以上ならクリックしても表示されない。
+      //↓のletをlength9の中で宣言していた。外に持ってきたらエラー解消された。
+      const targetElement = e.target;
+      if (length < 9) {
+        length++;
+        $display.textContent += targetElement.textContent;
+        console.log(targetElement.textContent);
+      }
+      if (targetElement.textContent === "AC") {
+        $display.textContent = "";
+        length = 0;
+      }
+      //↓が上手く作用しない ↑の関数をconstに入れて、↓に使いたい。
+      //＝をクリックした時に結果を表示させたい。
+      if (targetElement.textContent === '+') {
+        Number($display.textContent + targetElement.textContent);
+        console.log(targetElement.textContent);
+      }
+    });
+  });
 
-    if (length < 9) {
-      display.textContent += '1';
-      length++;
-      display.style.textAlign = 'right';
-      display.style.fontSize = '60px';
-      console.log(num1)
-    }
-  })
 
 
-  // display-textarea.style.fontSize.60px;
-  //  document.querySelector(".display-textarea").style.textAlign = "right";
-
-
-
-
-
-  // const num1 = 1;
-  // const num2 = 2;
-  // const num3 = 3;
-  // const num4 = 4;
-  // const num5 = 5;
-  // const num6 = 6;
-  // const num7 = 7;
-  // const num8 = 8;
-  // const num9 = 9;
-  // const num0 = 0;
-  // const sakujo = "";
-  // let clickCount = 0;
-  // let memoryNumber = 0;
 }
 
 
+//残骸
+//  // const push = console.log(display);
+// const displayNumber =  buttons.forEach((button) => {
+//   button.addEventListener("click", () => {
+//     console.log(display.innerHTML);
+//     display.textContent = display.innerHTML;
 
+// function button(target) {
+//   console.log(target);
+// }
 
+//   });
+// });
 
+// // displayNumber
+// if(display === 'AC'){
+//   display.innerHTML='10';
+//   console.log('AC');
+// } else {
 
+//   console.log('それ以外')
+// }
 
+// buttons.addEventListener("click", (target) => {
+//   display.innerHTML;
+// let targetBtton = target.innerHTML;
+//   console.log(target);
+// });
 
+// //夕方時点
+// {
+//   const button = document.querySelectorAll('#sakujo,#num7,#num6,#num5,#num4,#num3');
+//   const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,];
+//   const $display = document.querySelector(".display-textarea")
+//   // let displayLength = ('display.textContent.length');
 
+//   button[0].addEventListener("click", () => {
+//     if (length < 9) {
+//       $display.textContent += numbers[1];
+//       length++;
+//       $display.style.textAlign = 'right';
+//       $display.style.fontSize = '60px';
+//       console.log(numbers);
+//     }
+//   });
 
+//   button[1].addEventListener("click", (e) => {
+//     if (length < 9) {
+//       $display.textContent += numbers[e.taret];
+//       length++;
+//       $display.style.textAlign = 'right';
+//       $display.style.fontSize = '60px';
+//       console.log(numbers);
+//     }
+//   });
 
+// }
 
+// let index = 0;
+// while(index < numbers.length){
+//   //繰り返ししたい処理
+//   console.log(numbers[index]);
+//   index++;
+// }
 
+// // if else
+// if(numbers.length < 5){
+//   console.log('Yes');
+// } else{
+//   console.log('No');
+// }
 
+// 関数
+// 同じ命令を何度も使いたい時
+// 任意のタイミングで命令を実行させたい時
+// argは引数を英語にしただけ
+// const number = (arg) => {
+//   //ここに実行したい命令を書く
+//   if (numbers.length === arg) {
+//     console.log('numbers');
+//   } else {
+//     console.log('No');
+//   }
+// };
+// number(0);
+// number(1);
+// number(2);
+// number(3);
 
+// const number = (arg) => {
+//   //ここに実行したい命令を書く
+//   if (numbers.length === arg) {
+//     console.log(numbers);
+//   } else {
+//     console.log('No');
+//   }
+// };
+// number(1);
+// number(2);
+// number(3);
+// number(10);
 
+// console.log(numbers);
+// number(15);
 
+// const numbers = {
+//   num1: '1',
+//   num2: '2',
+//   num3: '3',
+//   num4: '4',
+//   num5: '5',
+//   num6: '6',
+//   num7: '7',
+//   num8: '8',
+//   num9: '9',
+//   num0: '0',
+// }
 
+// console.log(numbers.num1);
+// console.log(numbers.num3);
+// console.log(numbers.num0);
 
+//Saturday分
+// {
+//   const display = document.querySelector('.display-textarea');
+//   console.log(display)
+//   const num1 = document.getElementById('num1');
+//   const num2 = document.getElementById('num2');
+//   const num3 = document.getElementById('num3');
+//   const num4 = document.getElementById('num4');
+//   const num5 = document.getElementById('num5');
+//   const num6 = document.getElementById('num6');
+//   const num7 = document.getElementById('num7');
+//   const num8 = document.getElementById('num8');
+//   const num9 = document.getElementById('num9');
+//   const num0 = document.getElementById('num0');
+//   const sakujo = document.getElementById('sakujo');
+//   let length = display.textContent.length;
 
+//   num1.addEventListener('click', () => {
 
+//     if (length < 9) {
+//       display.textContent += '1';
+//       length++;
+//       display.style.textAlign = 'right';
+//       display.style.fontSize = '60px';
+//       console.log(num1)
+//     }
+//   })
 
+//   // display-textarea.style.fontSize.60px;
+//   //  document.querySelector(".display-textarea").style.textAlign = "right";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//   // const num1 = 1;
+//   // const num2 = 2;
+//   // const num3 = 3;
+//   // const num4 = 4;
+//   // const num5 = 5;
+//   // const num6 = 6;
+//   // const num7 = 7;
+//   // const num8 = 8;
+//   // const num9 = 9;
+//   // const num0 = 0;
+//   // const sakujo = "";
+//   // let clickCount = 0;
+//   // let memoryNumber = 0;
+// }
 
 // // const nums = [
 // //   1,2,3,4,5,6,7,8,9,
@@ -112,10 +230,6 @@
 // let clickCount = 0;
 // let memoryNumber = 0;
 // // let sumNumber = 0;
-
-
-
-
 
 // {//9文字で制限をかけてみる
 //   // const maxLength = 9;
@@ -156,9 +270,6 @@
 //     console.log(memoryNumber)
 //   });
 
-
-
-
 // }
 
 //         // function handleClick() {
@@ -171,9 +282,6 @@
 //         // if (displayTextarea.textContent.length < maxLength) {
 //         //   displayTextarea.textContent += inputText;
 //         // }
-
-
-
 
 // // {
 // //   const buttons = document.querySelectorAll(".push-text,.push-text1,.push-text-kigou");
@@ -197,22 +305,6 @@
 // //   });
 // // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // //9回クリックするまで数字が表示される。。これはいけた。
 // //クリックした数字は記憶され、+-*/をクリックして、
 // //ディスプレイ上は一度リセットされる。また、数字がクリックされt
@@ -233,8 +325,6 @@
 // //   });
 
 // // }
-
-
 
 // // // document.querySelector("#num1").addEventListener("click", () => {
 // // //   if (clickCount < 9) {
