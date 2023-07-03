@@ -1,6 +1,7 @@
 "use strict";
 {
   const $display = document.querySelector(".display-textarea");
+  const $process_display = document.querySelector(".calc-process");
   const $buttons = document.querySelectorAll(".push-text");
   let calcFlow="";
   const calcKigou = ['+','-','*','/'];
@@ -9,22 +10,24 @@
       const targetElement = e.target;
       const val = targetElement.getAttribute("data-calc");
       if(val==="="){
-        console.log(calcFlow);
         let result=eval(calcFlow).toString();
         if(result>9){
           result=result.slice(0,8);
         }
         $display.textContent = eval(calcFlow).toString();
         calcFlow = $display.textContent;
+        $process_display.textContent ="";
         return;
       }
       if (val === "AC"){ 
         $display.textContent = "";
         calcFlow = "";
+        $process_display.textContent ="";
         return;
       };
       if (calcKigou.includes(val)) {
         calcFlow += val;
+        $process_display.textContent = calcFlow;
         $display.textContent = "";
         return;
       }
