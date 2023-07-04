@@ -1,28 +1,86 @@
-// "use strict";
+"use strict";
+{
+  const num0 = document.getElementById("num0");
+  const num1 = document.getElementById("num1");
+  const num2 = document.getElementById("num2");
+  const num3 = document.getElementById("num3");
+  const num4 = document.getElementById("num4");
+  const num5 = document.getElementById("num5");
+  const num6 = document.getElementById("num6");
+  const num7 = document.getElementById("num7");
+  const num8 = document.getElementById("num8");
+  const num9 = document.getElementById("num9");
+  const num10 = document.getElementById("num10");
+  const kigou1 = document.getElementById("kigou1");
+  const kigou2 = document.getElementById("kigou2");
+  const kigou3 = document.getElementById("kigou3");
+  const kigou4 = document.getElementById("kigou4");
+  const kigou5 = document.getElementById("kigou5");
+  const kigou6 = document.getElementById("kigou6");
+  const kigou7 = document.getElementById("kigou7");
+  const sakujo = document.getElementById("sakujo");
+  const display = document.querySelector(".display-textarea");
+  let numbers = [
+    num0,
+    num1,
+    num2,
+    num3,
+    num4,
+    num5,
+    num6,
+    num7,
+    num8,
+    num9,
+    num10,
+  ];
+  const kigous = [
+    kigou1,
+    kigou2,
+    kigou3,
+    kigou4,
+    kigou5,
+    kigou6,
+    kigou7,
+    sakujo,
+  ];
+  let displayLength = display.textContent.length;
 
+  numbers.forEach((numbers) => {
+    numbers.addEventListener("click", () => {
+      if (displayLength < 9) {
+        display.textContent += (numbers.textContent);
+        displayLength++
+        console.log(display);
+        //もしかしたら、ここで9回以上入力した時にlengthリセットが必要かも。
+      }
+    });
+  });
 
- 
+  kigous.forEach((kigous) => {
+    kigous.addEventListener("click", () => {
+      display.textContent = '';
+      // displayLength = 0;
+      console.log(display);
+    });
+  });
+
+  
+}
+
 // //ここから
 
 //    //ディスプレイのデータを取得
 // {
 //   const $display = document.querySelector('.display-textarea');
 //   const $numbers = document.querySelectorAll('.push-text');
-   
 
-//   $numbers.forEach((value) =>{  
+//   $numbers.forEach((value) =>{
 //   $numbers.addEventListener('click', () => {
 //   alert($numbers.value);
 //     });
 //   });
 
 // }
-
-
-
-
-
-
 
 //昨日まで
 // {
@@ -42,10 +100,10 @@
 
 //     switch ($display.textContent) {
 //       case '+':
-//       $display.textContent = ''; 
+//       $display.textContent = '';
 //       break;
 //       case '=':
-//         $display.textContent = $display.textContent + $display.textContent; 
+//         $display.textContent = $display.textContent + $display.textContent;
 //         console.log($display.textContent);
 //         break;
 //     }
@@ -85,10 +143,6 @@
 //     //   $display.textContent = ($display.textContent - $display.textContent);
 //     // } console.log(text) // -の関数
 
-
-
-
-
 //     //   if (text === '=') {
 //     //     $display.textContent = ($display.textContent + $display.textContent);
 //     //     console.log(text) // =の関数
@@ -96,11 +150,6 @@
 
 //   }
 // }
-
-
-
-
-
 
 // //onclick使用前
 // //夜 JavaScriptでフォントサイズと位置を指定してたのを
@@ -148,7 +197,6 @@
 //     });
 //   });
 // }
-
 
 //残骸
 //  // const push = console.log(display);
@@ -256,7 +304,7 @@
 // number(15);
 
 // const numbers = {
-//   num1: '1',
+//   num2: '1',
 //   num2: '2',
 //   num3: '3',
 //   num4: '4',
