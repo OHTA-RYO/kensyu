@@ -1,23 +1,51 @@
 // "use strict";
-const clickKey = (d) => {
-  console.log(d);
- }
-//ここから
+{
+  const display = document.querySelector('.display-textarea');
+  console.log(display);
 
-   //ディスプレイのデータを取得
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num7 = document.getElementById('num7');
+  const num8 = document.getElementById('num8');
+  const num9 = document.getElementById('num9');
+  // const numbers = document.querySelectorAll('push-text');
+  // console.log(num7);
+  // const numbers = 
+  const numbers =[num7, num8, num9];
 
-  const $display = document.querySelector('.display-textarea');
-  const $numbers = document.querySelectorAll('.push-text');
+  numbers[1].addEventListener('click',() => {
+    display.textContent =Number (numbers[1].textContent);
+  })
+}
+
+ 
+// //ここから
+
+//    //ディスプレイのデータを取得
+// {
+//   const $display = document.querySelector('.display-textarea');
+//   const $numbers = document.querySelectorAll('.push-text');
    
 
-  $numbers.forEach(() =>{  
-  $numbers.addEventListener('click', () => {
-    // console.log(text)
-  $display.textContent = $numbers;
-    });
-  });
+//   $numbers.forEach((value) =>{  
+//   $numbers.addEventListener('click', () => {
+//   alert($numbers.value);
+//     });
+//   });
 
-
+// }
 
 
 
