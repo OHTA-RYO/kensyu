@@ -11,13 +11,13 @@
   const num8 = document.getElementById("num8");
   const num9 = document.getElementById("num9");
   const num10 = document.getElementById("num10");
-  const kigou1 = document.getElementById("kigou1");
-  const kigou2 = document.getElementById("kigou2");
-  const kigou3 = document.getElementById("kigou3");
-  const kigou4 = document.getElementById("kigou4");
-  const kigou5 = document.getElementById("kigou5");
-  const kigou6 = document.getElementById("kigou6");
-  const kigou7 = document.getElementById("kigou7");
+  const waru = document.getElementById("kigou1");
+  const kakeru = document.getElementById("kigou2");
+  const mainasu = document.getElementById("kigou3");
+  const plus = document.getElementById("kigou4");
+  const ikouru = document.getElementById("kigou5");
+  const pasent = document.getElementById("kigou6");
+  const plusMainasu = document.getElementById("kigou7");
   const sakujo = document.getElementById("sakujo");
   const display = document.querySelector(".display-textarea");
   let numbers = [
@@ -44,12 +44,13 @@
     sakujo,
   ];
   let displayLength = display.textContent.length;
+  let saveNum = 0;
 
   numbers.forEach((numbers) => {
     numbers.addEventListener("click", () => {
       if (displayLength < 9) {
-        display.textContent += (numbers.textContent);
-        displayLength++
+        display.textContent += numbers.textContent;
+        displayLength++;
         console.log(display);
         //もしかしたら、ここで9回以上入力した時にlengthリセットが必要かも。
       }
@@ -58,13 +59,24 @@
 
   kigous.forEach((kigous) => {
     kigous.addEventListener("click", () => {
-      display.textContent = '';
-      // displayLength = 0;
-      console.log(display);
+      saveNum = display.textContent;
+      display.textContent = "";
+      console.log(saveNum);
+      function tasu() {
+        if(saveNum === plus){
+          saveNum += numbers.textContent;
+          console.log(saveNum);
+        }
+      }
+      if(numbers.textContent === ikouru){
+        tasu();
+        return;
+        console.log(display.textContent);
+      }
     });
   });
 
-  
+   
 }
 
 // //ここから
