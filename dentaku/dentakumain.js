@@ -1,34 +1,5 @@
 // "use strict";
-{
-  const display = document.querySelector('.display-textarea');
-  console.log(display);
 
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num7 = document.getElementById('num7');
-  const num8 = document.getElementById('num8');
-  const num9 = document.getElementById('num9');
-  // const numbers = document.querySelectorAll('push-text');
-  // console.log(num7);
-  // const numbers = 
-  const numbers =[num7, num8, num9];
-
-  numbers[1].addEventListener('click',() => {
-    display.textContent =Number (numbers[1].textContent);
-  })
-}
 
  
 // //ここから
