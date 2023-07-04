@@ -1,76 +1,98 @@
 // "use strict";
 
+//ここから
 {
-  let shoeText = ''
-  let length = 0;
-  let PlusNumber = 0;
+   //ディスプレイのデータを取得
+  const $display = document.querySelector('.display-textarea');
+  const $numbers = document.querySelectorAll('.clickKey');
+   
 
-  //ディスプレイのデータを取得
-  const $display = document.querySelector('.display-textarea')
-
-  /** ボタンをクリック */
-  function clickKey(text) {
-    if (typeof text === 'number' && shoeText.length < 9) {
-      shoeText += String(text);
-      $display.textContent = shoeText
-    }
-
-    switch ($display.textContent) {
-      case '+':
-      $display.textContent = ''; 
-      break;
-      case '=':
-        $display.textContent = $display.textContent + $display.textContent; 
-        console.log($display.textContent);
-        break;
-    }
-
-    // if (text === 'AC') {
-    //   $display.textContent = "";
-    //   shoeText = '';
-    //   length = 0;
-    // } console.log(text) // ACの関数
-
-    // if (text === '+') {
-    //   plusNumber = Number($display.textContent);
-    //   shoeText = '';
-    // }
-
-    // if (text === '=') {
-    //   const currentValue = Number($display.textContent);
-    //   const result = plusNumber + currentValue;
-    //   $display.textContent = result;
-    //   shoeText = String(result);
-    // }
-
-    // // if (text === '+') {
-    // //   const plus = Number($display.textContent);
-    // //   $display.textContent = plus + plus ;
-    // // } // +の関数
-
-    // if (text === '÷') {
-    //   $display.textContent = ($display.textContent / $display.textContent);
-    // } console.log(text) // ÷の関数
-
-    // if (text === '×') {
-    //   $display.textContent = ($display.textContent * $display.textContent);
-    // } console.log(text) // ×の関数
-
-    // if (text === '-') {
-    //   $display.textContent = ($display.textContent - $display.textContent);
-    // } console.log(text) // -の関数
-
-
-
-
-
-    //   if (text === '=') {
-    //     $display.textContent = ($display.textContent + $display.textContent);
-    //     console.log(text) // =の関数
-    // }
-
-  }
+  $numbers.forEach((number) =>{  
+  addEventListener('click', () => {
+  $display.textContent = $numbers(number);
+    });
+  });
 }
+
+
+
+
+
+
+
+
+//昨日まで
+// {
+//   let shoeText = ''
+//   let length = 0;
+//   let PlusNumber = 0;
+
+//   //ディスプレイのデータを取得
+//   const $display = document.querySelector('.display-textarea')
+
+//   /** ボタンをクリック */
+//   function clickKey(text) {
+//     if (typeof text === 'number' && shoeText.length < 9) {
+//       shoeText += String(text);
+//       $display.textContent = shoeText
+//     }
+
+//     switch ($display.textContent) {
+//       case '+':
+//       $display.textContent = ''; 
+//       break;
+//       case '=':
+//         $display.textContent = $display.textContent + $display.textContent; 
+//         console.log($display.textContent);
+//         break;
+//     }
+
+//     // if (text === 'AC') {
+//     //   $display.textContent = "";
+//     //   shoeText = '';
+//     //   length = 0;
+//     // } console.log(text) // ACの関数
+
+//     // if (text === '+') {
+//     //   plusNumber = Number($display.textContent);
+//     //   shoeText = '';
+//     // }
+
+//     // if (text === '=') {
+//     //   const currentValue = Number($display.textContent);
+//     //   const result = plusNumber + currentValue;
+//     //   $display.textContent = result;
+//     //   shoeText = String(result);
+//     // }
+
+//     // // if (text === '+') {
+//     // //   const plus = Number($display.textContent);
+//     // //   $display.textContent = plus + plus ;
+//     // // } // +の関数
+
+//     // if (text === '÷') {
+//     //   $display.textContent = ($display.textContent / $display.textContent);
+//     // } console.log(text) // ÷の関数
+
+//     // if (text === '×') {
+//     //   $display.textContent = ($display.textContent * $display.textContent);
+//     // } console.log(text) // ×の関数
+
+//     // if (text === '-') {
+//     //   $display.textContent = ($display.textContent - $display.textContent);
+//     // } console.log(text) // -の関数
+
+
+
+
+
+//     //   if (text === '=') {
+//     //     $display.textContent = ($display.textContent + $display.textContent);
+//     //     console.log(text) // =の関数
+//     // }
+
+//   }
+// }
 
 
 
