@@ -1,18 +1,22 @@
 // "use strict";
-
+const clickKey = (d) => {
+  console.log(d);
+ }
 //ここから
-{
+
    //ディスプレイのデータを取得
+
   const $display = document.querySelector('.display-textarea');
-  const $numbers = document.querySelectorAll('.clickKey');
+  const $numbers = document.querySelectorAll('.push-text');
    
 
-  $numbers.forEach((number) =>{  
-  addEventListener('click', () => {
-  $display.textContent = $numbers(number);
+  $numbers.forEach(() =>{  
+  $numbers.addEventListener('click', () => {
+    // console.log(text)
+  $display.textContent = $numbers;
     });
   });
-}
+
 
 
 
