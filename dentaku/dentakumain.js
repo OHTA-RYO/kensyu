@@ -52,7 +52,7 @@
         display.textContent += numbers.textContent;
         displayLength++;
         console.log(display);
-        //もしかしたら、ここで9回以上入力した時にlengthリセットが必要かも。
+        //もしかしたら、ここで9回以上入力した時にlengthリセットが必要かも。//処理がわかない。
       }
     });
   });
@@ -62,12 +62,16 @@
       saveNum = display.textContent;
       display.textContent = "";
       console.log(saveNum);
+      //↑ここで記号をクリックするまでの数字を記憶
+      //↓クリックしたのが＋だった場合の処理を
+      //(数字 ＋ )の関数にしておいて 
       function tasu() {
         if(saveNum === plus){
           saveNum += numbers.textContent;
           console.log(saveNum);
         }
       }
+      //↓の=をクリックした時に↑の＋の処理と連結したい
       if(numbers.textContent === ikouru){
         tasu();
         return;
