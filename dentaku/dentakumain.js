@@ -9,28 +9,39 @@
   const display = document.querySelector('.display-textarea')
   let saveNum = 0;
 
-  num1.addEventListener('click',() => {
-    display.textContent += String(1);
-    console.log(display.textContent);
-  });
+  num1.addEventListener('click', () => {
+    if (saveNum !== 0) {
+      display.textContent = "";
+    }
 
-  num2.addEventListener('click',() => {
-    // num2 = 2;
+      display.textContent += String(1);
+      console.log(display.textContent);
+
+    });
+
+
+
+
+
+  num2.addEventListener('click', () => {
+    if (saveNum !== 0) {
+      display.textContent = "";
+    }
     display.textContent += String(2);
     console.log(display.textContent);
   });
 
-  plus.addEventListener('click',() => {
-    if(display.textContent === "")return;
+  plus.addEventListener('click', () => {
+    if (display.textContent === "") return;
     saveNum = Number(display.textContent);
     // plus = '';
-    display.textContent = '';
+    // display.textContent = '';
   });
 
-  ikouru.addEventListener('click',() => {
-    display.textContent =eval((saveNum) + Number(display.textContent));
+  ikouru.addEventListener('click', () => {
+    display.textContent = eval((saveNum) + Number(display.textContent));
     console.log(display.textContent);
-    });
+  });
 
 
 
