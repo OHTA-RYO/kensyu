@@ -8,42 +8,55 @@
   const ikouru = document.getElementById('kigou5');
   const display = document.querySelector('.display-textarea')
   let saveNum = 0;
+  let displayLength = display.textContent.length;
+  // console.log(displayLength);
 
   num1.addEventListener('click', () => {
-    if (saveNum !== 0) {
-      display.textContent = "";
+    if (saveNum !== 0 && displayLength === 0 ) {
+      display.textContent = '';
+      console.log(saveNum);
+      console.log(displayLength);
     }
 
-      display.textContent += String(1);
-      console.log(display.textContent);
-
-    });
-
-
-
-
-
-  num2.addEventListener('click', () => {
-    if (saveNum !== 0) {
-      display.textContent = "";
-    }
-    display.textContent += String(2);
-    console.log(display.textContent);
+      if (displayLength < 9) {
+        display.textContent += String(1);
+        console.log(display.textContent);
+        displayLength++;
+        console.log(displayLength);
+      }
   });
 
+  num2.addEventListener('click', () => {
+    if (saveNum !== 0 && displayLength === 0 ) {
+      display.textContent = '';
+      console.log(saveNum);
+      console.log(displayLength);
+    }
+
+      if (displayLength < 9) {
+        display.textContent += String(2);
+        console.log(display.textContent);
+        displayLength++;
+        console.log(displayLength);
+      }
+  });
   plus.addEventListener('click', () => {
     if (display.textContent === "") return;
     saveNum = Number(display.textContent);
     // plus = '';
     // display.textContent = '';
+    displayLength = 0;
+    console.log(displayLength);
+    console.log(saveNum);
   });
 
   ikouru.addEventListener('click', () => {
+    //もし足し算だったら↓の式で引き算だったらとする必要がある。
     display.textContent = eval((saveNum) + Number(display.textContent));
     console.log(display.textContent);
   });
 
-
+  console.log(displayLength);
 
 }
 
