@@ -1,87 +1,130 @@
 "use strict";
+
+//まず1+1=2の処理をする。
 {
-  const num0 = document.getElementById("num0");
-  const num1 = document.getElementById("num1");
-  const num2 = document.getElementById("num2");
-  const num3 = document.getElementById("num3");
-  const num4 = document.getElementById("num4");
-  const num5 = document.getElementById("num5");
-  const num6 = document.getElementById("num6");
-  const num7 = document.getElementById("num7");
-  const num8 = document.getElementById("num8");
-  const num9 = document.getElementById("num9");
-  const num10 = document.getElementById("num10");
-  const waru = document.getElementById("kigou1");
-  const kakeru = document.getElementById("kigou2");
-  const mainasu = document.getElementById("kigou3");
-  const plus = document.getElementById("kigou4");
-  const ikouru = document.getElementById("kigou5");
-  const pasent = document.getElementById("kigou6");
-  const plusMainasu = document.getElementById("kigou7");
-  const sakujo = document.getElementById("sakujo");
-  const display = document.querySelector(".display-textarea");
-  let numbers = [
-    num0,
-    num1,
-    num2,
-    num3,
-    num4,
-    num5,
-    num6,
-    num7,
-    num8,
-    num9,
-    num10,
-  ];
-  const kigous = [
-    kigou1,
-    kigou2,
-    kigou3,
-    kigou4,
-    kigou5,
-    kigou6,
-    kigou7,
-    sakujo,
-  ];
-  let displayLength = display.textContent.length;
+  const num1 = document.getElementById('num1');
+  const num2 = document.getElementById('num2');
+  const plus = document.getElementById('kigou4');
+  const ikouru = document.getElementById('kigou5');
+  const display = document.querySelector('.display-textarea')
   let saveNum = 0;
 
-  numbers.forEach((numbers) => {
-    numbers.addEventListener("click", () => {
-      if (displayLength < 9) {
-        display.textContent += numbers.textContent;
-        displayLength++;
-        console.log(display);
-        //もしかしたら、ここで9回以上入力した時にlengthリセットが必要かも。//処理がわかない。
-      }
-    });
+  num1.addEventListener('click',() => {
+    display.textContent += String(1);
+    console.log(display.textContent);
   });
 
-  kigous.forEach((kigous) => {
-    kigous.addEventListener("click", () => {
-      saveNum = display.textContent;
-      display.textContent = "";
-      console.log(saveNum);
-      //↑ここで記号をクリックするまでの数字を記憶
-      //↓クリックしたのが＋だった場合の処理を
-      //(数字 ＋ )の関数にしておいて 
-      function tasu() {
-        if(saveNum === plus){
-          saveNum += numbers.textContent;
-          console.log(saveNum);
-        }
-      }
-      //↓の=をクリックした時に↑の＋の処理と連結したい
-      if(numbers.textContent === ikouru){
-        tasu();
-        return;
-        console.log(display.textContent);
-      }
-    });
+  num2.addEventListener('click',() => {
+    // num2 = 2;
+    display.textContent += String(2);
+    console.log(display.textContent);
   });
 
-   
+  plus.addEventListener('click',() => {
+    if(display.textContent === "")return;
+    saveNum = Number(display.textContent);
+    // plus = '';
+    display.textContent = '';
+  });
+
+  ikouru.addEventListener('click',() => {
+    display.textContent =eval((saveNum) + Number(display.textContent));
+    console.log(display.textContent);
+    });
+
+
+
 }
+
+
+
+
+
+
+
+
+
+// {
+//   const num0 = document.getElementById("num0");
+//   const num1 = document.getElementById("num1");
+//   const num2 = document.getElementById("num2");
+//   const num3 = document.getElementById("num3");
+//   const num4 = document.getElementById("num4");
+//   const num5 = document.getElementById("num5");
+//   const num6 = document.getElementById("num6");
+//   const num7 = document.getElementById("num7");
+//   const num8 = document.getElementById("num8");
+//   const num9 = document.getElementById("num9");
+//   const num10 = document.getElementById("num10");
+//   const waru = document.getElementById("kigou1");
+//   const kakeru = document.getElementById("kigou2");
+//   const mainasu = document.getElementById("kigou3");
+//   const plus = document.getElementById("kigou4");
+//   const ikouru = document.getElementById("kigou5");
+//   const pasent = document.getElementById("kigou6");
+//   const plusMainasu = document.getElementById("kigou7");
+//   const sakujo = document.getElementById("sakujo");
+//   const display = document.querySelector(".display-textarea");
+//   let numbers = [
+//     num0,
+//     num1,
+//     num2,
+//     num3,
+//     num4,
+//     num5,
+//     num6,
+//     num7,
+//     num8,
+//     num9,
+//     num10,
+//   ];
+//   const kigous = [
+//     kigou1,
+//     kigou2,
+//     kigou3,
+//     kigou4,
+//     kigou5,
+//     kigou6,
+//     kigou7,
+//     sakujo,
+//   ];
+//   let displayLength = display.textContent.length;
+//   let saveNum = 0;
+
+//   numbers.forEach((numbers) => {
+//     numbers.addEventListener("click", () => {
+//       if (displayLength < 9) {
+//         display.textContent += numbers.textContent;
+//         displayLength++;
+//         console.log(display);
+//         //もしかしたら、ここで9回以上入力した時にlengthリセットが必要かも。//処理がわかない。
+//       }
+//     });
+//   });
+
+//   kigous.forEach((kigous) => {
+//     kigous.addEventListener("click", () => {
+//       saveNum = display.textContent;
+//       display.textContent = "";
+//       console.log(saveNum);
+//       //↑ここで記号をクリックするまでの数字を記憶
+//       //↓クリックしたのが＋だった場合の処理を
+//       //(数字 ＋ )の関数にしておいて 
+//       function tasu() {
+//         if(saveNum === plus){
+//           saveNum += numbers.textContent;
+//           console.log(saveNum);
+//         }
+//       }
+//       //↓の=をクリックした時に↑の＋の処理と連結したい
+//       if(numbers.textContent === ikouru){
+//         tasu();
+//         return;
+//         console.log(display.textContent);
+//       }
+//     });
+//   });
+// }
 
 // //ここから
 
