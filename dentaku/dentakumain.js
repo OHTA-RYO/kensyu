@@ -1,6 +1,44 @@
 "use strict";
 
+const $display = document.querySelector('.display-textarea');
+const $numbers = document.querySelectorAll('.push-text');
+let displayLength = $display.textContent.length;
+let result = 0;
 
+//テキストのデータを取得
+$numbers.forEach((number) => {
+  number.addEventListener('click', () => {
+    if (displayLength < 9) {
+      $display.textContent += String(number.textContent);
+      console.log(number.textContent);
+      displayLength++;
+
+      //↓で5つをクリックしても反応しないようにして
+      //別で情報を取る。
+      if($display.textContent === '+' || 
+      $display.textContent === '-' ||
+      $display.textContent === '×' ||
+      $display.textContent === '÷'||
+      $display.textContent === '=' ){
+      $display.textContent = '';
+      console.log($display.textContent);
+      };
+    };
+    
+
+  });
+
+});
+
+
+//onclickのパターン
+// function value(text){
+//   $display.textContent = (text);
+// };
+//htmlには↓入れる
+//onclick="value('AC')"
+
+// console.log(value);
 
 //短く出来なかった。別の方法を試そう
 // "use strict";
