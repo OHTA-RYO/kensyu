@@ -29,30 +29,29 @@
 
 
   num1.addEventListener('click', () => {
+    //1クリック目はスルーされる。「+,-,*,/」をクリックするとdisplayLngthを0にしているので2回目の1クリックから1回だけ適応
     if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      console.log(saveNum);
+      // console.log(saveNum);
       // console.log(displayLength);
-      console.log(displayLength);
+      // console.log(display.textContent);
     }
 
     if (displayLength < 9) {
       display.textContent += String(1);
       // console.log(display.textContent);
       displayLength++;
-      console.log(displayLength);
+      // console.log(displayLength);
     }
   });
 
   num2.addEventListener('click', () => {
     if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      console.log(saveNum);
     }
 
     if (displayLength < 9) {
       display.textContent += String(2);
-      console.log(display.textContent);
       displayLength++;
     }
   });
@@ -60,12 +59,10 @@
   num3.addEventListener('click', () => {
     if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      console.log(saveNum);
     }
 
     if (displayLength < 9) {
       display.textContent += String(3);
-      console.log(display.textContent);
       displayLength++;
     }
   });
@@ -73,12 +70,10 @@
   num4.addEventListener('click', () => {
     if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      console.log(saveNum);
     }
 
     if (displayLength < 9) {
       display.textContent += String(4);
-      console.log(display.textContent);
       displayLength++;
     }
   });
@@ -86,12 +81,10 @@
   num5.addEventListener('click', () => {
     if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      console.log(saveNum);
     }
 
     if (displayLength < 9) {
       display.textContent += String(5);
-      console.log(display.textContent);
       displayLength++;
     }
   });
@@ -99,12 +92,10 @@
   num6.addEventListener('click', () => {
     if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      console.log(saveNum);
     }
 
     if (displayLength < 9) {
       display.textContent += String(6);
-      console.log(display.textContent);
       displayLength++;
     }
   });
@@ -112,12 +103,10 @@
   num7.addEventListener('click', () => {
     if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      console.log(saveNum);
     }
 
     if (displayLength < 9) {
       display.textContent += String(7);
-      console.log(display.textContent);
       displayLength++;
     }
   });
@@ -125,12 +114,10 @@
   num8.addEventListener('click', () => {
     if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      console.log(saveNum);
     }
 
     if (displayLength < 9) {
       display.textContent += String(8);
-      console.log(display.textContent);
       displayLength++;
     }
   });
@@ -138,12 +125,10 @@
   num9.addEventListener('click', () => {
     if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      console.log(saveNum);
     }
 
     if (displayLength < 9) {
       display.textContent += String(9);
-      console.log(display.textContent);
       displayLength++;
     }
   });
@@ -151,12 +136,10 @@
   num0.addEventListener('click', () => {
     if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      console.log(saveNum);
     }
 
     if (displayLength < 9) {
       display.textContent += String(0);
-      console.log(display.textContent);
       displayLength++;
     }
   });
@@ -165,6 +148,7 @@
   plus.addEventListener('click', () => {
     plusClickCount++;
     console.log(plusClickCount);
+    //一回目のクリックはスルーされる。
     if (plusClickCount >= 2) {
       display.textContent = eval((saveNum) + Number(display.textContent));
       console.log(display.textContent);
