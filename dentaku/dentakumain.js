@@ -1,23 +1,27 @@
 "use strict";
 
+//2回目の記号が入った時には直前の計算をすでにさせておく。
+//↑ 本当は1+2*3= 7だけど　1+2*3=9になっても良い。↑の処理を目的とする為。
 //まず1+1=2の処理をする。
+// {
 {
-  const num1 = document.getElementById('num1');
-  const num2 = document.getElementById('num2');
-  const num3 = document.getElementById('num3');
-  const num4 = document.getElementById('num4');
-  const num5 = document.getElementById('num5');
-  const num6 = document.getElementById('num6');
-  const num7 = document.getElementById('num7');
-  const num8 = document.getElementById('num8');
-  const num9 = document.getElementById('num9');
-  const num0 = document.getElementById('num0');
-  const sakujo = document.getElementById('sakujo');
-  const waru = document.getElementById('kigou1');
-  const kakeru = document.getElementById('kigou2');
-  const mainasu = document.getElementById('kigou3');
-  const plus = document.getElementById('kigou4');
-  const ikouru = document.getElementById('kigou5');
+
+  // const num1 = document.getElementById('num1');
+  // const num2 = document.getElementById('num2');
+  // const num3 = document.getElementById('num3');
+  // const num4 = document.getElementById('num4');
+  // const num5 = document.getElementById('num5');
+  // const num6 = document.getElementById('num6');
+  // const num7 = document.getElementById('num7');
+  // const num8 = document.getElementById('num8');
+  // const num9 = document.getElementById('num9');
+  // const num0 = document.getElementById('num0');
+  // const sakujo = document.getElementById('sakujo');
+  // const waru = document.getElementById('kigou1');
+  // const kakeru = document.getElementById('kigou2');
+  // const mainasu = document.getElementById('kigou3');
+  // const plus = document.getElementById('kigou4');
+  // const ikouru = document.getElementById('kigou5');
   const display = document.querySelector('.display-textarea')
   let saveNum = 0;
   let displayLength = display.textContent.length;
@@ -27,233 +31,300 @@
   let kakeruClickCount = 0;
   let waruClickCount = 0;
 
+  const $numbers = document.querySelectorAll('#num1,#num2,#num3,#num4,#num5,#num6,#num7,#num8,#num9,#num0,#num10');
 
-  num1.addEventListener('click', () => {
-    //1クリック目はスルーされる。「+,-,*,/」をクリックするとdisplayLngthを0にしているので2回目の1クリックから1回だけ適応
-    if (saveNum !== 0 && displayLength === 0) {
+  const $kigous = document.querySelectorAll('#sakujo, #kigou1,#kigou2,#kigou3,#kigou4,#kigou5,#kigou6,#kigou7');
+
+  $numbers.forEach(number => {
+    number.addEventListener('click', () => {
+          if (saveNum !== 0 && displayLength === 0) {
       display.textContent = '';
-      // console.log(saveNum);
+      console.log(displayLength);
+      console.log(saveNum);
       // console.log(displayLength);
       // console.log(display.textContent);
     }
-
-    if (displayLength < 9) {
-      display.textContent += String(1);
-      // console.log(display.textContent);
-      displayLength++;
-      // console.log(displayLength);
-    }
+      if (displayLength < 9) {
+        const value = number.textContent;
+        display.textContent += value;
+        displayLength++;
+        // console.log(displayLength);
+        console.log(display.textContent);
+        
+      }
+    });
   });
 
-  num2.addEventListener('click', () => {
-    if (saveNum !== 0 && displayLength === 0) {
-      display.textContent = '';
-    }
+  $kigous.forEach(kigou => {
+    kigou.addEventListener('click', () => {
+      saveNum = display.textContent;
+      const $kigouValue = kigou.textContent;
+      display.textContent = '';   
+        console.log(saveNum);
+        displayLength = 0;
+        console.log(displayLength);
+        
+       if (display.textContent === '+') return;
+       saveNum = Number(display.textContent);
+        display.textContent = '';
+        console.log(display.textContent);
 
-    if (displayLength < 9) {
-      display.textContent += String(2);
-      displayLength++;
-    }
+        if (display.textContent === '=') {
+          display.textContent = eval((saveNum) + Number(display.textContent));
+          // console.log(display.textContent);
+          // displayLength = 0;
+          // plusClickCount = 0;
+          console.log(display.textContent);
+          console.log(saveNum);
+        }
+
+        //     if (display.textContent === "") return;
+//     saveNum = Number(display.textContent);
+//     displayLength = 0;
+//     console.log(saveNum);
+
+//   ikouru.addEventListener('click', () => {
+    // if (display.textContent === '=') {
+    //   display.textContent = eval((saveNum) + Number(display.textContent));
+    //   console.log(display.textContent);
+    //   displayLength = 0;
+    //   plusClickCount = 0;
+//     }
+
+     
+    });
   });
-
-  num3.addEventListener('click', () => {
-    if (saveNum !== 0 && displayLength === 0) {
-      display.textContent = '';
-    }
-
-    if (displayLength < 9) {
-      display.textContent += String(3);
-      displayLength++;
-    }
-  });
-
-  num4.addEventListener('click', () => {
-    if (saveNum !== 0 && displayLength === 0) {
-      display.textContent = '';
-    }
-
-    if (displayLength < 9) {
-      display.textContent += String(4);
-      displayLength++;
-    }
-  });
-
-  num5.addEventListener('click', () => {
-    if (saveNum !== 0 && displayLength === 0) {
-      display.textContent = '';
-    }
-
-    if (displayLength < 9) {
-      display.textContent += String(5);
-      displayLength++;
-    }
-  });
-
-  num6.addEventListener('click', () => {
-    if (saveNum !== 0 && displayLength === 0) {
-      display.textContent = '';
-    }
-
-    if (displayLength < 9) {
-      display.textContent += String(6);
-      displayLength++;
-    }
-  });
-
-  num7.addEventListener('click', () => {
-    if (saveNum !== 0 && displayLength === 0) {
-      display.textContent = '';
-    }
-
-    if (displayLength < 9) {
-      display.textContent += String(7);
-      displayLength++;
-    }
-  });
-
-  num8.addEventListener('click', () => {
-    if (saveNum !== 0 && displayLength === 0) {
-      display.textContent = '';
-    }
-
-    if (displayLength < 9) {
-      display.textContent += String(8);
-      displayLength++;
-    }
-  });
-
-  num9.addEventListener('click', () => {
-    if (saveNum !== 0 && displayLength === 0) {
-      display.textContent = '';
-    }
-
-    if (displayLength < 9) {
-      display.textContent += String(9);
-      displayLength++;
-    }
-  });
-
-  num0.addEventListener('click', () => {
-    if (saveNum !== 0 && displayLength === 0) {
-      display.textContent = '';
-    }
-
-    if (displayLength < 9) {
-      display.textContent += String(0);
-      displayLength++;
-    }
-  });
-
-
-  plus.addEventListener('click', () => {
-    plusClickCount++;
-    console.log(plusClickCount);
-    //一回目のクリックはスルーされる。
-    if (plusClickCount >= 2) {
-      display.textContent = eval((saveNum) + Number(display.textContent));
-      console.log(display.textContent);
-      displayLength = 0;
-    }
-
-    if (display.textContent === "") return;
-    saveNum = Number(display.textContent);
-    displayLength = 0;
-    console.log(saveNum);
-
-  });
-
-  mainasu.addEventListener('click', () => {
-    mainasuClickCount++;
-    console.log(mainasuClickCount);
-    if (mainasuClickCount >= 2) {
-      display.textContent = eval((saveNum) - Number(display.textContent));
-      console.log(display.textContent);
-      displayLength = 0;
-    }
-
-    if (display.textContent === "") return;
-    saveNum = Number(display.textContent);
-    displayLength = 0;
-    console.log(saveNum);
-
-  });
-
-  kakeru.addEventListener('click', () => {
-    kakeruClickCount++;
-    console.log(kakeruClickCount);
-    if (kakeruClickCount >= 2) {
-      display.textContent = eval((saveNum) * Number(display.textContent));
-      console.log(display.textContent);
-      displayLength = 0;
-    }
-
-    if (display.textContent === "") return;
-    saveNum = Number(display.textContent);
-    displayLength = 0;
-    console.log(saveNum);
-
-  });
-
-  waru.addEventListener('click', () => {
-    waruClickCount++;
-    console.log(kakeruClickCount);
-    if (waruClickCount >= 2) {
-      display.textContent = eval((saveNum) / Number(display.textContent));
-      console.log(display.textContent);
-      displayLength = 0;
-    }
-
-    if (display.textContent === "") return;
-    saveNum = Number(display.textContent);
-    displayLength = 0;
-    console.log(saveNum);
-
-  });
-
-  ikouru.addEventListener('click', () => {
-    if (plusClickCount >= 1) {
-      display.textContent = eval((saveNum) + Number(display.textContent));
-      console.log(display.textContent);
-      displayLength = 0;
-      plusClickCount = 0;
-    }
-
-    if (mainasuClickCount >= 1) {
-      display.textContent = eval((saveNum) - Number(display.textContent));
-      console.log(display.textContent);
-      displayLength = 0;
-      mainasuClickCount = 0;
-    }
-
-    if (kakeruClickCount >= 1) {
-      display.textContent = eval((saveNum) * Number(display.textContent));
-      console.log(display.textContent);
-      displayLength = 0;
-      kakeruClickCount = 0;
-    }
-
-    if (waruClickCount >= 1) {
-      display.textContent = eval((saveNum) / Number(display.textContent));
-      console.log(display.textContent);
-      displayLength = 0;
-      waruClickCount = 0;
-    }
-  });
-
-  sakujo.addEventListener('click', () => {
-    display.textContent = '';
-    saveNum = 0
-    displayLength = 0;
-    plusClickCount = 0;
-    mainasuClickCount = 0;
-    kakeruClickCount = 0;
-    waruClickCount = 0;
-  });
-
-
-
-
 }
+
+
+//   num1.addEventListener('click', () => {
+//     //1クリック目はスルーされる。「+,-,*,/」をクリックするとdisplayLngthを0にしているので2回目の1クリックから1回だけ適応
+//     if (saveNum !== 0 && displayLength === 0) {
+//       display.textContent = '';
+//       // console.log(saveNum);
+//       // console.log(displayLength);
+//       // console.log(display.textContent);
+//     }
+
+//     if (displayLength < 9) {
+//       display.textContent += String(1);
+//       // console.log(display.textContent);
+//       displayLength++;
+//       // console.log(displayLength);
+//     }
+//   });
+
+//   num2.addEventListener('click', () => {
+//     if (saveNum !== 0 && displayLength === 0) {
+//       display.textContent = '';
+//     }
+
+//     if (displayLength < 9) {
+//       display.textContent += String(2);
+//       displayLength++;
+//     }
+//   });
+
+//   num3.addEventListener('click', () => {
+//     if (saveNum !== 0 && displayLength === 0) {
+//       display.textContent = '';
+//     }
+
+//     if (displayLength < 9) {
+//       display.textContent += String(3);
+//       displayLength++;
+//     }
+//   });
+
+//   num4.addEventListener('click', () => {
+//     if (saveNum !== 0 && displayLength === 0) {
+//       display.textContent = '';
+//     }
+
+//     if (displayLength < 9) {
+//       display.textContent += String(4);
+//       displayLength++;
+//     }
+//   });
+
+//   num5.addEventListener('click', () => {
+//     if (saveNum !== 0 && displayLength === 0) {
+//       display.textContent = '';
+//     }
+
+//     if (displayLength < 9) {
+//       display.textContent += String(5);
+//       displayLength++;
+//     }
+//   });
+
+//   num6.addEventListener('click', () => {
+//     if (saveNum !== 0 && displayLength === 0) {
+//       display.textContent = '';
+//     }
+
+//     if (displayLength < 9) {
+//       display.textContent += String(6);
+//       displayLength++;
+//     }
+//   });
+
+//   num7.addEventListener('click', () => {
+//     if (saveNum !== 0 && displayLength === 0) {
+//       display.textContent = '';
+//     }
+
+//     if (displayLength < 9) {
+//       display.textContent += String(7);
+//       displayLength++;
+//     }
+//   });
+
+//   num8.addEventListener('click', () => {
+//     if (saveNum !== 0 && displayLength === 0) {
+//       display.textContent = '';
+//     }
+
+//     if (displayLength < 9) {
+//       display.textContent += String(8);
+//       displayLength++;
+//     }
+//   });
+
+//   num9.addEventListener('click', () => {
+//     if (saveNum !== 0 && displayLength === 0) {
+//       display.textContent = '';
+//     }
+
+//     if (displayLength < 9) {
+//       display.textContent += String(9);
+//       displayLength++;
+//     }
+//   });
+
+//   num0.addEventListener('click', () => {
+//     if (saveNum !== 0 && displayLength === 0) {
+//       display.textContent = '';
+//     }
+
+//     if (displayLength < 9) {
+//       display.textContent += String(0);
+//       displayLength++;
+//     }
+//   });
+
+
+//   plus.addEventListener('click', () => {
+//     plusClickCount++;
+//     console.log(plusClickCount);
+//     //一回目のクリックはスルーされる。
+//     if (plusClickCount >= 2) {
+//       display.textContent = eval((saveNum) + Number(display.textContent));
+//       console.log(display.textContent);
+//       displayLength = 0;
+//     }
+
+//     if (display.textContent === "") return;
+//     saveNum = Number(display.textContent);
+//     displayLength = 0;
+//     console.log(saveNum);
+
+//   });
+
+//   mainasu.addEventListener('click', () => {
+//     mainasuClickCount++;
+//     console.log(mainasuClickCount);
+//     if (mainasuClickCount >= 2) {
+//       display.textContent = eval((saveNum) - Number(display.textContent));
+//       console.log(display.textContent);
+//       displayLength = 0;
+//     }
+
+//     if (display.textContent === "") return;
+//     saveNum = Number(display.textContent);
+//     displayLength = 0;
+//     console.log(saveNum);
+
+//   });
+
+//   //「＋」を連続しておしても何もならないようにする。
+
+//   kakeru.addEventListener('click', () => {
+//     kakeruClickCount++;
+//     console.log(kakeruClickCount);
+//     if (kakeruClickCount >= 2) {
+//       display.textContent = eval((saveNum) * Number(display.textContent));
+//       console.log(display.textContent);
+//       displayLength = 0;
+//     }
+
+//     if (display.textContent === "") return;
+//     saveNum = Number(display.textContent);
+//     displayLength = 0;
+//     console.log(saveNum);
+
+//   });
+
+//   waru.addEventListener('click', () => {
+//     waruClickCount++;
+//     console.log(kakeruClickCount);
+//     if (waruClickCount >= 2) {
+//       display.textContent = eval((saveNum) / Number(display.textContent));
+//       console.log(display.textContent);
+//       displayLength = 0;
+//     }
+
+//     if (display.textContent === "") return;
+//     saveNum = Number(display.textContent);
+//     displayLength = 0;
+//     console.log(saveNum);
+
+//   });
+
+//   ikouru.addEventListener('click', () => {
+//     if (plusClickCount >= 1) {
+//       display.textContent = eval((saveNum) + Number(display.textContent));
+//       console.log(display.textContent);
+//       displayLength = 0;
+//       plusClickCount = 0;
+//     }
+
+//     if (mainasuClickCount >= 1) {
+//       display.textContent = eval((saveNum) - Number(display.textContent));
+//       console.log(display.textContent);
+//       displayLength = 0;
+//       mainasuClickCount = 0;
+//     }
+
+//     if (kakeruClickCount >= 1) {
+//       display.textContent = eval((saveNum) * Number(display.textContent));
+//       console.log(display.textContent);
+//       displayLength = 0;
+//       kakeruClickCount = 0;
+//     }
+
+//     if (waruClickCount >= 1) {
+//       display.textContent = eval((saveNum) / Number(display.textContent));
+//       console.log(display.textContent);
+//       displayLength = 0;
+//       waruClickCount = 0;
+//     }
+//   });
+
+//   sakujo.addEventListener('click', () => {
+//     display.textContent = '';
+//     saveNum = 0
+//     displayLength = 0;
+//     plusClickCount = 0;
+//     mainasuClickCount = 0;
+//     kakeruClickCount = 0;
+//     waruClickCount = 0;
+//   });
+
+
+
+
+// }
 
   //ここから↓バックアップ
   // plus.addEventListener('click', () => {
