@@ -4,25 +4,26 @@
 {
   const num1 = document.getElementById('num1');
   const num2 = document.getElementById('num2');
+  const mainasu = document.getElementById('kigou3');
   const plus = document.getElementById('kigou4');
   const ikouru = document.getElementById('kigou5');
   const display = document.querySelector('.display-textarea')
   let saveNum = 0;
   let displayLength = display.textContent.length;
   // console.log(displayLength);
+  let clickCount = 0; 
 
   num1.addEventListener('click', () => {
     if (saveNum !== 0 && displayLength === 0 ) {
       display.textContent = '';
       console.log(saveNum);
-      console.log(displayLength);
+      // console.log(displayLength);
     }
 
       if (displayLength < 9) {
         display.textContent += String(1);
         console.log(display.textContent);
         displayLength++;
-        console.log(displayLength);
       }
   });
 
@@ -37,26 +38,58 @@
         display.textContent += String(2);
         console.log(display.textContent);
         displayLength++;
-        console.log(displayLength);
       }
   });
+  // 
+  
   plus.addEventListener('click', () => {
+    clickCount++; 
+    console.log(clickCount);
+    if(clickCount >= 2){
+      display.textContent = eval((saveNum) + Number(display.textContent));
+      console.log(display.textContent);
+      displayLength = 0;
+    }
+
     if (display.textContent === "") return;
-    saveNum = Number(display.textContent);
-    // plus = '';
-    // display.textContent = '';
-    displayLength = 0;
-    console.log(displayLength);
-    console.log(saveNum);
+      saveNum = Number(display.textContent);
+      displayLength = 0;
+      console.log(saveNum);
+      ikouru.addEventListener('click', () => {
+        //もし足し算だったら↓の式で引き算だったらとする必要がある。
+      });
   });
 
-  ikouru.addEventListener('click', () => {
-    //もし足し算だったら↓の式で引き算だったらとする必要がある。
-    display.textContent = eval((saveNum) + Number(display.textContent));
-    console.log(display.textContent);
-  });
 
-  console.log(displayLength);
+
+//ここから↓バックアップ
+  // plus.addEventListener('click', () => {
+  //   clickCount++; 
+  //   console.log(clickCount);
+  //   if(clickCount >= 2){
+  //     display.textContent = eval((saveNum) + Number(display.textContent));
+  //     console.log(display.textContent);
+  //     displayLength = 0;
+  //   }
+
+  //   if (display.textContent === "") return;
+  //     saveNum = Number(display.textContent);
+  //     displayLength = 0;
+  //     console.log(saveNum);
+  //     ikouru.addEventListener('click', () => {
+  //       //もし足し算だったら↓の式で引き算だったらとする必要がある。
+  //     });
+  // });
+
+  // ikouru.addEventListener('click', () => {
+  //   //もし足し算だったら↓の式で引き算だったらとする必要がある。
+  //   display.textContent = eval((saveNum) + Number(display.textContent));
+  //   console.log(display.textContent);
+  //   displayLength = 0;
+  //   clickCount = 0;
+  // });
+
+  // console.log(displayLength);
 
 }
 
