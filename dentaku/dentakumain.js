@@ -63,22 +63,24 @@
   // const plus = document.getElementById('kigou4');
   // const ikouru = document.getElementById('kigou5');
 
+// {
+//   let plusClickCount = 0;
+//   let mainasuClickCount = 0;
+//   let kakeruClickCount = 0;
+//   let waruClickCount = 0;
+
+//   const display = document.querySelector(".display-textarea");
+//   let saveNum = 0;
+//   let displayLength = display.textContent.length;
+//   const $numbers = document.querySelectorAll(
+//     "#num1,#num2,#num3,#num4,#num5,#num6,#num7,#num8,#num9,#num0,#num10"
+//   );
+
+//   const $kigous = document.querySelectorAll(
+//     "#sakujo, #kigou1,#kigou2,#kigou3,#kigou4,#kigou5,#kigou6,#kigou7"
+//   );
+
 {
-  let plusClickCount = 0;
-  let mainasuClickCount = 0;
-  let kakeruClickCount = 0;
-  let waruClickCount = 0;
-
-  const display = document.querySelector(".display-textarea");
-  let saveNum = 0;
-  let displayLength = display.textContent.length;
-  const $numbers = document.querySelectorAll(
-    "#num1,#num2,#num3,#num4,#num5,#num6,#num7,#num8,#num9,#num0,#num10"
-  );
-
-  const $kigous = document.querySelectorAll(
-    "#sakujo, #kigou1,#kigou2,#kigou3,#kigou4,#kigou5,#kigou6,#kigou7"
-  );
 
   $numbers.forEach((number) => {
     number.addEventListener("click", () => {
