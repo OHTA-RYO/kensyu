@@ -9,22 +9,23 @@
 // $numbers.forEach((number) => {
 //   number.addEventListener('click', () => {
 
-//           //↓で5つをクリックしても反応しないようにして
-//       //別で情報を取る。
-//       if($display.textContent === ('+') || 
-//       $display.textContent === '-' ||
-//       $display.textContent === '×' ||
-//       $display.textContent === '÷'||
-//       $display.textContent === '=' ){
-//       $display.textContent = '';
-//       console.log($display.textContent);
-//       };
-
-//     if (displayLength < 9) {
-//       $display.textContent += String(number.textContent);
-//       console.log(number.textContent);
-//       displayLength++;
-//     }; 
+  
+  //     if (displayLength < 9) {
+    //       $display.textContent += String(number.textContent);
+    //       console.log(number.textContent);
+    //       displayLength++;
+    //     }; 
+    //           //↓で5つをクリックしても反応しないようにして
+    //       //別で情報を取る。　
+    // 　　　　　　.includesを使ってみる
+    //       if($display.textContent === ('+') || 
+    //       $display.textContent === '-' ||
+    //       $display.textContent === '×' ||
+    //       $display.textContent === '÷'||
+    //       $display.textContent === '=' ){
+    //       $display.textContent = '';
+    //       console.log($display.textContent);
+    //       };
 //   });
 // });
 // }
@@ -46,41 +47,41 @@
 // //まず1+1=2の処理をする。
 // // {
 
-  // const num1 = document.getElementById('num1');
-  // const num2 = document.getElementById('num2');
-  // const num3 = document.getElementById('num3');
-  // const num4 = document.getElementById('num4');
-  // const num5 = document.getElementById('num5');
-  // const num6 = document.getElementById('num6');
-  // const num7 = document.getElementById('num7');
-  // const num8 = document.getElementById('num8');
-  // const num9 = document.getElementById('num9');
-  // const num0 = document.getElementById('num0');
-  // const sakujo = document.getElementById('sakujo');
-  // const waru = document.getElementById('kigou1');
-  // const kakeru = document.getElementById('kigou2');
-  // const mainasu = document.getElementById('kigou3');
-  // const plus = document.getElementById('kigou4');
-  // const ikouru = document.getElementById('kigou5');
-
-// {
-//   let plusClickCount = 0;
-//   let mainasuClickCount = 0;
-//   let kakeruClickCount = 0;
-//   let waruClickCount = 0;
-
-//   const display = document.querySelector(".display-textarea");
-//   let saveNum = 0;
-//   let displayLength = display.textContent.length;
-//   const $numbers = document.querySelectorAll(
-//     "#num1,#num2,#num3,#num4,#num5,#num6,#num7,#num8,#num9,#num0,#num10"
-//   );
-
-//   const $kigous = document.querySelectorAll(
-//     "#sakujo, #kigou1,#kigou2,#kigou3,#kigou4,#kigou5,#kigou6,#kigou7"
-//   );
+// const num1 = document.getElementById('num1');
+// const num2 = document.getElementById('num2');
+// const num3 = document.getElementById('num3');
+// const num4 = document.getElementById('num4');
+// const num5 = document.getElementById('num5');
+// const num6 = document.getElementById('num6');
+// const num7 = document.getElementById('num7');
+// const num8 = document.getElementById('num8');
+// const num9 = document.getElementById('num9');
+// const num0 = document.getElementById('num0');
+// const sakujo = document.getElementById('sakujo');
+// const waru = document.getElementById('kigou1');
+// const kakeru = document.getElementById('kigou2');
+// const mainasu = document.getElementById('kigou3');
+// const plus = document.getElementById('kigou4');
+// const ikouru = document.getElementById('kigou5');
 
 {
+  let plusClickCount = 0;
+  let mainasuClickCount = 0;
+  let kakeruClickCount = 0;
+  let waruClickCount = 0;
+
+  const display = document.querySelector(".display-textarea");
+  let saveNum = 0;
+  let displayLength = display.textContent.length;
+  const $numbers = document.querySelectorAll(
+    "#num1,#num2,#num3,#num4,#num5,#num6,#num7,#num8,#num9,#num0,#num10"
+  );
+
+  const $kigous = document.querySelectorAll(
+    "#sakujo, #kigou1,#kigou2,#kigou3,#kigou4,#kigou5,#kigou6,#kigou7"
+  );
+
+
 
   $numbers.forEach((number) => {
     number.addEventListener("click", () => {
@@ -109,32 +110,43 @@
       console.log(kigou.textContent);
       console.log(display.textContent);
 
-      if (kigou.textContent === '=' && kigou.textContent === '+') {
+      //もしくわにしないといけない。
+      if (kigou.textContent === '=' && plusClickCount >= 1) {
         display.textContent = eval(saveNum + Number(display.textContent));
         console.log(saveNum);
         console.log(display.textContent);
-        plusClickCount = 0;
+        plusClickCount = 0;         //kigoukauntowotukurou
+      }else if(kigou.textContent === '+' && plusClickCount >= 1){
+        display.textContent = eval(saveNum + Number(display.textContent));
+        console.log(saveNum);
+        console.log(display.textContent);
+        plusClickCount ++;
       }
-       //マイナスをクリックをした時の処理が
-      if (kigou.textContent === '=' && kigou.textContent === '-' ){
+      //1+2=-2となる　↓の処理が走るから。
+      if (kigou.textContent === '=' && mainasuClickCount >= 1) {
         display.textContent = eval(saveNum - Number(display.textContent));
         console.log(saveNum);
         console.log(display.textContent);
-        plusClickCount = 0;
         mainasuClickCount = 0;
-
-      }
-
-
-
-      if (plusClickCount >= 1) {
+        mainasuClickCount = 0;
+      } else if(kigou.textContent === '-' && mainasuClickCount >= 1){
         display.textContent = eval(saveNum + Number(display.textContent));
-        saveNum = Number(display.textContent);
-        console.log(display.textContent);
         console.log(saveNum);
-        // plusClickCount = 0;
-        console.log(plusClickCount);
+        console.log(display.textContent);
+        mainasuClickCount ++;
       }
+
+
+      //1以上かつボタンが+ =のとき。-の時も走る。走って欲しくない１＋２−３で
+      //ここで6の計算がされる。
+      // if (plusClickCount >= 1) {
+      //   display.textContent = eval(saveNum + Number(display.textContent));
+      //   saveNum = Number(display.textContent);
+      //   console.log(display.textContent);
+      //   console.log(saveNum);
+      //   // plusClickCount = 0;
+      //   console.log(plusClickCount);
+      // }
 
       if (kigou.textContent === "+") {
         saveNum = Number(display.textContent);
@@ -147,14 +159,14 @@
 
 
 
-      if (mainasuClickCount >= 1) {
-        display.textContent = eval(saveNum - Number(display.textContent));
-        saveNum = Number(display.textContent);
-        console.log(display.textContent);
-        console.log(saveNum);
-        // plusClickCount = 0;
-        console.log(mainasuClickCount);
-      }
+      // if (mainasuClickCount >= 1) {
+      //   display.textContent = eval(saveNum - Number(display.textContent));
+      //   saveNum = Number(display.textContent);
+      //   console.log(display.textContent);
+      //   console.log(saveNum);
+      //   // plusClickCount = 0;
+      //   console.log(mainasuClickCount);
+      // }
 
       if (kigou.textContent === "-") {
         saveNum = Number(display.textContent);
