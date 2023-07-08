@@ -9,23 +9,23 @@
 // $numbers.forEach((number) => {
 //   number.addEventListener('click', () => {
 
-  
-  //     if (displayLength < 9) {
-    //       $display.textContent += String(number.textContent);
-    //       console.log(number.textContent);
-    //       displayLength++;
-    //     }; 
-    //           //↓で5つをクリックしても反応しないようにして
-    //       //別で情報を取る。　
-    // 　　　　　　.includesを使ってみる
-    //       if($display.textContent === ('+') || 
-    //       $display.textContent === '-' ||
-    //       $display.textContent === '×' ||
-    //       $display.textContent === '÷'||
-    //       $display.textContent === '=' ){
-    //       $display.textContent = '';
-    //       console.log($display.textContent);
-    //       };
+
+//     if (displayLength < 9) {
+//       $display.textContent += String(number.textContent);
+//       console.log(number.textContent);
+//       displayLength++;
+//     }; 
+//           //↓で5つをクリックしても反応しないようにして
+//       //別で情報を取る。　
+// 　　　　　　.includesを使ってみる
+//       if($display.textContent === ('+') || 
+//       $display.textContent === '-' ||
+//       $display.textContent === '×' ||
+//       $display.textContent === '÷'||
+//       $display.textContent === '=' ){
+//       $display.textContent = '';
+//       console.log($display.textContent);
+//       };
 //   });
 // });
 // }
@@ -87,17 +87,15 @@
     number.addEventListener("click", () => {
       if (saveNum !== 0 && displayLength === 0) {
         display.textContent = "";
-        console.log(displayLength);
-        console.log(saveNum);
         // console.log(displayLength);
-        // console.log(display.textContent);
+        // console.log(saveNum);
       }
+
       if (displayLength < 9) {
         const value = number.textContent;
         display.textContent += value;
         displayLength++;
-        // console.log(displayLength);
-        console.log(display.textContent);
+        // console.log(display.textContent);
       }
     });
   });
@@ -107,74 +105,109 @@
       const $kigouValue = kigou.textContent;
       console.log(saveNum);
       displayLength = 0;
-      console.log(kigou.textContent);
-      console.log(display.textContent);
+      // console.log(kigou.textContent);
+      // console.log(display.textContent);
 
       //もしくわにしないといけない。
       if (kigou.textContent === '=' && plusClickCount >= 1) {
         display.textContent = eval(saveNum + Number(display.textContent));
         console.log(saveNum);
-        console.log(display.textContent);
+        // console.log(display.textContent);
         plusClickCount = 0;         //kigoukauntowotukurou
-      }else if(kigou.textContent === '+' && plusClickCount >= 1){
+      } else if (kigou.textContent === '+' && plusClickCount >= 1   ) {
         display.textContent = eval(saveNum + Number(display.textContent));
         console.log(saveNum);
-        console.log(display.textContent);
-        plusClickCount ++;
-      }
+        // console.log(display.textContent);
+        plusClickCount++;
+      } 
+      // else if(kigou.textContent === '+' && plusClickCount >= 1 ){
+      //   saveNum = display.textContent;
+      //   plusClickCount = 0;
+      // }
+
       //1+2=-2となる　↓の処理が走るから。
       if (kigou.textContent === '=' && mainasuClickCount >= 1) {
         display.textContent = eval(saveNum - Number(display.textContent));
         console.log(saveNum);
-        console.log(display.textContent);
+        // console.log(display.textContent);
         mainasuClickCount = 0;
-        mainasuClickCount = 0;
-      } else if(kigou.textContent === '-' && mainasuClickCount >= 1){
-        display.textContent = eval(saveNum + Number(display.textContent));
+
+      } else if (kigou.textContent === '-' && mainasuClickCount >= 1 ) {
+        display.textContent = eval(saveNum - Number(display.textContent));
+        console.log(saveNum);
+        mainasuClickCount++;
+        // console.log(mainasuClickCount);
+        // console.log(display.textContent);
+      } 
+
+      if (kigou.textContent === '=' && kakeruClickCount >= 1 ) {
+        display.textContent = eval(saveNum * Number(display.textContent));
         console.log(saveNum);
         console.log(display.textContent);
-        mainasuClickCount ++;
+        kakeruClickCount = 0;
+
+      } else if(kigou.textContent === '×' && kakeruClickCount >= 1 ){
+        display.textContent = eval(saveNum * Number(display.textContent));
+        console.log(saveNum);
+        console.log(display.textContent);
+        kakeruClickCount ++;
+        console.log(kakeruClickCount);
       }
 
 
-      //1以上かつボタンが+ =のとき。-の時も走る。走って欲しくない１＋２−３で
-      //ここで6の計算がされる。
-      // if (plusClickCount >= 1) {
-      //   display.textContent = eval(saveNum + Number(display.textContent));
-      //   saveNum = Number(display.textContent);
-      //   console.log(display.textContent);
-      //   console.log(saveNum);
-      //   // plusClickCount = 0;
-      //   console.log(plusClickCount);
-      // }
+      if (kigou.textContent === '=' && waruClickCount >= 1 ) {
+        display.textContent = eval(saveNum / Number(display.textContent));
+        console.log(saveNum);
+        console.log(display.textContent);
+        waruClickCount = 0;
+
+      } else if(kigou.textContent === '÷' && waruClickCount >= 1 ){
+        display.textContent = eval(saveNum / Number(display.textContent));
+        console.log(saveNum);
+        console.log(display.textContent);
+        waruClickCount ++;
+        console.log(waruClickCount);
+      }
 
       if (kigou.textContent === "+") {
         saveNum = Number(display.textContent);
-        // display.textContent = '';
-        console.log(display.textContent);
-        console.log(saveNum);
         plusClickCount++;
         console.log(plusClickCount);
       }
 
-
-
-      // if (mainasuClickCount >= 1) {
-      //   display.textContent = eval(saveNum - Number(display.textContent));
-      //   saveNum = Number(display.textContent);
-      //   console.log(display.textContent);
-      //   console.log(saveNum);
-      //   // plusClickCount = 0;
-      //   console.log(mainasuClickCount);
-      // }
-
       if (kigou.textContent === "-") {
         saveNum = Number(display.textContent);
-        // display.textContent = '';
-        console.log(display.textContent);
-        console.log(saveNum);
-        mainasuClickCount++;
-        console.log(mainasuClickCount);
+        mainasuClickCount++;        
+        // console.log(display.textContent);
+        // console.log(saveNum);
+        // console.log(mainasuClickCount);
+      }
+
+      if (kigou.textContent === "÷") {
+        saveNum = Number(display.textContent);
+        waruClickCount++;
+        // console.log(waruClickCount);
+        // console.log(display.textContent);
+        // console.log(saveNum);
+      }
+
+      if (kigou.textContent === "×") {
+        saveNum = Number(display.textContent);
+        kakeruClickCount++;
+        // console.log(display.textContent);
+        // console.log(saveNum);
+        // console.log(kakeruClickCount);
+      }
+
+      if(kigou.textContent === 'AC'){
+        saveNum = 0;
+        display.textContent = '';
+        displayLength = 0;
+        plusClickCount = 0;
+        mainasuClickCount = 0;
+        kakeruClickCount = 0;
+        waruClickCount = 0;
+
       }
     });
   });
