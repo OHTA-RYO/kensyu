@@ -64,10 +64,10 @@
 // const ikouru = document.getElementById('kigou5');
 
 {
-  let plusClickCount = 0;
-  let mainasuClickCount = 0;
-  let kakeruClickCount = 0;
-  let waruClickCount = 0;
+  // let plusClickCount = 0;
+  // let mainasuClickCount = 0;
+  // let kakeruClickCount = 0;
+  // let waruClickCount = 0;
 
   const display = document.querySelector(".display-textarea");
   let saveNum = 0;
@@ -79,15 +79,16 @@
   const $kigous = document.querySelectorAll(
     "#sakujo, #kigou1,#kigou2,#kigou3,#kigou4,#kigou5,#kigou6,#kigou7"
   );
-  let kigouBox = 0;
-  let kigouNum = ['+', '-', '×', '÷', '='];
+  const kigouNum = ['+', '-', '*', '/'];
+  let saveKigou = '';
+  //↑一応宣言しておいた。
 
   $numbers.forEach((number) => {
     number.addEventListener("click", () => {
       if (saveNum !== 0 && displayLength === 0) {
         display.textContent = "";
-        // console.log(displayLength);
-        // console.log(saveNum);
+        console.log(displayLength);
+        console.log(saveNum);
       }
 
       if (displayLength < 9) {
@@ -98,36 +99,66 @@
       }
     });
   });
-  //直前に押したボタンを記憶する箱を作る。　直前に押したものが数字以外だったら何もしない　リターンする。
-  //クリックカウントで判別するのをやめる。　配列を使ったり。
-  //↓まとめる　　or じゃなくてsome or includeを使う　配列を使う。
-  //["+", "-", "×", "÷"].some(k => k === kigou.textContent)
 
+ 
   $kigous.forEach((kigou) => {
     kigou.addEventListener("click", () => {
-      saveNum = Number(display.textContent);
-
+      saveNum = (display.textContent);
       displayLength = 0;
-
       console.log(saveNum);
       console.log(display.textContent);
-      console.log(kigouBox);
       console.log(kigou.textContent);
 
-      if (kigouNum.some(k => k === kigouBox.textContent)) {
-        let result = kigouNum[0].some;
-        display.textContent = eval(saveNum + Number(display.textContent));
+      if (kigou.textContent === '×') kigou.textContent = '*';
+      if (kigou.textContent === '÷') kigou.textContent = '/';
+      
+      //↓kigouNumの中にkigou.textContent(+-*/)が含まれる且つ
+      //saveKigou に+-*/が代入された時に発動したかった。
+      //5+5-5の場合に-の押した時点でkigou.textContentに-が上書きされて0になる
+      //その為1回目の処理の時が終わってからsaveKigouに代入した。
+      //エラーとなる。
+      if(kigouNum.includes(kigou.textContent) && saveKigou === kigou.textContent) {
+        display.textContent = eval(`${saveNum} ${saveKigou} ${display.textContent}`)
+        
         console.log(saveNum);
-        displayLength = 0;
-        console.log(kigouBox.textContent);
-        console.log(display.textContent);
-      };
-      kigouBox = kigou.textContent;
+        console.log(kigou.textContent);
+        console.log(display.textContent); 
+      } 
+
+      let saveKigou = kigou.textContent; 
+
+
+
+      //someを使ったやり方でできなかった。
+      // if (kigouNum.some((k) => k === kigouButton )) {
+      //   console.log(saveNum);
+      //   display.textContent = eval(`${saveNum} ${kigouButton} ${display.textContent}`);
+
+      //   console.log(saveNum);
+      //   console.log(kigouButton);
+      //   console.log(display.textContent);
+      // }
+
+ 
+    //↓エラーが出る。
+      if (kigou.textContent === '=') {
+        //イコールの処理
+        display.textContent = eval(`${saveNum} ${saveKigou} ${display.textContent}`);
+      }
+
     });
   });
 
 
-
+      // if (kigouNum.some(k => k === kigouBox.textContent)) {
+      //   let result = kigouNum[0].some;
+      //   display.textContent = eval(saveNum + Number(display.textContent));
+      //   console.log(saveNum);
+      //   displayLength = 0;
+      //   console.log(kigouBox.textContent);
+      //   console.log(display.textContent);
+      // };
+      // kigouBox = kigou.textContent;
 
 
   // if(kigouBox === kigouNum[0] ){
@@ -143,16 +174,11 @@
   // const $kigouValue = kigou.textContent;
   // let kigouNum = ['+','-','×','÷','='];
   // kigouNum.some(k => k === kigou.textContent);
-
 }
 
-
-
-      // else if(kigou.textContent === kigouNum[1]){
-      //   display.textContent = eval(saveNum - Number(display.textContent));
-      // }
-
-
+// else if(kigou.textContent === kigouNum[1]){
+//   display.textContent = eval(saveNum - Number(display.textContent));
+// }
 
 //       if (kigou.textContent === "+") {
 //         saveNum = Number(display.textContent);
