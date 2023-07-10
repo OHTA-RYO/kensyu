@@ -99,6 +99,7 @@
       }
     });
   });
+  //直前に押したボタンを記憶する箱を作る。　直前に押したものが数字以外だったら何もしない　リターンする。
 
   $kigous.forEach((kigou) => {
     kigou.addEventListener("click", () => {
