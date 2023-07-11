@@ -52,10 +52,24 @@ button:nth-child(n+2){
   display: none;
 }
 
-.right-save::after {
+.right-save2 {
   transition: transform 10s;
+  animation:  1s fadeIn;
 }
+/* ↑どうやったらゆっくり切り替わるのか */
+/* 戻す時もゆっくりする方法を後日調べる */
 
 .name {
   cursor: pointer;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
 }
