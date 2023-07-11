@@ -52,10 +52,10 @@ button:nth-child(n+2){
   display: none;
 }
 
+.right-save::after {
+  transition: transform 10s;
+}
+
 .name {
   cursor: pointer;
 }
-
-/* .right-save {
-  display: block;
-} */
