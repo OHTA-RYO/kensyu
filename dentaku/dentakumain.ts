@@ -71,7 +71,9 @@ function keisan(){
 
   const display:Element | null = document.querySelector(".display-textarea");
   let saveNum:number = 0;
-  if(!display?.textContent ) return;
+  if(display?.textContent ===null ) return;
+  if(display ===null ) return;
+
   let displayLength:number = display.textContent.length;
   const $numbers = document.querySelectorAll(
     "#num1,#num2,#num3,#num4,#num5,#num6,#num7,#num8,#num9,#num0,#num10"
