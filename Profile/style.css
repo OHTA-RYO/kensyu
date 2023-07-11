@@ -19,6 +19,8 @@ main {
   padding: 16px;
 }
 
+
+
 p {
   margin: 8px 0 0;
 }
@@ -32,8 +34,28 @@ textarea {
   height: 80px;
 }
 
+.button-area {
+  margin-top: 24px;
+}
 
+button {
+  /* width: 48px;
+  height: 24px; */
+  font-size: 16px;
+}
 
-/* .button {
- 
+button:nth-child(n+2){
+  margin-left: 16px;
+}
+
+.right-save {
+  display: none;
+}
+
+.name {
+  cursor: pointer;
+}
+
+/* .right-save {
+  display: block;
 } */
