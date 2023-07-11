@@ -103,7 +103,7 @@
  
   $kigous.forEach((kigou) => {
     kigou.addEventListener("click", () => {
-      saveNum = (display.textContent);
+      
       displayLength = 0;
       console.log(saveNum);
       console.log(display.textContent);
@@ -117,15 +117,35 @@
       //5+5-5の場合に-の押した時点でkigou.textContentに-が上書きされて0になる
       //その為1回目の処理の時が終わってからsaveKigouに代入した。
       //エラーとなる。
-      if(kigouNum.includes(kigou.textContent) && saveKigou === kigou.textContent) {
-        display.textContent = eval(`${saveNum} ${saveKigou} ${display.textContent}`)
-        
+      if(kigouNum.includes(kigou.textContent) &&  !!saveKigou ) {
+        console.log(`${saveNum} ${saveKigou} ${display.textContent}`);
+        display.textContent = (eval(`${saveNum} ${saveKigou} ${display.textContent}`)).toString();
+
         console.log(saveNum);
         console.log(kigou.textContent);
         console.log(display.textContent); 
+       
+   
       } 
+      if (kigou.textContent === '=') {
+        //イコールの処理
+        console.log(`${saveNum} ${saveKigou} ${display.textContent}`);
+        display.textContent = eval(`${saveNum} ${saveKigou} ${display.textContent}`);
+      }
 
-      let saveKigou = kigou.textContent; 
+      saveNum = (display.textContent);
+      // saveKigou = kigou.textContent=="=" ? "" : kigou.textContent;
+
+      if(kigou.textContent === '='){
+        saveKigou = '';
+      }else {
+        saveKigou = kigou.textContent;
+      }
+
+
+
+    });
+  });
 
 
 
@@ -141,13 +161,7 @@
 
  
     //↓エラーが出る。
-      if (kigou.textContent === '=') {
-        //イコールの処理
-        display.textContent = eval(`${saveNum} ${saveKigou} ${display.textContent}`);
-      }
 
-    });
-  });
 
 
       // if (kigouNum.some(k => k === kigouBox.textContent)) {
