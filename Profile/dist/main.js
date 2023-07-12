@@ -26,8 +26,9 @@
         }
     });
     rightSaves.forEach((rightSave) => {
-        name === null || name === void 0 ? void 0 : name.addEventListener("click", () => {
-            rightSave.classList.toggle('right-save');
+        name === null || name === void 0 ? void 0 : name.addEventListener("click", (e) => {
+            rightSave = e.target;
+            rightSave.classList.toggle("right-save");
         });
     });
 }

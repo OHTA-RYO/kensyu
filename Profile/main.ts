@@ -39,18 +39,21 @@
 
   //          　　　元々↓をからにして10行目をrightSaveにしてた。そのような書き方は違うのでしょうか？
   rightSaves.forEach((rightSave) => {
-    name?.addEventListener("click", () => {
-      rightSave.classList.toggle('right-save');
+    name?.addEventListener("click", (e) => {
+      // rightSave = e.target! as HTMLElement;
+      const targetElement = e.target! as HTMLElement;
+      targetElement.classList.toggle("right-save");
       // ↑全部出てしまう。
-
-      //↓やりたかった処理2個目をクリックしたら1個目が閉じる
-      // rightSaves.forEach((close) =>{
-      //   if(open !== close){
-      //     close.classList.remove('right-save');
-      //   }
-      // })
     });
   });
+
+      // ↓やりたかった処理2個目をクリックしたら1個目が閉じる
+      // rightSaves.forEach((rightSave) =>{
+      //   if(rightSave !== rightSave){
+      //     targetElement.classList.add('right-save');
+      //   }
+      // });
+
 }
 
 //一括で要素を取得する方法
