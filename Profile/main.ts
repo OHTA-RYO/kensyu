@@ -1,58 +1,57 @@
 // console.log(1+1);
 {
-  const name: Element | null = document.querySelector('.name');
-  const rightSaves: Element | null = document.querySelector('.right-save');
+  const name: Element | null = document.querySelector(".name");
+  const rightSaves = document.querySelectorAll(".right-save");
   //保存を取得
-  const save: Element | null = document.getElementById('save');
+  const save: Element | null = document.getElementById("save");
   //↓保存先の親要素を取得
-  const right: Element | null = document.getElementById('right');
-  const title = document.getElementsByClassName('p');
+  const right: Element | null = document.getElementById("right");
+  const title: Element | null = document.querySelector("p");
+  const saveText: Element | null = document.querySelector("input");
   let n: number = 1;
 
   //左側の情報を↓にとってこないといけない。
-  save?.addEventListener('click', () => {
+  save?.addEventListener("click", () => {
     //↓子要素pを追加する
-    const pRight = document.createElement('p');
+    const pRight: Element | null = document.createElement("p");
     //↓IDを作成
-    pRight.id = 'appendp' + n;
+    pRight.id = "appendp" + n;
     //↓タイトル
-    pRight.innerText = title.textContent;
-    //↓1クリックずつ増やす
-    n++;
-    //↓親にpを追加
-    right?.appendChild(pRight);
+    if (pRight !== null && title !== null) {
+      pRight.textContent = title.textContent;
+      //↓1クリックずつ増やす
+      n++;
+      //↓親にpを追加
+      right?.appendChild(pRight);
+    }
   });
-  save?.addEventListener('click', () => {
+  save?.addEventListener("click", () => {
     //↓子要素inputを一括追加
-    const iRight = document.createElement('input');
-    iRight.id = 'appendi' + n;
-    iRight.innerText = iRight.textContent;
-    n++;
-    right?.appendChild(iRight);
+    const iRight: Element | null = document.createElement("input");
+    iRight.id = "appendi" + n;
+    if (saveText !== null) {
+      //↓フォームに入力した情報が取れない。
+      iRight.textContent = saveText.textContent;
+      n++;
+      right?.appendChild(iRight);
+    }
   });
-
-
 
   //          　　　元々↓をからにして10行目をrightSaveにしてた。そのような書き方は違うのでしょうか？
-  if (rightSaves !== null) {
-    rightSaves.forEach((rightSave) => {
-      name?.addEventListener('click', () => {
-        rightSave.classList.toggle('right-save');
-        // ↑全部出てしまう。
+  rightSaves.forEach((rightSave) => {
+    name?.addEventListener("click", () => {
+      rightSave.classList.toggle('right-save');
+      // ↑全部出てしまう。
 
-        //↓やりたかった処理2個目をクリックしたら1個目が閉じる
-        // rightSaves.forEach((close) =>{
-        //   if(open !== close){
-        //     close.classList.remove('right-save');
-        //   }
-        // })
-
-      });
+      //↓やりたかった処理2個目をクリックしたら1個目が閉じる
+      // rightSaves.forEach((close) =>{
+      //   if(open !== close){
+      //     close.classList.remove('right-save');
+      //   }
+      // })
     });
-  }
+  });
 }
-
-
 
 //一括で要素を取得する方法
 // const np = document.createDocumentFragment();

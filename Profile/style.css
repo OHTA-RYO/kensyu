@@ -60,9 +60,13 @@ button:nth-child(n+2){
 }
 
 .right-save2 {
-  transition: transform 10s;
   animation:  1s fadeIn;
+  /* display: none; */
 }
+
+
+
+
 /* ↑どうやったらゆっくり切り替わるのか */
 /* 戻す時もゆっくりする方法を後日調べる */
 
