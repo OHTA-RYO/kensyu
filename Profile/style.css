@@ -17,17 +17,13 @@ main {
   background: lightgrey;
   margin: 24px 0 24px 16px;
   padding: 16px;
-  /* position: fixed; */
 }
 
-#right  {
-  /* width: 50%;
-  background: lightgrey;
-  margin: 24px 0 24px 16px;
-  padding: 16px;
-  position: absolute;
-  left: 880px; */
-  /* ↑横固定にするにはどうすのか */
+
+.right-button-area {
+  position: fixed;
+  top: 40px;
+  left: 75%;
 }
 
 
