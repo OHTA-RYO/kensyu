@@ -55,6 +55,10 @@ button:nth-child(n+2){
   margin-left: 16px;
 }
 
+/* input > div {
+  display: none;
+} */
+
 .right-save {
   display: none;
 }

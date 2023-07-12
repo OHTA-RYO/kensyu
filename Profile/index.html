@@ -9,25 +9,25 @@
   <body>
     <main id="main">
       <div id="left">
-        <p id="title">名前/日本語</p>
+        <p id="title" value="名前/日本語" name="pbox1">名前/日本語</p>
         <input type="text" value="" placeholder="空白なしでご入力下さい。" />
-        <p>生年月日/西暦</p>
+        <p value="生年月日/西暦">生年月日/西暦</p>
         <input type="text" value="" placeholder="西暦でご入力下さい。" />
-        <p>年齢/歳</p>
+        <p value="年齢/歳">年齢/歳</p>
         <input type="text" value="" placeholder="自動で入力されます。" />
-        <p>身長/cm</p>
+        <p value="身長/cm">身長/cm</p>
         <input type="text" value="" placeholder="178cm" />
-        <p>体重/kg</p>
+        <p value="体重/kg">体重/kg</p>
         <input type="text" value="" placeholder="73kg" />
-        <p>電話番号:</p>
+        <p value="電話番号:">電話番号:</p>
         <input
           type="text"
           value=""
           placeholder="ハイフンありでご入力下さい。"
         />
-        <p>メールアドレス:</p>
+        <p value="メールアドレス:">メールアドレス:</p>
         <input type="text" value="" placeholder="sample@sample.com" />
-        <p>備考:</p>
+        <p value="備考:">備考:</p>
         <textarea
           value=""
           placeholder="〇〇が趣味です。などご自由にご記入下さい。"
@@ -39,24 +39,26 @@
       </div>
 
       <div id="right">
-        <p>名前:</p>
-        <input type="text" value="中島慶樹" class="name" readonly />
-        <div class="right-save right-save2">
-          <p>生年月日:</p>
-          <input type="text" value="1997年7月7日" readonly />
-          <p>年齢:</p>
-          <input type="text" value="" readonly/>
-          <p>身長:</p>
-          <input type="text" value="178cm" readonly />
-          <p>体重:</p>
-          <input type="text" value="73kg" readonly />
-          <p>電話番号:</p>
-          <input type="text" value="080-1234-5678" readonly />
-          <p>メールアドレス:</p>
-          <input type="text" value="nakashima-k@codelic.co" readonly />
-          <p>備考:</p>
-          <textarea value="" readonly>筋トレが趣味です</textarea>
-        </div>
+        <!-- <div class="profile-area">
+          <p>名前:</p>
+          <input type="text" value="中島慶樹" class="name" readonly />
+          <div class="right-save right-save2">
+            <p>生年月日:</p>
+            <input type="text" value="1997年7月7日" readonly />
+            <p>年齢:</p>
+            <input type="text" value="" readonly />
+            <p>身長:</p>
+            <input type="text" value="178cm" readonly />
+            <p>体重:</p>
+            <input type="text" value="73kg" readonly />
+            <p>電話番号:</p>
+            <input type="text" value="080-1234-5678" readonly />
+            <p>メールアドレス:</p>
+            <input type="text" value="nakashima-k@codelic.co" readonly />
+            <p>備考:</p>
+            <textarea value="" readonly>筋トレが趣味です</textarea>
+          </div>
+        </div> -->
 
         <div class="right-button-area">
           <p>名前検索/漢字で入力</p>
@@ -69,81 +71,115 @@
           </div>
         </div>
 
-        <p>名前:</p>
-        <input type="text" value="山田太郎" class="name" readonly />
-        <div class="right-save right-save2">
-          <p>生年月日:</p>
-          <input type="text" value="1960年12月25日" readonly />
-          <p>年齢:</p>
-          <input type="text" value="" readonly />
-          <p>身長:</p>
-          <input type="text" value="172cm" readonly />
-          <p>体重:</p>
-          <input type="text" value="61kg" readonly />
-          <p>電話番号:</p>
-          <input type="text" value="080-0000-0000" readonly />
-          <p>メールアドレス:</p>
-          <input type="text" value="yamada-t@codelic.co" readonly />
-          <p>備考:</p>
-          <textarea value="" readonly>旅行が趣味です。</textarea>
+<!-- 
+        <div class="profile-area">
+          <p>名前:</p>
+          <input type="text" value="山田太郎" class="name" readonly />
+          <div class="right-save right-save2">
+            <p>生年月日:</p>
+            <input type="text" value="1960年12月25日" readonly />
+            <p>年齢:</p>
+            <input type="text" value="" readonly />
+            <p>身長:</p>
+            <input type="text" value="172cm" readonly />
+            <p>体重:</p>
+            <input type="text" value="61kg" readonly />
+            <p>電話番号:</p>
+            <input type="text" value="080-0000-0000" readonly />
+            <p>メールアドレス:</p>
+            <input type="text" value="yamada-t@codelic.co" readonly />
+            <p>備考:</p>
+            <textarea value="" readonly>旅行が趣味です。</textarea>
+          </div>
+        </div> -->
+
+        <!-- <div class="profile-area">
+          <p>名前:</p>
+          <input type="text" value="山田次郎" class="name" readonly />
+          <div class="right-save right-save2">
+            <p>生年月日:</p>
+            <input type="text" value="1996年4月20日" readonly />
+            <p>年齢:</p>
+            <input type="text" value="" readonly />
+            <p>身長:</p>
+            <input type="text" value="163cm" readonly />
+            <p>体重:</p>
+            <input type="text" value="43kg" readonly />
+            <p>電話番号:</p>
+            <input type="text" value="080-2345-6789" readonly />
+            <p>メールアドレス:</p>
+            <input type="text" value="yamada-j@codelic.co" readonly />
+            <p>備考:</p>
+            <textarea value="" readonly>料理が趣味です。</textarea>
+          </div>
+        </div> -->
+
+        <!-- <div class="profile-area">
+          <p>名前:</p>
+          <input type="text" value="山田三郎" class="name" />
+          <div class="right-save right-save2" readonly>
+            <p>生年月日:</p>
+            <input type="text" value="1980年3月7日" readonly />
+            <p>年齢:</p>
+            <input type="text" value="" readonly />
+            <p>身長:</p>
+            <input type="text" value="185cm" readonly />
+            <p>体重:</p>
+            <input type="text" value="82kg" readonly />
+            <p>電話番号:</p>
+            <input type="text" value="090-1234-5678" readonly />
+            <p>メールアドレス:</p>
+            <input type="text" value="yamada-s@codelic.co" readonly />
+            <p>備考:</p>
+            <textarea value="" readonly>カラオケが好きです。</textarea>
+          </div>
+        </div> -->
+
+        <!-- <div class="profile-area">
+          <p>名前:</p>
+          <input type="text" value="山田四郎" class="name" readonly />
+          <div class="right-save right-save2">
+            <p>生年月日:</p>
+            <input type="text" value="2003年11月11日" readonly />
+            <p>年齢:</p>
+            <input type="text" value="" readonly />
+            <p>身長:</p>
+            <input type="text" value="153cm" readonly />
+            <p>体重:</p>
+            <input type="text" value="38kg" readonly />
+            <p>電話番号:</p>
+            <input type="text" value="090-2345-6789" readonly />
+            <p>メールアドレス:</p>
+            <input type="text" value="yamada-s2@codelic.co" readonly />
+            <p>備考:</p>
+            <textarea value="" readonly>サッカーが好きです。</textarea>
+          </div>
+        </div> -->
+
+
+
+                <div class="profile-area">
+          <p id="output">名前:</p>
+          <input type="text" value="" class="name" readonly />
+          <div class="right-save right-save2">
+            <p>生年月日:</p>
+            <input type="text" value="2003年11月11日" readonly />
+            <p>年齢:</p>
+            <input type="text" value="" readonly />
+            <p>身長:</p>
+            <input type="text" value="153cm" readonly />
+            <p>体重:</p>
+            <input type="text" value="38kg" readonly />
+            <p>電話番号:</p>
+            <input type="text" value="090-2345-6789" readonly />
+            <p>メールアドレス:</p>
+            <input type="text" value="yamada-s2@codelic.co" readonly />
+            <p>備考:</p>
+            <textarea value="" readonly>サッカーが好きです。</textarea>
+          </div>
         </div>
 
-        <p>名前:</p>
-        <input type="text" value="山田次郎" class="name" readonly />
-        <div class="right-save right-save2">
-          <p>生年月日:</p>
-          <input type="text" value="1996年4月20日" readonly />
-          <p>年齢:</p>
-          <input type="text" value="" readonly />
-          <p>身長:</p>
-          <input type="text" value="163cm" readonly />
-          <p>体重:</p>
-          <input type="text" value="43kg" readonly />
-          <p>電話番号:</p>
-          <input type="text" value="080-2345-6789" readonly />
-          <p>メールアドレス:</p>
-          <input type="text" value="yamada-j@codelic.co" readonly />
-          <p>備考:</p>
-          <textarea value="" readonly>料理が趣味です。</textarea>
-        </div>
 
-        <p>名前:</p>
-        <input type="text" value="山田三郎" class="name" />
-        <div class="right-save right-save2" readonly>
-          <p>生年月日:</p>
-          <input type="text" value="1980年3月7日" readonly />
-          <p>年齢:</p>
-          <input type="text" value="" readonly />
-          <p>身長:</p>
-          <input type="text" value="185cm" readonly />
-          <p>体重:</p>
-          <input type="text" value="82kg" readonly />
-          <p>電話番号:</p>
-          <input type="text" value="090-1234-5678" readonly />
-          <p>メールアドレス:</p>
-          <input type="text" value="yamada-s@codelic.co" readonly />
-          <p>備考:</p>
-          <textarea value="" readonly>カラオケが好きです。</textarea>
-        </div>
-
-        <p>名前:</p>
-        <input type="text" value="山田四郎" class="name" readonly />
-        <div class="right-save right-save2">
-          <p>生年月日:</p>
-          <input type="text" value="2003年11月11日" readonly />
-          <p>年齢:</p>
-          <input type="text" value="" readonly />
-          <p>身長:</p>
-          <input type="text" value="153cm" readonly />
-          <p>体重:</p>
-          <input type="text" value="38kg" readonly />
-          <p>電話番号:</p>
-          <input type="text" value="090-2345-6789" readonly />
-          <p>メールアドレス:</p>
-          <input type="text" value="yamada-s2@codelic.co" readonly />
-          <p>備考:</p>
-          <textarea value="" readonly>サッカーが好きです。</textarea>
-        </div>
       </div>
     </main>
     <script src="./dist/main.js"></script>
