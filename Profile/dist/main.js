@@ -116,7 +116,7 @@ var _a;
                     newDiv2.appendChild(input);
                 }
                 if (key === "remarks") {
-                    input.replaceWith(textarea);
+                    label.after(textarea);
                 }
                 newDiv2.classList.add("right-save", "right-save2");
                 newDiv.classList.add("profile-area");
