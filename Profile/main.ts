@@ -136,23 +136,22 @@ type Profile = {
   // }
 
   //予め右側においてお<p>と<input>を作成
-  for (let i = 0; i < profiles.length; i++) {
+  profiles.map((profile) => {
     const newDiv: Element = document.createElement("div");
     profileArea0?.appendChild(newDiv);
-    const array=Object.keys(profiles[i]) as (keyof Profile)[];
-  
-    array.forEach((key) => {    
+    const array=Object.keys(profile) as (keyof Profile)[];
+    array.map((key) => {
       const input: Element = document.createElement("input");
-      input.setAttribute("value",profiles[i][key]);
-          const label: Element = document.createElement("p");
-          label.textContent = labels[key];
-          newDiv.appendChild(label);
-          newDiv.appendChild(input);
-          label.classList.add('right-save2');
-          input.classList.add('right-save2');
-          newDiv.classList.add('profile-area');
+      input.setAttribute("value",profile[key]);
+      const label: Element = document.createElement("p");
+      label.textContent = labels[key];
+      newDiv.appendChild(label);
+      newDiv.appendChild(input);
+      label.classList.add('right-save2');
+      input.classList.add('right-save2');
+      newDiv.classList.add('profile-area');
     });
-  };
+  });
     // if (profileArea0 !== null) {
     //   input.setAttribute("value", profiles[i][i]);
     //   profileArea0.appendChild(input);
