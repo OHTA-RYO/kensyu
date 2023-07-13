@@ -124,15 +124,15 @@
         const input: Element = document.createElement("input");
         const textarea: Element = document.createElement("textarea");
         newDiv.appendChild(newDiv2);
-        if (key !== "remarks") {
+        // if (key !== "remarks") {
           input.setAttribute("value", profiles[i][key]);
           input.setAttribute("readonly", profiles[i][key]);
          
-        } else {
-          textarea.setAttribute("value", profiles[i][key]);
-          textarea.setAttribute("readonly", profiles[i][key]);
-          console.log(textarea);
-        }
+        // } else {
+        //   textarea.setAttribute("value", profiles[i][key]);
+        //   textarea.setAttribute("readonly", profiles[i][key]);
+        //   console.log(textarea);
+        // }
         const label: Element = document.createElement("p");
         label.textContent = labels[key];
         if (key === "name") {
