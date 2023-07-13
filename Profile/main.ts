@@ -2,23 +2,11 @@
   keisan();
   function keisan() {
     const names = document.querySelectorAll(".name");
-    // const name: Element | null = document.querySelector(".name");
-    const rightSaves = document.querySelectorAll(".right-save");
+    const title: object = document.querySelectorAll("p");
+    //↓null回避するには。確認。
+    const saveText: Element | null = document.querySelector("input").value;
 
-    //↓保存先の親要素を取得
-    const right: Element | null = document.getElementById("right");
-    const title = document.querySelectorAll("p");
-
-    //↓どうやってnull回避するのか。
-    //   if(saveText !== null){
-    //   const saveText: string | null = document.querySelector("input").value;
-    // }else {
-    //   return;
-    // }
-
-    const saveText: Element | null = document.querySelector("input");
-
-    let n: number = 1;
+    const profileArea = document.querySelectorAll(".profile-area");
 
     //↓をテキストに入れた。
     const textareaP: string[] = [
@@ -42,38 +30,50 @@
     ];
 
     //保存ボタンで追加するデータ
+    //保存ボタンのデータを取得
     const save: Element | null = document.getElementById("save");
+    //右側プロフィールエリアのデータを取得
     const profileArea0: Element | null =
       document.querySelector(".profile-area");
-    const np: Element = document.createElement("p");
+    //保存ボタンを押すと右側に<p>を新たに作成　上に用意した数だけ<p>が作られる。
+    const sp: Element = document.createElement("p");
     save?.addEventListener("click", () => {
       for (let i = 0; i < textareaP.length; i++) {
-        np.textContent = textareaP[i];
-        profileArea0?.appendChild(np);
+        sp.textContent = textareaP[i];
+        profileArea0?.appendChild(sp);
       }
     });
-    
-    //初期に配置するデータp
-    //エラー解消できない。
-    for (let i = 0; i < textareaP.length; i++) {
-    const p: Element | String[] = document.createElement("p");
-    if (profileArea0 !== null) {
-      p.textContent = textareaP[i];
-      profileArea0.appendChild(p);
-    }
-  };
 
-   //初期に配置するデータinput
+    //予め右側においておく<p>を作成
+    //エラー解消できない。
+    //<p>の値はtextareaPを表示
+    for (let i = 0; i < textareaP.length; i++) {
+      const p: Element | String[] = document.createElement("p");
+      if (profileArea0 !== null) {
+        p.textContent = textareaP[i];
+        //プロフィールエリアの下に配置
+        profileArea0.appendChild(p);
+        // profileArea0.insertAdjacentHTML('afterbegin'p);
+      }
+    }
+
+    //予め右側においておく<input>を作成
     //型がわからない。
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < profiles.length; i++) {
       const input: Element = document.createElement("input");
       if (profileArea0 !== null) {
-        input.textContent = profiles[0];
+        input.innerText = profiles[0];
         profileArea0.appendChild(input);
       }
-    };
+    }
 
-    const profileArea = document.querySelectorAll(".profile-area");
+    //display　noneの箱になるdivを作成
+    const div = document.createElement("div");
+    profileArea0?.appendChild(div);
+    div.classList.add("right-save", "right-save2");
+
+
+    //アコーディオン展開
     profileArea.forEach((profileEl) => {
       profileEl.addEventListener("click", (e) => {
         console.log(profileEl);
@@ -87,74 +87,74 @@
   }
 }
 
-    //確認すること。
-    // save?.addEventListener("click", () => {
-    //   if(saveText !== null){
-    //   for (let i = 0; i < saveText.length; i++) {
-    //     const ni: Element | null = document.createElement("input");
-    //    //↓htmlの左側に入力した値をとりたい。
-    //     ni.textContent = saveText[i].value;
-    //     np.appendChild(ni);
-    //   }
-    //   };
-    // });
+//確認すること。
+// save?.addEventListener("click", () => {
+//   if(saveText !== null){
+//   for (let i = 0; i < saveText.length; i++) {
+//     const ni: Element | null = document.createElement("input");
+//    //↓htmlの左側に入力した値をとりたい。
+//     ni.textContent = saveText[i].value;
+//     np.appendChild(ni);
+//   }
+//   };
+// });
 
-    // //左側の情報を↓にとってこないといけない。
-    // save?.addEventListener("click", () => {
-    //   //↓子要素pを追加する
-    //   const pRight: Element | null = document.createElement("p");
-    //   //↓IDを作成
-    //   pRight.id = "appendp" + n;
-    //   //↓タイトル
-    //   if (pRight !== null && title !== null) {
-    //     pRight.textContent = title.textContent;
-    //     //↓1クリックずつ増やす
-    //     n++;
-    //     //↓親にpを追加
-    //     right?.appendChild(pRight);
-    //   }
+// //左側の情報を↓にとってこないといけない。
+// save?.addEventListener("click", () => {
+//   //↓子要素pを追加する
+//   const pRight: Element | null = document.createElement("p");
+//   //↓IDを作成
+//   pRight.id = "appendp" + n;
+//   //↓タイトル
+//   if (pRight !== null && title !== null) {
+//     pRight.textContent = title.textContent;
+//     //↓1クリックずつ増やす
+//     n++;
+//     //↓親にpを追加
+//     right?.appendChild(pRight);
+//   }
 
-    //htmlのpのvalueから値をとりたかった。けど無理だった。
-    // title.forEach(() => {
-    //   save?.addEventListener('click',() =>{
-    //   const np = document.createElement("p");
-    //   np.textContent = title[].value;
-    //     if(profileArea0 !== null){
-    //     profileArea0.appendChild('title');
-    //   }
-    //   })
+//htmlのpのvalueから値をとりたかった。けど無理だった。
+// title.forEach(() => {
+//   save?.addEventListener('click',() =>{
+//   const np = document.createElement("p");
+//   np.textContent = title[].value;
+//     if(profileArea0 !== null){
+//     profileArea0.appendChild('title');
+//   }
+//   })
 
-    // })
+// })
 
-    //左側の情報を↓にとってこないといけない。
-    // textareaP.forEach((textareap) => {
-    // save?.addEventListener("click", () => {
-    //   //↓子要素pを追加する
-    //   const pRight: Element | null = document.createElement("p");
-    //   pRight.textContent = textareaP[1];
-    //   //↓タイトル
+//左側の情報を↓にとってこないといけない。
+// textareaP.forEach((textareap) => {
+// save?.addEventListener("click", () => {
+//   //↓子要素pを追加する
+//   const pRight: Element | null = document.createElement("p");
+//   pRight.textContent = textareaP[1];
+//   //↓タイトル
 
-    //   if (pRight !== null && title !== null) {
-    //     pRight.textContent = textareaP[1];
-    //     //↓1クリックずつ増やす
-    //     // n++;
-    //     //↓親にpを追加
-    //     right?.appendChild(pRight);
-    //   }
-    // });
-    // });
+//   if (pRight !== null && title !== null) {
+//     pRight.textContent = textareaP[1];
+//     //↓1クリックずつ増やす
+//     // n++;
+//     //↓親にpを追加
+//     right?.appendChild(pRight);
+//   }
+// });
+// });
 
-    // });
+// });
 
-    //ターゲットになっているのがnameだから
-    //nameにクラスを追加した感じになっている。
+//ターゲットになっているのがnameだから
+//nameにクラスを追加した感じになっている。
 
-    // names.forEach((name) => {
-    //   name?.addEventListener('click', (e) => {
-    //     const targetElement = e.target! as HTMLElement;
-    //     targetElement.classList.add('right-save');
-    //   })
-    // })
+// names.forEach((name) => {
+//   name?.addEventListener('click', (e) => {
+//     const targetElement = e.target! as HTMLElement;
+//     targetElement.classList.add('right-save');
+//   })
+// })
 
 // rightSaves.forEach((rightSave) => {
 //   name?.addEventListener("click", (e) => {
@@ -192,3 +192,16 @@
 //   }
 //   right?.appendChild(ni);
 //   console.log(np);
+
+////↓残骸
+// const name: Element | null = document.querySelector(".name");
+// const rightSaves = document.querySelectorAll(".right-save");
+
+//↓保存先の親要素を取得
+// const right: Element | null = document.getElementById("right");
+
+//↓どうやってnull回避するのか。
+//   if(saveText === null)return;
+//   else{
+//   const saveText: string | null = document.querySelector("input").value;
+// }
