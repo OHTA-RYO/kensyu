@@ -4,7 +4,7 @@
     const names = document.querySelectorAll(".name");
     const title: object = document.querySelectorAll("p");
     //↓null回避するには。確認。
-    const saveText: Element | null = document.querySelector("input").value;
+    const saveText: String | null = document.querySelector("input")?.value||null;
 
     const profileArea = document.querySelectorAll(".profile-area");
 
@@ -21,13 +21,14 @@
     ];
 
     //型がわからない。
-    const profiles = [
-      ["中島慶樹", "1997年7月7日", "178cm", "73kg", "080-1234-5678"],
-      ["山田次郎", "1945年6月8日", "186cm", "35kg", "090-1234-5678"],
-      ["山田三郎", "1956年5月9日", "156cm", "65kg", "070-1234-5678"],
-      ["山田四郎", "1967年4月10日", "176cm", "85kg", "060-1234-5678"],
-      ["山田五郎", "1978年3月11日", "196cm", "95kg", "050-1234-5678"],
-    ];
+    // const profiles = [
+    //   ["中島慶樹", "1997年7月7日", "178cm", "73kg", "080-1234-5678"],
+    //   ["山田次郎", "1945年6月8日", "186cm", "35kg", "090-1234-5678"],
+    //   ["山田三郎", "1956年5月9日", "156cm", "65kg", "070-1234-5678"],
+    //   ["山田四郎", "1967年4月10日", "176cm", "85kg", "060-1234-5678"],
+    //   ["山田五郎", "1978年3月11日", "196cm", "95kg", "050-1234-5678"],
+    // ];
+    const profiles:Record<string,string>[] = [{name:"中島",birthday:"1997年7月7日",age:"178cm",height:"73kg",weight:"080-1234-5678",tel:"080-1234-5678",mail:"080-1234-5678",remarks:"080-1234-5678"},]
 
     //保存ボタンで追加するデータ
     //保存ボタンのデータを取得
@@ -57,19 +58,30 @@
       }
     }
 
+const labels={name:"名前",birthday:"生年月日",age:"年齢",height:"身長",weight:"体重",tel:"電話番号",mail:"メールアドレス",remarks:"備考"}
+
     //予め右側においておく<input>を作成
     //型がわからない。
     for (let i = 0; i < profiles.length; i++) {
+      const newDiv:Element = document.createElement("div");
+      Object.keys(profiles[i]).forEach((key)=>{
+
+      
+        const label: Element = document.createElement("p");
+        label.textContent=profiles[i][key];
       const input: Element = document.createElement("input");
+      newDiv.appendChild(input);
       if (profileArea0 !== null) {
-        input.innerText = profiles[0];
+        input.setAttribute("value",profiles[i][key]);
         profileArea0.appendChild(input);
       }
-    }
+    })
+      }
+    
 
     //display　noneの箱になるdivを作成
     const div = document.createElement("div");
-    profileArea0?.appendChild(div);
+     profileArea0?.appendChild(div);
     div.classList.add("right-save", "right-save2");
 
 
@@ -79,7 +91,7 @@
         console.log(profileEl);
         // const name = profileEl.querySelector('.name');
         const profile = profileEl.querySelector(".right-save2");
-        console.log(names);
+                console.log(names);
         console.log(profile);
         profile?.classList.toggle("right-save");
       });
