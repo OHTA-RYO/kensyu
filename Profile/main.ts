@@ -58,7 +58,7 @@
       }
     }
 
-const labels={name:"名前",birthday:"生年月日",age:"年齢",height:"身長",weight:"体重",tel:"電話番号",mail:"メールアドレス",remarks:"備考"}
+const labels:{[key:string]:string} ={name:"名前",birthday:"生年月日",age:"年齢",height:"身長",weight:"体重",tel:"電話番号",mail:"メールアドレス",remarks:"備考"}
 
     //予め右側においておく<input>を作成
     //型がわからない。
