@@ -122,16 +122,17 @@
       const array = Object.keys(profiles[i]) as (keyof Profile)[];
       array.forEach((key) => {
         const input: Element = document.createElement("input");
-        const textarea = document.createElement("textarea");
+        const textarea: Element = document.createElement("textarea");
         newDiv.appendChild(newDiv2);
-        if (key === "remarks") {
+        if (key !== "remarks") {
+          input.setAttribute("value", profiles[i][key]);
+          input.setAttribute("readonly", profiles[i][key]);
+         
+        } else {
           textarea.setAttribute("value", profiles[i][key]);
           textarea.setAttribute("readonly", profiles[i][key]);
+          console.log(textarea);
         }
-        input.setAttribute("value", profiles[i][key]);
-        input.setAttribute("readonly", profiles[i][key]);
-        console.log(textarea);
-
         const label: Element = document.createElement("p");
         label.textContent = labels[key];
         if (key === "name") {
@@ -142,15 +143,12 @@
           newDiv2.appendChild(input);
         }
         if (key === "remarks") {
-          label.appendChild(textarea);
+          input.replaceWith(textarea);
         }
-
         newDiv2.classList.add("right-save", "right-save2");
         newDiv.classList.add("profile-area");
         console.log(newDiv2);
       });
-
-
     }
   }
 
@@ -168,6 +166,12 @@
     });
   });
 }
+
+
+
+
+
+
 // if (profileArea0 !== null) {
 //   input.setAttribute("value", profiles[i][i]);
 //   profileArea0.appendChild(input);

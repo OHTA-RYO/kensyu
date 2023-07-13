@@ -96,13 +96,15 @@ var _a;
                 const input = document.createElement("input");
                 const textarea = document.createElement("textarea");
                 newDiv.appendChild(newDiv2);
-                if (key === "remarks") {
+                if (key !== "remarks") {
+                    input.setAttribute("value", profiles[i][key]);
+                    input.setAttribute("readonly", profiles[i][key]);
+                }
+                else {
                     textarea.setAttribute("value", profiles[i][key]);
                     textarea.setAttribute("readonly", profiles[i][key]);
+                    console.log(textarea);
                 }
-                input.setAttribute("value", profiles[i][key]);
-                input.setAttribute("readonly", profiles[i][key]);
-                console.log(textarea);
                 const label = document.createElement("p");
                 label.textContent = labels[key];
                 if (key === "name") {
@@ -114,7 +116,7 @@ var _a;
                     newDiv2.appendChild(input);
                 }
                 if (key === "remarks") {
-                    label.appendChild(textarea);
+                    input.replaceWith(textarea);
                 }
                 newDiv2.classList.add("right-save", "right-save2");
                 newDiv.classList.add("profile-area");
