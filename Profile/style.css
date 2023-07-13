@@ -68,7 +68,8 @@ button:nth-child(n+2){
 } */
 
 .right-save2 {
-  animation:  1s fadeIn;
+  animation:  anim 1s fadeIn;
+  transition: 1s;
   cursor: pointer;
 }
 
@@ -86,9 +87,11 @@ button:nth-child(n+2){
   0% {
     opacity: 0;
     transform: translateY(-10px);
+    transition: 1s;
   }
   100% {
     opacity: 1;
+    transition: 1s;
     transform: none;
   }
 }

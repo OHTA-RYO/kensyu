@@ -1,23 +1,5 @@
 {
   const names = document.querySelectorAll(".name");
-  const title: object = document.querySelectorAll("p");
-  //↓null回避するには。確認。
-  const saveText: string | null =
-    document.querySelector("input")?.value || null;
-
-  const right: Element | null = document.getElementById("right");
-
-  // ↓をテキストに入れた。
-  const textareaP: string[] = [
-    "名前",
-    "生年月日",
-    "年齢",
-    "身長",
-    "体重",
-    "電話番号",
-    "メールアドレス",
-    "備考",
-  ];
 
   //オブジェクト:キーとバリュー(値)がペアになったもの
   //配列で囲って、 Record<string, string>すると全てstringだよとなる。
@@ -96,20 +78,60 @@
     mail: "メールアドレス",
     remarks: "備考",
   };
-
-  //保存ボタンで追加するデータ
-  //保存ボタンのデータを取得
-  const save: Element | null = document.getElementById("save");
   //右側プロフィールエリアのデータを取得
   const profileArea0: Element | null = document.querySelector(".profile-area");
-  //保存ボタンを押すと右側に<p>を新たに作成　上に用意した数だけ<p>が作られる。
-  const sp: Element = document.createElement("p");
+
+  //保存ボタンのデータを取得
+  const save: Element | null = document.getElementById("save");
+  const title: object = <object>document.querySelectorAll("p");
+  const right: Element | null = document.getElementById("right");
+  const saveText: NodeList | null = document.querySelectorAll("input");
+
   save?.addEventListener("click", () => {
-    for (let i = 0; i < textareaP.length; i++) {
-      sp.textContent = textareaP[i];
-      profileArea0?.appendChild(sp);
+    for (let i = 0; i < labels.length; i++) {
+      const array = Object.keys(labels[i]) as (keyof Profile)[];
+      array.forEach((key) => {
+        const newP: HTMLElement = document.createElement("p");
+        newP.textContent = labels[key];
+        if (saveText !== null) {
+          console.log(saveText.value);
+          const newInput:Element = document.createElement("input");
+          if (saveText !== null) {
+            // newInput.innerText = saveText.value;
+            newInput.setAttribute("value", saveText.value);
+            // input.setAttribute("value", profiles[i][key]);
+            
+            right?.appendChild(newP);
+            right?.appendChild(newInput);
+            console.log(newInput.innerText);
+            console.log(newP.innerText);
+          }
+        }
+      });
     }
+    // console.log(newP.textContent);
+    console.log(saveText);
   });
+
+
+  // const sp: Element = document.createElement("p");
+  // const newInput: Element = document.createElement('input').value;
+  // save?.addEventListener("click", () => {
+  //   for (let i = 0; i < textareaP.length; i++) {
+  //     sp.textContent = textareaP[i];
+  //     profileArea0?.appendChild(sp);
+  //     right?.appendChild(newInput);
+  //   }
+  // });
+
+  // for(let n = 1; n <=5; n++){
+  // const iRight =document.createElement('input');
+  // iRight.id = 'appendi' + n;
+  // iRight.innerText = '' + n;
+  // ni.appendChild(iRight);
+  // }
+  // right?.appendChild(ni);
+  // console.log(np);
 
   //予め右側においてお<p>と<input>を作成
   for (let i = 0; i < profiles.length; i++) {
@@ -122,32 +144,34 @@
       const array = Object.keys(profiles[i]) as (keyof Profile)[];
       array.forEach((key) => {
         const input: Element = document.createElement("input");
-        const textarea: Element = document.createElement("textarea");
-        newDiv.appendChild(newDiv2);
-        if (key !== "remarks") {
-          input.setAttribute("value", profiles[i][key]);
-          input.setAttribute("readonly", profiles[i][key]);
-         
-        } else {
-          textarea.setAttribute("value", profiles[i][key]);
-          textarea.setAttribute("readonly", profiles[i][key]);
-          console.log(textarea);
-        }
+        const textarea: HTMLTextAreaElement =
+          document.createElement("textarea");
         const label: Element = document.createElement("p");
         label.textContent = labels[key];
+        newDiv.appendChild(newDiv2);
+
+        if (key === "remarks") {
+          textarea.value = profiles[i][key];
+          textarea.readOnly = true;
+        } else {
+          input.setAttribute("value", profiles[i][key]);
+          input.setAttribute("readonly", profiles[i][key]);
+        }
+
         if (key === "name") {
           newDiv.appendChild(label);
           newDiv.appendChild(input);
+        } else if (key === "remarks") {
+          newDiv2.appendChild(label);
+          // console.log(textarea);
+          newDiv2.appendChild(textarea);
         } else {
           newDiv2.appendChild(label);
           newDiv2.appendChild(input);
         }
-        if (key === "remarks") {
-          label.after(textarea);
-        }
         newDiv2.classList.add("right-save", "right-save2");
         newDiv.classList.add("profile-area");
-        console.log(newDiv2);
+        // textarea.classList.add("right-save", "right-save2");
       });
     }
   }
@@ -166,11 +190,6 @@
     });
   });
 }
-
-
-
-
-
 
 // if (profileArea0 !== null) {
 //   input.setAttribute("value", profiles[i][i]);
@@ -279,15 +298,6 @@
 // right?.appendChild(np);
 // console.log(np);
 
-// for(let n = 1; n <=5; n++){
-//   const iRight =document.createElement('input');
-//   iRight.id = 'appendi' + n;
-//   iRight.innerText = '' + n;
-//   ni.appendChild(iRight);
-//   }
-//   right?.appendChild(ni);
-//   console.log(np);
-
 ////↓残骸
 // const name: Element | null = document.querySelector(".name");
 // const rightSaves = document.querySelectorAll(".right-save");
@@ -333,4 +343,16 @@
 //   ["山田三郎", "1956年5月9日", "156cm", "65kg", "070-1234-5678"],
 //   ["山田四郎", "1967年4月10日", "176cm", "85kg", "060-1234-5678"],
 //   ["山田五郎", "1978年3月11日", "196cm", "95kg", "050-1234-5678"],
+// ];
+
+// // ↓をテキストに入れた。
+// const textareaP: string[] = [
+//   "名前",
+//   "生年月日",
+//   "年齢",
+//   "身長",
+//   "体重",
+//   "電話番号",
+//   "メールアドレス",
+//   "備考",
 // ];

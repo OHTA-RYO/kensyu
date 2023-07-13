@@ -1,20 +1,6 @@
 "use strict";
-var _a;
 {
     const names = document.querySelectorAll(".name");
-    const title = document.querySelectorAll("p");
-    const saveText = ((_a = document.querySelector("input")) === null || _a === void 0 ? void 0 : _a.value) || null;
-    const right = document.getElementById("right");
-    const textareaP = [
-        "名前",
-        "生年月日",
-        "年齢",
-        "身長",
-        "体重",
-        "電話番号",
-        "メールアドレス",
-        "備考",
-    ];
     const profiles = [
         {
             name: "中島慶樹",
@@ -77,14 +63,31 @@ var _a;
         mail: "メールアドレス",
         remarks: "備考",
     };
-    const save = document.getElementById("save");
     const profileArea0 = document.querySelector(".profile-area");
-    const sp = document.createElement("p");
+    const save = document.getElementById("save");
+    const title = document.querySelectorAll("p");
+    const right = document.getElementById("right");
+    const saveText = document.querySelectorAll("input");
     save === null || save === void 0 ? void 0 : save.addEventListener("click", () => {
-        for (let i = 0; i < textareaP.length; i++) {
-            sp.textContent = textareaP[i];
-            profileArea0 === null || profileArea0 === void 0 ? void 0 : profileArea0.appendChild(sp);
+        for (let i = 0; i < labels.length; i++) {
+            const array = Object.keys(labels[i]);
+            array.forEach((key) => {
+                const newP = document.createElement("p");
+                newP.textContent = labels[key];
+                if (saveText !== null) {
+                    console.log(saveText.value);
+                    const newInput = document.createElement("input");
+                    if (saveText !== null) {
+                        newInput.setAttribute("value", saveText.value);
+                        right === null || right === void 0 ? void 0 : right.appendChild(newP);
+                        right === null || right === void 0 ? void 0 : right.appendChild(newInput);
+                        console.log(newInput.innerText);
+                        console.log(newP.innerText);
+                    }
+                }
+            });
         }
+        console.log(saveText);
     });
     for (let i = 0; i < profiles.length; i++) {
         const newDiv = document.createElement("div");
@@ -95,32 +98,31 @@ var _a;
             array.forEach((key) => {
                 const input = document.createElement("input");
                 const textarea = document.createElement("textarea");
+                const label = document.createElement("p");
+                label.textContent = labels[key];
                 newDiv.appendChild(newDiv2);
-                if (key !== "remarks") {
+                if (key === "remarks") {
+                    textarea.value = profiles[i][key];
+                    textarea.readOnly = true;
+                }
+                else {
                     input.setAttribute("value", profiles[i][key]);
                     input.setAttribute("readonly", profiles[i][key]);
                 }
-                else {
-                    textarea.setAttribute("value", profiles[i][key]);
-                    textarea.setAttribute("readonly", profiles[i][key]);
-                    console.log(textarea);
-                }
-                const label = document.createElement("p");
-                label.textContent = labels[key];
                 if (key === "name") {
                     newDiv.appendChild(label);
                     newDiv.appendChild(input);
+                }
+                else if (key === "remarks") {
+                    newDiv2.appendChild(label);
+                    newDiv2.appendChild(textarea);
                 }
                 else {
                     newDiv2.appendChild(label);
                     newDiv2.appendChild(input);
                 }
-                if (key === "remarks") {
-                    label.after(textarea);
-                }
                 newDiv2.classList.add("right-save", "right-save2");
                 newDiv.classList.add("profile-area");
-                console.log(newDiv2);
             });
         }
     }
