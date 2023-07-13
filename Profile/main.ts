@@ -19,16 +19,6 @@
     "備考",
   ];
 
-  //型がわからない。
-  //配列:値に順序をつけて格納出来るもの
-  // const profiles: string  = [
-  //   ["中島慶樹", "1997年7月7日", "178cm", "73kg", "080-1234-5678"],
-  //   ["山田次郎", "1945年6月8日", "186cm", "35kg", "090-1234-5678"],
-  //   ["山田三郎", "1956年5月9日", "156cm", "65kg", "070-1234-5678"],
-  //   ["山田四郎", "1967年4月10日", "176cm", "85kg", "060-1234-5678"],
-  //   ["山田五郎", "1978年3月11日", "196cm", "95kg", "050-1234-5678"],
-  // ];
-
   //オブジェクト:キーとバリュー(値)がペアになったもの
   //配列で囲って、 Record<string, string>すると全てstringだよとなる。
 
@@ -121,62 +111,46 @@
     }
   });
 
-  //予め右側においておく<p>を作成
-  //エラー解消できない。
-  //<p>の値はtextareaPを表示
-  // for (let i = 0; i < textareaP.length; i++) {
-  //   const p: Element | String[] = document.createElement("p");
-  //   if (profileArea0 !== null) {
-  //     p.textContent = textareaP[i];
-  //     //プロフィールエリアの下に配置
-  //     profileArea0.appendChild(p);
-  //     // profileArea0.insertAdjacentHTML('afterbegin'p);
-  //   }
-  // }
-
   //予め右側においてお<p>と<input>を作成
   for (let i = 0; i < profiles.length; i++) {
     const newDiv: Element = document.createElement("div");
     const newDiv2: Element = document.createElement("div");
-    newDiv2.classList.add("right-save", "right-save2");
+
     if (right !== null) {
       right.appendChild(newDiv);
 
-      // Object.keys(profiles[i]).forEach((key) => {
       const array = Object.keys(profiles[i]) as (keyof Profile)[];
       array.forEach((key) => {
         const input: Element = document.createElement("input");
-
+        const textarea = document.createElement("textarea");
+        newDiv.appendChild(newDiv2);
+        if (key === "remarks") {
+          textarea.setAttribute("value", profiles[i][key]);
+          textarea.setAttribute("readonly", profiles[i][key]);
+        }
         input.setAttribute("value", profiles[i][key]);
         input.setAttribute("readonly", profiles[i][key]);
-        // if( input.value === 'remarks' ) ){
+        console.log(textarea);
 
-        // }
-        //if
-        //もしprofilesの[key]が'remarks'の場合には
-        //  const textarea = document.createElement('textarea');
-        //  textarea.setAttribute('value',profiles[i][key]);
-        //  textarea.setAttribute('readonly',profiles[i][key]);
-
-        // for (let j = 0; j < labels.length; j++) {
-        //   Object.keys(labels[j]).forEach((key) => {
         const label: Element = document.createElement("p");
         label.textContent = labels[key];
-        newDiv2.appendChild(label);
-        newDiv.appendChild(newDiv2);
-        newDiv2.appendChild(input);
+        if (key === "name") {
+          newDiv.appendChild(label);
+          newDiv.appendChild(input);
+        } else {
+          newDiv2.appendChild(label);
+          newDiv2.appendChild(input);
+        }
+        if (key === "remarks") {
+          label.appendChild(textarea);
+        }
 
-        console.log(newDiv2);
-
-        // label.classList.add("right-save", "right-save2");
-        // input.classList.add("right-save", "right-save2");
+        newDiv2.classList.add("right-save", "right-save2");
         newDiv.classList.add("profile-area");
-        // newDiv2.classList.add("right-save", "right-save2");
-
-        const classNumber = document.querySelector;
+        console.log(newDiv2);
       });
-      // });
-      // }
+
+
     }
   }
 
@@ -333,3 +307,26 @@
 //     }
 //   }
 // }
+
+//予め右側においておく<p>を作成
+//エラー解消できない。
+//<p>の値はtextareaPを表示
+// for (let i = 0; i < textareaP.length; i++) {
+//   const p: Element | String[] = document.createElement("p");
+//   if (profileArea0 !== null) {
+//     p.textContent = textareaP[i];
+//     //プロフィールエリアの下に配置
+//     profileArea0.appendChild(p);
+//     // profileArea0.insertAdjacentHTML('afterbegin'p);
+//   }
+// }
+
+//型がわからない。
+//配列:値に順序をつけて格納出来るもの
+// const profiles: string  = [
+//   ["中島慶樹", "1997年7月7日", "178cm", "73kg", "080-1234-5678"],
+//   ["山田次郎", "1945年6月8日", "186cm", "35kg", "090-1234-5678"],
+//   ["山田三郎", "1956年5月9日", "156cm", "65kg", "070-1234-5678"],
+//   ["山田四郎", "1967年4月10日", "176cm", "85kg", "060-1234-5678"],
+//   ["山田五郎", "1978年3月11日", "196cm", "95kg", "050-1234-5678"],
+// ];

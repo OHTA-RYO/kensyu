@@ -89,22 +89,36 @@ var _a;
     for (let i = 0; i < profiles.length; i++) {
         const newDiv = document.createElement("div");
         const newDiv2 = document.createElement("div");
-        newDiv2.classList.add('right-save', 'right-save2');
         if (right !== null) {
             right.appendChild(newDiv);
             const array = Object.keys(profiles[i]);
             array.forEach((key) => {
                 const input = document.createElement("input");
+                const textarea = document.createElement("textarea");
+                newDiv.appendChild(newDiv2);
+                if (key === "remarks") {
+                    textarea.setAttribute("value", profiles[i][key]);
+                    textarea.setAttribute("readonly", profiles[i][key]);
+                }
                 input.setAttribute("value", profiles[i][key]);
                 input.setAttribute("readonly", profiles[i][key]);
+                console.log(textarea);
                 const label = document.createElement("p");
                 label.textContent = labels[key];
-                newDiv2.appendChild(label);
-                newDiv.appendChild(newDiv2);
-                newDiv2.appendChild(input);
-                console.log(newDiv2);
+                if (key === "name") {
+                    newDiv.appendChild(label);
+                    newDiv.appendChild(input);
+                }
+                else {
+                    newDiv2.appendChild(label);
+                    newDiv2.appendChild(input);
+                }
+                if (key === "remarks") {
+                    label.appendChild(textarea);
+                }
+                newDiv2.classList.add("right-save", "right-save2");
                 newDiv.classList.add("profile-area");
-                const classNumber = document.querySelector;
+                console.log(newDiv2);
             });
         }
     }
