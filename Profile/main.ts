@@ -1,77 +1,158 @@
 {
-  keisan();
-  function keisan() {
-    const names = document.querySelectorAll(".name");
-    const title: object = document.querySelectorAll("p");
-    //↓null回避するには。確認。
-    const saveText: Element | null = document.querySelector("input").value;
+  const names = document.querySelectorAll(".name");
+  const title: object = document.querySelectorAll("p");
+  //↓null回避するには。確認。
+  const saveText: string | null =
+    document.querySelector("input")?.value || null;
 
-    const profileArea = document.querySelectorAll(".profile-area");
+  const profileArea = document.querySelectorAll(".profile-area");
 
-    //↓をテキストに入れた。
-    const textareaP: string[] = [
-      "名前",
-      "生年月日",
-      "年齢",
-      "身長",
-      "体重",
-      "電話番号",
-      "メールアドレス",
-      "備考",
-    ];
+  //↓をテキストに入れた。
+  const textareaP: string[] = [
+    "名前",
+    "生年月日",
+    "年齢",
+    "身長",
+    "体重",
+    "電話番号",
+    "メールアドレス",
+    "備考",
+  ];
 
-    //型がわからない。
-    const profiles = [
-      ["中島慶樹", "1997年7月7日", "178cm", "73kg", "080-1234-5678"],
-      ["山田次郎", "1945年6月8日", "186cm", "35kg", "090-1234-5678"],
-      ["山田三郎", "1956年5月9日", "156cm", "65kg", "070-1234-5678"],
-      ["山田四郎", "1967年4月10日", "176cm", "85kg", "060-1234-5678"],
-      ["山田五郎", "1978年3月11日", "196cm", "95kg", "050-1234-5678"],
-    ];
+  //型がわからない。
+  //配列:値に順序をつけて格納出来るもの
+  // const profiles: string  = [
+  //   ["中島慶樹", "1997年7月7日", "178cm", "73kg", "080-1234-5678"],
+  //   ["山田次郎", "1945年6月8日", "186cm", "35kg", "090-1234-5678"],
+  //   ["山田三郎", "1956年5月9日", "156cm", "65kg", "070-1234-5678"],
+  //   ["山田四郎", "1967年4月10日", "176cm", "85kg", "060-1234-5678"],
+  //   ["山田五郎", "1978年3月11日", "196cm", "95kg", "050-1234-5678"],
+  // ];
 
-    //保存ボタンで追加するデータ
-    //保存ボタンのデータを取得
-    const save: Element | null = document.getElementById("save");
-    //右側プロフィールエリアのデータを取得
-    const profileArea0: Element | null =
-      document.querySelector(".profile-area");
-    //保存ボタンを押すと右側に<p>を新たに作成　上に用意した数だけ<p>が作られる。
-    const sp: Element = document.createElement("p");
-    save?.addEventListener("click", () => {
-      for (let i = 0; i < textareaP.length; i++) {
-        sp.textContent = textareaP[i];
-        profileArea0?.appendChild(sp);
+  //オブジェクト:キーとバリュー(値)がペアになったもの
+  //配列で囲って、 Record<string, string>すると全てstringだよとなる。
+  const profiles: Record<string, string>[] = [
+    {
+      name: "中島慶樹",
+      birthday: "1997年7月7日",
+      age: "",
+      height: "178cm",
+      weight: "73kg",
+      tel: "080-1234-5678",
+      mail: "nakashima-k@codelic.co",
+      remarks: "筋トレが趣味です",
+    },
+    {
+      name: "山田次郎",
+      birthday: "1945年6月8日",
+      age: "",
+      height: "188cm",
+      weight: "73kg",
+      tel: "080-1234-5678",
+      mail: "nakashima-k@codelic.co",
+      remarks: "筋トレが趣味です",
+    },
+    {
+      name: "山田三郎",
+      birthday: "2000年1月8日",
+      age: "",
+      height: "188cm",
+      weight: "73kg",
+      tel: "080-1234-5678",
+      mail: "nakashima-k@codelic.co",
+      remarks: "筋トレが趣味です",
+    },
+    {
+      name: "山田四郎",
+      birthday: "1999年3月8日",
+      age: "",
+      height: "188cm",
+      weight: "73kg",
+      tel: "080-1234-5678",
+      mail: "nakashima-k@codelic.co",
+      remarks: "筋トレが趣味です",
+    },
+    {
+      name: "山田吾郎",
+      birthday: "1978年9月8日",
+      age: "",
+      height: "188cm",
+      weight: "73kg",
+      tel: "080-1234-5678",
+      mail: "nakashima-k@codelic.co",
+      remarks: "筋トレが趣味です",
+    },
+  ];
+
+  const labels: Record<string, string>[] = [
+    {
+      name: "名前",
+      birthday: "生年月日",
+      age: "年齢",
+      height: "身長",
+      weight: "体重",
+      tel: "電話番号",
+      mail: "メールアドレス",
+      remarks: "備考",
+    },
+  ];
+
+  //保存ボタンで追加するデータ
+  //保存ボタンのデータを取得
+  const save: Element | null = document.getElementById("save");
+  //右側プロフィールエリアのデータを取得
+  const profileArea0: Element | null = document.querySelector(".profile-area");
+  //保存ボタンを押すと右側に<p>を新たに作成　上に用意した数だけ<p>が作られる。
+  const sp: Element = document.createElement("p");
+  save?.addEventListener("click", () => {
+    for (let i = 0; i < textareaP.length; i++) {
+      sp.textContent = textareaP[i];
+      profileArea0?.appendChild(sp);
+    }
+  });
+
+  //予め右側においておく<p>を作成
+  //エラー解消できない。
+  //<p>の値はtextareaPを表示
+  // for (let i = 0; i < textareaP.length; i++) {
+  //   const p: Element | String[] = document.createElement("p");
+  //   if (profileArea0 !== null) {
+  //     p.textContent = textareaP[i];
+  //     //プロフィールエリアの下に配置
+  //     profileArea0.appendChild(p);
+  //     // profileArea0.insertAdjacentHTML('afterbegin'p);
+  //   }
+  // }
+
+  //予め右側においてお<p>と<input>を作成
+  for (let i = 0; i < profiles.length; i++) {
+    const newDiv: Element = document.createElement("div");
+    profileArea0?.appendChild(newDiv);
+    Object.keys(profiles[i]).forEach((key) => {
+      const input: Element = document.createElement("input");
+      input.setAttribute("value", profiles[i][key]);
+      for (let j = 0; j < labels.length; j++) {
+        Object.keys(labels[j]).forEach((key) => {
+          const label: Element = document.createElement("p");
+          label.textContent = labels[j][key];
+          newDiv.appendChild(label);
+          newDiv.appendChild(input);
+          label.classList.add('right-save2');
+          input.classList.add('right-save2');
+          newDiv.classList.add('profile-area');
+        });
       }
     });
-
-    //予め右側においておく<p>を作成
-    //エラー解消できない。
-    //<p>の値はtextareaPを表示
-    for (let i = 0; i < textareaP.length; i++) {
-      const p: Element | String[] = document.createElement("p");
-      if (profileArea0 !== null) {
-        p.textContent = textareaP[i];
-        //プロフィールエリアの下に配置
-        profileArea0.appendChild(p);
-        // profileArea0.insertAdjacentHTML('afterbegin'p);
-      }
-    }
-
-    //予め右側においておく<input>を作成
-    //型がわからない。
-    for (let i = 0; i < profiles.length; i++) {
-      const input: Element = document.createElement("input");
-      if (profileArea0 !== null) {
-        input.innerText = profiles[0];
-        profileArea0.appendChild(input);
-      }
-    }
+  };
+    // if (profileArea0 !== null) {
+    //   input.setAttribute("value", profiles[i][i]);
+    //   profileArea0.appendChild(input);
+    // }
 
     //display　noneの箱になるdivを作成
-    const div = document.createElement("div");
-    profileArea0?.appendChild(div);
-    div.classList.add("right-save", "right-save2");
-
+    // const div = document.createElement("div");
+    // profileArea0?.appendChild(div);
+    // div.classList.add("right-save", "right-save2");
 
     //アコーディオン展開
     profileArea.forEach((profileEl) => {
@@ -84,7 +165,7 @@
         profile?.classList.toggle("right-save");
       });
     });
-  }
+  
 }
 
 //確認すること。
@@ -204,4 +285,15 @@
 //   if(saveText === null)return;
 //   else{
 //   const saveText: string | null = document.querySelector("input").value;
+// }
+
+//配列が4つ中身が5つの場合などはiで外側をループ、内側をjでループさせる手法がある。
+// for (let i = 0; i < profiles.length; i++) {
+//   for (let j = 0; j < profiles.length; i++) {
+//     const input: Element = document.createElement("input");
+//     if (profileArea0 !== null) {
+//       input.setAttribute("value", profiles[i][j]);
+//       profileArea0.appendChild(input);
+//     }
+//   }
 // }

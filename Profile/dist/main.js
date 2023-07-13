@@ -1,49 +1,120 @@
 "use strict";
+var _a;
 {
-    keisan();
-    function keisan() {
-        const names = document.querySelectorAll(".name");
-        const rightSaves = document.querySelectorAll(".right-save");
-        const right = document.getElementById("right");
-        const title = document.querySelectorAll("p");
-        const saveText = document.querySelector("input");
-        let n = 1;
-        const textareaP = [
-            "名前",
-            "生年月日",
-            "年齢",
-            "身長",
-            "体重",
-            "電話番号",
-            "メールアドレス",
-            "備考",
-        ];
-        const profileText = [
-            ["中島慶樹", "1997年7月7日", "178cm", "73kg", "080-1234-5678"],
-            ["山田次郎", "1945年6月8日", "186cm", "35kg", "090-1234-5678"],
-            ["山田三郎", "1956年5月9日", "156cm", "65kg", "070-1234-5678"],
-            ["山田四郎", "1967年4月10日", "176cm", "85kg", "060-1234-5678"],
-            ["山田五郎", "1978年3月11日", "196cm", "95kg", "050-1234-5678"],
-        ];
-        const save = document.getElementById("save");
-        const profileArea0 = document.querySelector(".profile-area");
-        const np = document.createElement("p");
-        save === null || save === void 0 ? void 0 : save.addEventListener("click", () => {
-            for (let i = 0; i < textareaP.length; i++) {
-                const np = document.createElement("p");
-                np.textContent = textareaP[i];
-                profileArea0 === null || profileArea0 === void 0 ? void 0 : profileArea0.appendChild(np);
+    const names = document.querySelectorAll(".name");
+    const title = document.querySelectorAll("p");
+    const saveText = ((_a = document.querySelector("input")) === null || _a === void 0 ? void 0 : _a.value) || null;
+    const profileArea = document.querySelectorAll(".profile-area");
+    const textareaP = [
+        "名前",
+        "生年月日",
+        "年齢",
+        "身長",
+        "体重",
+        "電話番号",
+        "メールアドレス",
+        "備考",
+    ];
+    const profiles = [
+        {
+            name: "中島慶樹",
+            birthday: "1997年7月7日",
+            age: "",
+            height: "178cm",
+            weight: "73kg",
+            tel: "080-1234-5678",
+            mail: "nakashima-k@codelic.co",
+            remarks: "筋トレが趣味です",
+        },
+        {
+            name: "山田次郎",
+            birthday: "1945年6月8日",
+            age: "",
+            height: "188cm",
+            weight: "73kg",
+            tel: "080-1234-5678",
+            mail: "nakashima-k@codelic.co",
+            remarks: "筋トレが趣味です",
+        },
+        {
+            name: "山田三郎",
+            birthday: "2000年1月8日",
+            age: "",
+            height: "188cm",
+            weight: "73kg",
+            tel: "080-1234-5678",
+            mail: "nakashima-k@codelic.co",
+            remarks: "筋トレが趣味です",
+        },
+        {
+            name: "山田四郎",
+            birthday: "1999年3月8日",
+            age: "",
+            height: "188cm",
+            weight: "73kg",
+            tel: "080-1234-5678",
+            mail: "nakashima-k@codelic.co",
+            remarks: "筋トレが趣味です",
+        },
+        {
+            name: "山田吾郎",
+            birthday: "1978年9月8日",
+            age: "",
+            height: "188cm",
+            weight: "73kg",
+            tel: "080-1234-5678",
+            mail: "nakashima-k@codelic.co",
+            remarks: "筋トレが趣味です",
+        },
+    ];
+    const labels = [
+        {
+            name: "名前",
+            birthday: "生年月日",
+            age: "年齢",
+            height: "身長",
+            weight: "体重",
+            tel: "電話番号",
+            mail: "メールアドレス",
+            remarks: "備考",
+        },
+    ];
+    const save = document.getElementById("save");
+    const profileArea0 = document.querySelector(".profile-area");
+    const sp = document.createElement("p");
+    save === null || save === void 0 ? void 0 : save.addEventListener("click", () => {
+        for (let i = 0; i < textareaP.length; i++) {
+            sp.textContent = textareaP[i];
+            profileArea0 === null || profileArea0 === void 0 ? void 0 : profileArea0.appendChild(sp);
+        }
+    });
+    for (let i = 0; i < profiles.length; i++) {
+        const newDiv = document.createElement("div");
+        profileArea0 === null || profileArea0 === void 0 ? void 0 : profileArea0.appendChild(newDiv);
+        Object.keys(profiles[i]).forEach((key) => {
+            const input = document.createElement("input");
+            input.setAttribute("value", profiles[i][key]);
+            for (let j = 0; j < labels.length; j++) {
+                Object.keys(labels[j]).forEach((key) => {
+                    const label = document.createElement("p");
+                    label.textContent = labels[j][key];
+                    newDiv.appendChild(label);
+                    newDiv.appendChild(input);
+                    label.classList.add('right-save2');
+                    input.classList.add('right-save2');
+                    newDiv.classList.add('profile-area');
+                });
             }
         });
-        const profileArea = document.querySelectorAll(".profile-area");
-        profileArea.forEach((profileEl) => {
-            profileEl.addEventListener("click", (e) => {
-                console.log(profileEl);
-                const profile = profileEl.querySelector(".right-save2");
-                console.log(names);
-                console.log(profile);
-                profile === null || profile === void 0 ? void 0 : profile.classList.toggle("right-save");
-            });
-        });
     }
+    ;
+    profileArea.forEach((profileEl) => {
+        profileEl.addEventListener("click", (e) => {
+            console.log(profileEl);
+            const profile = profileEl.querySelector(".right-save2");
+            console.log(names);
+            console.log(profile);
+            profile === null || profile === void 0 ? void 0 : profile.classList.toggle("right-save");
+        });
+    });
 }
