@@ -59,9 +59,13 @@ button:nth-child(n+2){
   display: none;
 } */
 
-.right-save:nth-child(n+3) {
+.right-save {
   display: none;
 }
+
+/* .right-save:nth-child(n+3) {
+  display: none;
+} */
 
 .right-save2 {
   animation:  1s fadeIn;

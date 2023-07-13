@@ -88,6 +88,8 @@ var _a;
     });
     for (let i = 0; i < profiles.length; i++) {
         const newDiv = document.createElement("div");
+        const newDiv2 = document.createElement("div");
+        newDiv2.classList.add('right-save', 'right-save2');
         if (right !== null) {
             right.appendChild(newDiv);
             const array = Object.keys(profiles[i]);
@@ -97,10 +99,10 @@ var _a;
                 input.setAttribute("readonly", profiles[i][key]);
                 const label = document.createElement("p");
                 label.textContent = labels[key];
-                newDiv.appendChild(label);
-                newDiv.appendChild(input);
-                label.classList.add("right-save", "right-save2");
-                input.classList.add("right-save", "right-save2");
+                newDiv2.appendChild(label);
+                newDiv.appendChild(newDiv2);
+                newDiv2.appendChild(input);
+                console.log(newDiv2);
                 newDiv.classList.add("profile-area");
                 const classNumber = document.querySelector;
             });
@@ -114,6 +116,7 @@ var _a;
             console.log(names);
             console.log(profile);
             profile === null || profile === void 0 ? void 0 : profile.classList.toggle("right-save");
+            console.log(e);
         });
     });
 }

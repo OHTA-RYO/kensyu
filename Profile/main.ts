@@ -5,7 +5,6 @@
   const saveText: string | null =
     document.querySelector("input")?.value || null;
 
-  
   const right: Element | null = document.getElementById("right");
 
   // ↓をテキストに入れた。
@@ -138,12 +137,16 @@
   //予め右側においてお<p>と<input>を作成
   for (let i = 0; i < profiles.length; i++) {
     const newDiv: Element = document.createElement("div");
+    const newDiv2: Element = document.createElement("div");
+    newDiv2.classList.add("right-save", "right-save2");
     if (right !== null) {
       right.appendChild(newDiv);
+
       // Object.keys(profiles[i]).forEach((key) => {
       const array = Object.keys(profiles[i]) as (keyof Profile)[];
       array.forEach((key) => {
         const input: Element = document.createElement("input");
+
         input.setAttribute("value", profiles[i][key]);
         input.setAttribute("readonly", profiles[i][key]);
         // if( input.value === 'remarks' ) ){
@@ -159,12 +162,16 @@
         //   Object.keys(labels[j]).forEach((key) => {
         const label: Element = document.createElement("p");
         label.textContent = labels[key];
-        newDiv.appendChild(label);
-        newDiv.appendChild(input);
-        label.classList.add("right-save", "right-save2");
-        //1つだけidをつける？
-        input.classList.add("right-save", "right-save2");
+        newDiv2.appendChild(label);
+        newDiv.appendChild(newDiv2);
+        newDiv2.appendChild(input);
+
+        console.log(newDiv2);
+
+        // label.classList.add("right-save", "right-save2");
+        // input.classList.add("right-save", "right-save2");
         newDiv.classList.add("profile-area");
+        // newDiv2.classList.add("right-save", "right-save2");
 
         const classNumber = document.querySelector;
       });
@@ -183,6 +190,7 @@
       console.log(names);
       console.log(profile);
       profile?.classList.toggle("right-save");
+      console.log(e);
     });
   });
 }
