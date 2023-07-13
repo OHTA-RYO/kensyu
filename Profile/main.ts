@@ -5,9 +5,10 @@
   const saveText: string | null =
     document.querySelector("input")?.value || null;
 
-  const profileArea = document.querySelectorAll(".profile-area");
+  
+  const right: Element | null = document.getElementById("right");
 
-  //↓をテキストに入れた。
+  // ↓をテキストに入れた。
   const textareaP: string[] = [
     "名前",
     "生年月日",
@@ -31,7 +32,19 @@
 
   //オブジェクト:キーとバリュー(値)がペアになったもの
   //配列で囲って、 Record<string, string>すると全てstringだよとなる。
-  const profiles: Record<string, string>[] = [
+
+  type Profile = {
+    name: string;
+    birthday: string;
+    age: string;
+    height: string;
+    weight: string;
+    tel: string;
+    mail: string;
+    remarks: string;
+  };
+
+  const profiles: Profile[] = [
     {
       name: "中島慶樹",
       birthday: "1997年7月7日",
@@ -84,18 +97,16 @@
     },
   ];
 
-  const labels: Record<string, string>[] = [
-    {
-      name: "名前",
-      birthday: "生年月日",
-      age: "年齢",
-      height: "身長",
-      weight: "体重",
-      tel: "電話番号",
-      mail: "メールアドレス",
-      remarks: "備考",
-    },
-  ];
+  const labels: Profile = {
+    name: "名前",
+    birthday: "生年月日",
+    age: "年齢",
+    height: "身長",
+    weight: "体重",
+    tel: "電話番号",
+    mail: "メールアドレス",
+    remarks: "備考",
+  };
 
   //保存ボタンで追加するデータ
   //保存ボタンのデータを取得
@@ -127,46 +138,63 @@
   //予め右側においてお<p>と<input>を作成
   for (let i = 0; i < profiles.length; i++) {
     const newDiv: Element = document.createElement("div");
-    profileArea0?.appendChild(newDiv);
-    Object.keys(profiles[i]).forEach((key) => {
-      const input: Element = document.createElement("input");
-      input.setAttribute("value", profiles[i][key]);
-      for (let j = 0; j < labels.length; j++) {
-        Object.keys(labels[j]).forEach((key) => {
-          const label: Element = document.createElement("p");
-          label.textContent = labels[j][key];
-          newDiv.appendChild(label);
-          newDiv.appendChild(input);
-          label.classList.add('right-save2');
-          input.classList.add('right-save2');
-          newDiv.classList.add('profile-area');
-        });
-      }
-    });
-  };
-    // if (profileArea0 !== null) {
-    //   input.setAttribute("value", profiles[i][i]);
-    //   profileArea0.appendChild(input);
-    // }
+    if (right !== null) {
+      right.appendChild(newDiv);
+      // Object.keys(profiles[i]).forEach((key) => {
+      const array = Object.keys(profiles[i]) as (keyof Profile)[];
+      array.forEach((key) => {
+        const input: Element = document.createElement("input");
+        input.setAttribute("value", profiles[i][key]);
+        input.setAttribute("readonly", profiles[i][key]);
+        // if( input.value === 'remarks' ) ){
 
-    //display　noneの箱になるdivを作成
-    // const div = document.createElement("div");
-    // profileArea0?.appendChild(div);
-    // div.classList.add("right-save", "right-save2");
+        // }
+        //if
+        //もしprofilesの[key]が'remarks'の場合には
+        //  const textarea = document.createElement('textarea');
+        //  textarea.setAttribute('value',profiles[i][key]);
+        //  textarea.setAttribute('readonly',profiles[i][key]);
 
-    //アコーディオン展開
-    profileArea.forEach((profileEl) => {
-      profileEl.addEventListener("click", (e) => {
-        console.log(profileEl);
-        // const name = profileEl.querySelector('.name');
-        const profile = profileEl.querySelector(".right-save2");
-        console.log(names);
-        console.log(profile);
-        profile?.classList.toggle("right-save");
+        // for (let j = 0; j < labels.length; j++) {
+        //   Object.keys(labels[j]).forEach((key) => {
+        const label: Element = document.createElement("p");
+        label.textContent = labels[key];
+        newDiv.appendChild(label);
+        newDiv.appendChild(input);
+        label.classList.add("right-save", "right-save2");
+        //1つだけidをつける？
+        input.classList.add("right-save", "right-save2");
+        newDiv.classList.add("profile-area");
+
+        const classNumber = document.querySelector;
       });
+      // });
+      // }
+    }
+  }
+
+  //アコーディオン展開
+  const profileArea = document.querySelectorAll(".profile-area");
+  profileArea.forEach((profileEl) => {
+    profileEl.addEventListener("click", (e) => {
+      console.log(profileEl);
+      // const name = profileEl.querySelector('.name');
+      const profile = profileEl.querySelector(".right-save2");
+      console.log(names);
+      console.log(profile);
+      profile?.classList.toggle("right-save");
     });
-  
+  });
 }
+// if (profileArea0 !== null) {
+//   input.setAttribute("value", profiles[i][i]);
+//   profileArea0.appendChild(input);
+// }
+
+//display　noneの箱になるdivを作成
+// const div = document.createElement("div");
+// profileArea0?.appendChild(div);
+// div.classList.add("right-save", "right-save2");
 
 //確認すること。
 // save?.addEventListener("click", () => {
