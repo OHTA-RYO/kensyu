@@ -139,10 +139,10 @@ type Profile = {
   profiles.map((profile) => {
     const newDiv: Element = document.createElement("div");
     profileArea0?.appendChild(newDiv);
-    const array=Object.keys(profile) as (keyof Profile)[];
-    array.map((key) => {
+    const array=Object.entries(profile) as [keyof Profile,string][];
+    array.map(([key,value]) => {
       const input: Element = document.createElement("input");
-      input.setAttribute("value",profile[key]);
+      input.setAttribute("value",value);
       const label: Element = document.createElement("p");
       label.textContent = labels[key];
       newDiv.appendChild(label);
