@@ -83,24 +83,25 @@
 
   //保存ボタンのデータを取得
   const save: Element | null = document.getElementById("save");
-  const title: object = <object>document.querySelectorAll("p");
+  // const title: object = <object>document.querySelectorAll("p");
   const right: Element | null = document.getElementById("right");
   const saveText: NodeList | null = document.querySelectorAll("input");
 
   save?.addEventListener("click", () => {
-    for (let i = 0; i < labels.length; i++) {
+    for (let i = 0; i < Object.keys(labels).length; i++) {
       const array = Object.keys(labels[i]) as (keyof Profile)[];
       array.forEach((key) => {
         const newP: HTMLElement = document.createElement("p");
         newP.textContent = labels[key];
         if (saveText !== null) {
           console.log(saveText.value);
-          const newInput:Element = document.createElement("input");
+          const newInput: Element = document.createElement("input");
           if (saveText !== null) {
             // newInput.innerText = saveText.value;
             newInput.setAttribute("value", saveText.value);
             // input.setAttribute("value", profiles[i][key]);
-            
+           
+
             right?.appendChild(newP);
             right?.appendChild(newInput);
             console.log(newInput.innerText);
@@ -112,7 +113,6 @@
     // console.log(newP.textContent);
     console.log(saveText);
   });
-
 
   // const sp: Element = document.createElement("p");
   // const newInput: Element = document.createElement('input').value;
