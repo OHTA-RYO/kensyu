@@ -81,12 +81,37 @@
         const array = Object.keys(labels);
         array.forEach((key) => {
             const saveText = document.querySelector(`input.${key}_num`);
-            if (key === 'name') {
-                tmpobject.name = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || '';
+            if (key === "name") {
+                tmpobject.name = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
             }
+            if (key === "birthday") {
+                tmpobject.birthday = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+            }
+            if (key === "age") {
+                tmpobject.age = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+            }
+            if (key === "height") {
+                tmpobject.height = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+            }
+            if (key === "weight") {
+                tmpobject.weight = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+            }
+            if (key === "tel") {
+                tmpobject.tel = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+            }
+            if (key === "mail") {
+                tmpobject.mail = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+            }
+            if (key === "remarks") {
+                const saveTextarea = document.querySelector(`textarea.${key}_num`);
+                tmpobject.remarks = (saveTextarea === null || saveTextarea === void 0 ? void 0 : saveTextarea.value) || "";
+                console.log(saveText);
+            }
+            if (saveText !== null)
+                saveText.value = "";
         });
-        console.log(tmpobject);
-        addElement(tmpobject);
+        const newDiv = addElement(tmpobject);
+        addEvent(newDiv);
     });
     const addElement = (o) => {
         const newDiv = document.createElement("div");
@@ -124,19 +149,23 @@
                 newDiv.classList.add("profile-area");
             });
         }
+        return newDiv;
     };
     for (let i = 0; i < profiles.length; i++) {
         addElement(profiles[i]);
     }
-    const profileArea = document.querySelectorAll(".profile-area");
-    profileArea.forEach((profileEl) => {
-        profileEl.addEventListener("click", (e) => {
-            console.log(profileEl);
-            const profile = profileEl.querySelector(".right-save2");
+    const addEvent = (el) => {
+        el.addEventListener("click", (e) => {
+            console.log(el);
+            const profile = el.querySelector(".right-save2");
             console.log(names);
             console.log(profile);
             profile === null || profile === void 0 ? void 0 : profile.classList.toggle("right-save");
             console.log(e);
         });
+    };
+    const profileArea = document.querySelectorAll(".profile-area");
+    profileArea.forEach((profileEl) => {
+        addEvent(profileEl);
     });
 }

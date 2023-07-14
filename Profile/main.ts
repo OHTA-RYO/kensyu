@@ -81,13 +81,20 @@
   //右側プロフィールエリアのデータを取得
   const profileArea0: Element | null = document.querySelector(".profile-area");
 
+  // const saveDatas = localStorage.getItem("profiles");
+  // if(saveDatas){
+  //   saveDatas.forEach(saveData => {
+  //     saveData(save);
+  //   })
+  // }
+
   //保存ボタンのデータを取得
   const save: Element | null = document.getElementById("save");
   const right: Element | null = document.getElementById("right");
   const textarea: HTMLTextAreaElement | null =
     document.querySelector("textarea");
   save?.addEventListener("click", () => {
-    const tmpobject:Profile = {
+    const tmpobject: Profile = {
       name: "",
       birthday: "",
       age: "",
@@ -96,41 +103,64 @@
       tel: "",
       mail: "",
       remarks: "",
-    }
-        const array = Object.keys(labels) as (keyof Profile)[];
-        //labelの数だけ回す
-        array.forEach((key) => {
-          //saveTextは入力用のinputタグhtmlでクラス名をつけたやつだけ取得
-          const saveText: HTMLInputElement | null = document.querySelector(
-            `input.${key}_num`
-          );
-          if(key === 'name'){
-            tmpobject.name = saveText?.value || '';
-          }
-        });
-        console.log(tmpobject);
-        addElement(tmpobject);
+    };
+    const array = Object.keys(labels) as (keyof Profile)[];
+    //labelの数だけ回す
+    array.forEach((key) => {
+      //saveTextは入力用のinputタグhtmlでクラス名をつけたやつだけ取得
+      const saveText: HTMLInputElement | null = document.querySelector(
+        `input.${key}_num`
+      );
 
+      if (key === "name") {
+        tmpobject.name = saveText?.value || "";
+      }
+      if (key === "birthday") {
+        tmpobject.birthday = saveText?.value || "";
+      }
+      if (key === "age") {
+        tmpobject.age = saveText?.value || "";
+      }
+      if (key === "height") {
+        tmpobject.height = saveText?.value || "";
+      }
+      if (key === "weight") {
+        tmpobject.weight = saveText?.value || "";
+      }
+      if (key === "tel") {
+        tmpobject.tel = saveText?.value || "";
+      }
+      if (key === "mail") {
+        tmpobject.mail = saveText?.value || "";
+      }
+      if (key === "remarks") {
+        const saveTextarea: HTMLTextAreaElement | null = document.querySelector(
+          `textarea.${key}_num`
+        );
+        tmpobject.remarks = saveTextarea?.value || "";
+        console.log(saveText);
+      }
+      
+      if (saveText !== null) saveText.value = "";
+    });
+
+    // saveData(save);
+    // function saveData(save) {
+    //   profiles.forEach(key =>{
+    //    profiles.push(key);
+    //    localStorage.setItem("profiles", JSON.stringify);
+    //   });
+    //  }
+    // localStorage.setItem('key');
+
+    // console.log(tmpobject);
+    // //なぜnewDivを定数にしたんだっけ。
+    const newDiv = addElement(tmpobject);
+    //↓newDivに対してイベントを発生させる？
+    addEvent(newDiv);
   });
 
-  // const sp: Element = document.createElement("p");
-  // const newInput: Element = document.createElement('input').value;
-  // save?.addEventListener("click", () => {
-  //   for (let i = 0; i < textareaP.length; i++) {
-  //     sp.textContent = textareaP[i];
-  //     profileArea0?.appendChild(sp);
-  //     right?.appendChild(newInput);
-  //   }
-  // });
 
-  // for(let n = 1; n <=5; n++){
-  // const iRight =document.createElement('input');
-  // iRight.id = 'appendi' + n;
-  // iRight.innerText = '' + n;
-  // ni.appendChild(iRight);
-  // }
-  // right?.appendChild(ni);
-  // console.log(np);
 
   const addElement = (o: Profile) => {
     const newDiv: Element = document.createElement("div");
@@ -169,27 +199,31 @@
         }
         newDiv2.classList.add("right-save", "right-save2");
         newDiv.classList.add("profile-area");
-        // textarea.classList.add("right-save", "right-save2");
       });
     }
+    //リターンは好きなモノをリターンできるのか。リターンはどこにリターン出来るのか？
+    return newDiv;
   };
   //予め右側においてお<p>と<input>を作成
   for (let i = 0; i < profiles.length; i++) {
     addElement(profiles[i]);
   }
 
-  //アコーディオン展開
-  const profileArea = document.querySelectorAll(".profile-area");
-  profileArea.forEach((profileEl) => {
-    profileEl.addEventListener("click", (e) => {
-      console.log(profileEl);
-      // const name = profileEl.querySelector('.name');
-      const profile = profileEl.querySelector(".right-save2");
+  const addEvent = (el: Element) => {
+    el.addEventListener("click", (e) => {
+      console.log(el);
+      // const name = el.querySelector('.name');
+      const profile = el.querySelector(".right-save2");
       console.log(names);
       console.log(profile);
       profile?.classList.toggle("right-save");
       console.log(e);
     });
+  };
+  //アコーディオン展開
+  const profileArea = document.querySelectorAll(".profile-area");
+  profileArea.forEach((profileEl) => {
+    addEvent(profileEl);
   });
 }
 
@@ -413,4 +447,62 @@
 //         console.log(newInput.setAttribute);
 //         console.log(newP.innerText);
 
+// if (key === "remarks") {
+//   if (textarea !== null) {
+//     //保存用の表示は入力用のtextareaの値を代入
+//     newTextarea.value = textarea.innerText;
+//     newTextarea.readOnly = true;
+//     console.log(textarea.innerText);
+//   }
+//   //'remarks'以外は<input>に保存される。
+//   //保存用の<input>の値に入力用の<input>の値を代入
+// } else {
+//   newInput.value = (saveText as HTMLInputElement).value || "";
+//   //保存用の<input>にvalue属性をつける。getAttributeで値は取れない。
+//   newInput.setAttribute("value", saveText.getAttribute("value") || "");
+//   newInput.setAttribute("readonly", "true");
+// }
+// //
+// right?.appendChild(newP);
+// right?.appendChild(newInput);
+// console.log(newInput.setAttribute);
+// console.log(newP.innerText);
+
+//クラスを追加する予定。
+// const newDiv: Element = document.createElement("div");
+// const newDiv2: Element = document.createElement("div");
+// if (key === "name") {
+//   newDiv.appendChild(newP);
+//   newDiv.appendChild(newInput);
+// } else if (key === "remarks") {
+//   newDiv2.appendChild(newP);
+//   newDiv2.appendChild(newTextarea);
+// } else {
+//   newDiv2.appendChild(newP);
+//   newDiv2.appendChild(newInput);
+// }
+// newDiv2.classList.add("right-save", "right-save2");
+// newDiv.classList.add("profile-area");
+//   }
+// });
+// }
+// console.log(newP.textContent);
 //         /
+// const sp: Element = document.createElement("p");
+// const newInput: Element = document.createElement('input').value;
+// save?.addEventListener("click", () => {
+//   for (let i = 0; i < textareaP.length; i++) {
+//     sp.textContent = textareaP[i];
+//     profileArea0?.appendChild(sp);
+//     right?.appendChild(newInput);
+//   }
+// });
+
+// for(let n = 1; n <=5; n++){
+// const iRight =document.createElement('input');
+// iRight.id = 'appendi' + n;
+// iRight.innerText = '' + n;
+// ni.appendChild(iRight);
+// }
+// right?.appendChild(ni);
+// console.log(np);
