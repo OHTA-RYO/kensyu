@@ -83,35 +83,34 @@
 
   //保存ボタンのデータを取得
   const save: Element | null = document.getElementById("save");
-  // const title: object = <object>document.querySelectorAll("p");
   const right: Element | null = document.getElementById("right");
-  const saveText: NodeList | null = document.querySelectorAll("input");
-
+  const textarea: HTMLTextAreaElement | null =
+    document.querySelector("textarea");
   save?.addEventListener("click", () => {
-    for (let i = 0; i < Object.keys(labels).length; i++) {
-      const array = Object.keys(labels[i]) as (keyof Profile)[];
-      array.forEach((key) => {
-        const newP: HTMLElement = document.createElement("p");
-        newP.textContent = labels[key];
-        if (saveText !== null) {
-          console.log(saveText.value);
-          const newInput: Element = document.createElement("input");
-          if (saveText !== null) {
-            // newInput.innerText = saveText.value;
-            newInput.setAttribute("value", saveText.value);
-            // input.setAttribute("value", profiles[i][key]);
-           
-
-            right?.appendChild(newP);
-            right?.appendChild(newInput);
-            console.log(newInput.innerText);
-            console.log(newP.innerText);
-          }
-        }
-      });
+    const tmpobject:Profile = {
+      name: "",
+      birthday: "",
+      age: "",
+      height: "",
+      weight: "",
+      tel: "",
+      mail: "",
+      remarks: "",
     }
-    // console.log(newP.textContent);
-    console.log(saveText);
+        const array = Object.keys(labels) as (keyof Profile)[];
+        //labelの数だけ回す
+        array.forEach((key) => {
+          //saveTextは入力用のinputタグhtmlでクラス名をつけたやつだけ取得
+          const saveText: HTMLInputElement | null = document.querySelector(
+            `input.${key}_num`
+          );
+          if(key === 'name'){
+            tmpobject.name = saveText?.value || '';
+          }
+        });
+        console.log(tmpobject);
+        addElement(tmpobject);
+
   });
 
   // const sp: Element = document.createElement("p");
@@ -133,15 +132,14 @@
   // right?.appendChild(ni);
   // console.log(np);
 
-  //予め右側においてお<p>と<input>を作成
-  for (let i = 0; i < profiles.length; i++) {
+  const addElement = (o: Profile) => {
     const newDiv: Element = document.createElement("div");
     const newDiv2: Element = document.createElement("div");
 
     if (right !== null) {
       right.appendChild(newDiv);
 
-      const array = Object.keys(profiles[i]) as (keyof Profile)[];
+      const array = Object.keys(o) as (keyof Profile)[];
       array.forEach((key) => {
         const input: Element = document.createElement("input");
         const textarea: HTMLTextAreaElement =
@@ -151,11 +149,11 @@
         newDiv.appendChild(newDiv2);
 
         if (key === "remarks") {
-          textarea.value = profiles[i][key];
+          textarea.value = o[key];
           textarea.readOnly = true;
         } else {
-          input.setAttribute("value", profiles[i][key]);
-          input.setAttribute("readonly", profiles[i][key]);
+          input.setAttribute("value", o[key]);
+          input.setAttribute("readonly", o[key]);
         }
 
         if (key === "name") {
@@ -174,6 +172,10 @@
         // textarea.classList.add("right-save", "right-save2");
       });
     }
+  };
+  //予め右側においてお<p>と<input>を作成
+  for (let i = 0; i < profiles.length; i++) {
+    addElement(profiles[i]);
   }
 
   //アコーディオン展開
@@ -356,3 +358,59 @@
 //   "メールアドレス",
 //   "備考",
 // ];
+
+// const profileArea0: Element | null = document.querySelector(".profile-area");
+
+//   //保存ボタンのデータを取得
+//   const save: Element | null = document.getElementById("save");
+//   // const title: object = <object>document.querySelectorAll("p");
+//   const right: Element | null = document.getElementById("right");
+//   // const saveText: NodeList | null = document.querySelectorAll("input");
+//   const textarea: HTMLTextAreaElement | null =
+//     document.querySelector("textarea");
+//   save?.addEventListener("click", () => {
+//     //よくよく考えると1回で良いから↓は不要。
+//     // for (let i = 0; i < Object.keys(labels).length; i++) {
+//     //labelのkeyの数を取得
+//     const array = Object.keys(labels) as (keyof Profile)[];
+//     //labelの数だけ回す
+//     array.forEach((key) => {
+//       //saveTextは入力用のinputタグhtmlでクラス名をつけたやつだけ取得
+//       const saveText: Element | null = document.querySelector(
+//         `input.${key}_num`
+//       );
+//       //保存用のpタグを作成
+//       const newP: HTMLElement = document.createElement("p");
+//       //保存用のtextareaを作成
+//       const newTextarea: HTMLTextAreaElement =
+//         document.createElement("textarea");
+//       //保存用の<p>の値はlabelsのkeyを代入
+//       newP.textContent = labels[key];
+//       //入力用<input>のnull回避
+//       if (saveText !== null) {
+//         //保存用の<input>を作成
+//         const newInput: Element = document.createElement("input");
+//         //keyが'remarks'の場合にはtextareaに表示
+//         //↓このifがおかしいかも
+//         if (key === "remarks") {
+//           if (textarea !== null) {
+//             //保存用の表示は入力用のtextareaの値を代入
+//             newTextarea.value = textarea.innerText;
+//             newTextarea.readOnly = true;
+//             console.log(textarea.innerText);
+//           }
+//           //'remarks'以外は<input>に保存される。
+//           //保存用の<input>の値に入力用の<input>の値を代入
+//         } else {
+//           newInput.value = (saveText as HTMLInputElement).value || "";
+//           //保存用の<input>にvalue属性をつける。getAttributeで値は取れない。
+//           newInput.setAttribute("value", saveText.getAttribute("value") || "");
+//           newInput.setAttribute("readonly", "true");
+//         }
+//         //
+//         right?.appendChild(newP);
+//         right?.appendChild(newInput);
+//         console.log(newInput.setAttribute);
+//         console.log(newP.innerText);
+
+//         /

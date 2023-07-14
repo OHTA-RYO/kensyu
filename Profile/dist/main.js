@@ -65,36 +65,35 @@
     };
     const profileArea0 = document.querySelector(".profile-area");
     const save = document.getElementById("save");
-    const title = document.querySelectorAll("p");
     const right = document.getElementById("right");
-    const saveText = document.querySelectorAll("input");
+    const textarea = document.querySelector("textarea");
     save === null || save === void 0 ? void 0 : save.addEventListener("click", () => {
-        for (let i = 0; i < labels.length; i++) {
-            const array = Object.keys(labels[i]);
-            array.forEach((key) => {
-                const newP = document.createElement("p");
-                newP.textContent = labels[key];
-                if (saveText !== null) {
-                    console.log(saveText.value);
-                    const newInput = document.createElement("input");
-                    if (saveText !== null) {
-                        newInput.setAttribute("value", saveText.value);
-                        right === null || right === void 0 ? void 0 : right.appendChild(newP);
-                        right === null || right === void 0 ? void 0 : right.appendChild(newInput);
-                        console.log(newInput.innerText);
-                        console.log(newP.innerText);
-                    }
-                }
-            });
-        }
-        console.log(saveText);
+        const tmpobject = {
+            name: "",
+            birthday: "",
+            age: "",
+            height: "",
+            weight: "",
+            tel: "",
+            mail: "",
+            remarks: "",
+        };
+        const array = Object.keys(labels);
+        array.forEach((key) => {
+            const saveText = document.querySelector(`input.${key}_num`);
+            if (key === 'name') {
+                tmpobject.name = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || '';
+            }
+        });
+        console.log(tmpobject);
+        addElement(tmpobject);
     });
-    for (let i = 0; i < profiles.length; i++) {
+    const addElement = (o) => {
         const newDiv = document.createElement("div");
         const newDiv2 = document.createElement("div");
         if (right !== null) {
             right.appendChild(newDiv);
-            const array = Object.keys(profiles[i]);
+            const array = Object.keys(o);
             array.forEach((key) => {
                 const input = document.createElement("input");
                 const textarea = document.createElement("textarea");
@@ -102,12 +101,12 @@
                 label.textContent = labels[key];
                 newDiv.appendChild(newDiv2);
                 if (key === "remarks") {
-                    textarea.value = profiles[i][key];
+                    textarea.value = o[key];
                     textarea.readOnly = true;
                 }
                 else {
-                    input.setAttribute("value", profiles[i][key]);
-                    input.setAttribute("readonly", profiles[i][key]);
+                    input.setAttribute("value", o[key]);
+                    input.setAttribute("readonly", o[key]);
                 }
                 if (key === "name") {
                     newDiv.appendChild(label);
@@ -125,6 +124,9 @@
                 newDiv.classList.add("profile-area");
             });
         }
+    };
+    for (let i = 0; i < profiles.length; i++) {
+        addElement(profiles[i]);
     }
     const profileArea = document.querySelectorAll(".profile-area");
     profileArea.forEach((profileEl) => {
