@@ -69,6 +69,7 @@
   ];
 
   const labels: Profile = {
+ 
     name: "名前",
     birthday: "生年月日",
     age: "年齢",
@@ -78,6 +79,7 @@
     mail: "メールアドレス",
     remarks: "備考",
   };
+  
   //右側プロフィールエリアのデータを取得
   const profileArea0: Element | null = document.querySelector(".profile-area");
 
@@ -85,26 +87,28 @@
   const save: Element | null = document.getElementById("save");
   // const title: object = <object>document.querySelectorAll("p");
   const right: Element | null = document.getElementById("right");
-  const saveText: NodeList | null = document.querySelectorAll("input");
-
+  
+  
   save?.addEventListener("click", () => {
     for (let i = 0; i < Object.keys(labels).length; i++) {
-      const array = Object.keys(labels[i]) as (keyof Profile)[];
+      const array = Object.keys(labels) as (keyof Profile)[];
       array.forEach((key) => {
+        
+        const saveText: Element| null = document.querySelector(`input.${{key}}_change`);
         const newP: HTMLElement = document.createElement("p");
         newP.textContent = labels[key];
         if (saveText !== null) {
-          console.log(saveText.value);
+        
           const newInput: Element = document.createElement("input");
           if (saveText !== null) {
+            
             // newInput.innerText = saveText.value;
-            newInput.setAttribute("value", saveText.value);
+            newInput.setAttribute("value", saveText.getAttribute("value")||"");
             // input.setAttribute("value", profiles[i][key]);
            
-
             right?.appendChild(newP);
             right?.appendChild(newInput);
-            console.log(newInput.innerText);
+            console.log(newInput.getAttribute("value"));
             console.log(newP.innerText);
           }
         }
