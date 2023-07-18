@@ -1,7 +1,7 @@
 "use strict";
 {
     const names = document.querySelectorAll(".name");
-    const profiles = [
+    let profiles = [
         {
             name: "中島慶樹",
             birthday: "1997年7月7日",
@@ -111,18 +111,11 @@
         });
         profiles.push(tmpobject);
         console.log(profiles);
-        localStorage.setItem(tmpobject, JSON.stringify(tmpobject));
-        const localLoad = () => {
-            const saveData = JSON.parse(localStorage.getItem("tmpobject"));
-            if (profileArea0 !== null) {
-                profileArea0.push(saveData);
-                console.log(saveData);
-            }
-        };
-        JSON.parse(localStorage.getItem("tmpobject"));
+        localStorage.setItem(profiles, JSON.stringify(profiles));
         const newDiv = addElement(tmpobject);
         addEvent(newDiv);
     });
+    const saveData = JSON.parse(localStorage.getItem("profiles") || "");
     const addElement = (o) => {
         const newDiv = document.createElement("div");
         const newDiv2 = document.createElement("div");

@@ -15,7 +15,8 @@
     remarks: string;
   };
 
-  const profiles: Profile[] = [
+  //letに変更
+  let profiles: Profile[] = [
     {
       name: "中島慶樹",
       birthday: "1997年7月7日",
@@ -149,19 +150,22 @@
     //pushしたことでprofilesの一番下に追加されている。
     //次はlocalStorageへ保存。
 
-    localStorage.setItem(tmpobject, JSON.stringify(tmpobject));
+    //setItemをtmpobject→profilesに変更 profilesの全ての情報を保存
+    localStorage.setItem(profiles, JSON.stringify(profiles));
 
     const newDiv = addElement(tmpobject);
     addEvent(newDiv);
   });
 
-   //保存されたデータ取得し呼び出す
-  const saveData = JSON.parse(localStorage.getItem("tmpobject"));
-  if (profileArea0 !== null) {
-    // profileArea0.value = saveData;
-    profileArea0.push(saveData);
-    console.log(saveData);
-  }
+  //保存されたデータ取得し呼び出す
+  //||''はとりあえず入れてみたら、エラーが消えた。
+  const saveData: Profile[] = JSON.parse(
+    localStorage.getItem("profiles") || ""
+  );
+  profiles = saveData as Profile[];
+  console.log(profiles);
+
+
   
 
   const addElement = (o: Profile) => {
@@ -207,6 +211,8 @@
     return newDiv;
   };
   //予め右側においてお<p>と<input>を作成
+  //
+
   for (let i = 0; i < profiles.length; i++) {
     addElement(profiles[i]);
   }
