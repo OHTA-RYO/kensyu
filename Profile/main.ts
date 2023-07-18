@@ -138,29 +138,31 @@
           `textarea.${key}_num`
         );
         tmpobject.remarks = saveTextarea?.value || "";
-        console.log(saveText);
+        // console.log(saveText);
       }
-      
+
       if (saveText !== null) saveText.value = "";
     });
 
-    // saveData(save);
-    // function saveData(save) {
-    //   profiles.forEach(key =>{
-    //    profiles.push(key);
-    //    localStorage.setItem("profiles", JSON.stringify);
-    //   });
-    //  }
-    // localStorage.setItem('key');
+    profiles.push(tmpobject);
+    console.log(profiles);
+    //pushしたことでprofilesの一番下に追加されている。
+    //次はlocalStorageへ保存。
 
-    // console.log(tmpobject);
-    // //なぜnewDivを定数にしたんだっけ。
+    localStorage.setItem(tmpobject, JSON.stringify(tmpobject));
+
     const newDiv = addElement(tmpobject);
-    //↓newDivに対してイベントを発生させる？
     addEvent(newDiv);
   });
 
-
+   //保存されたデータ取得し呼び出す
+  const saveData = JSON.parse(localStorage.getItem("tmpobject"));
+  if (profileArea0 !== null) {
+    // profileArea0.value = saveData;
+    profileArea0.push(saveData);
+    console.log(saveData);
+  }
+  
 
   const addElement = (o: Profile) => {
     const newDiv: Element = document.createElement("div");

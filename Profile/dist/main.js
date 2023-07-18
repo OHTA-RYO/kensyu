@@ -105,11 +105,21 @@
             if (key === "remarks") {
                 const saveTextarea = document.querySelector(`textarea.${key}_num`);
                 tmpobject.remarks = (saveTextarea === null || saveTextarea === void 0 ? void 0 : saveTextarea.value) || "";
-                console.log(saveText);
             }
             if (saveText !== null)
                 saveText.value = "";
         });
+        profiles.push(tmpobject);
+        console.log(profiles);
+        localStorage.setItem(tmpobject, JSON.stringify(tmpobject));
+        const localLoad = () => {
+            const saveData = JSON.parse(localStorage.getItem("tmpobject"));
+            if (profileArea0 !== null) {
+                profileArea0.push(saveData);
+                console.log(saveData);
+            }
+        };
+        JSON.parse(localStorage.getItem("tmpobject"));
         const newDiv = addElement(tmpobject);
         addEvent(newDiv);
     });
