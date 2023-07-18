@@ -147,26 +147,45 @@
 
     profiles.push(tmpobject);
     console.log(profiles);
-    //pushしたことでprofilesの一番下に追加されている。
-    //次はlocalStorageへ保存。
 
     //setItemをtmpobject→profilesに変更 profilesの全ての情報を保存
-    localStorage.setItem(profiles, JSON.stringify(profiles));
+    sessionStorage.setItem("profiles", JSON.stringify(profiles));
 
     const newDiv = addElement(tmpobject);
     addEvent(newDiv);
   });
 
   //保存されたデータ取得し呼び出す
-  //||''はとりあえず入れてみたら、エラーが消えた。
   const saveData: Profile[] = JSON.parse(
-    localStorage.getItem("profiles") || ""
+    sessionStorage.getItem("profiles") || "[]"
   );
-  profiles = saveData as Profile[];
-  console.log(profiles);
+  if (saveData.length) {
+    profiles = saveData as Profile[];
+    console.log(profiles);
+  }
 
+  //削除ボタンを押したら、保存したデータが消える。
+  const deleteB = document.getElementById("delete");
+  deleteB?.addEventListener("click", () => {
+    const deleteC = window.confirm("削除しますか？");
+    
+    if (deleteC) {
+      sessionStorage.removeItem("profiles");
+    }
+    else{
+      return;
+    }
 
-  
+    // el.addEventListener("click", (e) => {
+    //   console.log(el);
+    //   // const name = el.querySelector('.name');
+    //   const profile = el.querySelector(".right-save2");
+    //   console.log(names);
+    //   console.log(profile);
+    //   profile?.classList.toggle("right-save");
+    //   console.log(e);
+    // });
+  });
 
   const addElement = (o: Profile) => {
     const newDiv: Element = document.createElement("div");

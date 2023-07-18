@@ -111,11 +111,25 @@
         });
         profiles.push(tmpobject);
         console.log(profiles);
-        localStorage.setItem(profiles, JSON.stringify(profiles));
+        sessionStorage.setItem("profiles", JSON.stringify(profiles));
         const newDiv = addElement(tmpobject);
         addEvent(newDiv);
     });
-    const saveData = JSON.parse(localStorage.getItem("profiles") || "");
+    const saveData = JSON.parse(sessionStorage.getItem("profiles") || "[]");
+    if (saveData.length) {
+        profiles = saveData;
+        console.log(profiles);
+    }
+    const deleteB = document.getElementById("delete");
+    deleteB === null || deleteB === void 0 ? void 0 : deleteB.addEventListener("click", () => {
+        const deleteC = window.confirm("削除しますか？");
+        if (deleteC) {
+            sessionStorage.removeItem("profiles");
+        }
+        else {
+            return;
+        }
+    });
     const addElement = (o) => {
         const newDiv = document.createElement("div");
         const newDiv2 = document.createElement("div");
