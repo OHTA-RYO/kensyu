@@ -197,8 +197,8 @@
       return;
     }
   });
-  console.log(right);
-  console.log(profileArea0);
+  // console.log(right);
+  // console.log(profileArea0);
 
   const addElement = (o: Profile) => {
     const newDiv: Element = document.createElement("div");
