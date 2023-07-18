@@ -82,13 +82,6 @@
   //右側プロフィールエリアのデータを取得
   const profileArea0: Element | null = document.querySelector(".profile-area");
 
-  // const saveDatas = localStorage.getItem("profiles");
-  // if(saveDatas){
-  //   saveDatas.forEach(saveData => {
-  //     saveData(save);
-  //   })
-  // }
-
   //保存ボタンのデータを取得
   const save: Element | null = document.getElementById("save");
   const right: Element | null = document.getElementById("right");
@@ -155,7 +148,7 @@
     addEvent(newDiv);
   });
 
-  //保存されたデータ取得し呼び出す
+  //保存されたデータを取得し呼び出す
   const saveData: Profile[] = JSON.parse(
     sessionStorage.getItem("profiles") || "[]"
   );
@@ -168,24 +161,44 @@
   const deleteB = document.getElementById("delete");
   deleteB?.addEventListener("click", () => {
     const deleteC = window.confirm("削除しますか？");
-    
+
     if (deleteC) {
+      //activeElmentを削除したかったが、削除ボタンを押した時点でactiveが外れるから別の方法を検討する。
+      //right-saveがないやつを削除？
+      // document.activeElement;
+
       sessionStorage.removeItem("profiles");
-    }
-    else{
+      //↓profilesからアイテム削除
+      profiles.pop();
+
+      //削除の後に再度ストレージに保存する
+      sessionStorage.setItem("profiles", JSON.stringify(profiles));
+      //保存したストレージデータを取り出す
+      sessionStorage.getItem("profiles") || "[]";
+      if (saveData.length) {
+        profiles = saveData as Profile[];
+        console.log(profiles);
+      }
+
+      // if(profileArea0 !== null && profileArea0!.parentNode !== null){
+      //       profileArea0!.parentNode.removeChild(profileArea0!);
+      //     }
+
+      //ノード削除rightの子要素profileArea0を削除
+      if (right !== null && profileArea0 !== null) {
+        right.removeChild(profileArea0!);
+        //   if( right !== null && right.lastElementChild !== null){
+        //     //↓こいつで即反映した。
+        //   right.lastElementChild.remove();
+        // }
+        console.log(profiles);
+      }
+    } else {
       return;
     }
-
-    // el.addEventListener("click", (e) => {
-    //   console.log(el);
-    //   // const name = el.querySelector('.name');
-    //   const profile = el.querySelector(".right-save2");
-    //   console.log(names);
-    //   console.log(profile);
-    //   profile?.classList.toggle("right-save");
-    //   console.log(e);
-    // });
   });
+  console.log(right);
+  console.log(profileArea0);
 
   const addElement = (o: Profile) => {
     const newDiv: Element = document.createElement("div");

@@ -125,11 +125,24 @@
         const deleteC = window.confirm("削除しますか？");
         if (deleteC) {
             sessionStorage.removeItem("profiles");
+            profiles.pop();
+            sessionStorage.setItem("profiles", JSON.stringify(profiles));
+            sessionStorage.getItem("profiles") || "[]";
+            if (saveData.length) {
+                profiles = saveData;
+                console.log(profiles);
+            }
+            if (right !== null && profileArea0 !== null) {
+                right.removeChild(profileArea0);
+                console.log(profiles);
+            }
         }
         else {
             return;
         }
     });
+    console.log(right);
+    console.log(profileArea0);
     const addElement = (o) => {
         const newDiv = document.createElement("div");
         const newDiv2 = document.createElement("div");
