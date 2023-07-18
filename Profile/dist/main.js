@@ -82,25 +82,56 @@
         array.forEach((key) => {
             const saveText = document.querySelector(`input.${key}_num`);
             if (key === "name") {
-                tmpobject.name = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+                if (saveText === null || saveText === void 0 ? void 0 : saveText.value.match(/[^\x01-\x7E]/)) {
+                    tmpobject.name = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+                    console.log(tmpobject.name);
+                }
+                else {
+                    return confirm("名前は日本語で入力して下さい。");
+                }
             }
             if (key === "birthday") {
-                tmpobject.birthday = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+                if (saveText === null || saveText === void 0 ? void 0 : saveText.value.match(/^[0-9]{4}年(\d+)月(\d+)日/)) {
+                    tmpobject.birthday = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+                }
+                else {
+                    return confirm("生年月日は西暦で入力下さい。");
+                }
             }
             if (key === "age") {
                 tmpobject.age = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
             }
             if (key === "height") {
-                tmpobject.height = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+                if (saveText === null || saveText === void 0 ? void 0 : saveText.value.match(/^[0-9]+$/)) {
+                    tmpobject.height = (saveText === null || saveText === void 0 ? void 0 : saveText.value) + "cm" || "";
+                }
+                else {
+                    return confirm("身長は数字のみ入力下さい。");
+                }
             }
             if (key === "weight") {
-                tmpobject.weight = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+                if (saveText === null || saveText === void 0 ? void 0 : saveText.value.match(/^[0-9]+$/)) {
+                    tmpobject.weight = (saveText === null || saveText === void 0 ? void 0 : saveText.value) + "kg" || "";
+                }
+                else {
+                    return confirm("体重は数字のみ入力下さい。");
+                }
             }
             if (key === "tel") {
-                tmpobject.tel = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+                if (saveText === null || saveText === void 0 ? void 0 : saveText.value.match(/^0\d{1,3}-\d{2,4}-\d{3,4}$/)) {
+                    tmpobject.tel = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+                }
+                else {
+                    return confirm("電話番号はハイフンなしで入力下さい。");
+                }
             }
             if (key === "mail") {
-                tmpobject.mail = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+                if (saveText === null || saveText === void 0 ? void 0 : saveText.value.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/)) {
+                    tmpobject.mail = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
+                }
+                else {
+                    return confirm("メールアドレスに誤りがあります。");
+                }
             }
             if (key === "remarks") {
                 const saveTextarea = document.querySelector(`textarea.${key}_num`);
@@ -109,11 +140,17 @@
             if (saveText !== null)
                 saveText.value = "";
         });
-        profiles.push(tmpobject);
-        console.log(profiles);
-        sessionStorage.setItem("profiles", JSON.stringify(profiles));
-        const newDiv = addElement(tmpobject);
-        addEvent(newDiv);
+        const saveK = window.confirm("エラーを解消しましたか？");
+        if (saveK) {
+            profiles.push(tmpobject);
+            console.log(profiles);
+            sessionStorage.setItem("profiles", JSON.stringify(profiles));
+            const newDiv = addElement(tmpobject);
+            addEvent(newDiv);
+        }
+        else {
+            return;
+        }
     });
     const saveData = JSON.parse(sessionStorage.getItem("profiles") || "[]");
     if (saveData.length) {
@@ -141,8 +178,6 @@
             return;
         }
     });
-    console.log(right);
-    console.log(profileArea0);
     const addElement = (o) => {
         const newDiv = document.createElement("div");
         const newDiv2 = document.createElement("div");

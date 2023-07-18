@@ -107,25 +107,58 @@
       );
 
       if (key === "name") {
-        tmpobject.name = saveText?.value || "";
+        if (saveText?.value.match(/[^\x01-\x7E]/)) {
+          // 日本語が含まれているか
+          tmpobject.name = saveText?.value || "";
+          console.log(tmpobject.name);
+        } else {
+          return confirm("名前は日本語で入力して下さい。");
+        }
       }
+      //ありえない数字でも入ってしまう。4桁2桁2桁しかみてない。
       if (key === "birthday") {
-        tmpobject.birthday = saveText?.value || "";
+        if (saveText?.value.match(/^[0-9]{4}年(\d+)月(\d+)日/)) {
+          tmpobject.birthday = saveText?.value || "";
+        } else {
+          return confirm("生年月日は西暦で入力下さい。");
+        }
       }
+      //生年月日から年齢取れてない。
       if (key === "age") {
         tmpobject.age = saveText?.value || "";
       }
       if (key === "height") {
-        tmpobject.height = saveText?.value || "";
+        if (saveText?.value.match(/^[0-9]+$/)) {
+          tmpobject.height = saveText?.value + "cm" || "";
+        } else {
+          return confirm("身長は数字のみ入力下さい。");
+        }
       }
       if (key === "weight") {
-        tmpobject.weight = saveText?.value || "";
+        if (saveText?.value.match(/^[0-9]+$/)) {
+          tmpobject.weight = saveText?.value + "kg" || "";
+        } else {
+          return confirm("体重は数字のみ入力下さい。");
+        }
       }
-      if (key === "tel") {
-        tmpobject.tel = saveText?.value || "";
+
+      if (key === "tel") {//Telの隙間にハイフンを入れたい
+        if (saveText?.value.match(/^0\d{1,3}-\d{2,4}-\d{3,4}$/)) {
+          tmpobject.tel = saveText?.value || "";
+        } else {
+          return confirm("電話番号はハイフンなしで入力下さい。");
+        }
       }
       if (key === "mail") {
-        tmpobject.mail = saveText?.value || "";
+        if (
+          saveText?.value.match(
+            /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
+          )
+        ) {
+          tmpobject.mail = saveText?.value || "";
+        } else {
+          return confirm("メールアドレスに誤りがあります。");
+        }
       }
       if (key === "remarks") {
         const saveTextarea: HTMLTextAreaElement | null = document.querySelector(
@@ -137,15 +170,21 @@
 
       if (saveText !== null) saveText.value = "";
     });
+    const saveK = window.confirm("エラーを解消しましたか？");
+    if (saveK) {
+      //コメントアウト解除すること
+      profiles.push(tmpobject);
+      console.log(profiles);
 
-    profiles.push(tmpobject);
-    console.log(profiles);
+      //setItemをtmpobject→profilesに変更 profilesの全ての情報を保存
+      //コメントアウト解除すること
+      sessionStorage.setItem("profiles", JSON.stringify(profiles));
 
-    //setItemをtmpobject→profilesに変更 profilesの全ての情報を保存
-    sessionStorage.setItem("profiles", JSON.stringify(profiles));
-
-    const newDiv = addElement(tmpobject);
-    addEvent(newDiv);
+      const newDiv = addElement(tmpobject);
+      addEvent(newDiv);
+    } else {
+      return;
+    }
   });
 
   //保存されたデータを取得し呼び出す
@@ -166,6 +205,8 @@
       //activeElmentを削除したかったが、削除ボタンを押した時点でactiveが外れるから別の方法を検討する。
       //right-saveがないやつを削除？
       // document.activeElement;
+
+      // profiles.focus;
 
       sessionStorage.removeItem("profiles");
       //↓profilesからアイテム削除
