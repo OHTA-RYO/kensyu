@@ -115,9 +115,11 @@
           return confirm("名前は日本語で入力して下さい。");
         }
       }
+      // /^[0-9]{4}年[1-9]{1}[0-2]{2}月[1-3]{1}[0-9]{2}日/
+      ///
       //ありえない数字でも入ってしまう。4桁2桁2桁しかみてない。
       if (key === "birthday") {
-        if (saveText?.value.match(/^[0-9]{4}年(\d+)月(\d+)日/)) {
+        if (saveText?.value.match(/^[0-9]{4}年\d{1,2}月\d{1,2}日$/)) {
           tmpobject.birthday = saveText?.value || "";
         } else {
           return confirm("生年月日は西暦で入力下さい。");
@@ -125,6 +127,8 @@
       }
       //生年月日から年齢取れてない。
       if (key === "age") {
+        //生年月日からの年齢を計算
+
         tmpobject.age = saveText?.value || "";
       }
       if (key === "height") {
@@ -142,11 +146,11 @@
         }
       }
 
-      if (key === "tel") {//Telの隙間にハイフンを入れたい
-        if (saveText?.value.match(/^0\d{1,3}-\d{2,4}-\d{3,4}$/)) {
+      if (key === "tel") {
+        if (saveText?.value.match(/\d{2,4}-\d{2,4}-\d{4}/)) {
           tmpobject.tel = saveText?.value || "";
         } else {
-          return confirm("電話番号はハイフンなしで入力下さい。");
+          return confirm("電話番号を確認");
         }
       }
       if (key === "mail") {
@@ -180,7 +184,7 @@
       //コメントアウト解除すること
       sessionStorage.setItem("profiles", JSON.stringify(profiles));
 
-      const newDiv = addElement(tmpobject);
+      const newDiv = addElement(tmpobject, profiles.length - 1);
       addEvent(newDiv);
     } else {
       return;
@@ -202,14 +206,6 @@
     const deleteC = window.confirm("削除しますか？");
 
     if (deleteC) {
-      //activeElmentを削除したかったが、削除ボタンを押した時点でactiveが外れるから別の方法を検討する。
-      //right-saveがないやつを削除？
-      // document.activeElement;
-
-      // profiles.focus;
-
-      sessionStorage.removeItem("profiles");
-      //↓profilesからアイテム削除
       profiles.pop();
 
       //削除の後に再度ストレージに保存する
@@ -220,28 +216,31 @@
         profiles = saveData as Profile[];
         console.log(profiles);
       }
+      // profileArea0?.remove();
 
-      // if(profileArea0 !== null && profileArea0!.parentNode !== null){
-      //       profileArea0!.parentNode.removeChild(profileArea0!);
-      //     }
+      if(profileArea0 !== null && profileArea0!.parentNode !== null){
+            profileArea0!.parentNode.removeChild(profileArea0!);
+          }
 
       //ノード削除rightの子要素profileArea0を削除
-      if (right !== null && profileArea0 !== null) {
-        right.removeChild(profileArea0!);
-        //   if( right !== null && right.lastElementChild !== null){
-        //     //↓こいつで即反映した。
-        //   right.lastElementChild.remove();
-        // }
-        console.log(profiles);
-      }
-    } else {
-      return;
+      // if (right !== null && profileArea0 !== null) {
+      //   right.removeChild(profileArea0!);
+      //   //   if( right !== null && right.lastElementChild !== null){
+      //   //     //↓こいつで即反映した。
+      //   //   right.lastElementChild.remove();
+      //   // }
+      //   console.log(profiles);
+      // }
     }
+    // else {
+    //   return;
+    // }
   });
   // console.log(right);
   // console.log(profileArea0);
 
-  const addElement = (o: Profile) => {
+  //index:numberを追加
+  const addElement = (o: Profile, index: number) => {
     const newDiv: Element = document.createElement("div");
     const newDiv2: Element = document.createElement("div");
 
@@ -278,6 +277,8 @@
         }
         newDiv2.classList.add("right-save", "right-save2");
         newDiv.classList.add("profile-area");
+        //↓にidを追加
+        newDiv.id = `profile-area${index}`;
       });
     }
     //リターンは好きなモノをリターンできるのか。リターンはどこにリターン出来るのか？
@@ -287,7 +288,7 @@
   //
 
   for (let i = 0; i < profiles.length; i++) {
-    addElement(profiles[i]);
+    addElement(profiles[i], i);
   }
 
   const addEvent = (el: Element) => {

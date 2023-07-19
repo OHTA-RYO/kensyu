@@ -1,22 +1,44 @@
 "use strict";
 
-let rate = 1.1;
-let price = 150;
+function getAge(year, month, day) {
+  const today = new Date();
+  const birthdate = new Date(year,month - 1, day);
+  const currentYearBithday = new Date(today.getFullYear(), birthdate.getMonth(),birthdate.getDate());
+  let age = today.getFullYear() - birthdate.getFullYear();
+  if(today < currentYearBithday){
+    age--;
+  }
+  return age;
+}
 
-console.log(price * 120 * rate);
-console.log(price * 130 * rate);
-console.log(price * 140 * rate);
+console.log(getAge(age));
+
+// const rate = 1.1;
+
+// for (let price = 150; price <= 160; price++) {
+//   console.log(`price: ${price}`);
+//   for (let amount = 120; amount <= 140; amount += 10){
+//     console.log(price * amount * rate);
+//   }
+// }
 
 
 
+// for(let i = 1; i<=10; i++){
+//   console.log(`${i}:Hello`)
+// }
 
+// const fname = 'Taro';
+// const lname = 'Ymada';
 
+// console.log(`My name is ${fname} ${lname},call me ${fname}!`);
 
+// let rate = 1.1;
+// let price = 150;
 
-
-
-
-
+// console.log(price * 120 * rate);
+// console.log(price * 130 * rate);
+// console.log(price * 140 * rate);
 
 // {
 // const  result = document.getElementById('result');
@@ -42,9 +64,6 @@ console.log(price * 140 * rate);
 
 // }
 
-
-
-
 // {
 //   const btn = document.getElementById("btn");
 //   const result = document.getElementById("result");
@@ -57,7 +76,7 @@ console.log(price * 140 * rate);
 //     //↑追加　　　　　　　　　　↑のnはどういう意味かが
 //     //わかりません。n番目を取ってくるのはなぜエラーにならないのか。
 //     //↓の書き方と↑の書き方が同じ理由がわからない。
-    
+
 //     switch (n) {
 //       case 0:
 //         result.textContent ='大吉';
@@ -82,24 +101,6 @@ console.log(price * 140 * rate);
 //   });
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // {
 //   const result = document.getElementById('result');
 //   const btn =document.getElementById('btn');
@@ -107,13 +108,12 @@ console.log(price * 140 * rate);
 //   console.log(numbers);
 //   const results = ['小吉','中吉','大吉'];
 //   // console.log(results[0]);
-  
+
 //   console.log(result);
 //   console.log(btn);
-  
+
 //   btn.addEventListener('click', () => {
-  
-  
+
 //     if(numbers === 0){
 //       result.textContent = '小吉';
 //     } else if(numbers === 1){
@@ -123,5 +123,5 @@ console.log(price * 140 * rate);
 //     }
 //     // result.textContent = numbers;
 //   });
-  
+
 //   }

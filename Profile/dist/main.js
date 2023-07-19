@@ -91,7 +91,7 @@
                 }
             }
             if (key === "birthday") {
-                if (saveText === null || saveText === void 0 ? void 0 : saveText.value.match(/^[0-9]{4}年(\d+)月(\d+)日/)) {
+                if (saveText === null || saveText === void 0 ? void 0 : saveText.value.match(/^[0-9]{4}年\d{1,2}月\d{1,2}日$/)) {
                     tmpobject.birthday = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
                 }
                 else {
@@ -118,11 +118,11 @@
                 }
             }
             if (key === "tel") {
-                if (saveText === null || saveText === void 0 ? void 0 : saveText.value.match(/^0\d{1,3}-\d{2,4}-\d{3,4}$/)) {
+                if (saveText === null || saveText === void 0 ? void 0 : saveText.value.match(/\d{2,4}-\d{2,4}-\d{4}/)) {
                     tmpobject.tel = (saveText === null || saveText === void 0 ? void 0 : saveText.value) || "";
                 }
                 else {
-                    return confirm("電話番号はハイフンなしで入力下さい。");
+                    return confirm("電話番号を確認");
                 }
             }
             if (key === "mail") {
@@ -145,7 +145,7 @@
             profiles.push(tmpobject);
             console.log(profiles);
             sessionStorage.setItem("profiles", JSON.stringify(profiles));
-            const newDiv = addElement(tmpobject);
+            const newDiv = addElement(tmpobject, profiles.length - 1);
             addEvent(newDiv);
         }
         else {
@@ -161,7 +161,6 @@
     deleteB === null || deleteB === void 0 ? void 0 : deleteB.addEventListener("click", () => {
         const deleteC = window.confirm("削除しますか？");
         if (deleteC) {
-            sessionStorage.removeItem("profiles");
             profiles.pop();
             sessionStorage.setItem("profiles", JSON.stringify(profiles));
             sessionStorage.getItem("profiles") || "[]";
@@ -169,16 +168,12 @@
                 profiles = saveData;
                 console.log(profiles);
             }
-            if (right !== null && profileArea0 !== null) {
-                right.removeChild(profileArea0);
-                console.log(profiles);
+            if (profileArea0 !== null && profileArea0.parentNode !== null) {
+                profileArea0.parentNode.removeChild(profileArea0);
             }
         }
-        else {
-            return;
-        }
     });
-    const addElement = (o) => {
+    const addElement = (o, index) => {
         const newDiv = document.createElement("div");
         const newDiv2 = document.createElement("div");
         if (right !== null) {
@@ -212,12 +207,13 @@
                 }
                 newDiv2.classList.add("right-save", "right-save2");
                 newDiv.classList.add("profile-area");
+                newDiv.id = `profile-area${index}`;
             });
         }
         return newDiv;
     };
     for (let i = 0; i < profiles.length; i++) {
-        addElement(profiles[i]);
+        addElement(profiles[i], i);
     }
     const addEvent = (el) => {
         el.addEventListener("click", (e) => {
