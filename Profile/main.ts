@@ -205,43 +205,80 @@
   deleteB?.addEventListener("click", () => {
     const deleteC = window.confirm("削除しますか？");
 
-    if (deleteC) {
-      profiles.pop();
-      const profileId = document.getElementById(
-        "profile-area[index]"
-      );
+    if (!deleteC) return;
 
-      profileId?.remove();
+    //プロフィールの要素を取得
+    const profileEl = document.querySelectorAll(".profile-area");
 
-      //削除の後に再度ストレージに保存する
-      sessionStorage.setItem("profiles", JSON.stringify(profiles));
-      //保存したストレージデータを取り出す
-      sessionStorage.getItem("profiles") || "[]";
-      if (saveData.length) {
-        profiles = saveData as Profile[];
-        console.log(profiles);
+    //削除する要素を格納する配列
+    const openElement = [];
+    for (const n of profileEl) {
+      // toggleで切り替えてない方のclass名でelementを取得
+      const targetEl = n.querySelector(".right-save2");
+
+      //right-saveがない情報が開いている情報なので、配列に格納する。
+      if (!targetEl?.classList.contains("right-save")) {
+        openElement.push(n);
       }
-
-      if (profileArea0 !== null && profileArea0!.parentNode !== null) {
-        profileArea0!.parentNode.removeChild(profileArea0!);
-      }
-
-      //ノード削除rightの子要素profileArea0を削除
-      // if (right !== null && profileArea0 !== null) {
-      //   right.removeChild(profileArea0!);
-      //   //   if( right !== null && right.lastElementChild !== null){
-      //   //     //↓こいつで即反映した。
-      //   //   right.lastElementChild.remove();
-      //   // }
-      //   console.log(profiles);
-      // }
     }
-    // else {
-    //   return;
+
+    //要素を削除する
+    for (const deleEl of openElement) {
+      deleEl.remove();
+    }
+
+    //削除の後に再度ストレージに保存する
+    profiles.pop();
+    sessionStorage.setItem("profiles", JSON.stringify(profiles));
+    //保存したストレージデータを取り出す
+    sessionStorage.getItem("profiles") || "[]";
+    if (saveData.length) {
+      profiles = saveData as Profile[];
+      console.log(profiles);
+    }
+  });
+
+  //編集ボタンを押すと、readonlyが消えて、編集可能にする。
+  //アコーディオンが開いているデータのみ外したい。
+
+  const edit = document.getElementById("edit");
+  const eventButton = ()=>{
+  edit?.addEventListener("click", () => {
+    // const profileEl = document.querySelectorAll(".profile-area");
+    // const openElement = [];
+    // for (const n of profileEl) {
+    //   // toggleで切り替えてない方のclass名でelementを取得
+    //   const targetEl = n.querySelector(".right-save2");
+
+    //   //right-saveがない情報が開いている情報なので、配列に格納する。
+    //   if (!targetEl?.classList.contains("right-save")) {
+    //     openElement.push(n);
+        const inputs = document.querySelectorAll("input");
+        const textareas = document.querySelectorAll("textarea");
+
+        inputs.forEach((input) => {
+          input.removeAttribute("readonly");
+        });
+
+        textareas.forEach((textarea) => {
+          textarea?.removeAttribute("readonly");
+        });
+
+        console.log(inputs);
+      // }
     // }
   });
-  // console.log(right);
-  // console.log(profileArea0);
+}
+  //更新ボタンを押すと、readonlyが追加され、編集不能にする。
+  //上で行った逆の動きをするだけなので、関数を作って再利用したい。
+  eventButton();
+  const update = document.getElementById('update');
+  update?.addEventListener('click',() =>{
+    input.setAttribute("readonly");
+    textarea?.setAttribute("readonly");
+  });
+
+
 
   //index:numberを追加
   const addElement = (o: Profile, index: number) => {

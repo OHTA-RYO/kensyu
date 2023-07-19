@@ -160,18 +160,45 @@
     const deleteB = document.getElementById("delete");
     deleteB === null || deleteB === void 0 ? void 0 : deleteB.addEventListener("click", () => {
         const deleteC = window.confirm("削除しますか？");
-        if (deleteC) {
-            profiles.pop();
-            const profileId = document.getElementById("profile-area[profiles.length]");
-            profileId === null || profileId === void 0 ? void 0 : profileId.remove();
-            sessionStorage.setItem("profiles", JSON.stringify(profiles));
-            sessionStorage.getItem("profiles") || "[]";
-            if (saveData.length) {
-                profiles = saveData;
-                console.log(profiles);
+        if (!deleteC)
+            return;
+        const profileEl = document.querySelectorAll(".profile-area");
+        const openElement = [];
+        for (const n of profileEl) {
+            const targetEl = n.querySelector(".right-save2");
+            if (!(targetEl === null || targetEl === void 0 ? void 0 : targetEl.classList.contains("right-save"))) {
+                openElement.push(n);
             }
-            if (profileArea0 !== null && profileArea0.parentNode !== null) {
-                profileArea0.parentNode.removeChild(profileArea0);
+        }
+        for (const deleEl of openElement) {
+            deleEl.remove();
+        }
+        profiles.pop();
+        sessionStorage.setItem("profiles", JSON.stringify(profiles));
+        sessionStorage.getItem("profiles") || "[]";
+        if (saveData.length) {
+            profiles = saveData;
+            console.log(profiles);
+        }
+    });
+    const edit = document.getElementById("edit");
+    edit === null || edit === void 0 ? void 0 : edit.addEventListener("click", () => {
+        const profileEl = document.querySelectorAll(".profile-area");
+        const openElement = [];
+        for (const n of profileEl) {
+            const targetEl = n.querySelector(".right-save2");
+            if (!(targetEl === null || targetEl === void 0 ? void 0 : targetEl.classList.contains("right-save"))) {
+                openElement.push(n);
+                const inputs = document.querySelectorAll("input");
+                const textareas = document.querySelectorAll("textarea");
+                inputs.forEach((input) => {
+                    input.removeAttribute("readonly");
+                });
+                textareas.forEach((textarea) => {
+                    textarea === null || textarea === void 0 ? void 0 : textarea.removeAttribute("readonly");
+                });
+                console.log(inputs);
+                console.log(textarea);
             }
         }
     });

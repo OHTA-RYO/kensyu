@@ -1,5 +1,187 @@
 "use strict";
 
+// {
+//   function double(num){
+//     return num * 2 ;
+//   }
+//   console.log(double(10));
+// }
+
+// {
+// const double =function(num){
+//   return num * 2;
+// }
+// console.log(double(10));
+// }
+
+// {
+//   const double = (num)=>{
+//     return num * 2;
+//   }
+//   console.log(double(10));
+// }
+
+// {
+// const double = num => num * 2;
+// console.log(double(10));
+// }
+
+// {
+// function showAd(){
+//   console.log("---------");
+//   console.log("SALE! 50% OFF!");
+//   console.log("---------");
+// }
+
+// function showContent(){
+//   console.log("BREAKING NEWS!");
+//   console.log("Two baby pandas born at our Zoo!");
+// }
+
+// showAd();
+// showContent();
+// showAd();
+// }
+
+
+// {
+//   function double(num){
+//     return num * 2;
+//   }
+//   console.log(double(10));
+// }
+
+// {
+//   function calculateTotar(price, amount, rate = 1.1){
+//     if(amount >= 100 ){
+//       return price * amount ;
+//     }else{
+//     return price * amount * rate;
+//   }
+//   }
+
+//   console.log(calculateTotar(100,100,));
+//   console.log(calculateTotar(1000,10,));
+//   // console.log(calculateTotar(200,10,));
+//   // console.log(calculateTotar(120,10,1.08));
+// }
+
+// {
+//   function sum(a,b){
+//     return a + b; 
+//   }
+//   console.log(sum(300,700));
+// }
+
+// {
+//   function sum(a,b){
+//     console.log(a+b);
+//   }
+//   sum(300,700);
+// }
+
+// {
+//   function sum(a,b){
+//     return a + b ;
+//   }
+//   console.log(sum(300,700));
+// }
+
+// {
+//   function sum(a,b){
+//     console.log(a + b);
+//   }
+//   sum(300,700);
+// }
+
+
+// {
+//   function double(num){//仮引数
+//     return num * 2;
+
+//   }
+
+//   console.log(double(10));//実引数
+//   console.log(double(4) * 3);//実引数
+// }
+
+// {
+// function double(num){
+//   return num * 2;
+// }
+
+// console.log(double(10));
+// console.log(double(4)*3);
+
+// }
+
+// {
+// function double(num){
+//   return num * 2 ; 
+// }
+
+// console.log(double(10));
+// console.log(double(4)*3);
+
+// }
+
+// {
+// function double(num){
+//   return num *2;
+// }
+
+// console.log(double(10));
+// console.log(double(4) * 3);
+
+// }
+
+// {
+//   function double(num){
+//     return num * 2 ;
+//   }
+//   console.log(double(10));
+//   console.log(double(4)*3);
+// }
+
+// {
+//   function double(num){
+//     return num * 2 ;
+//   }
+//   console.log(double(10));
+//   console.log(double(4)*3);
+// }
+
+// {
+// function double(num){
+//   return num * 2 ;
+// }
+// console.log(double(10));
+// console.log(double(4)*3);
+// }
+
+// {
+// function double(num){
+//   return num * 2;
+// }
+// console.log(double(10));
+// console.log(double(4) * 3);
+
+// }
+
+
+
+// const english = Number(prompt('English?'));
+// const math = Number(prompt('Math?'));
+
+//  if(english >= 80 &&  math >= 80){
+//   console.log('A');
+// } else{
+//   console.log('B');
+//  }
+
+// const score = Number(prompt('Score?'));
+// const result = score > 80 ? 'A' : 'B';
+// console.log(result);
 
 // function getAge(year, month, day) {
 //   const today = new Date();
