@@ -1,17 +1,18 @@
 "use strict";
 
-function getAge(year, month, day) {
-  const today = new Date();
-  const birthdate = new Date(year,month - 1, day);
-  const currentYearBithday = new Date(today.getFullYear(), birthdate.getMonth(),birthdate.getDate());
-  let age = today.getFullYear() - birthdate.getFullYear();
-  if(today < currentYearBithday){
-    age--;
-  }
-  return age;
-}
 
-console.log(getAge(age));
+// function getAge(year, month, day) {
+//   const today = new Date();
+//   const birthdate = new Date(year,month - 1, day);
+//   const currentYearBithday = new Date(today.getFullYear(), birthdate.getMonth(),birthdate.getDate());
+//   let age = today.getFullYear() - birthdate.getFullYear();
+//   if(today < currentYearBithday){
+//     age--;
+//   }
+//   return age;
+// }
+
+// console.log(getAge(age));
 
 // const rate = 1.1;
 

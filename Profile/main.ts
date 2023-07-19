@@ -207,6 +207,11 @@
 
     if (deleteC) {
       profiles.pop();
+      const profileId = document.getElementById(
+        "profile-area[index]"
+      );
+
+      profileId?.remove();
 
       //削除の後に再度ストレージに保存する
       sessionStorage.setItem("profiles", JSON.stringify(profiles));
@@ -216,11 +221,10 @@
         profiles = saveData as Profile[];
         console.log(profiles);
       }
-      // profileArea0?.remove();
 
-      if(profileArea0 !== null && profileArea0!.parentNode !== null){
-            profileArea0!.parentNode.removeChild(profileArea0!);
-          }
+      if (profileArea0 !== null && profileArea0!.parentNode !== null) {
+        profileArea0!.parentNode.removeChild(profileArea0!);
+      }
 
       //ノード削除rightの子要素profileArea0を削除
       // if (right !== null && profileArea0 !== null) {

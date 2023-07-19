@@ -162,6 +162,8 @@
         const deleteC = window.confirm("削除しますか？");
         if (deleteC) {
             profiles.pop();
+            const profileId = document.getElementById("profile-area[profiles.length]");
+            profileId === null || profileId === void 0 ? void 0 : profileId.remove();
             sessionStorage.setItem("profiles", JSON.stringify(profiles));
             sessionStorage.getItem("profiles") || "[]";
             if (saveData.length) {
