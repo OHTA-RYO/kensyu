@@ -1,31 +1,33 @@
 "use strict";
 
-{
-  function checkUsername(useName: string) {
-    if (useName.length >= 4 && useName.length <= 25) {
-      if (useName.charAt(0).match(/[a-z]/)) {
-        if (useName.charAt(useName.length - 1) !== "_") {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
+const li = document.getElementsByClassName();
 
-  function acheckUsername(useName: string) {
-    if (useName.length < 4 || useName.length > 25) return false;
-    if (!useName.charAt(0).match(/[a-z]/)) return false;
-    if (useName.charAt(useName.length - 1) === "_") return false;
-    return true;
-  }
+// {
+//   function checkUsername(useName: string) {
+//     if (useName.length >= 4 && useName.length <= 25) {
+//       if (useName.charAt(0).match(/[a-z]/)) {
+//         if (useName.charAt(useName.length - 1) !== "_") {
+//           return true;
+//         } else {
+//           return false;
+//         }
+//       } else {
+//         return false;
+//       }
+//     } else {
+//       return false;
+//     }
+//   }
 
-  console.log(checkUsername("aasssssssssssssssss"));
-}
+//   function acheckUsername(useName: string) {
+//     if (useName.length < 4 || useName.length > 25) return false;
+//     if (!useName.charAt(0).match(/[a-z]/)) return false;
+//     if (useName.charAt(useName.length - 1) === "_") return false;
+//     return true;
+//   }
+
+//   console.log(checkUsername("aasssssssssssssssss"));
+// }
 
 //↑値を返しているだけ。
 

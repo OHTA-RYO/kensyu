@@ -15,6 +15,8 @@
     remarks: string;
   };
 
+  let isedit = false;
+
   //letに変更
   let profiles: Profile[] = [
     {
@@ -243,36 +245,51 @@
 
   const edit = document.getElementById("edit");
 
-    edit?.addEventListener("click", () => {
-      const inputs = document.querySelectorAll("input");
-      const textareas = document.querySelectorAll("textarea");
+  edit?.addEventListener("click", () => {
+    isedit = true ;
+
+    const profileEl = document.querySelectorAll(".profile-area");
+
+    //削除する要素を格納する配列
+    const openElement = [];
+    for (const n of profileEl) {
+      // toggleで切り替えてない方のclass名でelementを取得
+      const targetEl = n.querySelector(".right-save2");
+
+      //right-saveがない情報が開いている情報なので、配列に格納する。
+      if (!targetEl?.classList.contains("right-save")) {
+        openElement.push(n);
+      }
+    }
+
+    for (const editEl of openElement) {
+      const inputs = editEl.querySelectorAll("input");
+      const textareas = editEl.querySelectorAll("textarea");
 
       inputs.forEach((input) => {
         input.removeAttribute("readonly");
       });
-
+  
       textareas.forEach((textarea) => {
         textarea?.removeAttribute("readonly");
       });
-
-      console.log(inputs);
-    });
-
+    }
+  });
 
   //更新ボタンを押すと、readonlyが追加され、編集不能にする。
   const update = document.getElementById("update");
   update?.addEventListener("click", () => {
+    isedit = false;
     const inputs = document.querySelectorAll("input");
     const textareas = document.querySelectorAll("textarea");
 
     inputs.forEach((input) => {
-      input.setAttribute("readonly",value);
+      input.setAttribute("readonly", "true");
     });
 
     textareas.forEach((textarea) => {
-      textarea?.setAttribute("readonly",value);
+      textarea?.setAttribute("readonly", "true");
     });
-
   });
 
   //index:numberを追加
@@ -329,6 +346,7 @@
 
   const addEvent = (el: Element) => {
     el.addEventListener("click", (e) => {
+      if(isedit)return;
       console.log(el);
       // const name = el.querySelector('.name');
       const profile = el.querySelector(".right-save2");

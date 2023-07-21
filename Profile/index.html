@@ -10,27 +10,49 @@
     <main id="main">
       <div id="left">
         <p id="title" value="名前/日本語" name="pbox1">名前/日本語</p>
-        <input type="text" value="" placeholder="空白なしでご入力下さい" class="name_num" />
+        <input
+          type="text"
+          value=""
+          placeholder="空白なしでご入力下さい"
+          class="name_num"
+        />
         <p value="生年月日/西暦">生年月日/西暦</p>
-        <input type="text" value="" placeholder="西暦でご入力下さい。" class="birthday_num" />
+        <input
+          type="text"
+          value=""
+          placeholder="西暦でご入力下さい。"
+          class="birthday_num"
+        />
         <p value="年齢/歳">年齢/歳</p>
-        <input type="text" value="" placeholder="自動で入力されます。" class="age_num" />
+        <input
+          type="text"
+          value=""
+          placeholder="自動で入力されます。"
+          class="age_num"
+        />
         <p value="身長/cm">身長/cm</p>
-        <input type="text" value="" placeholder="178cm" class="height_num"/>
+        <input type="text" value="" placeholder="178cm" class="height_num" />
         <p value="体重/kg">体重/kg</p>
         <input type="text" value="" placeholder="73kg" class="weight_num" />
         <p value="電話番号:">電話番号:</p>
         <input
           type="text"
           value=""
-          placeholder="ハイフンありでご入力下さい。" class="tel_num"
+          placeholder="ハイフンありでご入力下さい。"
+          class="tel_num"
         />
         <p value="メールアドレス:">メールアドレス:</p>
-        <input type="text" value="" placeholder="sample@sample.com" class="mail_num"/>
+        <input
+          type="text"
+          value=""
+          placeholder="sample@sample.com"
+          class="mail_num"
+        />
         <p value="備考:">備考:</p>
         <textarea
           value=""
-          placeholder="〇〇が趣味です。などご自由にご記入下さい。" class="remarks_num"
+          placeholder="〇〇が趣味です。などご自由にご記入下さい。"
+          class="remarks_num"
         ></textarea>
 
         <div class="button-area">
@@ -62,9 +84,9 @@
 
         <div class="right-button-area">
           <p>名前検索/漢字で入力</p>
-          <input type="text" value="" placeholder="山田太郎" />
+          <input type="text" value="" placeholder="山田太郎" name="name" />
           <div class="button-area">
-            <button id="sarch">検索</button>
+            <button id="sarch" type="submit" value="検索">検索</button>
             <button id="edit">編集</button>
             <button id="update">更新</button>
             <button id="delete">削除</button>
