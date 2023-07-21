@@ -183,24 +183,26 @@
     });
     const edit = document.getElementById("edit");
     edit === null || edit === void 0 ? void 0 : edit.addEventListener("click", () => {
-        const profileEl = document.querySelectorAll(".profile-area");
-        const openElement = [];
-        for (const n of profileEl) {
-            const targetEl = n.querySelector(".right-save2");
-            if (!(targetEl === null || targetEl === void 0 ? void 0 : targetEl.classList.contains("right-save"))) {
-                openElement.push(n);
-                const inputs = document.querySelectorAll("input");
-                const textareas = document.querySelectorAll("textarea");
-                inputs.forEach((input) => {
-                    input.removeAttribute("readonly");
-                });
-                textareas.forEach((textarea) => {
-                    textarea === null || textarea === void 0 ? void 0 : textarea.removeAttribute("readonly");
-                });
-                console.log(inputs);
-                console.log(textarea);
-            }
-        }
+        const inputs = document.querySelectorAll("input");
+        const textareas = document.querySelectorAll("textarea");
+        inputs.forEach((input) => {
+            input.removeAttribute("readonly");
+        });
+        textareas.forEach((textarea) => {
+            textarea === null || textarea === void 0 ? void 0 : textarea.removeAttribute("readonly");
+        });
+        console.log(inputs);
+    });
+    const update = document.getElementById("update");
+    update === null || update === void 0 ? void 0 : update.addEventListener("click", () => {
+        const inputs = document.querySelectorAll("input");
+        const textareas = document.querySelectorAll("textarea");
+        inputs.forEach((input) => {
+            input.setAttribute("readonly", value);
+        });
+        textareas.forEach((textarea) => {
+            textarea === null || textarea === void 0 ? void 0 : textarea.setAttribute("readonly", value);
+        });
     });
     const addElement = (o, index) => {
         const newDiv = document.createElement("div");

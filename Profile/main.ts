@@ -242,43 +242,38 @@
   //アコーディオンが開いているデータのみ外したい。
 
   const edit = document.getElementById("edit");
-  const eventButton = ()=>{
-  edit?.addEventListener("click", () => {
-    // const profileEl = document.querySelectorAll(".profile-area");
-    // const openElement = [];
-    // for (const n of profileEl) {
-    //   // toggleで切り替えてない方のclass名でelementを取得
-    //   const targetEl = n.querySelector(".right-save2");
 
-    //   //right-saveがない情報が開いている情報なので、配列に格納する。
-    //   if (!targetEl?.classList.contains("right-save")) {
-    //     openElement.push(n);
-        const inputs = document.querySelectorAll("input");
-        const textareas = document.querySelectorAll("textarea");
+    edit?.addEventListener("click", () => {
+      const inputs = document.querySelectorAll("input");
+      const textareas = document.querySelectorAll("textarea");
 
-        inputs.forEach((input) => {
-          input.removeAttribute("readonly");
-        });
+      inputs.forEach((input) => {
+        input.removeAttribute("readonly");
+      });
 
-        textareas.forEach((textarea) => {
-          textarea?.removeAttribute("readonly");
-        });
+      textareas.forEach((textarea) => {
+        textarea?.removeAttribute("readonly");
+      });
 
-        console.log(inputs);
-      // }
-    // }
-  });
-}
+      console.log(inputs);
+    });
+
+
   //更新ボタンを押すと、readonlyが追加され、編集不能にする。
-  //上で行った逆の動きをするだけなので、関数を作って再利用したい。
-  eventButton();
-  const update = document.getElementById('update');
-  update?.addEventListener('click',() =>{
-    input.setAttribute("readonly");
-    textarea?.setAttribute("readonly");
+  const update = document.getElementById("update");
+  update?.addEventListener("click", () => {
+    const inputs = document.querySelectorAll("input");
+    const textareas = document.querySelectorAll("textarea");
+
+    inputs.forEach((input) => {
+      input.setAttribute("readonly",value);
+    });
+
+    textareas.forEach((textarea) => {
+      textarea?.setAttribute("readonly",value);
+    });
+
   });
-
-
 
   //index:numberを追加
   const addElement = (o: Profile, index: number) => {
