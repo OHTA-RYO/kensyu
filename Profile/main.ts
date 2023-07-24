@@ -1,4 +1,5 @@
 {
+
   const names = document.querySelectorAll(".name");
 
   //オブジェクト:キーとバリュー(値)がペアになったもの
