@@ -1,4 +1,4 @@
-export type InputData = [{
+export type InputData = {
   name: string;
   birthday: string;
   age: string;
@@ -7,9 +7,9 @@ export type InputData = [{
   tel: string;
   mail: string;
   remarks: string;
-}];
+};
 
-export const defaultInputData: InputData = [{
+export const defaultInputData: InputData = {
   name: "",
   birthday: "",
   age: "",
@@ -18,15 +18,5 @@ export const defaultInputData: InputData = [{
   tel: "",
   mail: "",
   remarks: "",
-}];
+};
 
-export type SaveInputData = [{
-  name: inputData.name,
-  birthday: inputData.birthday,
-  age: inputData.age,
-  height: inputData.height,
-  weight: inputData.weight,
-  tel: inputData.tel,
-  mail: inputData.mail,
-  remarks: inputData.remarks,
-}];
