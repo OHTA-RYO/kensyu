@@ -20,13 +20,13 @@ export const defaultInputData: InputData = [{
   remarks: "",
 }];
 
-// export type saveInputData = [{
-//   name: inputData.name,
-//   birthday: inputData.birthday,
-//   age: inputData.age,
-//   height: inputData.height,
-//   weight: inputData.weight,
-//   tel: inputData.tel,
-//   mail: inputData.mail,
-//   remarks: inputData.remarks,
-// }];
+export type SaveInputData = [{
+  name: inputData.name,
+  birthday: inputData.birthday,
+  age: inputData.age,
+  height: inputData.height,
+  weight: inputData.weight,
+  tel: inputData.tel,
+  mail: inputData.mail,
+  remarks: inputData.remarks,
+}];

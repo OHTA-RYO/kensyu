@@ -4,7 +4,7 @@ import ProfileButton from "./ProfileButton.vue";
 import ProfileSarch from "./ProfileSarch.vue";
 
 import { ref, reactive, watch } from "vue";
-import { InputData, saveInputData } from "../types";
+import { InputData, SaveInputData  } from "../types";
 
 const inputData = reactive<InputData>([{
   name: "",
@@ -21,38 +21,37 @@ watch(inputData, () => {
   console.log(inputData);
 });
 
-// const saveButton = () => {
-//   const saveInputData = [{
-//     name: inputData.name,
-//     birthday: inputData.birthday,
-//     age: inputData.age,
-//     height: inputData.height,
-//     weight: inputData.weight,
-//     tel: inputData.tel,
-//     mail: inputData.mail,
-//     remarks: inputData.remarks,
-//   }];
-//   inputData.push(saveInputData);
-//   console.log(inputData);
-// };
+const saveButton = () => {
+  const saveInputData = [{
+    name: inputData.name,
+    birthday: inputData.birthday,
+    age: inputData.age,
+    height: inputData.height,
+    weight: inputData.weight,
+    tel: inputData.tel,
+    mail: inputData.mail,
+    remarks: inputData.remarks,
+  }];
+  inputData.push(saveInputData);
+  console.log(inputData);
+};
 
-const deleteButton = () =>{
-  confirm('削除しますか？')
-}
-
+const deleteButton = () => {
+  confirm("削除しますか？");
+};
 </script>
 
 <template>
   <div class="container">
     <div class="left-container">
       <ProfileCard v-model="inputData" />
-      <ProfileButton @click="saveButton()" label="保存" id="save-button" />
+      <ProfileButton @click="saveButton" label="保存" id="save-button" />
     </div>
 
     <div class="right-container">
       <div>
         <ProfileCard />
-        <!-- <input {{ saveInputData }} /> -->
+        {{ inputData.name }}
       </div>
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" />

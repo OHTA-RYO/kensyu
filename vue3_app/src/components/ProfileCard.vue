@@ -22,6 +22,22 @@ const inputData = computed({
     emit("update:modelValue", v);
   },
 });
+
+// const saveButton = () => {
+//   const saveInputData = [{
+//     name: inputData.name,
+//     birthday: inputData.birthday,
+//     age: inputData.age,
+//     height: inputData.height,
+//     weight: inputData.weight,
+//     tel: inputData.tel,
+//     mail: inputData.mail,
+//     remarks: inputData.remarks,
+//   }];
+//   inputData.push(saveInputData);
+//   console.log(inputData);
+// };
+
 </script>
 
 <template>
