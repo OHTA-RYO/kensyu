@@ -22,35 +22,50 @@ const saveButton = () => {
 };
 
 const deleteButton = () => {
-  if(editIndex.value === null)return
+  if (editIndex.value === null) return;
   confirm("削除しますか？");
-  saveInputData.value = saveInputData.value.filter((t,index) => index !== editIndex.value);
-  editIndex.value = null
+  saveInputData.value = saveInputData.value.filter(
+    (t, index) => index !== editIndex.value
+  );
+  editIndex.value = null;
 };
 
-const editIndex = ref<number | null>(null)
+const editIndex = ref<number | null>(null);
 
-const isActive = true;
+const openIndex = ref<number | null>(null);
 
+const setIndex = (index: number) => {
+  editIndex.value = index;
+
+  if (index === openIndex.value) {
+    openIndex.value = null;
+  } else {
+    openIndex.value = index;
+  }
+  console.log(index);
+};
 </script>
 
 <template>
   <div class="container">
     <div class="left-container">
-      <ProfileCard v-model="inputData" />
+      <ProfileCard v-model="inputData" :isToggle="true" />
       <ProfileButton @click="saveButton" label="保存" id="save-button" />
     </div>
 
     <div class="right-container">
-      <ProfileCardD @click="!isActive" v-if(isActive !== true){ 
-        :class="closearea";
-      }v-else{
-        :class="!closearea"
-      }   />
-      <div @click="editIndex=index" v-for="(s, index) in saveInputData" :key="index">
+      <ProfileCardD />
+      <div
+        @click="setIndex(index)"
+        v-for="(s, index) in saveInputData"
+        :key="index"
+      >
         <!-- <ProfileCard v-model:saveInputData="saveInputData" /> -->
 
-        <ProfileCard v-model="saveInputData[index]" />
+        <ProfileCard
+          v-model="saveInputData[index]"
+          :isToggle="index === openIndex"
+        />
       </div>
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" />
@@ -66,7 +81,6 @@ const isActive = true;
 </template>
 
 <style scoped>
-
 .container {
   display: flex;
   width: 100%;
@@ -108,9 +122,4 @@ button:nth-child(n + 2) {
 #save-button {
   margin: 16px 0px;
 }
-
-.closearea {
-  display: none;
-}
-
 </style>
