@@ -16,27 +16,13 @@ const emit = defineEmits<{
 
 const inputData = computed({
   get() {
-    return props.modelValue ?? defaultInputData;
+    return props.modelValue ?? defaultInputData();
   },
   set(v) {
     emit("update:modelValue", v);
   },
 });
 
-// const saveButton = () => {
-//   const saveInputData = [{
-//     name: inputData.name,
-//     birthday: inputData.birthday,
-//     age: inputData.age,
-//     height: inputData.height,
-//     weight: inputData.weight,
-//     tel: inputData.tel,
-//     mail: inputData.mail,
-//     remarks: inputData.remarks,
-//   }];
-//   inputData.push(saveInputData);
-//   console.log(inputData);
-// };
 
 </script>
 
@@ -44,7 +30,7 @@ const inputData = computed({
   <div class="main-cardarea">
     <p>名前/日本語</p>
     <input v-model="inputData.name" type="text"  />
-    <!-- <div class="close-area"> -->
+    <!-- <div class="closearea"> -->
     <p>生年月日/西暦</p>
     <input v-model="inputData.birthday" type="text" />
     <p>年齢/歳</p>
@@ -70,7 +56,7 @@ p {
   font-size: 18px;
 }
 
-.close-area {
+.closearea {
   display: none;
 }
 </style>

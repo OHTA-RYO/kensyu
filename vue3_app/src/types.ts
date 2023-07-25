@@ -1,4 +1,5 @@
 export type InputData = {
+  id:  number,
   name: string;
   birthday: string;
   age: string;
@@ -9,7 +10,8 @@ export type InputData = {
   remarks: string;
 };
 
-export const defaultInputData: InputData = {
+export const defaultInputData = ():InputData =>{ return{
+  id:  Math.floor(Math.random() * 100),
   name: "",
   birthday: "",
   age: "",
@@ -18,5 +20,5 @@ export const defaultInputData: InputData = {
   tel: "",
   mail: "",
   remarks: "",
-};
+}};
 

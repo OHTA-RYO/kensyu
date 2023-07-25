@@ -2,20 +2,12 @@
 import ProfileCard from "./ProfileCard.vue";
 import ProfileButton from "./ProfileButton.vue";
 import ProfileSarch from "./ProfileSarch.vue";
+import ProfileCardD from "./ProfileCardD.vue";
 
 import { ref, reactive, watch } from "vue";
-import { InputData } from "../types";
+import { InputData, defaultInputData } from "../types";
 
-const inputData = reactive<InputData>({
-  name: "",
-  birthday: "",
-  age: "",
-  height: "",
-  weight: "",
-  tel: "",
-  mail: "",
-  remarks: "",
-});
+const inputData = ref<InputData>(defaultInputData());
 
 const saveInputData = ref<InputData[]>([]);
 
@@ -24,43 +16,41 @@ watch(inputData, () => {
 });
 
 const saveButton = () => {
-  saveInputData.value.push(inputData);
+  saveInputData.value.push(inputData.value);
   console.log(inputData);
-  inputData.name = "";
+  inputData.value = defaultInputData();
 };
-
-// const saveButton = () => {
-//   const saveInputData = [{
-//     name: inputData.name,
-//     birthday: inputData.birthday,
-//     age: inputData.age,
-//     height: inputData.height,
-//     weight: inputData.weight,
-//     tel: inputData.tel,
-//     mail: inputData.mail,
-//     remarks: inputData.remarks,
-//   }];
-//   inputData.push(saveInputData);
-//   console.log(inputData);
-// };
 
 const deleteButton = () => {
+  if(editIndex.value === null)return
   confirm("削除しますか？");
+  saveInputData.value = saveInputData.value.filter((t,index) => index !== editIndex.value);
+  editIndex.value = null
 };
+
+const editIndex = ref<number | null>(null)
+
+const isActive = true;
+
 </script>
 
 <template>
   <div class="container">
     <div class="left-container">
-      <ProfileCard v-model:inputData="inputData" />
+      <ProfileCard v-model="inputData" />
       <ProfileButton @click="saveButton" label="保存" id="save-button" />
     </div>
 
     <div class="right-container">
-      <div>
+      <ProfileCardD @click="!isActive" v-if(isActive !== true){ 
+        :class="closearea";
+      }v-else{
+        :class="!closearea"
+      }   />
+      <div @click="editIndex=index" v-for="(s, index) in saveInputData" :key="index">
         <!-- <ProfileCard v-model:saveInputData="saveInputData" /> -->
-        <!-- <ProfileCard v-for="inputData in inputData" :key="inputData.name" /> -->
-        <!-- <ProfileCard v-model:saveInputData="saveInputData" /> -->
+
+        <ProfileCard v-model="saveInputData[index]" />
       </div>
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" />
@@ -76,9 +66,6 @@ const deleteButton = () => {
 </template>
 
 <style scoped>
-body {
-  /* margin: 0; */
-}
 
 .container {
   display: flex;
@@ -100,6 +87,7 @@ body {
   /* background: lightgray; */
   padding-left: 32px;
   display: flex;
+  flex-direction: column;
 }
 
 .sub-container {
@@ -120,4 +108,9 @@ button:nth-child(n + 2) {
 #save-button {
   margin: 16px 0px;
 }
+
+.closearea {
+  display: none;
+}
+
 </style>
