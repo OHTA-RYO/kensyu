@@ -18,10 +18,6 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  isToggleDelete:{
-    type: Boolean,
-    default: false,
-  }
 });
 
 // const emit = defineEmits(["update:modelValue"]);

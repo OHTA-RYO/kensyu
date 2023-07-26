@@ -9,7 +9,61 @@ import { InputData, defaultInputData } from "../types";
 
 const inputData = ref<InputData>(defaultInputData());
 
-const saveInputData = ref<InputData[]>([]);
+const saveInputData = ref<InputData[]>([{
+      id: 0,
+      name: "中島慶樹",
+      birthday: "1997年7月7日",
+      age: "",
+      height: "178cm",
+      weight: "73kg",
+      tel: "080-1234-5678",
+      mail: "nakashima-k@codelic.co",
+      remarks: "筋トレが趣味です",
+    },
+    {
+      id: 1,
+      name: "山田次郎",
+      birthday: "1945年6月8日",
+      age: "",
+      height: "188cm",
+      weight: "73kg",
+      tel: "080-1234-5678",
+      mail: "nakashima-k@codelic.co",
+      remarks: "筋トレが趣味です",
+    },
+    {
+      id: 2,
+      name: "山田三郎",
+      birthday: "2000年1月8日",
+      age: "",
+      height: "188cm",
+      weight: "73kg",
+      tel: "080-1234-5678",
+      mail: "nakashima-k@codelic.co",
+      remarks: "筋トレが趣味です",
+    },
+    {
+      id: 3,
+      name: "山田四郎",
+      birthday: "1999年3月8日",
+      age: "",
+      height: "188cm",
+      weight: "73kg",
+      tel: "080-1234-5678",
+      mail: "nakashima-k@codelic.co",
+      remarks: "筋トレが趣味です",
+    },
+    {
+      id: 4,
+      name: "山田吾郎",
+      birthday: "1978年9月8日",
+      age: "",
+      height: "188cm",
+      weight: "73kg",
+      tel: "080-1234-5678",
+      mail: "nakashima-k@codelic.co",
+      remarks: "筋トレが趣味です",
+    }]);
 
 watch(inputData, () => {
   console.log(inputData);
@@ -30,11 +84,15 @@ const deleteButton = () => {
   editIndex.value = null;
 };
 
+const isToggle = ref<boolean>(false);
+
 const editIndex = ref<number | null>(null);
 
 const openIndex = ref<number | null>(null);
 
 const setIndex = (index: number) => {
+  console.log(isToggle.value,index)
+  if (isToggle.value) return;
   editIndex.value = index;
 
   if (index === openIndex.value) {
@@ -45,8 +103,15 @@ const setIndex = (index: number) => {
   console.log(index);
 };
 
-const editButton = (index: number) => {
-  setIndex(index);
+const editButton = () => {
+  if (openIndex.value === null) return;
+  isToggle.value = !isToggle.value;
+};
+
+const updateButton = () => {
+  console.log(isToggle.value)
+  if (openIndex.value === null) return;
+  isToggle.value = !isToggle.value;
 };
 </script>
 
@@ -71,17 +136,16 @@ const editButton = (index: number) => {
         <ProfileCard
           v-model="saveInputData[index]"
           :isToggle="index === openIndex"
-          :isReadonly="true"
-          :isToggleDelete="index !== openIndex"
+          :isReadonly="!(index === openIndex && isToggle)"
         />
       </div>
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" />
         <div class="button-area">
           <ProfileButton label="検索" />
-          <ProfileButton label="編集" @click="editButton" :disabled="isToggle" />
-          <ProfileButton label="更新" />
-          <ProfileButton label="削除" @click="deleteButton()"  />
+          <ProfileButton label="編集" @click="editButton" />
+          <ProfileButton label="更新" @click="updateButton" />
+          <ProfileButton label="削除" @click="deleteButton()" />
         </div>
       </div>
     </div>
