@@ -16,7 +16,11 @@ const props = defineProps({
   },
   isReadonly: {
     type: Boolean,
-    default: true
+    default: true,
+  },
+  isToggleDelete:{
+    type: Boolean,
+    default: false,
   }
 });
 

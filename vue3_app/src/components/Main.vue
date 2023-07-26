@@ -72,16 +72,16 @@ const editButton = (index: number) => {
           v-model="saveInputData[index]"
           :isToggle="index === openIndex"
           :isReadonly="true"
-          v-if="isTogle"
+          :isToggleDelete="index !== openIndex"
         />
       </div>
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" />
         <div class="button-area">
           <ProfileButton label="検索" />
-          <ProfileButton label="編集" @click="editButton" />
+          <ProfileButton label="編集" @click="editButton" :disabled="isToggle" />
           <ProfileButton label="更新" />
-          <ProfileButton label="削除" @click="deleteButton()" />
+          <ProfileButton label="削除" @click="deleteButton()"  />
         </div>
       </div>
     </div>
