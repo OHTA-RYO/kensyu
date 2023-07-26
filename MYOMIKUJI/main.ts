@@ -1,12 +1,42 @@
 "use strict";
 
-function pi(){
-  return 3.14
+//2つの値を受け取り、その合計を計算する関数。
+
+const sum = (num1:number,num2:number)=>{
+  return num1 + num2;
 }
 
-const a = pi()
+console.log(sum(100,150));
+console.log(sum(200,150));
 
-console.log(a);
+// const judge = (num:number) => {
+//   if(num % 2 === 0) return '偶数';
+//     return '奇数';
+// }
+
+// for( let i = 1; i < 20;){
+//   console.log(`${i}:${judge(i)}`)
+//   i++
+// }
+
+// const dobule = (num:number)=>{
+// return num * 2 
+// }
+
+// console.log(dobule(100));
+
+
+// function dobule(num){
+
+// }
+
+// function pi(){
+//   return 3.14
+// }
+
+// const a = pi()
+
+// console.log(a);
 
 // function formatName(name:string,title:string = 'さん'){
 //   return `${name}${title}`

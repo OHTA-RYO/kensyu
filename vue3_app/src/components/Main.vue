@@ -7,7 +7,7 @@ import ProfileCardD from "./ProfileCardD.vue";
 import { ref, reactive, watch } from "vue";
 import { InputData, defaultInputData } from "../types";
 
-const inputData = ref<InputData>(defaultInputData())
+const inputData = ref<InputData>(defaultInputData());
 
 const saveInputData = ref<InputData[]>([]);
 
@@ -44,12 +44,21 @@ const setIndex = (index: number) => {
   }
   console.log(index);
 };
+
+const editButton = (index: number) => {
+  setIndex(index);
+};
 </script>
 
 <template>
   <div class="container">
     <div class="left-container">
-      <ProfileCard v-model="inputData" :isToggle="true" :isPaddingLeft = 'false' :isReadonly="false" />
+      <ProfileCard
+        v-model="inputData"
+        :isToggle="true"
+        :isPaddingLeft="false"
+        :isReadonly="false"
+      />
       <ProfileButton @click="saveButton" label="保存" id="save-button" />
     </div>
 
@@ -59,17 +68,18 @@ const setIndex = (index: number) => {
         v-for="(s, index) in saveInputData"
         :key="index"
       >
-
         <ProfileCard
           v-model="saveInputData[index]"
           :isToggle="index === openIndex"
-         :isReadonly="true" />
+          :isReadonly="true"
+          v-if="isTogle"
+        />
       </div>
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" />
         <div class="button-area">
           <ProfileButton label="検索" />
-          <ProfileButton label="編集" />
+          <ProfileButton label="編集" @click="editButton" />
           <ProfileButton label="更新" />
           <ProfileButton label="削除" @click="deleteButton()" />
         </div>

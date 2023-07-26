@@ -39,22 +39,22 @@ const inputData = computed({
 <template>
   <div class="main-cardarea">
     <p>名前/日本語</p>
-    <input v-model="inputData.name" type="text" :isReadonly="false" readonly  />
+    <input v-model="inputData.name" type="text" :readonly='isReadonly'  />
     <div v-if="isToggle" :class="{closearea:isPaddingLeft}">
       <p>生年月日/西暦</p>
-      <input v-model="inputData.birthday" type="text" />
+      <input v-model="inputData.birthday" type="text" :readonly='isReadonly' />
       <p>年齢/歳</p>
-      <input v-model="inputData.age" type="text" />
+      <input v-model="inputData.age" type="text" :readonly='isReadonly' />
       <p>身長/cm</p>
-      <input v-model="inputData.height" type="text" />
+      <input v-model="inputData.height" type="text" :readonly='isReadonly' />
       <p>体重/kg</p>
-      <input v-model="inputData.weight" type="text" />
+      <input v-model="inputData.weight" type="text" :readonly='isReadonly' />
       <p>電話番号:</p>
-      <input v-model="inputData.tel" type="text" />
+      <input v-model="inputData.tel" type="text" :readonly='isReadonly' />
       <p>メールアドレス:</p>
-      <input v-model="inputData.mail" type="text" />
+      <input v-model="inputData.mail" type="text" :readonly='isReadonly' />
       <p>備考:</p>
-      <textarea v-model="inputData.remarks"></textarea>
+      <textarea v-model="inputData.remarks" :readonly='isReadonly' ></textarea>
     </div>
   </div>
   <!-- <button @click="">test</button> -->
