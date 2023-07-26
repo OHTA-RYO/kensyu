@@ -49,7 +49,7 @@ const setIndex = (index: number) => {
 <template>
   <div class="container">
     <div class="left-container">
-      <ProfileCard v-model="inputData" :isToggle="true" />
+      <ProfileCard v-model="inputData" :isToggle="true" :class="{closearea:isPaddingLeft = false}" />
       <ProfileButton @click="saveButton" label="保存" id="save-button" />
     </div>
 
