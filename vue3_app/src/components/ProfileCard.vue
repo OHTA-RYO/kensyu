@@ -57,4 +57,9 @@ const inputData = computed({
 p {
   font-size: 18px;
 }
+
+.closearea {
+  padding-left: 20px;
+}
 </style>
+

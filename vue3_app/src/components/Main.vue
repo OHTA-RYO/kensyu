@@ -7,7 +7,7 @@ import ProfileCardD from "./ProfileCardD.vue";
 import { ref, reactive, watch } from "vue";
 import { InputData, defaultInputData } from "../types";
 
-const inputData = ref<InputData>(defaultInputData());
+const inputData = ref<InputData>(defaultInputData())
 
 const saveInputData = ref<InputData[]>([]);
 
@@ -54,18 +54,16 @@ const setIndex = (index: number) => {
     </div>
 
     <div class="right-container">
-      <ProfileCardD />
       <div
         @click="setIndex(index)"
         v-for="(s, index) in saveInputData"
         :key="index"
       >
-        <!-- <ProfileCard v-model:saveInputData="saveInputData" /> -->
 
         <ProfileCard
           v-model="saveInputData[index]"
           :isToggle="index === openIndex"
-        />
+        readonly />
       </div>
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" />
