@@ -10,7 +10,7 @@ import { InputData, defaultInputData } from "../types";
 const inputData = ref<InputData>(defaultInputData());
 
 const saveInputData = ref<InputData[]>([{
-      id: 0,
+      id: Math.floor(Math.random() * 100),
       name: "中島慶樹",
       birthday: "1997年7月7日",
       age: "",
@@ -21,7 +21,7 @@ const saveInputData = ref<InputData[]>([{
       remarks: "筋トレが趣味です",
     },
     {
-      id: 1,
+      id: Math.floor(Math.random() * 100),
       name: "山田次郎",
       birthday: "1945年6月8日",
       age: "",
@@ -32,7 +32,7 @@ const saveInputData = ref<InputData[]>([{
       remarks: "筋トレが趣味です",
     },
     {
-      id: 2,
+      id: Math.floor(Math.random() * 100),
       name: "山田三郎",
       birthday: "2000年1月8日",
       age: "",
@@ -43,7 +43,7 @@ const saveInputData = ref<InputData[]>([{
       remarks: "筋トレが趣味です",
     },
     {
-      id: 3,
+      id: Math.floor(Math.random() * 100),
       name: "山田四郎",
       birthday: "1999年3月8日",
       age: "",
@@ -54,7 +54,7 @@ const saveInputData = ref<InputData[]>([{
       remarks: "筋トレが趣味です",
     },
     {
-      id: 4,
+      id: Math.floor(Math.random() * 100),
       name: "山田吾郎",
       birthday: "1978年9月8日",
       age: "",
