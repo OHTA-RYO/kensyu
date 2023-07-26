@@ -49,7 +49,7 @@ const setIndex = (index: number) => {
 <template>
   <div class="container">
     <div class="left-container">
-      <ProfileCard v-model="inputData" :isToggle="true" :class="{closearea:isPaddingLeft = false}" />
+      <ProfileCard v-model="inputData" :isToggle="true" :isPaddingLeft = 'false' :isReadonly="false" />
       <ProfileButton @click="saveButton" label="保存" id="save-button" />
     </div>
 
@@ -63,7 +63,7 @@ const setIndex = (index: number) => {
         <ProfileCard
           v-model="saveInputData[index]"
           :isToggle="index === openIndex"
-        readonly />
+         :isReadonly="true" />
       </div>
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" />

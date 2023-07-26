@@ -13,6 +13,10 @@ const props = defineProps({
   isPaddingLeft: {
     type: Boolean,
    default: true,
+  },
+  isReadonly: {
+    type: Boolean,
+    default: true
   }
 });
 
@@ -35,8 +39,8 @@ const inputData = computed({
 <template>
   <div class="main-cardarea">
     <p>名前/日本語</p>
-    <input v-model="inputData.name" type="text" />
-    <div class="closearea" v-if="isToggle" :class="{closearea:isPaddingLeft}">
+    <input v-model="inputData.name" type="text" :isReadonly="false" readonly  />
+    <div v-if="isToggle" :class="{closearea:isPaddingLeft}">
       <p>生年月日/西暦</p>
       <input v-model="inputData.birthday" type="text" />
       <p>年齢/歳</p>
