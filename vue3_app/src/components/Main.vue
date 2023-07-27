@@ -111,25 +111,22 @@ const updateButton = () => {
   console.log(isToggle.value);
   if (openIndex.value === null) return;
   isToggle.value = !isToggle.value;
-  alert('データを更新しました。')
+  alert("データを更新しました。");
 };
 
+const searchText = ref<string>("");
 
-const searchText = ref<string>('')
+watch(searchText, () => {
+  console.log(searchText.value);
+});
 
-watch(searchText, ()=>{
-  console.log(searchText.value)
-})
-
-
- const  searchName = computed (() =>{
-  return saveInputData.value.filter( d => d.name.includes(searchText.value) )
-})
+const searchName = computed(() => {
+  return saveInputData.value.filter((d) => d.name.includes(searchText.value));
+});
 
 const searchButton = () => {
-  searchName
-}
-
+  searchName;
+};
 </script>
 
 <template>
