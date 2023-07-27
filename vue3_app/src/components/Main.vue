@@ -85,36 +85,39 @@ watch(
       );
       const todayYearA = today.getFullYear();
       const todayMonthA = today.getMonth() + 1;
-      const todayDayA = today.getDate() ;
+      const todayDayA = today.getDate();
 
-      console.log(todayYearA)
-      console.log(todayMonthA)
-      console.log(todayDayA)
+      console.log(todayYearA);
+      console.log(todayMonthA);
+      console.log(todayDayA);
 
       console.log(birthday);
-      let birthdayMontB0 = (birthday.getMonth()+1).toString().padStart(2,'0')
-      let birthdayDayB0 = birthday.getDate().toString().padStart(2,'0')
-      console.log(birthdayMontB0)
-      console.log(birthdayDayB0)
+      let birthdayMontB0 = (birthday.getMonth() + 1)
+        .toString()
+        .padStart(2, "0");
+      let birthdayDayB0 = birthday.getDate().toString().padStart(2, "0");
+      console.log(birthdayMontB0);
+      console.log(birthdayDayB0);
 
-      let todayMontA0 = todayMonthA.toString().padStart(2,'0')
-      let todayDayA0 = todayDayA.toString().padStart(2,'0')
-      console.log(todayMontA0)
-      console.log(todayDayA0)
+      let todayMontA0 = todayMonthA.toString().padStart(2, "0");
+      let todayDayA0 = todayDayA.toString().padStart(2, "0");
+      console.log(todayMontA0);
+      console.log(todayDayA0);
 
       let age = today.getFullYear() - birthday.getFullYear();
 
-      if ((todayMontA0 + todayDayA0) < (birthdayMontB0 + birthdayDayB0)) {
-        age--;
+      if (
+        Number(`${todayMontA0}${todayDayA0}`) < Number(`${birthdayMontB0}${birthdayDayB0}`) 
+      ) {
+        age -= 1;
         console.log(age);
         console.log(birthday);
-        
-        console.log(todayMontA0 + todayDayA0)
-        console.log(birthdayMontB0 + birthdayDayB0)
+
+        console.log(todayMontA0 + todayDayA0);
+        console.log(birthdayMontB0 + birthdayDayB0);
       }
       inputData.value.age = age.toString();
     }
-    
   },
   { deep: true }
 );
