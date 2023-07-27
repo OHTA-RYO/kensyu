@@ -71,14 +71,14 @@ return inputData.value.mail.match( /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[
 <template>
   <div class="main-cardarea">
     <p>名前/日本語</p>
-    <p v-if="nameData" class="error">漢字で入力してね</p>
+    <p v-if="nameData" class="error">漢字・ひらがなで入力して下さい。</p>
     <input v-model="inputData.name" type="text" :readonly="isReadonly" />
     <div v-if="isToggle" :class="{ closearea: isPaddingLeft }">
       <p>生年月日/西暦</p>
       <p v-if="birthdayData" class="error">生年月日は西暦で入力下さい。</p>
       <input v-model="inputData.birthday" type="text" :readonly="isReadonly" />
       <p>年齢/歳</p>
-      <p v-if="ageData" class="error">漢字で入力してね</p>
+      
       <input v-model="inputData.age" type="text" :readonly="isReadonly" />
       <p>身長/cm</p>
       <p v-if="heightData" class="error">身長は数字のみ入力下さい。</p>

@@ -86,9 +86,7 @@ const deleteButton = () => {
 };
 
 const isToggle = ref<boolean>(false);
-
 const editIndex = ref<number | null>(null);
-
 const openIndex = ref<number | null>(null);
 
 const setIndex = (index: number) => {
@@ -113,6 +111,7 @@ const updateButton = () => {
   console.log(isToggle.value);
   if (openIndex.value === null) return;
   isToggle.value = !isToggle.value;
+  alert('データを更新しました。')
 };
 
 
@@ -123,9 +122,13 @@ watch(searchText, ()=>{
 })
 
 
- const  sarchName = computed (() =>{
+ const  searchName = computed (() =>{
   return saveInputData.value.filter( d => d.name.includes(searchText.value) )
 })
+
+const searchButton = () => {
+  searchName
+}
 
 </script>
 
@@ -144,11 +147,11 @@ watch(searchText, ()=>{
     <div class="right-container">
       <div
         @click="setIndex(index)"
-        v-for="(s, index) in sarchName"
+        v-for="(s, index) in searchName"
         :key="index"
       >
         <ProfileCard
-          v-model="sarchName[index]"
+          v-model="searchName[index]"
           :isToggle="index === openIndex"
           :isReadonly="!(index === openIndex && isToggle)"
         />
@@ -156,7 +159,7 @@ watch(searchText, ()=>{
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" v-model="searchText" />
         <div class="button-area">
-          <ProfileButton label="検索" />
+          <ProfileButton label="検索" @click="searchButton" />
           <ProfileButton
             label="編集"
             @click="editButton"

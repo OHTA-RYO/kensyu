@@ -1,9 +1,19 @@
 "use strict";
 
+const tag:Element | null =window.document.querySelector('#sample');
+tag!.textContent = 'テキストを書き換えます。'
 
+// const fun = () =>{
+//   console.log('⚪︎秒後に実行')
+// }
 
+// setTimeout(fun,1000);
 
+// function fun()  {
+// console.log('1秒後に実行')
+// }
 
+// setInterval(fun,1000);
 // const today = new Date().toLocaleString('ja-JP',{
 //   dateStyle:'long'
 // });
@@ -16,7 +26,6 @@
 
 // const today = formatter.format(new Date());
 // console.log(today);
-
 
 // const theDay = new Date(2030, 8, 15, 15,0, 0 )
 // console.log(theDay.getFullYear())
@@ -60,11 +69,10 @@
 //   number++
 // }
 
-
 // let i = 2
 // while( i < 100){
 //   console.log(i);
-//   i = i * 2 
+//   i = i * 2
 // }
 
 // for(let i = 5; i <=10; i++ ){
@@ -80,17 +88,13 @@
 //   i++
 // }
 
-
 // const a:number = 5;
 // const b:number = 3;
 // // let c;
 // const c = (a <= b ) ? a: b;
 
-
-
 // const score = 80;
 // const result = (score >= 80)? 'Great': (score >= 60)? 'Good': 'Bad';
-
 
 // const age:number = 25;
 
@@ -101,7 +105,6 @@
 // if(age <= 10 || age >= 60){
 //   console.log('ジュニアまたはシニア')
 // }
-
 
 //B
 
@@ -152,7 +155,6 @@
 // console.log(last);
 // console.log(alphabet);
 
-
 // const intersts = ['読書', '料理', 'キャンプ'];
 // const count = intersts.length;
 
@@ -196,11 +198,10 @@
 // }
 
 // const dobule = (num:number)=>{
-// return num * 2 
+// return num * 2
 // }
 
 // console.log(dobule(100));
-
 
 // function dobule(num){
 
@@ -235,7 +236,7 @@
 // hello()
 
 // function sum(num1:number, num2:number){
-//   const result = num1 + num2 
+//   const result = num1 + num2
 //   return result
 // }
 
@@ -268,11 +269,9 @@
 // console.log(a)
 // console.log(b)
 
-
-
 // function dobule(num:number){
 //   const result:number = num * 2;
-//   return result 
+//   return result
 // }
 
 // const a = dobule(10)
@@ -319,7 +318,6 @@
 // // console.log(a === b);//false
 // let number = 1000;
 // let lang = 'Javascript'
-
 
 // console.log(typeof(true))
 // typeof(text.vaule);
