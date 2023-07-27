@@ -69,36 +69,55 @@ const saveInputData = ref<InputData[]>([
 watch(
   inputData,
   () => {
-    console.log(inputData);
-    birthday.value = inputData.value.birthday;
-    console.log(birthday.value);
+    const today = new Date();
+    if (inputData.value.birthday) {
+      console.log(inputData.value.birthday.split("年"));
+      console.log(inputData.value.birthday.split("月"));
+      console.log(inputData.value.birthday.split("月"));
+      const yearB = inputData.value.birthday.split("年")[0];
+      const monthB = inputData.value.birthday.split("月")[0].split("年")[1];
+      const dayB = inputData.value.birthday.split("日")[0].split("月")[1];
+      console.log(yearB, monthB, dayB);
+      const birthday = new Date(
+        Number(yearB),
+        Number(monthB) - 1,
+        Number(dayB)
+      );
+      const todayYearA = today.getFullYear();
+      const todayMonthA = today.getMonth() + 1;
+      const todayDayA = today.getDate() ;
+
+      console.log(todayYearA)
+      console.log(todayMonthA)
+      console.log(todayDayA)
+
+      console.log(birthday);
+      let birthdayMontB0 = (birthday.getMonth()+1).toString().padStart(2,'0')
+      let birthdayDayB0 = birthday.getDate().toString().padStart(2,'0')
+      console.log(birthdayMontB0)
+      console.log(birthdayDayB0)
+
+      let todayMontA0 = todayMonthA.toString().padStart(2,'0')
+      let todayDayA0 = todayDayA.toString().padStart(2,'0')
+      console.log(todayMontA0)
+      console.log(todayDayA0)
+
+      let age = today.getFullYear() - birthday.getFullYear();
+
+      if ((todayMontA0 + todayDayA0) < (birthdayMontB0 + birthdayDayB0)) {
+        age--;
+        console.log(age);
+        console.log(birthday);
+        
+        console.log(todayMontA0 + todayDayA0)
+        console.log(birthdayMontB0 + birthdayDayB0)
+      }
+      inputData.value.age = age.toString();
+    }
+    
   },
   { deep: true }
 );
-
-const birthday = ref<string>("");
-const birthdaySave = ref<string>("");
-const today: Date = new Date();
-
-const ageCalculator = computed(() => {
-  // if(!inputData.value.birthday ) return false　エラーが消えた時を表現したい。
-  birthdaySave.value = birthday.value;
-  today;
-  console.log(birthdaySave.value);
-});
-
-today.getFullYear();
-today.getMonth();
-today.getDay();
-console.log(today);
-console.log(today.getFullYear());
-console.log(today.getMonth());
-console.log(today.getDay());
-
-birthday.value = inputData.value.birthday;
-// const newbirthday = birthday.replace('年',',')
-console.log(birthday.value);
-// console.log(newbirthday)
 
 const saveButton = () => {
   saveInputData.value.push(inputData.value);
@@ -177,7 +196,6 @@ const searchButton = () => {
         :isToggle="true"
         :isPaddingLeft="false"
         :isReadonly="false"
-        :="ageCalculator"
       />
       <ProfileButton @click="saveButton" label="保存" id="save-button" />
     </div>
