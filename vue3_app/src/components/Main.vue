@@ -124,9 +124,34 @@ const searchName = computed(() => {
   return saveInputData.value.filter((d) => d.name.includes(searchText.value));
 });
 
+const searchTextSave = ref<string>('')
+
 const searchButton = () => {
-  searchName;
+  searchText.value = (searchTextSave.value)
 };
+
+// シンプルに
+// 年齢 = 今年 - 生まれた年
+// です。
+
+// そして、もし今年の誕生日がまだ来ていなかったら
+// 年齢 = 年齢 - 1
+// です。
+
+const today:Date = new Date() 
+today.getFullYear()
+today.getMonth()
+today.getDay()
+console.log(today.getFullYear());
+console.log(today.getMonth())
+console.log(today.getDay())
+
+const birthday = ref<string>('')
+birthday.value = inputData.value.birthday
+// const newbirthday = birthday.replace('年',',')
+console.log(birthday.value)
+// console.log(newbirthday)
+
 </script>
 
 <template>
@@ -154,7 +179,7 @@ const searchButton = () => {
         />
       </div>
       <div class="sub-container">
-        <ProfileSarch lablel="名前検索" v-model="searchText" />
+        <ProfileSarch lablel="名前検索" v-model="searchTextSave" />
         <div class="button-area">
           <ProfileButton label="検索" @click="searchButton" />
           <ProfileButton

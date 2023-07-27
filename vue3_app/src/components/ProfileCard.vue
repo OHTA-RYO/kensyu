@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PropType, computed } from "vue";
+import { PropType, computed, ref } from "vue";
 import { InputData, defaultInputData } from "../types";
 
 const props = defineProps({
@@ -34,14 +34,17 @@ const inputData = computed({
     emit("update:modelValue", v);
   },
 });
+// /^[ぁ-んァ-ヶー一-龯]+$/
 
 const nameData = computed(() => {
-return inputData.value.name.match(/^[ぁ-んァ-ヶー一-龯]+$/)
+  if(!inputData.value.name)return false
+return !inputData.value.name.match(/[^\x01-\x7E]/)
 // return inputData.value.name.length < 4
 })
 
 const birthdayData = computed(() => {
-return inputData.value.birthday.match(/^[0-9]{4}年\d{1,2}月\d{1,2}日$/)
+  if(!inputData.value.birthday)return false
+return !inputData.value.birthday.match(/^[0-9]{4}年\d{1,2}月\d{1,2}日$/)
 })
 
 // const ageData = computed(() => {
@@ -49,22 +52,24 @@ return inputData.value.birthday.match(/^[0-9]{4}年\d{1,2}月\d{1,2}日$/)
 // })
 
 const heightData = computed(() => {
-return inputData.value.height.match(/^[0-9]+$/)
+  if(!inputData.value.height)return false
+return !inputData.value.height.match(/^[0-9]+$/)
 })
 
 const weightData = computed(() => {
-return inputData.value.weight.match(/^[0-9]+$/)
+  if(!inputData.value.weight)return false
+return !inputData.value.weight.match(/^[0-9]+$/)
 })
 
 const telData = computed(() => {
-return inputData.value.tel.match(/\d{2,4}-\d{2,4}-\d{4}/)
+  if(!inputData.value.tel)return false
+return !inputData.value.tel.match(/\d{2,4}-\d{2,4}-\d{4}/)
 })
 
 const mailData = computed(() => {
-return inputData.value.mail.match( /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/)
+  if(!inputData.value.mail)return false
+return !inputData.value.mail.match( /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/)
 })
-
-
 
 </script>
 
@@ -81,13 +86,13 @@ return inputData.value.mail.match( /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[
       
       <input v-model="inputData.age" type="text" :readonly="isReadonly" />
       <p>身長/cm</p>
-      <p v-if="heightData" class="error">身長は数字のみ入力下さい。</p>
+      <p v-if="heightData" class="error">身長は半角数字のみ入力下さい。</p>
       <input v-model="inputData.height" type="text" :readonly="isReadonly" />
       <p>体重/kg</p>
-      <p v-if="weightData" class="error">体重は数字のみ入力下さい。</p>
+      <p v-if="weightData" class="error">体重は半角数字のみ入力下さい。</p>
       <input v-model="inputData.weight" type="text" :readonly="isReadonly" />
       <p>電話番号:</p>
-      <p v-if="telData" class="error">電話番号に誤りがあります。</p>
+      <p v-if="telData" class="error">電話番号は半角ハイフンありで入力下さい。</p>
       <input v-model="inputData.tel" type="text" :readonly="isReadonly" />
       <p>メールアドレス:</p>
       <p v-if="mailData" class="error">メールアドレスに誤りがあります。</p>
