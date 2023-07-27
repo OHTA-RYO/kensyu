@@ -18,6 +18,9 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  ageCalculator:{
+    type: Object as PropType<InputData>
+  }
 });
 
 // const emit = defineEmits(["update:modelValue"]);
@@ -82,9 +85,8 @@ return !inputData.value.mail.match( /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*
       <p>生年月日/西暦</p>
       <p v-if="birthdayData" class="error">生年月日は西暦で入力下さい。</p>
       <input v-model="inputData.birthday" type="text" :readonly="isReadonly" />
-      <p>年齢/歳</p>
-      
-      <input v-model="inputData.age" type="text" :readonly="isReadonly" />
+      <p>年齢/歳</p> 
+      <input type="text" :readonly="isReadonly" />
       <p>身長/cm</p>
       <p v-if="heightData" class="error">身長は半角数字のみ入力下さい。</p>
       <input v-model="inputData.height" type="text" :readonly="isReadonly" />

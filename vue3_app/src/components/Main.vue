@@ -66,9 +66,39 @@ const saveInputData = ref<InputData[]>([
   },
 ]);
 
-watch(inputData, () => {
-  console.log(inputData);
+watch(
+  inputData,
+  () => {
+    console.log(inputData);
+    birthday.value = inputData.value.birthday;
+    console.log(birthday.value);
+  },
+  { deep: true }
+);
+
+const birthday = ref<string>("");
+const birthdaySave = ref<string>("");
+const today: Date = new Date();
+
+const ageCalculator = computed(() => {
+  // if(!inputData.value.birthday ) return false　エラーが消えた時を表現したい。
+  birthdaySave.value = birthday.value;
+  today;
+  console.log(birthdaySave.value);
 });
+
+today.getFullYear();
+today.getMonth();
+today.getDay();
+console.log(today);
+console.log(today.getFullYear());
+console.log(today.getMonth());
+console.log(today.getDay());
+
+birthday.value = inputData.value.birthday;
+// const newbirthday = birthday.replace('年',',')
+console.log(birthday.value);
+// console.log(newbirthday)
 
 const saveButton = () => {
   saveInputData.value.push(inputData.value);
@@ -124,10 +154,10 @@ const searchName = computed(() => {
   return saveInputData.value.filter((d) => d.name.includes(searchText.value));
 });
 
-const searchTextSave = ref<string>('')
+const searchTextSave = ref<string>("");
 
 const searchButton = () => {
-  searchText.value = (searchTextSave.value)
+  searchText.value = searchTextSave.value;
 };
 
 // シンプルに
@@ -137,21 +167,6 @@ const searchButton = () => {
 // そして、もし今年の誕生日がまだ来ていなかったら
 // 年齢 = 年齢 - 1
 // です。
-
-const today:Date = new Date() 
-today.getFullYear()
-today.getMonth()
-today.getDay()
-console.log(today.getFullYear());
-console.log(today.getMonth())
-console.log(today.getDay())
-
-const birthday = ref<string>('')
-birthday.value = inputData.value.birthday
-// const newbirthday = birthday.replace('年',',')
-console.log(birthday.value)
-// console.log(newbirthday)
-
 </script>
 
 <template>
@@ -162,6 +177,7 @@ console.log(birthday.value)
         :isToggle="true"
         :isPaddingLeft="false"
         :isReadonly="false"
+        :="ageCalculator"
       />
       <ProfileButton @click="saveButton" label="保存" id="save-button" />
     </div>
