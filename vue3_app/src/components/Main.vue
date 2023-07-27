@@ -11,7 +11,7 @@ const inputData = ref<InputData>(defaultInputData());
 const saveInputData = ref<InputData[]>([
   {
     id: Math.floor(Math.random() * 100),
-    name: "中島慶樹",
+    name: "中島　慶樹",
     birthday: "1997年7月7日",
     age: "",
     height: "178cm",
@@ -22,7 +22,7 @@ const saveInputData = ref<InputData[]>([
   },
   {
     id: Math.floor(Math.random() * 100),
-    name: "山田次郎",
+    name: "山田　次郎",
     birthday: "1945年6月8日",
     age: "",
     height: "188cm",
@@ -33,7 +33,7 @@ const saveInputData = ref<InputData[]>([
   },
   {
     id: Math.floor(Math.random() * 100),
-    name: "山田三郎",
+    name: "山田　三郎",
     birthday: "2000年1月8日",
     age: "",
     height: "188cm",
@@ -44,7 +44,7 @@ const saveInputData = ref<InputData[]>([
   },
   {
     id: Math.floor(Math.random() * 100),
-    name: "山田四郎",
+    name: "山田　四郎",
     birthday: "1999年3月8日",
     age: "",
     height: "188cm",
@@ -55,7 +55,7 @@ const saveInputData = ref<InputData[]>([
   },
   {
     id: Math.floor(Math.random() * 100),
-    name: "山田吾郎",
+    name: "山田　吾郎",
     birthday: "1978年9月8日",
     age: "",
     height: "188cm",
@@ -115,23 +115,17 @@ const updateButton = () => {
   isToggle.value = !isToggle.value;
 };
 
-// const sarchText = ref<string>('')
-//   console.log(sarchText.value);
 
-// const sarchText = ref<string>('')
+const searchText = ref<string>('')
 
-const sarchText = (e: any) => {
-   sarchText.value = e.target.value
-  console.log(e.target.value);
-};
+watch(searchText, ()=>{
+  console.log(searchText.value)
+})
 
-// const sarchButton = (e:string)=>{
-//   sarchText.value =
-// }
 
-// const sarchName = computed (() =>{
-//   return saveInputData.value.filter( saveInputData.name.includes(saveInputData.name) )
-// })
+ const  sarchName = computed (() =>{
+  return saveInputData.value.filter( d => d.name.includes(searchText.value) )
+})
 
 </script>
 
@@ -150,17 +144,17 @@ const sarchText = (e: any) => {
     <div class="right-container">
       <div
         @click="setIndex(index)"
-        v-for="(s, index) in saveInputData"
+        v-for="(s, index) in sarchName"
         :key="index"
       >
         <ProfileCard
-          v-model="saveInputData[index]"
+          v-model="sarchName[index]"
           :isToggle="index === openIndex"
           :isReadonly="!(index === openIndex && isToggle)"
         />
       </div>
       <div class="sub-container">
-        <ProfileSarch lablel="名前検索" :ProfileSarch="sarchText" />
+        <ProfileSarch lablel="名前検索" v-model="searchText" />
         <div class="button-area">
           <ProfileButton label="検索" />
           <ProfileButton
