@@ -121,7 +121,7 @@ const updateButton = () => {
 // const sarchText = ref<string>('')
 
 const sarchText = (e: any) => {
-  //  sarchText.value = e.target.value
+   sarchText.value = e.target.value
   console.log(e.target.value);
 };
 
