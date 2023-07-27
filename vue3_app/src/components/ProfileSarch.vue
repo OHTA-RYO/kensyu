@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { InputData } from '@/types';
 defineProps({
   lablel: { type: String },
+  
 });
+
+
 </script>
 
 <template>

@@ -1,13 +1,189 @@
 "use strict";
 
+
+
+
+
+// const today = new Date().toLocaleString('ja-JP',{
+//   dateStyle:'long'
+// });
+
+// console.log(today);
+
+// const formatter:Intl.DateTimeFormat = Intl.DateTimeFormat('ja-JP',{
+//   dateStyle:'long'
+// })
+
+// const today = formatter.format(new Date());
+// console.log(today);
+
+
+// const theDay = new Date(2030, 8, 15, 15,0, 0 )
+// console.log(theDay.getFullYear())
+// console.log(theDay.getMonth())
+// console.log(theDay.getDate())
+// console.log(theDay);
+
+// const now = new Date()
+// console.log(now)
+
+// console.log(Math.floor(Math.random() * 6) + 1);
+// console.log(Math.abs(-200))
+
+// console.log(Math.round(1.4))
+// console.log(Math.round(1.5))
+// console.log(Math.floor(10.3))
+// console.log(Math.ceil(10.3))
+
+// type bicycle  ={color: string , inch: number}
+
+// const bicycle = {color:'red', inch: 25,}
+
+// console.log(bicycle.color);
+// bicycle.inch = 16
+// console.log(bicycle.inch);
+
+// const fruits:string[] = ['りんご', 'みかん', 'バナナ']
+
+// for(const fruit of fruits){
+//   console.log(fruit);
+// }
+
+// for(let i = 0; i < fruits.length; i++ ){
+//   console.log(fruits[i]);
+// }
+
+// let number = 1
+
+// while(number <= 5){
+//   console.log(number)
+//   number++
+// }
+
+
+// let i = 2
+// while( i < 100){
+//   console.log(i);
+//   i = i * 2 
+// }
+
+// for(let i = 5; i <=10; i++ ){
+//   console.log(i);
+// }
+
+// for(let i = 1; i <= 5; i++){
+//   console.log(`${i}回目の処理`)
+// }
+
+// for(let i = 1; i <= 10; ){
+//   console.log('hello')
+//   i++
+// }
+
+
+// const a:number = 5;
+// const b:number = 3;
+// // let c;
+// const c = (a <= b ) ? a: b;
+
+
+
+// const score = 80;
+// const result = (score >= 80)? 'Great': (score >= 60)? 'Good': 'Bad';
+
+
+// const age:number = 25;
+
+// if(age >= 20 && age <= 29 ){
+//   console.log('20代')
+// }
+
+// if(age <= 10 || age >= 60){
+//   console.log('ジュニアまたはシニア')
+// }
+
+
+//B
+
+// const age:number = 18;
+
+// if(age === 18){
+//   console.log('新成人')
+// }else if(age > 18){
+//   return console.log('成人')
+// }else {
+//   console.log('未成年')
+// }
+
+// const price = 3000
+// if(price <= 5000 ) console.log('送料800円');
+// if(price >= 5000)console.log('送料無料')
+
+// if(price >= 5000 ){
+//   console.log('送料無料')
+// }else{
+//   console.log('送料800円')
+// }
+
+// const foods = ['寿司','カレー','ラーメン'];
+// foods.push('パスタ');
+// console.log(foods);
+
+//['寿司', 'カレー']
+
+// const string = '読書&料理&キャンプ';
+
+// const a = string.split('&');
+// console.log(a);
+
+// const intersts = ['読書', '料理', 'キャンプ'];
+// const a = intersts.join('|');
+// console.log(a);
+
+// const fruits = ['みかん','りんご','バナナ'];
+// const check = fruits.includes('りんご');
+// console.log(check);
+
+// const check2 = fruits.includes('ぶどう');
+// console.log(check2);
+
+// const alphabet = ['a', 'b', 'c'];
+// const last = alphabet.pop()
+// console.log(last);
+// console.log(alphabet);
+
+
+// const intersts = ['読書', '料理', 'キャンプ'];
+// const count = intersts.length;
+
+// console.log(count);
+
+// intersts.push('散歩');
+// console.log(intersts)
+
+// intersts.pop()
+// console.log(intersts);
+
+// const foods = ['寿司', 'カレー', 'ラーメン'];
+
+// //0
+
+// console.log(foods[1]);
+
+// function hello(n:string ,s:string = 'さん'){
+//   return `${n}${s}`
+// }
+
+// console.log(hello('bob'));
+
 //2つの値を受け取り、その合計を計算する関数。
 
-const sum = (num1:number,num2:number)=>{
-  return num1 + num2;
-}
+// const sum = (num1:number,num2:number)=>{
+//   return num1 + num2;
+// }
 
-console.log(sum(100,150));
-console.log(sum(200,150));
+// console.log(sum(100,150));
+// console.log(sum(200,150));
 
 // const judge = (num:number) => {
 //   if(num % 2 === 0) return '偶数';

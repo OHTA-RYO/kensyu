@@ -1,7 +1,10 @@
 "use strict";
-//2つの値を受け取り、その合計を計算する関数。
-const sum = (num1, num2) => {
-    return num1 + num2;
-};
-console.log(sum(100, 150));
-console.log(sum(200, 150));
+const today = new Date().toLocaleString('ja-JP', {
+    dateStyle: long
+});
+console.log(today);
+const formatter = Intl.DateTimeFormat('ja-JP', {
+    dateStyle: 'long'
+});
+const today = formatter.format(new Date());
+console.log(today);
