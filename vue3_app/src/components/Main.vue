@@ -123,7 +123,8 @@ watch(
       let age = today.getFullYear() - birthday.getFullYear();
 
       if (
-        Number(`${todayMontA0}${todayDayA0}`) < Number(`${birthdayMontB0}${birthdayDayB0}`) 
+        Number(`${todayMontA0}${todayDayA0}`) <
+        Number(`${birthdayMontB0}${birthdayDayB0}`)
       ) {
         age -= 1;
         console.log(age);
@@ -140,53 +141,54 @@ watch(
 
 const saveButton = () => {
   saveInputData.value.push(inputData.value);
-  saveInputData.value = saveInputData.value.map((d,index)=>{
-    return {...d,
+  saveInputData.value = saveInputData.value.map((d, index) => {
+    return {
+      ...d,
       ...{
-        id:index
-      }
-    }
-  })
+        id: index,
+      },
+    };
+  });
   console.log(inputData);
-  console.log(saveInputData.value)
+  console.log(saveInputData.value);
   inputData.value = defaultInputData();
 };
 
 const deleteButton = () => {
   // saveInputData.value =
   if (editIndex.value === null) return;
-  const editName = saveInputData.value[editIndex.value].name
-  if(!confirm(`${editName}削除しますか？`))return;
+  const editName = saveInputData.value[editIndex.value].name;
+  if (!confirm(`${editName}削除しますか？`)) return;
   saveInputData.value = saveInputData.value.filter(
     (t, index) => index !== editIndex.value
   );
-  saveInputData.value = saveInputData.value.map((d,index)=>{
-    return {...d,
+  saveInputData.value = saveInputData.value.map((d, index) => {
+    return {
+      ...d,
       ...{
-        id:index
-      }
-    }
-  })
+        id: index,
+      },
+    };
+  });
   editIndex.value = null;
 };
-
-
 
 const isToggle = ref<boolean>(false);
 const editIndex = ref<number | null>(null);
 const openIndex = ref<number | null>(null);
+const searchIndex = ref<number | null>(null);
 
-const setIndex = (index: number) => {
-  console.log(isToggle.value, index);
+const setIndex = (id: number) => {
+  console.log(isToggle.value, id);
   if (isToggle.value) return;
-  editIndex.value = index;
+  editIndex.value = id;
 
-  if (index === openIndex.value) {
+  if (id === openIndex.value) {
     openIndex.value = null;
   } else {
-    openIndex.value = index;
+    openIndex.value = id;
   }
-  console.log(index);
+  console.log(id);
 };
 
 const editButton = () => {
@@ -208,31 +210,26 @@ watch(searchText, () => {
 });
 
 const searchName = computed(() => {
-  // const searchIndes = saveInputData.value[setIndex.value].age
-  
-  saveInputData.value = saveInputData.value.map((d,index)=>{
-    return {...d,
+  saveInputData.value = saveInputData.value.map((d, index) => {
+    return {
+      ...d,
       ...{
-        id:index
-      }
-    }
-  })
+        id: index,
+      },
+    };
+  });
   console.log(saveInputData.value.length);
   return saveInputData.value.filter((d) => d.name.includes(searchText.value));
-  
 });
 
+//フィルターをかけた状態で削除すると削除対象がズレる。
+//index番号を
 const searchTextSave = ref<string>("");
 
 const searchButton = () => {
+  editIndex.value = null;
+  // console.log(saveInputData.value[setIndex.length])
   searchText.value = searchTextSave.value;
-  saveInputData.value = saveInputData.value.map((d,index)=>{
-    return {...d,
-      ...{
-        id:index
-      }
-    }
-  })
 };
 
 // シンプルに
@@ -258,14 +255,14 @@ const searchButton = () => {
 
     <div class="right-container">
       <div
-        @click="setIndex(index)"
+        @click="setIndex(s.id)"
         v-for="(s, index) in searchName"
         :key="index"
       >
         <ProfileCard
           v-model="searchName[index]"
-          :isToggle="index === openIndex"
-          :isReadonly="!(index === openIndex && isToggle)"
+          :isToggle="s.id === openIndex"
+          :isReadonly="!(s.id === openIndex && isToggle)"
         />
       </div>
       <div class="sub-container">

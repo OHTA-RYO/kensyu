@@ -1,44 +1,84 @@
-<!-- <script setup lang="ts">
-import TestTodoAdd from "./TestTodoAdd.vue";
-import TestTodoList from "./TestTodoList.vue";
-export default {
-  data() {
-    return {
-      newTodoText: '',
-      todos: [
-        // { isDone: false, text: 'ToDoの文字列'}
-      ],
-    }
-  },
+<script setup lang="ts">
+import TestCard from "./TestCard.vue";
+import TestButton from "./TestButton.vue";
+import TestSearch from "./TestSearch.vue";
+import { ref,reactive } from "vue";
 
-  methods: {
-    addTodo() {
-      if (!this.newTodoText) return alert('文字を入力してください')
-      this.todos.push({
-        isDone: false,
-        text: this.newTodoText,
-      })
-      this.newTodoText = ''
-    },
-    clearDoneTodos() {
-      this.todos = this.todos.filter((todo) => !todo.isDone)
-    },
-  },
+const inputData = ref<saveInputData>()
+
+type saveInputData = {
+  id:  number;
+  name: string;
+  name2: string;
+  birthday: string;
+  age: string;
+  height: string;
+  weight: string;
+  tel: string;
+  mail: string;
+  remarks: string;
+};
+
+const saveInputData =ref<saveInputData[]>([])
+
+const addInput = () => {
+  saveInputData.value.push(inputData.value)
 }
-</script>
-<TestTodoAdd />
-<TestTodoList />
-<template>
 
-  
+
+
+</script>
+
+<template>
+  <input type="text" v-model="inputData">
+  <div class="searchArea">
+    <TestSearch  />
+  </div>
+  <div class="profileInputArea">
+    <TestCard v-model="inputData" />
+  </div>
+  <div class="buttonArea">
+    <TestButton label="編集" />
+    <TestButton style="margin: 0 32px;" label="更新" />
+    <TestButton label="削除" />
+    <div class="buttonAreaS">
+      <TestButton label="保存"/>
+    </div>
+  </div>
+
+  <div class="profileSaveArea">
+    <TestCard  />
+  </div>
 </template>
 
-<style>
-body {
-  background-color: #eee;
+<style scoped>
+
+.searchArea {
+  margin: 40px 0 0 80px;
 }
 
-.todo-done {
-  text-decoration: line-through;
+.profileInputArea {
+  background: lightgray;
+  width: 1700px;
+  margin: 48px auto;
 }
-</style> -->
+
+.buttonArea {
+  display: flex;
+  justify-content: left;
+  width: 1700px;
+  margin: 0 auto;
+  /* background: pink; */
+  padding: 16px;
+}
+
+.buttonAreaS {
+margin-left: auto;
+}
+
+.profileSaveArea {
+  background: lightblue;
+  width: 1700px;
+  margin: 0 auto;
+}
+</style>
