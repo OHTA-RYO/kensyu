@@ -8,9 +8,25 @@ import { InputData, defaultInputData } from "../types";
 
 const inputData = ref<InputData>(defaultInputData());
 
+// const arr = [...Array(10)].map((_,i) => i + 1 )
+// console.log(arr);
+
+// let a = arr.length
+
+// function arrRandom(){
+// while (a){
+// let j = Math.floor(Math.random() * a);
+// let t = arr[--a];
+// arr[a] = arr[j]
+// arr[j] = t;
+// console.log(arr[a]);
+// }
+// }
+// arrRandom()
+
 const saveInputData = ref<InputData[]>([
   {
-    id: Math.floor(Math.random() * 100),
+    id: 0,
     name: "中島　慶樹",
     birthday: "1997年7月7日",
     age: "",
@@ -21,7 +37,7 @@ const saveInputData = ref<InputData[]>([
     remarks: "筋トレが趣味です",
   },
   {
-    id: Math.floor(Math.random() * 100),
+    id: 1,
     name: "山田　次郎",
     birthday: "1945年6月8日",
     age: "",
@@ -32,7 +48,7 @@ const saveInputData = ref<InputData[]>([
     remarks: "筋トレが趣味です",
   },
   {
-    id: Math.floor(Math.random() * 100),
+    id: 2,
     name: "山田　三郎",
     birthday: "2000年1月8日",
     age: "",
@@ -43,7 +59,7 @@ const saveInputData = ref<InputData[]>([
     remarks: "筋トレが趣味です",
   },
   {
-    id: Math.floor(Math.random() * 100),
+    id: 3,
     name: "山田　四郎",
     birthday: "1999年3月8日",
     age: "",
@@ -54,7 +70,7 @@ const saveInputData = ref<InputData[]>([
     remarks: "筋トレが趣味です",
   },
   {
-    id: Math.floor(Math.random() * 100),
+    id: 4,
     name: "山田　吾郎",
     birthday: "1978年9月8日",
     age: "",
@@ -124,18 +140,37 @@ watch(
 
 const saveButton = () => {
   saveInputData.value.push(inputData.value);
+  saveInputData.value = saveInputData.value.map((d,index)=>{
+    return {...d,
+      ...{
+        id:index
+      }
+    }
+  })
   console.log(inputData);
+  console.log(saveInputData.value)
   inputData.value = defaultInputData();
 };
 
 const deleteButton = () => {
+  // saveInputData.value =
   if (editIndex.value === null) return;
-  confirm("削除しますか？");
+  const editName = saveInputData.value[editIndex.value].name
+  if(!confirm(`${editName}削除しますか？`))return;
   saveInputData.value = saveInputData.value.filter(
     (t, index) => index !== editIndex.value
   );
+  saveInputData.value = saveInputData.value.map((d,index)=>{
+    return {...d,
+      ...{
+        id:index
+      }
+    }
+  })
   editIndex.value = null;
 };
+
+
 
 const isToggle = ref<boolean>(false);
 const editIndex = ref<number | null>(null);
@@ -173,13 +208,31 @@ watch(searchText, () => {
 });
 
 const searchName = computed(() => {
+  // const searchIndes = saveInputData.value[setIndex.value].age
+  
+  saveInputData.value = saveInputData.value.map((d,index)=>{
+    return {...d,
+      ...{
+        id:index
+      }
+    }
+  })
+  console.log(saveInputData.value.length);
   return saveInputData.value.filter((d) => d.name.includes(searchText.value));
+  
 });
 
 const searchTextSave = ref<string>("");
 
 const searchButton = () => {
   searchText.value = searchTextSave.value;
+  saveInputData.value = saveInputData.value.map((d,index)=>{
+    return {...d,
+      ...{
+        id:index
+      }
+    }
+  })
 };
 
 // シンプルに

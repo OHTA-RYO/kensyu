@@ -1,7 +1,128 @@
 "use strict";
 
-const tag:Element | null =window.document.querySelector('#sample');
-tag!.textContent = 'テキストを書き換えます。'
+const button = document.querySelector("button");
+const input = document.querySelector("input");
+const radios = document.querySelectorAll(".radio");
+
+const addEv = (event: any) => {
+  const value = event!.currentTarget!.value;
+  console.log(`${value}が選択されました。`);
+};
+
+const addBt = (bt: any) => {
+  bt.value = input!.value;
+  console.log(bt.value);
+};
+
+for (let radio of radios) {
+  radio.addEventListener("input", addEv);
+}
+
+button!.addEventListener("click", addBt);
+
+input!.addEventListener("input", addEv);
+
+// for(let radio of radios){
+//   radio.addEventListener('input',(even:any)=>{
+//     const value = even!.currentTarget!.value
+//     console.log(`${value}が選択されました。`)
+//   })
+// }
+
+// input!.addEventListener('input',(event:any) =>{
+//   const value = event!.currentTarget!.value;
+//   console.log(`入力内容:${value}`);
+// })
+
+// const radios = document.querySelectorAll('.radio');
+// for(let radio of radios ){
+//   radio.addEventListener('input',function(event2:any){
+//     const value2 = event2!.currentTarget.value;
+//     console.log(`${value2}がチェックされました。`)
+//   });
+// }
+// const fun = (event:any) => {
+//   const value2 = event!.currentTarget!.value;
+//   console.log(`${value2}が選択されました。`)
+// }
+
+// for(let radio of radios){
+//   radio.addEventListener('input',fun)
+// }
+
+// button!.addEventListener('click',fun);
+
+// function alertMessage(){
+//   alert('ボタンクリック');
+// }
+
+// button!.addEventListener('click',alertMessage);
+
+// function alertMessage(){
+//   alert('ボタンをクリックしました。');
+// }
+
+// button!.addEventListener('click',alertMessage)
+
+// button!.addEventListener('click',() =>{
+//   alert('ボタンがクリックされました。')
+// })
+
+// const firstP:Element | null = document.querySelector(".first");
+// const newP = document.createElement("p");
+
+// newP.textContent = "firstの前に追加";
+
+// firstP!.replaceWith(newP);
+
+// const newElement = document.createElement('p');
+// newElement.textContent = '新しく追加しました。'
+
+// const content = document.querySelector('.content');
+// content!.appendChild(newElement);
+
+// const newElement2 = document.createElement('p');
+// newElement2.textContent = '先頭に追加しました。'
+
+// content!.prepend(newElement2);
+
+// const element = document.createElement('p');
+// // element.textContent = '新しく作成';
+// console.log(element);
+
+// const pElement = document.querySelector('p');
+// pElement!.style.letterSpacing = '10px'
+
+// pElement.classList.replace('java',javascript);
+
+// const pElement = document.querySelector('.p');
+// pElement!.classList.remove('nomar');
+// pElement!.classList.add('warning');
+
+// const pElement = document.querySelector('p');
+// pElement!.style.fontSize = '36px'
+
+// const scoreElement = document.querySelector('.score');
+// const score = scoreElement!.dataset.score;
+// if(score >= 80){
+//   scoreElement!.style.color = 'blue'
+// }
+
+// const p = document.querySelector('p');
+// p!.textContent = '変更します。'
+
+// const test = document.getElementById('test');
+// const test1 = document.querySelector('.test');
+
+// const items = document.querySelectorAll('.item');
+
+// const elements = document.querySelectorAll('.sample')
+// for(const element of elements){
+//   console.log(element);
+// }
+
+// const tag:Element | null =window.document.querySelector('#sample');
+// tag!.textContent = 'テキストを書き換えます。'
 
 // const fun = () =>{
 //   console.log('⚪︎秒後に実行')

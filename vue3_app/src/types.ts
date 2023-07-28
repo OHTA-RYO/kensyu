@@ -11,7 +11,7 @@ export type InputData = {
 };
 
 export const defaultInputData = ():InputData =>{return{
-  id:  Math.floor(Math.random() * 100),
+  id:  0,
   name: "",
   birthday: "",
   age: "",
