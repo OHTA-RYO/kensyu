@@ -2,54 +2,56 @@
 import TestCard from "./TestCard.vue";
 import TestButton from "./TestButton.vue";
 import TestSearch from "./TestSearch.vue";
-import { ref,reactive, watch } from "vue";
-import { InputData } from "../typesTest";
+import { ref, reactive, watch } from "vue";
+import { InputData, defaultInputData } from "../typesTest";
 
-const inputData = ref<InputData>()
-const saveInputData = ref<InputData[]>([{ id: 0,
-  name: '山田　太郎',
-  name2: 'やまだ　たろう',
-  birthday: '1994年9月15日',
-  age: '28歳',
-  height: '170cm',
-  weight: '60kg',
-  tel: '090-5157-9001',
-  mail: 'r-oota@mldfp.com',
-  remarks: 'サンプルサンプル'}])
+const inputData = ref<InputData>(defaultInputData());
+const saveInputData = ref<InputData[]>([
+  {
+    id: 0,
+    name: "山田　太郎",
+    name2: "やまだ　たろう",
+    birthday: "1994年9月15日",
+    age: "28歳",
+    height: "170cm",
+    weight: "60kg",
+    tel: "090-5157-9001",
+    mail: "r-oota@mldfp.com",
+    remarks: "サンプルサンプル",
+  },
+]);
 
- const saveDataButton = () => {
-  saveInputData.value.push(inputData.value)
-}
-
-
-
-
+const saveDataButton = () => {
+  saveInputData.value.push(inputData.value);
+  console.log(inputData);
+  console.log(saveInputData.value);
+  inputData.value = defaultInputData();
+};
 </script>
 
 <template>
-  <div class="searchArea" >
-    <TestSearch  />
-    <TestButton label="検索" style="margin-left: 16px;" />
+  <div class="searchArea">
+    <TestSearch />
+    <TestButton label="検索" style="margin-left: 16px" />
   </div>
   <div class="profileInputArea">
-    <TestCard  v-model="inputData" />
+    <TestCard v-model="inputData" />
   </div>
   <div class="buttonArea">
     <TestButton label="編集" />
-    <TestButton style="margin: 0 32px;" label="更新" />
+    <TestButton style="margin: 0 32px" label="更新" />
     <TestButton label="削除" />
     <div class="buttonAreaS">
-      <TestButton label="保存" @click="saveDataButton"/>
+      <TestButton label="保存" @click="saveDataButton" />
     </div>
   </div>
 
-  <div class="profileSaveArea">
-    <TestCard  />
+  <div class="profileSaveArea" v-for="(s, index) in saveInputData" :key="index">
+    <TestCard/>
   </div>
 </template>
 
 <style scoped>
-
 .searchArea {
   margin: 40px 0 0 64px;
 }
@@ -77,5 +79,7 @@ margin-left: auto;
   background: lightblue;
   width: 1700px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 </style>
