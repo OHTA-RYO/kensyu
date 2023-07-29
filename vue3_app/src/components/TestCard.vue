@@ -1,10 +1,27 @@
 <script setup lang="ts">
+import { PropType, computed } from "vue";
+import { InputData } from "../typesTest";
 
-
-
-defineProps({
-  modelValue: {type: String},
+ const props = defineProps({
+  modelValue: {
+    type: Object as PropType<InputData>
+    },
 })
+
+const emit = defineEmits<{
+  (e: "update:modelValue", value?: InputData): void;
+}>();
+
+const inputData = computed({
+  get() {
+    return props.modelValue ?? ('');
+  },
+  set(v) {
+    emit("update:modelValue", v);
+  },
+});
+
+
 
 </script>
 
@@ -12,7 +29,7 @@ defineProps({
   <div class="profileCardContent">
     <div class="namearea">
       <p>名前:</p>
-      <input type="text" />
+      <input type="text" v-model="inputData.name" />
     </div>
     <div class="nameFarea">
       <p>ふりがな:</p>

@@ -5,7 +5,7 @@
 <template>
 <p>顧客検索</p>
 <input type="text">
-<button>検索</button>
+<!-- <button>検索</button> -->
 </template>
 
 <style scoped >
