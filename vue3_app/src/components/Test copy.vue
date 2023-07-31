@@ -27,36 +27,37 @@ const saveInputData = ref<InputData[]>([
 const saveInputDataFuc = () => {
   //inputDataにid(配列のlength)を入れる。
   inputData.value.id = saveInputData.value.length;
-  //saveInputDataにinputDataを追加。
   saveInputData.value.push(inputData.value);
-  console.log(inputData.value.id);
+  console.log(inputData);
   console.log(saveInputData.value);
-  //inputDataをdefaultInputDataで初期化
   inputData.value = defaultInputData();
-  //値は取れているけど、saveInputDataに表示されない。
 };
 
 //toggleの切替
 const isToggle = ref(false);
 
-//toggleが閉じている時のindex
+//toggleが閉じている時
 const closeIndex = ref<number | null>(null);
 
-//toggleが開いている時のindex
+//toggleが開いている時
 const openIndex = ref<number | null>(null);
+/**
+ *
+ *
+ *
+ *
+ */
 
-// クリックするたびにtoggleがfalse→ture, true→falseにする関数を作る。
-// openIndexにクリックしたIDを保存
-// TogleのBooleanを切り替え（単一のTogle）
-const judegeIndex = (id: number) => {
-  isToggle.value = !isToggle.value;
-  id = saveInputData.value.length;
+const setIndex = (id: number) => {
+  isToggle.value = true;
+  // openIndexにクリックしたIDを保存
+  // TogleのBooleanを切り替え（単一のTogle）
+
   console.log(isToggle.value, id);
-
   // if (isToggle.value) return;
   // editIndex.value = id;
 
-  // if (id === openIndex.value) {
+  // if (ßid === openIndex.value) {
   //   openIndex.valßue = null;
   // } else {
   //   openIndex.value = id;
@@ -97,9 +98,13 @@ const deleteProfileData = () => {
       <TestButton label="保存" @click="saveInputDataFuc" />
     </div>
   </div>
-  <!-- {{ saveInputData }} -->
+  {{ saveInputData }}
   <div class="profileSaveArea" v-for="(s, index) in saveInputData" :key="index">
-    <TestCard @click="judegeIndex" />
+    <TestCard
+      @click="setIndex(s.id)"
+      v-model="saveInputData[index]"
+      :isToggle="s.id === openIndex"
+    />
   </div>
 </template>
 

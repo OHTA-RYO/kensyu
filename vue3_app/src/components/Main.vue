@@ -218,7 +218,6 @@ const searchName = computed(() => {
       },
     };
   });
-  console.log(saveInputData.value.length);
   return saveInputData.value.filter((d) => d.name.includes(searchText.value));
 });
 

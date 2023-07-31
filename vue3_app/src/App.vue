@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Main from './components/Main.vue'
-import Test from './components/Test.vue'
+import Main from "./components/Main.vue";
+import Test from "./components/Test.vue";
 </script>
 
 <template>
@@ -8,5 +8,4 @@ import Test from './components/Test.vue'
   <Test />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
