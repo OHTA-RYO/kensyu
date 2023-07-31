@@ -7,7 +7,14 @@ import { ref, reactive, watch, computed } from "vue";
 import { InputData, defaultInputData } from "../types";
 import { firebaseConfig, app, db } from "../firebass";
 
-import { collection, addDoc, getDocs, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 const inputData = ref<InputData>(defaultInputData());
 
@@ -33,12 +40,17 @@ const testSaveDocument = async () => {
     //, inputData.value);を追加した！！
     //{デフォルトであった波括弧を削除した
 
+    //idが0になっているからidを持たせないといけないかも。
+    //idを持たせるのに必要なものは...
+    //↓効いてないnullになる。。
+    // inputData.value.id = editIndex.value as number;
+    //↓idが全て2になる。
+    // inputData.value.id = collection.length;
     //}
     const docRef = await addDoc(collection(db, "users"), inputData.value);
-    inputData.value.id =
-      //この中にsaveInputDataを保存する。
-      //そうするとfirebess保存ボタンを押すと既に保存している人が毎回保存される気がするから、この関数に入れるのはinputDataにしよう
-      console.log("Document written with ID: ", docRef.id);
+    //この中にinputDataを保存する。
+
+    console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
@@ -91,7 +103,26 @@ const testGetDocument = async () => {
   // saveInputData.value.push(docSnap.data() as InputData);
 };
 
-//firebaseから値を取得出来たからこのデータをsaveInputデータに入れる。
+//firebaseに保存したデータとfirebaseからsaveInputDataに保存したデータを削除する。
+//1つずつ対処。
+
+/**
+ * firebaseに保存したデータを削除する関数
+ */
+const testDeleteDocument = async () => {
+  //ドキュメントに保存されているデータは消えた。
+  //ただし、今のままでは、Idを限定している為、対象を変更する必要がある。
+  //saveInputDataからはpopしないといけない。
+  await deleteDoc(doc(db, "users"));
+  // saveInputData.value = saveInputData.value.map((d, index) => {
+  //   return {
+  //     ...d,
+  //     ...{
+  //       id: index,
+  //     },
+  //   };
+  // });
+};
 
 const saveInputData = ref<InputData[]>([
   {
@@ -349,6 +380,10 @@ const searchButton = () => {
           />
           <ProfileButton label="更新" @click="updateButton" />
           <ProfileButton label="削除" @click="deleteButton()" />
+          <ProfileButton
+            label="firebaseデータを削除"
+            @click="testDeleteDocument"
+          />
         </div>
       </div>
     </div>
