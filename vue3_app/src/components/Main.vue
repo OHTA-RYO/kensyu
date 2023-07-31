@@ -7,54 +7,91 @@ import { ref, reactive, watch, computed } from "vue";
 import { InputData, defaultInputData } from "../types";
 import { firebaseConfig, app, db } from "../firebass";
 
-import { collection, addDoc, getDocs } from "firebase/firestore";
-
-try {
-  const docRef = await addDoc(collection(db, "users"), {
-    first: "Ada",
-    last: "Lovelace",
-    born: 1815,
-  });
-  console.log("Document written with ID: ", docRef.id);
-} catch (e) {
-  console.error("Error adding document: ", e);
-}
-
-try {
-  const docRef = await addDoc(collection(db, "users"), {
-    first: "Alan",
-    middle: "Mathison",
-    last: "Turing",
-    born: 1912,
-  });
-
-  console.log("Document written with ID: ", docRef.id);
-} catch (e) {
-  console.error("Error adding document: ", e);
-}
-
-const querySnapshot = await getDocs(collection(db, "users"));
-querySnapshot.forEach((doc) => {
-  console.log(`${doc.id} => ${doc.data()}`);
-});
+import { collection, addDoc, getDocs, doc } from "firebase/firestore";
 
 const inputData = ref<InputData>(defaultInputData());
 
-// const arr = [...Array(10)].map((_,i) => i + 1 )
-// console.log(arr);
+//現状はfirebase保存ボタンを押すとチュートリアルのadaと
+//Alanがfirebassに登録されるようになっている。
+//これからしたいことはsaveInputDataをfirebassに保存したい。
+//saveInputDataを保存する際に必要なことは
 
-// let a = arr.length
+//testSaveDocumentの関数の中にsaveInputDataを入れる。
+//saveInputDataとfirebassを同時に登録するならtestSaveDocumentの関数の中にinputDataを入れるかもしれない。
 
-// function arrRandom(){
-// while (a){
-// let j = Math.floor(Math.random() * a);
-// let t = arr[--a];
-// arr[a] = arr[j]
-// arr[j] = t;
-// console.log(arr[a]);
-// }
-// }
-// arrRandom()
+//保存のされ方がわからないので試してみること、
+//①予め登録している5名をada中に入れる。
+//②adaとAlanのように5個に分ける。
+//
+
+/**
+ * //vueの情報をfirebassに登録する関数
+ */
+
+const testSaveDocument = async () => {
+  try {
+    //, inputData.value);を追加した！！
+    //{デフォルトであった波括弧を削除した
+
+    //}
+    const docRef = await addDoc(collection(db, "users"), inputData.value);
+    inputData.value.id =
+      //この中にsaveInputDataを保存する。
+      //そうするとfirebess保存ボタンを押すと既に保存している人が毎回保存される気がするから、この関数に入れるのはinputDataにしよう
+      console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+  inputData.value = defaultInputData();
+
+  // try {
+  //   const docRef = await addDoc(collection(db, "users"), {
+  //     first: "Alan",
+  //     middle: "Mathison",
+  //     last: "Turing",
+  //     born: 1912,
+  //   });
+
+  //   console.log("Document written with ID: ", docRef.id);
+  // } catch (e) {
+  //   console.error("Error adding document: ", e);
+  // }
+};
+
+//
+/**
+ * firebassに保存したデータをsaveInputデータに表示する関数
+ *
+ */
+//const docRef = doc(db, "users", "hGPm6nWVftlN0wkcT1ZJ");
+
+const testGetDocument = async () => {
+  const querySnapshot = await getDocs(collection(db, "users"));
+  //usesから取ってくる
+  querySnapshot.forEach((doc) => {
+    //forEachでquerySnapshotに入ったfirebaseの全てのデータを取り出す。
+    saveInputData.value.push(doc.data() as InputData);
+    //forEachの引数、docをsaveInputDataにpush
+    console.log(doc.id, "=>", doc.data());
+
+    if (doc.exists()) {
+      console.log("Document data:", doc.data());
+      //docにデータがあったら、表示して、なければ、No suchと表示する。
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  });
+
+  // const docRef = doc(db, "users", "hGPm6nWVftlN0wkcT1ZJ");
+  //これやったら1つしか取れなくない！？
+  //実際に1つしか取れなかった。
+  // const docSnap = await getDoc(docRef);
+  //saveInputData.valueにfirebassのデータを表示させたい。
+  // saveInputData.value.push(docSnap.data() as InputData);
+};
+
+//firebaseから値を取得出来たからこのデータをsaveInputデータに入れる。
 
 const saveInputData = ref<InputData[]>([
   {
@@ -114,6 +151,21 @@ const saveInputData = ref<InputData[]>([
   },
 ]);
 
+const saveButton = () => {
+  saveInputData.value.push(inputData.value);
+  saveInputData.value = saveInputData.value.map((d, index) => {
+    return {
+      ...d,
+      ...{
+        id: index,
+      },
+    };
+  });
+  console.log(inputData);
+  console.log(saveInputData.value);
+  inputData.value = defaultInputData();
+};
+
 watch(
   inputData,
   () => {
@@ -170,21 +222,6 @@ watch(
   },
   { deep: true }
 );
-
-const saveButton = () => {
-  saveInputData.value.push(inputData.value);
-  saveInputData.value = saveInputData.value.map((d, index) => {
-    return {
-      ...d,
-      ...{
-        id: index,
-      },
-    };
-  });
-  console.log(inputData);
-  console.log(saveInputData.value);
-  inputData.value = defaultInputData();
-};
 
 const deleteButton = () => {
   // saveInputData.value =
@@ -281,11 +318,11 @@ const searchButton = () => {
         :isPaddingLeft="false"
         :isReadonly="false"
       />
+      <ProfileButton @click="saveButton" label="保存" id="save-button" />
+      <ProfileButton label="firestoreに保存" @click="testSaveDocument" />
       <ProfileButton
-        @click="saveButton"
-        label="保存"
-        id="save-button"
-        :docRef="querySnapshot"
+        label="firestoreから保存したデータをインポート"
+        @click="testGetDocument"
       />
     </div>
 
