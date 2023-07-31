@@ -50,7 +50,7 @@ const openIndex = ref<number | null>(null);
 // TogleのBooleanを切り替え（単一のTogle）
 const judegeIndex = (id: number) => {
   isToggle.value = !isToggle.value;
-  id = saveInputData.value.length;
+  // id = saveInputData;
   console.log(isToggle.value, id);
 
   // if (isToggle.value) return;
