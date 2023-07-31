@@ -99,7 +99,7 @@ const deleteProfileData = () => {
   </div>
   <!-- {{ saveInputData }} -->
   <div class="profileSaveArea" v-for="(s, index) in saveInputData" :key="index">
-    <TestCard @click="judegeIndex" />
+    <TestCard @click="judegeIndex" :isToggle="isToggle" />
   </div>
 </template>
 

@@ -5,6 +5,38 @@ import ProfileSarch from "./ProfileSarch.vue";
 
 import { ref, reactive, watch, computed } from "vue";
 import { InputData, defaultInputData } from "../types";
+import { firebaseConfig, app, db } from "../firebass";
+
+import { collection, addDoc, getDocs } from "firebase/firestore";
+
+try {
+  const docRef = await addDoc(collection(db, "users"), {
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815,
+  });
+  console.log("Document written with ID: ", docRef.id);
+} catch (e) {
+  console.error("Error adding document: ", e);
+}
+
+try {
+  const docRef = await addDoc(collection(db, "users"), {
+    first: "Alan",
+    middle: "Mathison",
+    last: "Turing",
+    born: 1912,
+  });
+
+  console.log("Document written with ID: ", docRef.id);
+} catch (e) {
+  console.error("Error adding document: ", e);
+}
+
+const querySnapshot = await getDocs(collection(db, "users"));
+querySnapshot.forEach((doc) => {
+  console.log(`${doc.id} => ${doc.data()}`);
+});
 
 const inputData = ref<InputData>(defaultInputData());
 
@@ -249,7 +281,12 @@ const searchButton = () => {
         :isPaddingLeft="false"
         :isReadonly="false"
       />
-      <ProfileButton @click="saveButton" label="保存" id="save-button" />
+      <ProfileButton
+        @click="saveButton"
+        label="保存"
+        id="save-button"
+        :docRef="querySnapshot"
+      />
     </div>
 
     <div class="right-container">
