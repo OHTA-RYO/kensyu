@@ -1,5 +1,4 @@
 {
-
   const names = document.querySelectorAll(".name");
 
   //オブジェクト:キーとバリュー(値)がペアになったもの
@@ -247,7 +246,7 @@
   const edit = document.getElementById("edit");
 
   edit?.addEventListener("click", () => {
-    isedit = true ;
+    isedit = true;
 
     const profileEl = document.querySelectorAll(".profile-area");
 
@@ -270,7 +269,7 @@
       inputs.forEach((input) => {
         input.removeAttribute("readonly");
       });
-  
+
       textareas.forEach((textarea) => {
         textarea?.removeAttribute("readonly");
       });
@@ -347,7 +346,7 @@
 
   const addEvent = (el: Element) => {
     el.addEventListener("click", (e) => {
-      if(isedit)return;
+      if (isedit) return;
       console.log(el);
       // const name = el.querySelector('.name');
       const profile = el.querySelector(".right-save2");

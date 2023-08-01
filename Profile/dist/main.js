@@ -1,6 +1,7 @@
 "use strict";
 {
     const names = document.querySelectorAll(".name");
+    console.log("テスト");
     let isedit = false;
     let profiles = [
         {
