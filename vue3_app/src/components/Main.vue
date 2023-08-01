@@ -3,7 +3,7 @@ import ProfileCard from "./ProfileCard.vue";
 import ProfileButton from "./ProfileButton.vue";
 import ProfileSarch from "./ProfileSarch.vue";
 
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive, watch, computed, onMounted } from "vue";
 import { InputData, defaultInputData } from "../types";
 import { firebaseConfig, app, db } from "../firebass";
 
@@ -14,9 +14,55 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  onSnapshot,
 } from "firebase/firestore";
 
 const inputData = ref<InputData>(defaultInputData());
+
+//保存したデータを常に表示させたい。
+//保存と同時に出力する。
+//必要な処理は
+
+/**
+ * //firestoreに保存されたデータがリアルタイムに表示される関数。
+ *
+ */
+onMounted(() => {
+  const unsub = onSnapshot(collection(db, "users"), (snapshot) => {
+    snapshot.docChanges().forEach((s) => {
+      //firebaseに登録されているデータは常に表示されている。
+      //saveInputDataに表示させたい。
+      //↓のやつは初めだけ表示されている？
+      // 処理できた。
+      //saveInputDataに追加
+      if (s.type === "added") {
+        console.log("New users:", s.doc.data());
+        //...はオブジェクト,配列も合体するやつ。
+        saveInputData.value.push({
+          ...(s.doc.data() as InputData),
+          ...{ id: s.doc.id },
+        });
+      }
+      //saveInputDataを修正
+      if (s.type === "modified") {
+        console.log("Modified users:", s.doc.data());
+      }
+      //saveInputDataを削除
+      if (s.type === "removed") {
+        console.log("Removed users:", s.doc.data());
+        // saveInputData.value =
+        // if (editIndex.value === null) return;
+        // const editName = saveInputData.value[editIndex.value].name;
+        // if (!confirm(`${editName}削除しますか？`)) return;
+        // saveInputData.value = saveInputData.value.filter(
+        //   (t, id) => id !== editIndex.value
+        // );
+      }
+
+      // console.log(s.data());
+    });
+  });
+});
 
 //現状はfirebase保存ボタンを押すとチュートリアルのadaと
 //Alanがfirebassに登録されるようになっている。
@@ -42,10 +88,8 @@ const testSaveDocument = async () => {
 
     //idが0になっているからidを持たせないといけないかも。
     //idを持たせるのに必要なものは...
-    //↓効いてないnullになる。。
-    // inputData.value.id = editIndex.value as number;
-    //↓idが全て2になる。
-    // inputData.value.id = collection.length;
+    //inputDataのidをsaveInputDataのlengthを代入。
+    // inputData.value.id = saveInputData.value.length;
     //}
     const docRef = await addDoc(collection(db, "users"), inputData.value);
     //この中にinputDataを保存する。
@@ -55,53 +99,49 @@ const testSaveDocument = async () => {
     console.error("Error adding document: ", e);
   }
   inputData.value = defaultInputData();
-
-  // try {
-  //   const docRef = await addDoc(collection(db, "users"), {
-  //     first: "Alan",
-  //     middle: "Mathison",
-  //     last: "Turing",
-  //     born: 1912,
-  //   });
-
-  //   console.log("Document written with ID: ", docRef.id);
-  // } catch (e) {
-  //   console.error("Error adding document: ", e);
-  // }
 };
 
-//
+//onMountedでリアルタイムに追加している為、コメントアウトした。
 /**
  * firebassに保存したデータをsaveInputデータに表示する関数
  *
  */
 //const docRef = doc(db, "users", "hGPm6nWVftlN0wkcT1ZJ");
 
-const testGetDocument = async () => {
-  const querySnapshot = await getDocs(collection(db, "users"));
-  //usesから取ってくる
-  querySnapshot.forEach((doc) => {
-    //forEachでquerySnapshotに入ったfirebaseの全てのデータを取り出す。
-    saveInputData.value.push(doc.data() as InputData);
-    //forEachの引数、docをsaveInputDataにpush
-    console.log(doc.id, "=>", doc.data());
+// const testGetDocument = async () => {
+//   const querySnapshot = await getDocs(collection(db, "users"));
+//   //usesから取ってくる
+//   querySnapshot.forEach((doc) => {
+//     //forEachでquerySnapshotに入ったfirebaseの全てのデータを取り出す。
+//     saveInputData.value.push(doc.data() as InputData);
+//     //forEachの引数、docをsaveInputDataにpush
+//     console.log(doc.id, "=>", doc.data());
 
-    if (doc.exists()) {
-      console.log("Document data:", doc.data());
-      //docにデータがあったら、表示して、なければ、No suchと表示する。
-    } else {
-      // docSnap.data() will be undefined in this case
-      console.log("No such document!");
-    }
-  });
+//     if (doc.exists()) {
+//       console.log("Document data:", doc.data());
+//       //docにデータがあったら、表示して、なければ、No suchと表示する。
+//     } else {
+//       // docSnap.data() will be undefined in this case
+//       console.log("No such document!");
+//     }
+//   });
 
-  // const docRef = doc(db, "users", "hGPm6nWVftlN0wkcT1ZJ");
-  //これやったら1つしか取れなくない！？
-  //実際に1つしか取れなかった。
-  // const docSnap = await getDoc(docRef);
-  //saveInputData.valueにfirebassのデータを表示させたい。
-  // saveInputData.value.push(docSnap.data() as InputData);
-};
+// const docRef = doc(db, "users", "hGPm6nWVftlN0wkcT1ZJ");
+//これやったら1つしか取れなくない！？
+//実際に1つしか取れなかった。
+// const docSnap = await getDoc(docRef);
+//saveInputData.valueにfirebassのデータを表示させたい。
+// saveInputData.value.push(docSnap.data() as InputData);
+// };
+
+/**
+ * testSaveDocumentとtestGetDocumentをまとめた関数。
+ * //保存と出力両方1度に出来る。
+ */
+// const testSaveGet = () => {
+//   testSaveDocument();
+//   testGetDocument();
+// };
 
 //firebaseに保存したデータとfirebaseからsaveInputDataに保存したデータを削除する。
 //1つずつ対処。
@@ -112,90 +152,61 @@ const testGetDocument = async () => {
 const testDeleteDocument = async () => {
   //ドキュメントに保存されているデータは消えた。
   //ただし、今のままでは、Idを限定している為、対象を変更する必要がある。
-  //saveInputDataからはpopしないといけない。
-  await deleteDoc(doc(db, "users"));
-  // saveInputData.value = saveInputData.value.map((d, index) => {
+  //idは取れた。doc("id")を処理しないといけない。
+  //usersデータから削除する必要がある。
+
+  await deleteDoc(doc(db, "users", "id"));
+  //isToggleが展開しているデータを削除したい。
+  //↓editIndexはtoggleが展開中　閉じている時の値がnullの時は何もしない。
+  if (editIndex.value === null) return;
+  // editNameにsaveInputDataのeditIndex番目の名前を代入
+  const editName = saveInputData.value[1].name;
+  //confirmで選択中の名前をアラートで表示
+  if (!confirm(`${editName}削除しますか？`)) return;
+  //saveInputDataにfilterをかけて選択中のデータを削除
+
+  saveInputData.value = saveInputData.value.filter(
+    //indexがeditIndexではないデータを新しい配列として作成する。
+    (id) => id !== editIndex.value.
+  ); //mapでidに削除後のsaveInputDataのindexを追加している。
+  // saveInputData.value = saveInputData.value.map((d, id) => {
   //   return {
   //     ...d,
   //     ...{
-  //       id: index,
+  //       id: id,
   //     },
   //   };
-  // });
+  // }); //editIndexにnullを代入。
+  editIndex.value = '';
+
+  //   saveInputData.value = saveInputData.value.map((d, index) => {
+  //     return {
+  //       ...d,
+  //       ...{
+  //         id: index,
+  //       },
+  //     };
+  //   });
 };
 
-const saveInputData = ref<InputData[]>([
-  {
-    id: 0,
-    name: "中島　慶樹",
-    birthday: "1997年7月7日",
-    age: "",
-    height: "178cm",
-    weight: "73kg",
-    tel: "080-1234-5678",
-    mail: "nakashima-k@codelic.co",
-    remarks: "筋トレが趣味です",
-  },
-  {
-    id: 1,
-    name: "山田　次郎",
-    birthday: "1945年6月8日",
-    age: "",
-    height: "188cm",
-    weight: "73kg",
-    tel: "080-1234-5678",
-    mail: "nakashima-k@codelic.co",
-    remarks: "筋トレが趣味です",
-  },
-  {
-    id: 2,
-    name: "山田　三郎",
-    birthday: "2000年1月8日",
-    age: "",
-    height: "188cm",
-    weight: "73kg",
-    tel: "080-1234-5678",
-    mail: "nakashima-k@codelic.co",
-    remarks: "筋トレが趣味です",
-  },
-  {
-    id: 3,
-    name: "山田　四郎",
-    birthday: "1999年3月8日",
-    age: "",
-    height: "188cm",
-    weight: "73kg",
-    tel: "080-1234-5678",
-    mail: "nakashima-k@codelic.co",
-    remarks: "筋トレが趣味です",
-  },
-  {
-    id: 4,
-    name: "山田　吾郎",
-    birthday: "1978年9月8日",
-    age: "",
-    height: "188cm",
-    weight: "73kg",
-    tel: "080-1234-5678",
-    mail: "nakashima-k@codelic.co",
-    remarks: "筋トレが趣味です",
-  },
-]);
+const saveInputData = ref<InputData[]>([]);
 
-const saveButton = () => {
-  saveInputData.value.push(inputData.value);
-  saveInputData.value = saveInputData.value.map((d, index) => {
-    return {
-      ...d,
-      ...{
-        id: index,
-      },
-    };
-  });
-  console.log(inputData);
-  console.log(saveInputData.value);
-  inputData.value = defaultInputData();
-};
+//firebaseに連携したから、saveButtonはコメントアウト
+//mapの第２引数にはnumberが入る。第2引数に何が入るかはよく見とくこと。
+// const saveButton = () => {
+//   saveInputData.value.push(inputData.value);
+//   saveInputData.value = saveInputData.value.map((d, id) => {
+//     return {
+//       ...d,
+//       ...{
+//         id: id,
+//       },
+//     };
+//   });
+//   console.log(inputData);
+//   console.log(saveInputData.value);
+//   inputData.value = defaultInputData();
+// };
 
 watch(
   inputData,
@@ -254,31 +265,32 @@ watch(
   { deep: true }
 );
 
-const deleteButton = () => {
-  // saveInputData.value =
-  if (editIndex.value === null) return;
-  const editName = saveInputData.value[editIndex.value].name;
-  if (!confirm(`${editName}削除しますか？`)) return;
-  saveInputData.value = saveInputData.value.filter(
-    (t, index) => index !== editIndex.value
-  );
-  saveInputData.value = saveInputData.value.map((d, index) => {
-    return {
-      ...d,
-      ...{
-        id: index,
-      },
-    };
-  });
-  editIndex.value = null;
-};
+//firebaseに引き継いだのでdeleteButtonはコメントアウト
+// const deleteButton = () => {
+//   // saveInputData.value =
+//   if (editIndex.value === null) return;
+//   const editName = saveInputData.value[editIndex.value].name;
+//   if (!confirm(`${editName}削除しますか？`)) return;
+//   saveInputData.value = saveInputData.value.filter(
+//     (t, id) => id !== editIndex.value
+//   );
+//   saveInputData.value = saveInputData.value.map((d, id) => {
+//     return {
+//       ...d,
+//       ...{
+//         id: id,
+//       },
+//     };
+//   });
+//   editIndex.value = null;
+// };
 
 const isToggle = ref<boolean>(false);
-const editIndex = ref<number | null>(null);
-const openIndex = ref<number | null>(null);
-const searchIndex = ref<number | null>(null);
+const editIndex = ref<string>("");
+const openIndex = ref<string>("");
+const searchIndex = ref<string>("");
 
-const setIndex = (id: number) => {
+const setIndex = (id: string) => {
   console.log(isToggle.value, id);
   if (isToggle.value) return;
   editIndex.value = id;
@@ -309,12 +321,19 @@ watch(searchText, () => {
   console.log(searchText.value);
 });
 
+//検索はまだfirebaseに連携出来てないけど
+//エラーがあるから一旦コメントアウト✅
+//コメントアウトしたら、saveInputDataが表示されない。
+
+/**
+ * saveInputDataの名前検索で対象を抽出する関数。
+ */
 const searchName = computed(() => {
-  saveInputData.value = saveInputData.value.map((d, index) => {
+  saveInputData.value = saveInputData.value.map((d, id) => {
     return {
       ...d,
       ...{
-        id: index,
+        id: id,
       },
     };
   });
@@ -349,26 +368,23 @@ const searchButton = () => {
         :isPaddingLeft="false"
         :isReadonly="false"
       />
-      <ProfileButton @click="saveButton" label="保存" id="save-button" />
+      <ProfileButton @click="" label="保存" id="save-button" />
       <ProfileButton label="firestoreに保存" @click="testSaveDocument" />
       <ProfileButton
-        label="firestoreから保存したデータをインポート"
-        @click="testGetDocument"
+        label="firestoreから保存したデータを削除"
+        @click="testDeleteDocument"
       />
     </div>
 
     <div class="right-container">
-      <div
-        @click="setIndex(s.id)"
-        v-for="(s, index) in searchName"
-        :key="index"
-      >
+      <div @click="setIndex(s.id)" v-for="(s, id) in searchName" :key="id">
         <ProfileCard
-          v-model="searchName[index]"
-          :isToggle="s.id === openIndex"
-          :isReadonly="!(s.id === openIndex && isToggle)"
+          v-model="saveInputData[id]"
+          :isToggle="s.id === openIndex as string | null"
+          :isReadonly="!(s.id === openIndex as string | null && isToggle)"
         />
       </div>
+      //元々saveInputDataじゃなくて、sachNameやった。コメントアウトできない。
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" v-model="searchTextSave" />
         <div class="button-area">
@@ -379,11 +395,8 @@ const searchButton = () => {
             :disabled="isToggle"
           />
           <ProfileButton label="更新" @click="updateButton" />
-          <ProfileButton label="削除" @click="deleteButton()" />
-          <ProfileButton
-            label="firebaseデータを削除"
-            @click="testDeleteDocument"
-          />
+          <ProfileButton label="削除" @click="" />
+          <ProfileButton />
         </div>
       </div>
     </div>

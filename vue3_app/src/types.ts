@@ -1,5 +1,5 @@
 export type InputData = {
-  id:  number,
+  id: string;
   name: string;
   birthday: string;
   age: string;
@@ -10,15 +10,16 @@ export type InputData = {
   remarks: string;
 };
 
-export const defaultInputData = ():InputData =>{return{
-  id:  0,
-  name: "",
-  birthday: "",
-  age: "",
-  height: "",
-  weight: "",
-  tel: "",
-  mail: "",
-  remarks: "",
-}};
-
+export const defaultInputData = (): InputData => {
+  return {
+    id: "",
+    name: "",
+    birthday: "",
+    age: "",
+    height: "",
+    weight: "",
+    tel: "",
+    mail: "",
+    remarks: "",
+  };
+};
