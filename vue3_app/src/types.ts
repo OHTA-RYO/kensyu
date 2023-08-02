@@ -8,6 +8,7 @@ export type InputData = {
   tel: string;
   mail: string;
   remarks: string;
+  day: object;
 };
 
 export const defaultInputData = (): InputData => {
@@ -21,5 +22,6 @@ export const defaultInputData = (): InputData => {
     tel: "",
     mail: "",
     remarks: "",
+    day: new Date(),
   };
 };

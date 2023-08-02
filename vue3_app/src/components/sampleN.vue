@@ -87,12 +87,12 @@ const deleteDocument = async () => {
 const setIndex = (id: string) => {
   //falseのままなら何もしない。
   if (isToggle.value) return;
-  //ドキュメントのidにsetIndexの引数のidを代入
+  //editIdにドキュメントのidを代入
   editID.value = id;
   //setIndexのidがopenIdと一致していたら、空文字を入れる。
   if (id === openID.value) {
     openID.value = "";
-    //一致してない場合はopenIdにsetIndexの引数のidを代入
+    //一致してない場合はopenIdにオブジェクトのidを代入
   } else {
     openID.value = id;
   }

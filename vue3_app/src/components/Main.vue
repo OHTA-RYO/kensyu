@@ -23,16 +23,16 @@ const saveInputData = ref<InputData[]>([]);
 const isToggle = ref<boolean>(false);
 const editIndex = ref<string>("");
 const openIndex = ref<string>("");
-const searchIndex = ref<string>("");
 const searchTextSave = ref<string>("");
 const searchText = ref<string>("");
+const isReadonly = ref(true);
 
 //保存したデータを常に表示させたい。
 //保存と同時に出力する。
 //必要な処理は
 
 /**
- * //firestoreに保存されたデータがリアルタイムに表示される関数。
+ * //firestoreに保存されたデータがリアルタイムに表示される関数をonMountedで変化が起きた時に1回だけ実行する関数を上乗せ。
  *
  */
 onMounted(() => {
@@ -40,23 +40,24 @@ onMounted(() => {
     snapshot.docChanges().forEach((s) => {
       //firebaseに登録されているデータは常に表示されている。
       //saveInputDataに表示させたい。
-      //↓のやつは初めだけ表示されている？
-      // 処理できた。
-      //saveInputDataに追加
+
       if (s.type === "added") {
         console.log("New users:", s.doc.data());
-        //...はオブジェクト,配列も合体するやつ。
+        // ...はオブジェクト,配列も合体するやつ。
         saveInputData.value.push({
           ...(s.doc.data() as InputData),
           ...{ id: s.doc.id },
         });
+        let resule = saveInputData.value.sort((a, b) => {
+          return a.day < b.day ? -1 : 1;
+        });
       }
-      //saveInputDataを修正
+      //saveInputDataを編集　✅
       if (s.type === "modified") {
         console.log("Modified users:", s.doc.data());
+        //
       }
       //saveInputDataを削除
-      //効いてない。
       if (s.type === "removed") {
         //フィルターで新しい配列をsaveInputDataに入れる。
         //削除対象のidとドキュメントのidが一致していないデータで配列が返ってくる。
@@ -69,35 +70,62 @@ onMounted(() => {
   });
 });
 
-//現状はfirebase保存ボタンを押すとチュートリアルのadaと
-//Alanがfirebassに登録されるようになっている。
-//これからしたいことはsaveInputDataをfirebassに保存したい。
-//saveInputDataを保存する際に必要なことは
+console.log(typeof new Date());
 
-//testSaveDocumentの関数の中にsaveInputDataを入れる。
-//saveInputDataとfirebassを同時に登録するならtestSaveDocumentの関数の中にinputDataを入れるかもしれない。
+//一旦一番上まで移動。
+//更新をした時のfirebaseとの連携に必要なもの
+//編集したデータのidとオフジェクトのidが一致していたら、firebaseのデータを更新する(update)
+/**
+ * 更新を押した時の関数✅
+ */
 
-//保存のされ方がわからないので試してみること、
-//①予め登録している5名をada中に入れる。
-//②adaとAlanのように5個に分ける。
-//
+//saveInputDataのidとオブジェクトidが一致しているのを対象にする。
+const updateDocument = async () => {
+  //saveInputDataの中から、idがオブジェクトのidと一致するデータを取り出す。
+  const findData = saveInputData.value.find((d) => d.id === editIndex.value);
+
+  //editIndexでオブジェクトのidを選択肢に入れる。
+  const useRef = doc(db, "users", editIndex.value);
+  //findDataのidがオブジェクトのidと一致するデータがなければ何もしない。
+  if (!findData) return;
+  //useRef、第2引数に更新するデータ(findData)を指定
+  await updateDoc(useRef, findData);
+  //toggleが閉じている時の値がnullの場合は何もしない。
+  if (openIndex.value === null) return;
+  //isToggleを反転。true→false
+  isToggle.value = !isToggle.value;
+  //isReadonlyを反転。false→true
+  isReadonly.value = !isReadonly.value;
+
+  alert("データを更新しました。");
+};
+
+//これからやること。
+//redonri クリアした。
+//リロードしたら、saveInputDataの順番が変わる現象を修正する。
 
 /**
  * //vueの情報をfirebassに登録する関数
  */
 
-const testSaveDocument = async () => {
+const saveDocument = async () => {
   try {
     //, inputData.value);を追加した！！
     //{デフォルトであった波括弧を削除した
 
     //idが0になっているからidを持たせないといけないかも。
     //idを持たせるのに必要なものは...
-    //inputDataのidをsaveInputDataのlengthを代入。
-    // inputData.value.id = saveInputData.value.length;
+    //idはsaveInputDataをクリックした時にeditIndexに代入している。
     //}
     const docRef = await addDoc(collection(db, "users"), inputData.value);
-    //この中にinputDataを保存する。
+    //ここではpushしない。
+    //pushする場合は何が必要か。
+
+    //↓onMountedしていないからリロードしたら消える。
+    // saveInputData.value.push({
+    //   ...inputData.value,
+    //   ...{ id: docRef.id },
+    // });
 
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
@@ -106,55 +134,11 @@ const testSaveDocument = async () => {
   inputData.value = defaultInputData();
 };
 
-//onMountedでリアルタイムに追加している為、コメントアウトした。
-/**
- * firebassに保存したデータをsaveInputデータに表示する関数
- *
- */
-//const docRef = doc(db, "users", "hGPm6nWVftlN0wkcT1ZJ");
-
-// const testGetDocument = async () => {
-//   const querySnapshot = await getDocs(collection(db, "users"));
-//   //usesから取ってくる
-//   querySnapshot.forEach((doc) => {
-//     //forEachでquerySnapshotに入ったfirebaseの全てのデータを取り出す。
-//     saveInputData.value.push(doc.data() as InputData);
-//     //forEachの引数、docをsaveInputDataにpush
-//     console.log(doc.id, "=>", doc.data());
-
-//     if (doc.exists()) {
-//       console.log("Document data:", doc.data());
-//       //docにデータがあったら、表示して、なければ、No suchと表示する。
-//     } else {
-//       // docSnap.data() will be undefined in this case
-//       console.log("No such document!");
-//     }
-//   });
-
-// const docRef = doc(db, "users", "hGPm6nWVftlN0wkcT1ZJ");
-//これやったら1つしか取れなくない！？
-//実際に1つしか取れなかった。
-// const docSnap = await getDoc(docRef);
-//saveInputData.valueにfirebassのデータを表示させたい。
-// saveInputData.value.push(docSnap.data() as InputData);
-// };
-
-/**
- * testSaveDocumentとtestGetDocumentをまとめた関数。
- * //保存と出力両方1度に出来る。
- */
-// const testSaveGet = () => {
-//   testSaveDocument();
-//   testGetDocument();
-// };
-
-//firebaseに保存したデータとfirebaseからsaveInputDataに保存したデータを削除する。
-//1つずつ対処。
-
 /**
  * firebaseに保存したデータを削除する関数
  */
-const testDeleteDocument = async () => {
+const deleteDocument = async () => {
+  console.log(editIndex.value);
   //ドキュメントに保存されているデータは消えた。
   //ただし、今のままでは、Idを限定している為、対象を変更する必要がある。
   //idは取れた。doc("id")を処理しないといけない。
@@ -170,128 +154,64 @@ const testDeleteDocument = async () => {
   if (!confirm(`${targetData.name}削除しますか？`)) return;
 
   //オブジェクトを削除する
-  await deleteDoc(doc(db, "users", "editIndex.value"));
-  //saveInputDataにfilterをかけて選択中のデータを削除
-
-  saveInputData.value = saveInputData.value.filter(
-    //indexがeditIndexではないデータを新しい配列として作成する。
-    (s, id) => s.id !== editIndex.value
-  );
-
-  console.log(saveInputData);
-
-  //mapでidに削除後のsaveInputDataのindexを追加している。
-  // saveInputData.value = saveInputData.value.map((d, id) => {
-  //   return {
-  //     ...d,
-  //     ...{
-  //       id: id,
-  //     },
-  //   };
-  // }); //editIndexにnullを代入。
+  await deleteDoc(doc(db, "users", editIndex.value));
+  //editIndexに削除したidが入っているから空文字を入れる。
   editIndex.value = "";
-
-  //   saveInputData.value = saveInputData.value.map((d, index) => {
-  //     return {
-  //       ...d,
-  //       ...{
-  //         id: index,
-  //       },
-  //     };
-  //   });
 };
 
-//firebaseに連携したから、saveButtonはコメントアウト
-//mapの第２引数にはnumberが入る。第2引数に何が入るかはよく見とくこと。
-// const saveButton = () => {
-//   saveInputData.value.push(inputData.value);
-//   saveInputData.value = saveInputData.value.map((d, id) => {
-//     return {
-//       ...d,
-//       ...{
-//         id: id,
-//       },
-//     };
-//   });
-//   console.log(inputData);
-//   console.log(saveInputData.value);
-//   inputData.value = defaultInputData();
-// };
-
-//firebaseに引き継いだのでdeleteButtonはコメントアウト
-// const deleteButton = () => {
-//   // saveInputData.value =
-//   if (editIndex.value === null) return;
-//   const editName = saveInputData.value[editIndex.value].name;
-//   if (!confirm(`${editName}削除しますか？`)) return;
-//   saveInputData.value = saveInputData.value.filter(
-//     (t, id) => id !== editIndex.value
-//   );
-//   saveInputData.value = saveInputData.value.map((d, id) => {
-//     return {
-//       ...d,
-//       ...{
-//         id: id,
-//       },
-//     };
-//   });
-//   editIndex.value = null;
-// };
-
+/**
+ *
+ * toggleを切替る関数
+ */
 const setIndex = (id: string) => {
   console.log(isToggle.value, id);
+
   if (isToggle.value) return;
+  //ここでeditIndexにオブジェクトのidを入れる。
   editIndex.value = id;
 
+  //idがopenIndex(toggle閉じている。)と等しい時にはopenIndexに空文字を代入。
   if (id === openIndex.value) {
     openIndex.value = "";
+    //そうじゃなければopenIndexにオブジェクトidを代入
   } else {
     openIndex.value = id;
   }
   console.log(id);
+  console.log(openIndex.value);
 };
 
+/**
+ * 編集を押した時の関数
+ */
 const editButton = () => {
+  //openIndex(toggleが閉じている時)がnullの時は何もしない。
   if (openIndex.value === null) return;
+  //isToggleを反転させる。 false→true
   isToggle.value = !isToggle.value;
+  //isReadonlyを反転。 true→false
+  isReadonly.value = !isReadonly.value;
+  console.log(isReadonly.value);
 };
-
-const updateButton = () => {
-  console.log(isToggle.value);
-  if (openIndex.value === null) return;
-  isToggle.value = !isToggle.value;
-  alert("データを更新しました。");
-};
-
-watch(searchText, () => {
-  console.log(searchText.value);
-});
-
-//検索はまだfirebaseに連携出来てないけど
-//エラーがあるから一旦コメントアウト✅
-//コメントアウトしたら、saveInputDataが表示されない。
 
 /**
  * saveInputDataの名前検索で対象を抽出する関数。
  */
+//computedは計算結果を表示する。
 const searchName = computed(() => {
-  // saveInputData.value = saveInputData.value.map((d, id) => {
-  //   return {
-  //     ...d,
-  //     ...{
-  //       id: id,
-  //     },
-  //   };
-  // });
+  //saveInputDataをfileterで一旦削除。 includesで検索対象者のみ残す。
   return saveInputData.value.filter((d) => d.name.includes(searchText.value));
 });
 
-//フィルターをかけた状態で削除すると削除対象がズレる。
-//index番号を
+//
 
+/**
+ * 検索ボタンを押した時の関数
+ */
 const searchButton = () => {
+  //editIndex(toggleが開いている時)に空文字を代入
   editIndex.value = "";
-  // console.log(saveInputData.value[setIndex.length])
+  //searchTextに検索窓に入力した値を代入。ここで始めて↑のfileterも走る。
   searchText.value = searchTextSave.value;
 };
 
@@ -302,9 +222,11 @@ const searchButton = () => {
 // そして、もし今年の誕生日がまだ来ていなかったら
 // 年齢 = 年齢 - 1
 
+//saveInputDataは配列やから、どのsaveInputDataかを指定する必要がある。
 watch(
-  inputData,
+  [inputData, saveInputData],
   () => {
+    const findData = saveInputData.value.find((d) => d.id === editIndex.value);
     const today = new Date();
     if (inputData.value.birthday) {
       console.log(inputData.value.birthday.split("年"));
@@ -354,10 +276,135 @@ watch(
         console.log(birthdayMontB0 + birthdayDayB0);
       }
       inputData.value.age = age.toString();
+      if (!findData) return;
+      // findData.age = age.toString();
     }
   },
   { deep: true }
 );
+
+//onMountedでリアルタイムに追加している為、コメントアウトした。
+/**
+ * firebassに保存したデータをsaveInputデータに表示する関数
+ *
+ */
+//const docRef = doc(db, "users", "hGPm6nWVftlN0wkcT1ZJ");
+
+//現状はfirebase保存ボタンを押すとチュートリアルのadaと
+//Alanがfirebassに登録されるようになっている。
+//これからしたいことはsaveInputDataをfirebassに保存したい。
+//saveInputDataを保存する際に必要なことは
+
+//saveDocumentの関数の中にsaveInputDataを入れる。
+//saveInputDataとfirebassを同時に登録するならsaveDocumentの関数の中にinputDataを入れるかもしれない。
+
+//保存のされ方がわからないので試してみること、
+//①予め登録している5名をada中に入れる。
+//②adaとAlanのように5個に分ける。
+//
+
+// const testGetDocument = async () => {
+//   const querySnapshot = await getDocs(collection(db, "users"));
+//   //usesから取ってくる
+//   querySnapshot.forEach((doc) => {
+//     //forEachでquerySnapshotに入ったfirebaseの全てのデータを取り出す。
+//     saveInputData.value.push(doc.data() as InputData);
+//     //forEachの引数、docをsaveInputDataにpush
+//     console.log(doc.id, "=>", doc.data());
+
+//     if (doc.exists()) {
+//       console.log("Document data:", doc.data());
+//       //docにデータがあったら、表示して、なければ、No suchと表示する。
+//     } else {
+//       // docSnap.data() will be undefined in this case
+//       console.log("No such document!");
+//     }
+//   });
+
+// const docRef = doc(db, "users", "hGPm6nWVftlN0wkcT1ZJ");
+//これやったら1つしか取れなくない！？
+//実際に1つしか取れなかった。
+// const docSnap = await getDoc(docRef);
+//saveInputData.valueにfirebassのデータを表示させたい。
+// saveInputData.value.push(docSnap.data() as InputData);
+// };
+
+/**
+ * saveDocumentとtestGetDocumentをまとめた関数。
+ * //保存と出力両方1度に出来る。
+ */
+// const testSaveGet = () => {
+//   saveDocument();
+//   testGetDocument();
+// };
+
+//firebaseに保存したデータとfirebaseからsaveInputDataに保存したデータを削除する。
+//1つずつ対処。
+
+//firebaseに連携したから、saveButtonはコメントアウト
+//mapの第２引数にはnumberが入る。第2引数に何が入るかはよく見とくこと。
+// const saveButton = () => {
+//   saveInputData.value.push(inputData.value);
+//   saveInputData.value = saveInputData.value.map((d, id) => {
+//     return {
+//       ...d,
+//       ...{
+//         id: id,
+//       },
+//     };
+//   });
+//   console.log(inputData);
+//   console.log(saveInputData.value);
+//   inputData.value = defaultInputData();
+// };
+
+//firebaseに引き継いだのでdeleteButtonはコメントアウト
+// const deleteButton = () => {
+//   // saveInputData.value =
+//   if (editIndex.value === null) return;
+//   const editName = saveInputData.value[editIndex.value].name;
+//   if (!confirm(`${editName}削除しますか？`)) return;
+//   saveInputData.value = saveInputData.value.filter(
+//     (t, id) => id !== editIndex.value
+//   );
+//   saveInputData.value = saveInputData.value.map((d, id) => {
+//     return {
+//       ...d,
+//       ...{
+//         id: id,
+//       },
+//     };
+//   });
+//   editIndex.value = null;
+// };
+
+//検索ボタンを押した時の関数。
+// const searchName = computed(() => {
+//   // saveInputData.value = saveInputData.value.map((d, id) => {
+//   //   return {
+//   //     ...d,
+//   //     ...{
+//   //       id: id,
+//   //     },
+//   //   };
+//   // });
+//   return saveInputData.value.filter((d) => d.name.includes(searchText.value));
+// });
+
+//検索窓に入力した値をwatchで監視
+// watch(searchText, () => {
+//   console.log(searchText.value);
+// });
+
+//編集ボタンをクリックした時の関数
+// const updateButton = () => {
+//   console.log(isToggle.value);
+//   //↓これ必要？
+//   if (openIndex.value === null) return;
+//   isToggle.value = !isToggle.value;
+
+//   alert("データを更新しました。");
+// };
 </script>
 
 <template>
@@ -369,26 +416,27 @@ watch(
         :isPaddingLeft="false"
         :isReadonly="false"
       />
-      <ProfileButton @click="" label="保存" id="save-button" />
-      <ProfileButton label="firestoreに保存" @click="testSaveDocument" />
-      <ProfileButton
-        label="firestoreから保存したデータを削除"
-        @click="testDeleteDocument"
-      />
+      <ProfileButton @click="saveDocument" label="保存" id="save-button" />
     </div>
 
+    <!-- v-forで回すのをsaveInputDataにすると検索でfileterをかけた時に空の名前のフィールドだけ残ってしまう。 -->
     <div class="right-container">
       <div
         @click="setIndex(s.id)"
         v-for="(s, index) in searchName"
         :key="index"
       >
+        <!-- sarchNameを双方向でバインド　入力とクリックを同時に行うみたいなこと。 -->
         <ProfileCard
           v-model="searchName[index]"
           :isToggle="s.id === openIndex"
-          :isReadonly="!(s.id === openIndex)"
+          :isReadonly="isReadonly"
         />
       </div>
+      <!-- 現状はidが閉じている時の値と等しくない場合↑ -->
+      <!-- 押した時点でidとopenIndexにidが入る -->
+      <!-- isReadonlyはtrueの時に書き込みができない。  -->
+      <!-- isToggleが展開していたらisReadonlyが解除される -->
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" v-model="searchTextSave" />
         <div class="button-area">
@@ -398,8 +446,8 @@ watch(
             @click="editButton"
             :disabled="isToggle"
           />
-          <ProfileButton label="更新" @click="updateButton" />
-          <ProfileButton label="削除" @click="" />
+          <ProfileButton label="更新" @click="updateDocument" />
+          <ProfileButton label="削除" @click="deleteDocument" />
         </div>
       </div>
     </div>
