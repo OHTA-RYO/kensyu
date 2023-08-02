@@ -1,26 +1,63 @@
 "use strict";
 
-const button = document.querySelector("button");
-const input = document.querySelector("input");
-const radios = document.querySelectorAll(".radio");
+//次はmap filter redusu sum系で同じ処理を行う。
 
-const addEv = (event: any) => {
-  const value = event!.currentTarget!.value;
-  console.log(`${value}が選択されました。`);
-};
+// const arry: number[] = [11, 1, 12, 2, 13, 3, 14, 4, 15, 5];
+// let sum = 0;
+// let longSum = 0;
+// let sum5 = 0;
+// let sum4 = 0;
+// let longsum5 = 0;
+// let longsum4 = 0;
 
-const addBt = (bt: any) => {
-  bt.value = input!.value;
-  console.log(bt.value);
-};
+// // const fun = (j) => {
+// for (let i = 0; i < 10; i++) {
+//   console.log(arry[i]);
+//   if (arry[i] >= 5) {
+//     console.log(`要素の値${arry[i]}は5以上です。`);
+//     sum5 += arry[i];
+//     longsum5++;
+//   } else {
+//     console.log(`要素の値${arry[i]}は5未満です。`);
+//     sum4 += arry[i];
+//     longsum4++;
+//   }
+//   longSum++;
+//   sum += arry[i];
+// }
+// console.log(`要素の長さは${longSum}でした。`);
+// console.log(`要素の合計は${sum}でした。`);
+// console.log(`5以上の値の要素の長さは${longsum5}`);
+// console.log(`5以上の値の要素の合計は${sum5}`);
+// console.log(`5未満の値の要素の長さは${longsum4}`);
+// console.log(`5以上の値の要素の合計は${sum4}`);
 
-for (let radio of radios) {
-  radio.addEventListener("input", addEv);
-}
+// // };
 
-button!.addEventListener("click", addBt);
+// // fun(0);
+// console.log(sum);
 
-input!.addEventListener("input", addEv);
+// const button = document.querySelector("button");
+// const input = document.querySelector("input");
+// const radios = document.querySelectorAll(".radio");
+
+// const addEv = (event: any) => {
+//   const value = event!.currentTarget!.value;
+//   console.log(`${value}が選択されました。`);
+// };
+
+// const addBt = (bt: any) => {
+//   bt.value = input!.value;
+//   console.log(bt.value);
+// };
+
+// for (let radio of radios) {
+//   radio.addEventListener("input", addEv);
+// }
+
+// button!.addEventListener("click", addBt);
+
+// input!.addEventListener("input", addEv);
 
 // for(let radio of radios){
 //   radio.addEventListener('input',(even:any)=>{

@@ -2,6 +2,7 @@
 import ProfileCard from "./ProfileCard.vue";
 import ProfileButton from "./ProfileButton.vue";
 import ProfileSarch from "./ProfileSarch.vue";
+import name from "./name.vue";
 
 import { ref, reactive, watch, computed, onMounted } from "vue";
 import { InputData, defaultInputData } from "../types";
@@ -16,6 +17,7 @@ import {
   deleteDoc,
   onSnapshot,
 } from "firebase/firestore";
+// import { channel } from "diagnostics_channel";
 
 //const refをまとめる。
 const inputData = ref<InputData>(defaultInputData());
@@ -405,11 +407,20 @@ watch(
 
 //   alert("データを更新しました。");
 // };
+const label2 = ref("あいう");
+
+function test(emitValue: string) {
+  // console.log(value);
+  label2.value = emitValue;
+}
+const label = ref<string>("");
 </script>
 
 <template>
   <div class="container">
     <div class="left-container">
+      <name v-model="label2" />
+      <name :staffName="label2" @changeStaffName="test" />
       <ProfileCard
         v-model="inputData"
         :isToggle="true"
