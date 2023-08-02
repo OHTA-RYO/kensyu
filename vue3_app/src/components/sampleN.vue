@@ -225,7 +225,6 @@ watch(
             :isReadonly="!(s.id === openID && isToggle)"
           />
         </div>
-        //元々saveInputDataじゃなくて、sachNameやった。コメントアウトできない。
       </div>
     </div>
   </div>

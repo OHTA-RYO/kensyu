@@ -17,7 +17,15 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 
+//const refをまとめる。
 const inputData = ref<InputData>(defaultInputData());
+const saveInputData = ref<InputData[]>([]);
+const isToggle = ref<boolean>(false);
+const editIndex = ref<string>("");
+const openIndex = ref<string>("");
+const searchIndex = ref<string>("");
+const searchTextSave = ref<string>("");
+const searchText = ref<string>("");
 
 //保存したデータを常に表示させたい。
 //保存と同時に出力する。
@@ -48,18 +56,15 @@ onMounted(() => {
         console.log("Modified users:", s.doc.data());
       }
       //saveInputDataを削除
+      //効いてない。
       if (s.type === "removed") {
+        //フィルターで新しい配列をsaveInputDataに入れる。
+        //削除対象のidとドキュメントのidが一致していないデータで配列が返ってくる。
+        saveInputData.value = saveInputData.value.filter(
+          (d, id) => d.id !== s.doc.id
+        );
         console.log("Removed users:", s.doc.data());
-        // saveInputData.value =
-        // if (editIndex.value === null) return;
-        // const editName = saveInputData.value[editIndex.value].name;
-        // if (!confirm(`${editName}削除しますか？`)) return;
-        // saveInputData.value = saveInputData.value.filter(
-        //   (t, id) => id !== editIndex.value
-        // );
       }
-
-      // console.log(s.data());
     });
   });
 });
@@ -155,20 +160,27 @@ const testDeleteDocument = async () => {
   //idは取れた。doc("id")を処理しないといけない。
   //usersデータから削除する必要がある。
 
-  await deleteDoc(doc(db, "users", "id"));
   //isToggleが展開しているデータを削除したい。
   //↓editIndexはtoggleが展開中　閉じている時の値がnullの時は何もしない。
   if (editIndex.value === null) return;
-  // editNameにsaveInputDataのeditIndex番目の名前を代入
-  const editName = saveInputData.value[1].name;
+  //findで対象となるオブジェクトの要素を探す。saveInputDataのidとドキュメントのidが一致しているデータ
+  const targetData = saveInputData.value.find((d) => d.id === editIndex.value);
   //confirmで選択中の名前をアラートで表示
-  if (!confirm(`${editName}削除しますか？`)) return;
+  if (!targetData) return;
+  if (!confirm(`${targetData.name}削除しますか？`)) return;
+
+  //オブジェクトを削除する
+  await deleteDoc(doc(db, "users", "editIndex.value"));
   //saveInputDataにfilterをかけて選択中のデータを削除
 
   saveInputData.value = saveInputData.value.filter(
     //indexがeditIndexではないデータを新しい配列として作成する。
-    (id) => id !== editIndex.value.
-  ); //mapでidに削除後のsaveInputDataのindexを追加している。
+    (s, id) => s.id !== editIndex.value
+  );
+
+  console.log(saveInputData);
+
+  //mapでidに削除後のsaveInputDataのindexを追加している。
   // saveInputData.value = saveInputData.value.map((d, id) => {
   //   return {
   //     ...d,
@@ -177,7 +189,7 @@ const testDeleteDocument = async () => {
   //     },
   //   };
   // }); //editIndexにnullを代入。
-  editIndex.value = '';
+  editIndex.value = "";
 
   //   saveInputData.value = saveInputData.value.map((d, index) => {
   //     return {
@@ -188,8 +200,6 @@ const testDeleteDocument = async () => {
   //     };
   //   });
 };
-
-const saveInputData = ref<InputData[]>([]);
 
 //firebaseに連携したから、saveButtonはコメントアウト
 //mapの第２引数にはnumberが入る。第2引数に何が入るかはよく見とくこと。
@@ -207,6 +217,90 @@ const saveInputData = ref<InputData[]>([]);
 //   console.log(saveInputData.value);
 //   inputData.value = defaultInputData();
 // };
+
+//firebaseに引き継いだのでdeleteButtonはコメントアウト
+// const deleteButton = () => {
+//   // saveInputData.value =
+//   if (editIndex.value === null) return;
+//   const editName = saveInputData.value[editIndex.value].name;
+//   if (!confirm(`${editName}削除しますか？`)) return;
+//   saveInputData.value = saveInputData.value.filter(
+//     (t, id) => id !== editIndex.value
+//   );
+//   saveInputData.value = saveInputData.value.map((d, id) => {
+//     return {
+//       ...d,
+//       ...{
+//         id: id,
+//       },
+//     };
+//   });
+//   editIndex.value = null;
+// };
+
+const setIndex = (id: string) => {
+  console.log(isToggle.value, id);
+  if (isToggle.value) return;
+  editIndex.value = id;
+
+  if (id === openIndex.value) {
+    openIndex.value = "";
+  } else {
+    openIndex.value = id;
+  }
+  console.log(id);
+};
+
+const editButton = () => {
+  if (openIndex.value === null) return;
+  isToggle.value = !isToggle.value;
+};
+
+const updateButton = () => {
+  console.log(isToggle.value);
+  if (openIndex.value === null) return;
+  isToggle.value = !isToggle.value;
+  alert("データを更新しました。");
+};
+
+watch(searchText, () => {
+  console.log(searchText.value);
+});
+
+//検索はまだfirebaseに連携出来てないけど
+//エラーがあるから一旦コメントアウト✅
+//コメントアウトしたら、saveInputDataが表示されない。
+
+/**
+ * saveInputDataの名前検索で対象を抽出する関数。
+ */
+const searchName = computed(() => {
+  // saveInputData.value = saveInputData.value.map((d, id) => {
+  //   return {
+  //     ...d,
+  //     ...{
+  //       id: id,
+  //     },
+  //   };
+  // });
+  return saveInputData.value.filter((d) => d.name.includes(searchText.value));
+});
+
+//フィルターをかけた状態で削除すると削除対象がズレる。
+//index番号を
+
+const searchButton = () => {
+  editIndex.value = "";
+  // console.log(saveInputData.value[setIndex.length])
+  searchText.value = searchTextSave.value;
+};
+
+// シンプルに
+// 年齢 = 今年 - 生まれた年
+// です。
+
+// そして、もし今年の誕生日がまだ来ていなかったら
+// 年齢 = 年齢 - 1
 
 watch(
   inputData,
@@ -264,99 +358,6 @@ watch(
   },
   { deep: true }
 );
-
-//firebaseに引き継いだのでdeleteButtonはコメントアウト
-// const deleteButton = () => {
-//   // saveInputData.value =
-//   if (editIndex.value === null) return;
-//   const editName = saveInputData.value[editIndex.value].name;
-//   if (!confirm(`${editName}削除しますか？`)) return;
-//   saveInputData.value = saveInputData.value.filter(
-//     (t, id) => id !== editIndex.value
-//   );
-//   saveInputData.value = saveInputData.value.map((d, id) => {
-//     return {
-//       ...d,
-//       ...{
-//         id: id,
-//       },
-//     };
-//   });
-//   editIndex.value = null;
-// };
-
-const isToggle = ref<boolean>(false);
-const editIndex = ref<string>("");
-const openIndex = ref<string>("");
-const searchIndex = ref<string>("");
-
-const setIndex = (id: string) => {
-  console.log(isToggle.value, id);
-  if (isToggle.value) return;
-  editIndex.value = id;
-
-  if (id === openIndex.value) {
-    openIndex.value = null;
-  } else {
-    openIndex.value = id;
-  }
-  console.log(id);
-};
-
-const editButton = () => {
-  if (openIndex.value === null) return;
-  isToggle.value = !isToggle.value;
-};
-
-const updateButton = () => {
-  console.log(isToggle.value);
-  if (openIndex.value === null) return;
-  isToggle.value = !isToggle.value;
-  alert("データを更新しました。");
-};
-
-const searchText = ref<string>("");
-
-watch(searchText, () => {
-  console.log(searchText.value);
-});
-
-//検索はまだfirebaseに連携出来てないけど
-//エラーがあるから一旦コメントアウト✅
-//コメントアウトしたら、saveInputDataが表示されない。
-
-/**
- * saveInputDataの名前検索で対象を抽出する関数。
- */
-const searchName = computed(() => {
-  saveInputData.value = saveInputData.value.map((d, id) => {
-    return {
-      ...d,
-      ...{
-        id: id,
-      },
-    };
-  });
-  return saveInputData.value.filter((d) => d.name.includes(searchText.value));
-});
-
-//フィルターをかけた状態で削除すると削除対象がズレる。
-//index番号を
-const searchTextSave = ref<string>("");
-
-const searchButton = () => {
-  editIndex.value = null;
-  // console.log(saveInputData.value[setIndex.length])
-  searchText.value = searchTextSave.value;
-};
-
-// シンプルに
-// 年齢 = 今年 - 生まれた年
-// です。
-
-// そして、もし今年の誕生日がまだ来ていなかったら
-// 年齢 = 年齢 - 1
-// です。
 </script>
 
 <template>
@@ -377,14 +378,17 @@ const searchButton = () => {
     </div>
 
     <div class="right-container">
-      <div @click="setIndex(s.id)" v-for="(s, id) in searchName" :key="id">
+      <div
+        @click="setIndex(s.id)"
+        v-for="(s, index) in searchName"
+        :key="index"
+      >
         <ProfileCard
-          v-model="saveInputData[id]"
-          :isToggle="s.id === openIndex as string | null"
-          :isReadonly="!(s.id === openIndex as string | null && isToggle)"
+          v-model="searchName[index]"
+          :isToggle="s.id === openIndex"
+          :isReadonly="!(s.id === openIndex)"
         />
       </div>
-      //元々saveInputDataじゃなくて、sachNameやった。コメントアウトできない。
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" v-model="searchTextSave" />
         <div class="button-area">
@@ -396,7 +400,6 @@ const searchButton = () => {
           />
           <ProfileButton label="更新" @click="updateButton" />
           <ProfileButton label="削除" @click="" />
-          <ProfileButton />
         </div>
       </div>
     </div>
