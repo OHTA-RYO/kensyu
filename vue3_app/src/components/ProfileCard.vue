@@ -24,12 +24,13 @@ const props = defineProps({
 
 const emit = defineEmits<{
   (e: "update:modelValue", value?: InputData): void;
-  (e: "nameData", value: Boolean): void; //save出来るならtrue
-  (e: "mailData", value: Boolean): void; //save出来るならtrue
-  (e: "telData", value: Boolean): void; //save出来るならtrue
-  (e: "heightData", value: Boolean): void; //save出来るならtrue
-  (e: "weightData", value: Boolean): void; //save出来るならtrue
-  (e: "birthdayData", value: Boolean): void; //save出来るならtrue
+  (e: "nameData", value: boolean): void; //save出来るならtrue
+  (e: "mailData", value: boolean): void; //save出来るならtrue
+  (e: "telData", value: boolean): void; //save出来るならtrue
+  (e: "heightData", value: boolean): void; //save出来るならtrue
+  (e: "weightData", value: boolean): void; //save出来るならtrue
+  (e: "birthdayData", value: boolean): void; //save出来るならtrue
+  (e: "isboolean", value: boolean): void; //save出来るならtrue
 }>();
 
 const inputData = computed({
@@ -80,31 +81,68 @@ const mailData = computed(() => {
 //その為に必要なモノnameData〜がtrue,falseか
 //↑のデータをまとめる関数も必要。
 
-// function isAbleToSave() {
-//   console.log(nameData.value);
-// }
+function isAbleToSave() {
+  console.log(nameData.value);
+  console.log(mailData.value);
+}
 
-// isAbleToSave();
+//watchの中にnameDataなどのtrue,falseを見る関数を作る。
+
+//nameDataなどが全て配列に入れる。
+//全てがfalseになったらok
+const errorBox = [
+  nameData,
+  mailData,
+  birthdayData,
+  heightData,
+  weightData,
+  telData,
+];
 
 watch(
-  [nameData, mailData, birthdayData, heightData, weightData, telData],
+  [
+    nameData,
+    mailData,
+    birthdayData,
+    heightData,
+    weightData,
+    telData,
+    inputData,
+  ],
   () => {
-    console.log("テスト");
-    emit("nameData", nameData.value);
-    emit("mailData", mailData.value);
-    emit("telData", telData.value);
-    emit("birthdayData", birthdayData.value);
-    emit("heightData", heightData.value);
-    emit("weightData", weightData.value);
-    // console.log(nameData.value);
-    // console.log(mailData.value);
-    // console.log(telData.value);
-    // console.log(birthdayData.value);
-    // console.log(heightData.value);
-    // console.log(weightData.value);
-  }
+    const booleans = () => {
+      if (
+        nameData.value === false &&
+        mailData.value === false &&
+        telData.value === false &&
+        birthdayData.value === false &&
+        heightData.value === false &&
+        weightData.value === false
+      ) {
+        return false;
+      }
+      return true;
+    };
+    const isboolean = booleans();
+    emit("isboolean", isboolean);
+    console.log(isboolean);
+  },
+  { deep: true }
 );
 
+// console.log("テスト");
+//     emit("nameData", nameData.value);
+//     emit("mailData", mailData.value);
+//     emit("telData", telData.value);
+//     emit("birthdayData", birthdayData.value);
+//     emit("heightData", heightData.value);
+//     emit("weightData", weightData.value);
+// console.log(nameData.value);
+// console.log(mailData.value);
+// console.log(telData.value);
+// console.log(birthdayData.value);
+// console.log(heightData.value);
+// console.log(weightData.value);
 //trueの時に保存ボタンを押せなくしたい。
 //emitで親にデータを渡すことはできた。
 //必要なことは

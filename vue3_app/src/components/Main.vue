@@ -28,6 +28,7 @@ const openIndex = ref<string>("");
 const searchTextSave = ref<string>("");
 const searchText = ref<string>("");
 const isReadonly = ref(true);
+const isSave = ref(true);
 
 //保存したデータを常に表示させたい。
 //保存と同時に出力する。
@@ -313,12 +314,11 @@ watch(
 //子供からnameDataの値を受け取る。
 //valueにtrue,falseの値が入る。
 //trueの場合は保存ボタンが押せないようにする。
-function isAbleToSave(value: boolean) {
-  // if (value === value) {
+//現状は
+const isAbleToSave = (value: boolean) => {
+  isSave.value = value;
   console.log(value);
-  // }
-  // value = !value;
-}
+};
 
 //  const isAbleToSave = nameData.value
 
@@ -535,12 +535,13 @@ function isAbleToSave(value: boolean) {
         :isToggle="true"
         :isPaddingLeft="false"
         :isReadonly="false"
+        @isboolean="isAbleToSave"
       />
       <ProfileButton
         @click="saveDocument"
         label="保存"
         id="save-button"
-        @nameData="(e) => isAbleToSave(e)"
+        :disabled="isSave"
       />
     </div>
 
