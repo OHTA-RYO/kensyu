@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PropType, computed, ref } from "vue";
+import { PropType, computed, watch } from "vue";
 import { InputData, defaultInputData } from "../types";
 
 const props = defineProps({
@@ -24,6 +24,12 @@ const props = defineProps({
 
 const emit = defineEmits<{
   (e: "update:modelValue", value?: InputData): void;
+  (e: "nameData", value: Boolean): void; //save出来るならtrue
+  (e: "mailData", value: Boolean): void; //save出来るならtrue
+  (e: "telData", value: Boolean): void; //save出来るならtrue
+  (e: "heightData", value: Boolean): void; //save出来るならtrue
+  (e: "weightData", value: Boolean): void; //save出来るならtrue
+  (e: "birthdayData", value: Boolean): void; //save出来るならtrue
 }>();
 
 const inputData = computed({
@@ -34,43 +40,81 @@ const inputData = computed({
     emit("update:modelValue", v);
   },
 });
+
 // /^[ぁ-んァ-ヶー一-龯]+$/
 
 const nameData = computed(() => {
-  if(!inputData.value.name)return false
-return !inputData.value.name.match(/[^\x01-\x7E]/)
-// return inputData.value.name.length < 4
-})
+  if (!inputData.value.name) return false;
+  return !inputData.value.name.match(/[^\x01-\x7E]/);
+  // return inputData.value.name.length < 4
+});
 
 const birthdayData = computed(() => {
-  if(!inputData.value.birthday)return false
-return !inputData.value.birthday.match(/^[0-9]{4}年\d{1,2}月\d{1,2}日$/)
-})
-
-// const ageData = computed(() => {
-// return inputData.value.name.match(/^[ぁ-んァ-ヶー一-龯]+$/)
-// })
+  if (!inputData.value.birthday) return false;
+  return !inputData.value.birthday.match(/^[0-9]{4}年\d{1,2}月\d{1,2}日$/);
+});
 
 const heightData = computed(() => {
-  if(!inputData.value.height)return false
-return !inputData.value.height.match(/^[0-9]+$/)
-})
+  if (!inputData.value.height) return false;
+  return !inputData.value.height.match(/^[0-9]+$/);
+});
 
 const weightData = computed(() => {
-  if(!inputData.value.weight)return false
-return !inputData.value.weight.match(/^[0-9]+$/)
-})
+  if (!inputData.value.weight) return false;
+  return !inputData.value.weight.match(/^[0-9]+$/);
+});
 
 const telData = computed(() => {
-  if(!inputData.value.tel)return false
-return !inputData.value.tel.match(/\d{2,4}-\d{2,4}-\d{4}/)
-})
+  if (!inputData.value.tel) return false;
+  return !inputData.value.tel.match(/\d{2,4}-\d{2,4}-\d{4}/);
+});
 
 const mailData = computed(() => {
-  if(!inputData.value.mail)return false
-return !inputData.value.mail.match( /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/)
-})
+  if (!inputData.value.mail) return false;
+  return !inputData.value.mail.match(
+    /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
+  );
+});
 
+//名前〜メールアドレスにエラー表示がある場合は保存できないようにしたい。
+//その為に必要なモノnameData〜がtrue,falseか
+//↑のデータをまとめる関数も必要。
+
+// function isAbleToSave() {
+//   console.log(nameData.value);
+// }
+
+// isAbleToSave();
+
+watch(
+  [nameData, mailData, birthdayData, heightData, weightData, telData],
+  () => {
+    console.log("テスト");
+    emit("nameData", nameData.value);
+    emit("mailData", mailData.value);
+    emit("telData", telData.value);
+    emit("birthdayData", birthdayData.value);
+    emit("heightData", heightData.value);
+    emit("weightData", weightData.value);
+    // console.log(nameData.value);
+    // console.log(mailData.value);
+    // console.log(telData.value);
+    // console.log(birthdayData.value);
+    // console.log(heightData.value);
+    // console.log(weightData.value);
+  }
+);
+
+//trueの時に保存ボタンを押せなくしたい。
+//emitで親にデータを渡すことはできた。
+//必要なことは
+
+// emit("labelChange", "変更後");
+
+// function labelChange() {
+//   emit("labelChange", "変更後");
+//   // emit("label2Change", "変更後");
+// }
 </script>
 
 <template>
@@ -80,21 +124,31 @@ return !inputData.value.mail.match( /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*
     <input v-model="inputData.name" type="text" :readonly="isReadonly" />
     <div v-if="isToggle" :class="{ closearea: isPaddingLeft }">
       <p>生年月日/西暦</p>
-      <p v-if="birthdayData" class="error">生年月日は西暦で入力下さい。</p>
+      <p v-if="birthdayData" class="error" :birthdayData="birthdayData">
+        生年月日は西暦で入力下さい。
+      </p>
       <input v-model="inputData.birthday" type="text" :readonly="isReadonly" />
-      <p>年齢/歳</p> 
+      <p>年齢/歳</p>
       <input type="text" :readonly="isReadonly" :value="inputData.age" />
       <p>身長/cm</p>
-      <p v-if="heightData" class="error">身長は半角数字のみ入力下さい。</p>
+      <p v-if="heightData" class="error" :heightData="heightData">
+        身長は半角数字のみ入力下さい。
+      </p>
       <input v-model="inputData.height" type="text" :readonly="isReadonly" />
       <p>体重/kg</p>
-      <p v-if="weightData" class="error">体重は半角数字のみ入力下さい。</p>
+      <p v-if="weightData" class="error" :weightData="weightData">
+        体重は半角数字のみ入力下さい。
+      </p>
       <input v-model="inputData.weight" type="text" :readonly="isReadonly" />
       <p>電話番号:</p>
-      <p v-if="telData" class="error">電話番号は半角ハイフンありで入力下さい。</p>
+      <p v-if="telData" class="error" :telData="telData">
+        電話番号は半角ハイフンありで入力下さい。
+      </p>
       <input v-model="inputData.tel" type="text" :readonly="isReadonly" />
       <p>メールアドレス:</p>
-      <p v-if="mailData" class="error">メールアドレスに誤りがあります。</p>
+      <p v-if="mailData" class="error" :mailData="mailData">
+        メールアドレスに誤りがあります。
+      </p>
       <input v-model="inputData.mail" type="text" :readonly="isReadonly" />
       <p>備考:</p>
       <textarea v-model="inputData.remarks" :readonly="isReadonly"></textarea>

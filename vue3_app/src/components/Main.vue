@@ -120,6 +120,7 @@ const saveDocument = async () => {
     //idはsaveInputDataをクリックした時にeditIndexに代入している。
     //}
     const docRef = await addDoc(collection(db, "users"), inputData.value);
+
     //ここではpushしない。
     //pushする場合は何が必要か。
 
@@ -227,11 +228,16 @@ const searchButton = () => {
 //saveInputDataは配列やから、どのsaveInputDataかを指定する必要がある。
 //関数を作って、引数でinputDataとsaveInputDataを渡す。
 
-let age: number = 0;
-const birthdayFun = (m: string) => {
-  watch(
-    [inputData, saveInputData],
-    () => {
+watch(
+  //watchの中にsaveInputDataを追加
+  [inputData, saveInputData],
+  () => {
+    /**
+     * inputData.birithdayとsaveInputData.birthdayを渡すと年齢を自動計算する関数
+     * @param m inputData.value.birthday　とsaveInputData.value.birthday
+     */
+    const birthdayFun = (m: string) => {
+      let age: number = 0;
       const today = new Date();
       if (m) {
         console.log(m.split("年"));
@@ -280,29 +286,51 @@ const birthdayFun = (m: string) => {
           console.log(todayMontA0 + todayDayA0);
           console.log(birthdayMontB0 + birthdayDayB0);
         }
-        return (m = age.toString());
+        //return 忘れがち、引数あるパターンはreturn
+        return age.toString();
       }
-    },
-    { deep: true }
-  );
-};
+    };
+    //inputBirthdayに↑で作った関数、引数inputData.value.birthdayを代入
+    const inputBirthday = birthdayFun(inputData.value.birthday);
+    //inputData.ageに戻り値を代入
+    inputData.value.age = inputBirthday!;
 
-const inputBirthday = () => {
-  birthdayFun(inputData.value.age);
-  console.log(inputData.value.age);
-};
+    //errarになるから、saveBirthdayを作成。
+    //mapでsaveInputDataのidとオブジェクトのidが一致するデータを抽出する
+    const saveBirthday = saveInputData.value.map((d, id) => {
+      //オブジェクトのidと選択中のデータのidが一致してたら
+      if (d.id === editIndex.value) {
+        //年齢に↑の関数、引数はdのbirthday
+        d.age = birthdayFun(d.birthday) || "";
+        //戻り値はd,オブジェクト。　年齢が返ってくる。
+      }
+      return d;
+    });
+  },
+  { deep: true }
+);
 
-inputBirthday();
+//子供からnameDataの値を受け取る。
+//valueにtrue,falseの値が入る。
+//trueの場合は保存ボタンが押せないようにする。
+function isAbleToSave(value: boolean) {
+  // if (value === value) {
+  console.log(value);
+  // }
+  // value = !value;
+}
 
-const saveBirthday = () => {
-  saveInputData.value.map((d, id) => {
-    if (d.id === editIndex.value) {
-      saveInputData.value[id].age = age.toString();
-    }
-    birthdayFun(saveInputData.value[id].age);
-  });
-};
-saveBirthday();
+//  const isAbleToSave = nameData.value
+
+//↑のsaveBirthday別バージョン
+// const saveBirthday = saveInputData.value.map((d, id) => {
+//       if (d.id === editIndex.value) {
+//         const a = birthdayFun(d.birthday);
+//         if (typeof a === "string") {
+//           d.age = a;
+//         }
+//         return d;
+//       }
 
 // watch(
 //   [inputData, saveInputData],
@@ -508,7 +536,12 @@ saveBirthday();
         :isPaddingLeft="false"
         :isReadonly="false"
       />
-      <ProfileButton @click="saveDocument" label="保存" id="save-button" />
+      <ProfileButton
+        @click="saveDocument"
+        label="保存"
+        id="save-button"
+        @nameData="(e) => isAbleToSave(e)"
+      />
     </div>
 
     <!-- v-forで回すのをsaveInputDataにすると検索でfileterをかけた時に空の名前のフィールドだけ残ってしまう。 -->
