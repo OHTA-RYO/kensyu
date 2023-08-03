@@ -1,5 +1,56 @@
 "use strict";
 
+const arrays: number[] = [11, 1, 12, 2, 13, 3, 14, 4, 15, 5];
+let arraySum: number = 0; //全体の合計
+let arrayLength: number = 0; //全体の長さ
+let array5Sum: number = 0; //5以上の合計
+let array5Length: number = 0; //5以上の長さ
+let array5LessSum: number = 0; //5未満の合計
+let array5LessLength: number = 0; //5未満の長さ
+
+const upper = arrays.filter((m) => m === 5);
+const upperSum = upper.reduce((a, b) => a + b);
+
+const lower = arrays.filter((m) => m < 5);
+const lowerSum = lower.reduce((a, b) => a + b);
+
+console.log(upper.length);
+console.log(upperSum);
+console.log(lower.length);
+console.log(lowerSum);
+
+// const result = arrays.map((m,index) =>{
+//   if(m  >= 5){
+
+//   }
+// })
+
+// const result = () => {
+//   arrays.map((m, index) => {
+//     if (m >= 5) {
+//       console.log(`要素の値${m}は、5以上です。`);
+//       array5Length++;
+//       array5Sum += m;
+//     } else {
+//       console.log(`要素の値${m}は、5未満です。`);
+//       array5LessLength++;
+//       array5LessSum += m;
+//     }
+//     arraySum += m;
+//     arrayLength = index + 1;
+//   });
+// };
+
+// result();
+// console.log(`要素の長さは${arrayLength}`);
+// console.log(`要素の合計は${arraySum}`);
+// console.log(`5以上の値の要素の長さは${array5Length}`);
+// console.log(`5以上の値の要素の合計は${array5Sum}`);
+// console.log(`5未満の値の要素の長さは${array5LessLength}`);
+// console.log(`5未満の値の要素の合計は${array5LessSum}`);
+
+// console.log(arraySum);
+
 //次はmap filter redusu sum系で同じ処理を行う。
 
 // const arry: number[] = [11, 1, 12, 2, 13, 3, 14, 4, 15, 5];

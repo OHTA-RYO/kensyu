@@ -225,65 +225,155 @@ const searchButton = () => {
 // 年齢 = 年齢 - 1
 
 //saveInputDataは配列やから、どのsaveInputDataかを指定する必要がある。
-watch(
-  [inputData, saveInputData],
-  () => {
-    const findData = saveInputData.value.find((d) => d.id === editIndex.value);
-    const today = new Date();
-    if (inputData.value.birthday) {
-      console.log(inputData.value.birthday.split("年"));
-      console.log(inputData.value.birthday.split("月"));
-      console.log(inputData.value.birthday.split("月"));
-      const yearB = inputData.value.birthday.split("年")[0];
-      const monthB = inputData.value.birthday.split("月")[0].split("年")[1];
-      const dayB = inputData.value.birthday.split("日")[0].split("月")[1];
-      console.log(yearB, monthB, dayB);
-      const birthday = new Date(
-        Number(yearB),
-        Number(monthB) - 1,
-        Number(dayB)
-      );
-      const todayYearA = today.getFullYear();
-      const todayMonthA = today.getMonth() + 1;
-      const todayDayA = today.getDate();
+//関数を作って、引数でinputDataとsaveInputDataを渡す。
 
-      console.log(todayYearA);
-      console.log(todayMonthA);
-      console.log(todayDayA);
+let age: number = 0;
+const birthdayFun = (m: string) => {
+  watch(
+    [inputData, saveInputData],
+    () => {
+      const today = new Date();
+      if (m) {
+        console.log(m.split("年"));
+        console.log(m.split("月"));
+        console.log(m.split("月"));
+        const yearB = m.split("年")[0];
+        const monthB = m.split("月")[0].split("年")[1];
+        const dayB = m.split("日")[0].split("月")[1];
+        console.log(yearB, monthB, dayB);
+        const birthday = new Date(
+          Number(yearB),
+          Number(monthB) - 1,
+          Number(dayB)
+        );
+        const todayYearA = today.getFullYear();
+        const todayMonthA = today.getMonth() + 1;
+        const todayDayA = today.getDate();
 
-      console.log(birthday);
-      let birthdayMontB0 = (birthday.getMonth() + 1)
-        .toString()
-        .padStart(2, "0");
-      let birthdayDayB0 = birthday.getDate().toString().padStart(2, "0");
-      console.log(birthdayMontB0);
-      console.log(birthdayDayB0);
+        console.log(todayYearA);
+        console.log(todayMonthA);
+        console.log(todayDayA);
 
-      let todayMontA0 = todayMonthA.toString().padStart(2, "0");
-      let todayDayA0 = todayDayA.toString().padStart(2, "0");
-      console.log(todayMontA0);
-      console.log(todayDayA0);
-
-      let age = today.getFullYear() - birthday.getFullYear();
-
-      if (
-        Number(`${todayMontA0}${todayDayA0}`) <
-        Number(`${birthdayMontB0}${birthdayDayB0}`)
-      ) {
-        age -= 1;
-        console.log(age);
         console.log(birthday);
+        let birthdayMontB0 = (birthday.getMonth() + 1)
+          .toString()
+          .padStart(2, "0");
+        let birthdayDayB0 = birthday.getDate().toString().padStart(2, "0");
+        console.log(birthdayMontB0);
+        console.log(birthdayDayB0);
 
-        console.log(todayMontA0 + todayDayA0);
-        console.log(birthdayMontB0 + birthdayDayB0);
+        let todayMontA0 = todayMonthA.toString().padStart(2, "0");
+        let todayDayA0 = todayDayA.toString().padStart(2, "0");
+        console.log(todayMontA0);
+        console.log(todayDayA0);
+
+        age = today.getFullYear() - birthday.getFullYear();
+
+        if (
+          Number(`${todayMontA0}${todayDayA0}`) <
+          Number(`${birthdayMontB0}${birthdayDayB0}`)
+        ) {
+          age -= 1;
+          console.log(age);
+          console.log(birthday);
+
+          console.log(todayMontA0 + todayDayA0);
+          console.log(birthdayMontB0 + birthdayDayB0);
+        }
+        return (m = age.toString());
       }
-      inputData.value.age = age.toString();
-      if (!findData) return;
-      // findData.age = age.toString();
+    },
+    { deep: true }
+  );
+};
+
+const inputBirthday = () => {
+  birthdayFun(inputData.value.age);
+  console.log(inputData.value.age);
+};
+
+inputBirthday();
+
+const saveBirthday = () => {
+  saveInputData.value.map((d, id) => {
+    if (d.id === editIndex.value) {
+      saveInputData.value[id].age = age.toString();
     }
-  },
-  { deep: true }
-);
+    birthdayFun(saveInputData.value[id].age);
+  });
+};
+saveBirthday();
+
+// watch(
+//   [inputData, saveInputData],
+//   () => {
+//     // const findData = saveInputData.value.find((d) => d.id === editIndex.value);
+//     const birthdayFun = () => {
+//       const today = new Date();
+//       if (inputData.value.birthday) {
+//         console.log(inputData.value.birthday.split("年"));
+//         console.log(inputData.value.birthday.split("月"));
+//         console.log(inputData.value.birthday.split("月"));
+//         const yearB = inputData.value.birthday.split("年")[0];
+//         const monthB = inputData.value.birthday.split("月")[0].split("年")[1];
+//         const dayB = inputData.value.birthday.split("日")[0].split("月")[1];
+//         console.log(yearB, monthB, dayB);
+//         const birthday = new Date(
+//           Number(yearB),
+//           Number(monthB) - 1,
+//           Number(dayB)
+//         );
+//         const todayYearA = today.getFullYear();
+//         const todayMonthA = today.getMonth() + 1;
+//         const todayDayA = today.getDate();
+
+//         console.log(todayYearA);
+//         console.log(todayMonthA);
+//         console.log(todayDayA);
+
+//         console.log(birthday);
+//         let birthdayMontB0 = (birthday.getMonth() + 1)
+//           .toString()
+//           .padStart(2, "0");
+//         let birthdayDayB0 = birthday.getDate().toString().padStart(2, "0");
+//         console.log(birthdayMontB0);
+//         console.log(birthdayDayB0);
+
+//         let todayMontA0 = todayMonthA.toString().padStart(2, "0");
+//         let todayDayA0 = todayDayA.toString().padStart(2, "0");
+//         console.log(todayMontA0);
+//         console.log(todayDayA0);
+
+//         let age = today.getFullYear() - birthday.getFullYear();
+
+//         if (
+//           Number(`${todayMontA0}${todayDayA0}`) <
+//           Number(`${birthdayMontB0}${birthdayDayB0}`)
+//         ) {
+//           age -= 1;
+//           console.log(age);
+//           console.log(birthday);
+
+//           console.log(todayMontA0 + todayDayA0);
+//           console.log(birthdayMontB0 + birthdayDayB0);
+//         }
+//       }
+
+//       inputData.value.age = age.toString();
+
+//       saveInputData.value.map((d, id) => {
+//         if (d.id === editIndex.value) {
+//           saveInputData.value[id].age = age.toString();
+//         }
+//       });
+//     };
+//   },
+//   { deep: true }
+// );
+
+// watch(saveInputDataAge, () => {
+//   console.log(saveInputDataAge);
+// });
 
 //onMountedでリアルタイムに追加している為、コメントアウトした。
 /**
@@ -407,20 +497,11 @@ watch(
 
 //   alert("データを更新しました。");
 // };
-const label2 = ref("あいう");
-
-function test(emitValue: string) {
-  // console.log(value);
-  label2.value = emitValue;
-}
-const label = ref<string>("");
 </script>
 
 <template>
   <div class="container">
     <div class="left-container">
-      <name v-model="label2" />
-      <name :staffName="label2" @changeStaffName="test" />
       <ProfileCard
         v-model="inputData"
         :isToggle="true"
