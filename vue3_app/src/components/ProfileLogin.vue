@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const clickButton = () => {
+  router.push("/Main");
+};
+</script>
 
 <template>
   <div class="container">
@@ -8,7 +16,7 @@
       <input type="text" />
       <p class="text-ps">パスワード</p>
       <input type="text" />
-      <button>サインイン</button>
+      <button @click="clickButton">サインイン</button>
     </div>
   </div>
 </template>
