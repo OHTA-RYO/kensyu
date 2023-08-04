@@ -1,23 +1,94 @@
 "use strict";
 
-const arrays: number[] = [11, 1, 12, 2, 13, 3, 14, 4, 15, 5];
-let arraySum: number = 0; //全体の合計
-let arrayLength: number = 0; //全体の長さ
-let array5Sum: number = 0; //5以上の合計
-let array5Length: number = 0; //5以上の長さ
-let array5LessSum: number = 0; //5未満の合計
-let array5LessLength: number = 0; //5未満の長さ
+type jsonObject = {
+  name: string;
+  time: string;
+};
 
-const upper = arrays.filter((m) => m === 5);
-const upperSum = upper.reduce((a, b) => a + b);
+const jsonObject: string = `[{
+  "name": "中島",
+  "time": "2023-08-02 8:45"
+  },
+  {
+  "name": "⾜⽴",
+  "time": "2023-08-02 8:55"
+  },
+  {
+  "name": "⼤⽥",
+  "time": "2023-08-02 8:59"
+  },
+  {
+  "name": "⼩川",
+  "time": "2023-08-02 9:10"
+  },
+  {
+  "name": "⾜⽴",
+  "time": "2023-08-02 12:00"
+  },
+  {
+  "name": "⾜⽴",
+  "time": "2023-08-02 18:00"
+  },
+  {
+  "name": "⼤⽥",
+  "time": "2023-08-02 18:05"
+  },
+  {
+  "name": "⼩川",
+  "time": "2023-08-02 18:13"
+  },
+  {
+  "name": "中島",
+  "time": "2023-08-02 18:25"
+  }
+  ]`;
 
-const lower = arrays.filter((m) => m < 5);
-const lowerSum = lower.reduce((a, b) => a + b);
+const test = (n: string) => {
+  const filN: jsonObject[] = jsonObject.filter((f) => f.name === n);
+  console.log(filN);
+  filN.forEach((a) => {
+    a.time;
 
-console.log(upper.length);
-console.log(upperSum);
-console.log(lower.length);
-console.log(lowerSum);
+    console.log(a.time);
+    console.log(n);
+  });
+};
+
+test("中島");
+test("⼤⽥");
+
+// console.log(jsonObject);
+
+// 労働時間を分で求めてください。
+//timeを文字列から数字にする必要がある?
+//a〜bまでの時間を計算する。
+//時間(分)を割り出せるようする。
+//休憩時間60分を最後に引くこと。
+//足立さんが12:00にも登場するのはどうするのか。
+
+const membersAttendance: jsonObject[] = JSON.parse(jsonObject);
+console.log(membersAttendance);
+
+// console.log("テスト");
+
+// const arrays: number[] = [11, 1, 12, 2, 13, 3, 14, 4, 15, 5];
+// let arraySum: number = 0; //全体の合計
+// let arrayLength: number = 0; //全体の長さ
+// let array5Sum: number = 0; //5以上の合計
+// let array5Length: number = 0; //5以上の長さ
+// let array5LessSum: number = 0; //5未満の合計
+// let array5LessLength: number = 0; //5未満の長さ
+
+// const upper = arrays.filter((m) => m === 5);
+// const upperSum = upper.reduce((a, b) => a + b);
+
+// const lower = arrays.filter((m) => m < 5);
+// const lowerSum = lower.reduce((a, b) => a + b);
+
+// console.log(upper.length);
+// console.log(upperSum);
+// console.log(lower.length);
+// console.log(lowerSum);
 
 // const result = arrays.map((m,index) =>{
 //   if(m  >= 5){
