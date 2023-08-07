@@ -1,11 +1,53 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+
+const auth = getAuth();
+let email = ""; // ユーザーのメールアドレスを定義だけしておく。inputに入力したメールアドレスが入る
+let password = ""; // ユーザーのパスワードを定義だけしておく。inputに入力したメールアドレスが入る
+
+console.log(email);
+//test1234
+
+const registerUser = async () => {
+  await createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      alert("アカウントを作成しました。");
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
+};
+
+const loginUser = async () => {
+  await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      router.push("/Main");
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+};
+
 const router = useRouter();
 
-const clickButton = () => {
-  router.push("/Main");
-};
+// const clickButton = () => {
+//   router.push("/Main");
+// };
 </script>
 
 <template>
@@ -13,11 +55,12 @@ const clickButton = () => {
     <h1>サインイン</h1>
     <div class="login-container">
       <p>メールアドレス</p>
-      <input type="text" />
+      <input type="email" v-model="email" />
       <p class="text-ps">パスワード</p>
-      <input type="text" />
-      <button @click="clickButton">サインイン</button>
+      <input type="password" v-model="password" />
+      <button @click="loginUser">サインイン</button>
     </div>
+    <h2 @click="registerUser">アカウントを作成</h2>
   </div>
 </template>
 
@@ -78,5 +121,12 @@ button {
 button:hover {
   /*--水平方向 垂直方向 色--*/
   box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+}
+
+h2 {
+  color: #28f005;
+  text-align: center;
+  margin-top: 32px;
+  cursor: pointer;
 }
 </style>

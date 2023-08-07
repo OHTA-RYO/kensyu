@@ -7,6 +7,7 @@ import name from "./name.vue";
 import { ref, reactive, watch, computed, onMounted } from "vue";
 import { InputData, defaultInputData } from "../types";
 import { firebaseConfig, app, db } from "../firebass";
+import { useRouter } from "vue-router";
 
 import {
   collection,
@@ -29,6 +30,12 @@ const searchTextSave = ref<string>("");
 const searchText = ref<string>("");
 const isReadonly = ref(true);
 const isSave = ref(true);
+
+const router = useRouter();
+
+const logoutButton = () => {
+  router.push("/");
+};
 
 //保存したデータを常に表示させたい。
 //保存と同時に出力する。
@@ -565,6 +572,11 @@ const isAbleToSave = (value: boolean) => {
       <!-- isToggleが展開していたらisReadonlyが解除される -->
       <div class="sub-container">
         <ProfileSarch lablel="名前検索" v-model="searchTextSave" />
+        <ProfileButton
+          label="ログアウト"
+          @click="logoutButton"
+          class="logout"
+        />
         <div class="button-area">
           <ProfileButton label="検索" @click="searchButton" />
           <ProfileButton
@@ -621,5 +633,12 @@ button:nth-child(n + 2) {
 
 #save-button {
   margin: 16px 0px;
+}
+
+.logout {
+  text-decoration: none;
+  width: 100px;
+  color: #fff;
+  background-color: #eb6100;
 }
 </style>
