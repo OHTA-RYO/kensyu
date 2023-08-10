@@ -34,6 +34,7 @@ const isSave = ref(true);
 const router = useRouter();
 
 const logoutButton = () => {
+  if (!confirm("ログアウトしますか?")) return;
   router.push("/");
 };
 

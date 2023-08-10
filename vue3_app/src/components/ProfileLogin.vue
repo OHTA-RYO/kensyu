@@ -6,6 +6,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+// import { userInfo } from "os";
+// import { userInfo } from "os";
 
 const auth = getAuth();
 let email = ""; // ユーザーのメールアドレスを定義だけしておく。inputに入力したメールアドレスが入る
@@ -14,6 +16,9 @@ let password = ""; // ユーザーのパスワードを定義だけしておく�
 console.log(email);
 //test1234
 
+/**
+ * アカウント作成用の関数
+ */
 const registerUser = async () => {
   await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -25,23 +30,38 @@ const registerUser = async () => {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      alert("正しい情報を入力して下さい。");
       // ..
+      if (errorCode === email) {
+        alert("既に登録がある為、このメールアドレスは登録出来ません。");
+      }
+      if (errorMessage === password) {
+        alert("既に登録がある為、このメールアドレスは登録出来ません。");
+      }
     });
 };
 
+/**
+ * ログイン時の関数
+ */
 const loginUser = async () => {
   await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
+      if (!confirm("ログインしますか?")) return;
       router.push("/Main");
       // ...
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      //既に登録済みの
     });
 };
+
+//test@test.com
+//test12345
 
 const router = useRouter();
 
