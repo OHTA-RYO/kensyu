@@ -575,6 +575,7 @@ const isAbleToSave = (value: boolean) => {
         :isReadonly="false"
         @isboolean="isAbleToSave"
       />
+      <input type="file" class="input-image" />
       <ProfileButton
         @click="saveDocument"
         label="保存"
@@ -636,6 +637,8 @@ const isAbleToSave = (value: boolean) => {
 .left-container {
   width: 640px;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .right-container {

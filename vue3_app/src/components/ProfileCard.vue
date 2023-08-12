@@ -18,6 +18,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  saveInputOpen: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 // const emit = defineEmits(["update:modelValue"]);
@@ -190,10 +194,12 @@ watch(
       <input v-model="inputData.mail" type="text" :readonly="isReadonly" />
       <p>備考:</p>
       <textarea v-model="inputData.remarks" :readonly="isReadonly"></textarea>
+      <div :class="{ imageTitle: saveInputOpen }">
+        <p>画像:</p>
+        <p></p>
+      </div>
     </div>
   </div>
-  <!-- <button @click="">test</button> -->
-  <!-- {{ inputData.name }} -->
 </template>
 
 <style scoped>
