@@ -29,7 +29,7 @@ const saveInputDataFuc = () => {
   inputData.value.id = saveInputData.value.length;
   //saveInputDataにinputDataを追加。
   saveInputData.value.push(inputData.value);
-  console.log(inputData.value.id);
+  console.log(inputData.value);
   console.log(saveInputData.value);
   //inputDataをdefaultInputDataで初期化
   inputData.value = defaultInputData();

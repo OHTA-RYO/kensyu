@@ -5,10 +5,15 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
+  reauthenticateWithCredential,
+
+  // optimizeAsyncOperations,
 } from "firebase/auth";
 // import { userInfo } from "os";
 // import { userInfo } from "os";
 
+const router = useRouter();
 const auth = getAuth();
 let email = ""; // ユーザーのメールアドレスを定義だけしておく。inputに入力したメールアドレスが入る
 let password = ""; // ユーザーのパスワードを定義だけしておく。inputに入力したメールアドレスが入る
@@ -36,7 +41,7 @@ const registerUser = async () => {
         alert("既に登録がある為、このメールアドレスは登録出来ません。");
       }
       if (errorMessage === password) {
-        alert("既に登録がある為、このメールアドレスは登録出来ません。");
+        alert("パスワードは6文字以上で入力下さい。");
       }
     });
 };
@@ -56,17 +61,49 @@ const loginUser = async () => {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      //既に登録済みの
     });
 };
+
+// onAuthStateChanged を使う？
+
+//そもそも誰がログインしているのかがわかってないのでは？
+
+// ログイン状態を検知する関数
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    router.push("/Main");
+  } else {
+    console.log("ログアウト");
+    // router.push("/");
+    //login画面で↑の処理をする場合にはApp.vueに71〜76を描く必要がある。App.vueに書く場合にも現在どこにいるのかを検知する何かを描く必要がある。
+  }
+});
+
+//上手く使えなかった。
+// router.beforeEach((to, from, next) => {
+//   if (to.name === "Main") {
+//     console.log("テスト");
+//     // next({ name: "Main" });
+//     router.push("/");
+//   } else next();
+// });
 
 //test@test.com
 //test12345
 
-const router = useRouter();
+//ユーザを再認証する関数
+// const user = auth.currentUser;
 
-// const clickButton = () => {
-//   router.push("/Main");
+// const continueAccount = async () => {
+//   await reauthenticateWithCredential(user, credential)
+//     .then(() => {
+//       // User re-authenticated.
+//     })
+//     .catch((error) => {
+//       // An error ocurred
+//       // ...
+//     });
 // };
 </script>
 

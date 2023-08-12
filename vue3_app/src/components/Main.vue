@@ -18,6 +18,9 @@ import {
   deleteDoc,
   onSnapshot,
 } from "firebase/firestore";
+
+import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
+
 // import { channel } from "diagnostics_channel";
 
 //const refをまとめる。
@@ -32,11 +35,38 @@ const isReadonly = ref(true);
 const isSave = ref(true);
 
 const router = useRouter();
+const auth = getAuth();
 
+// const logoutButton = () => {
+//   if (!confirm("ログアウトしますか?")) return;
+//   router.push("/");
+// };
+
+/**
+ * ログアウトしたことを検知する関数
+ */
 const logoutButton = () => {
-  if (!confirm("ログアウトしますか?")) return;
-  router.push("/");
+  signOut(auth)
+    .then(() => {
+      if (!confirm("ログアウトしますか?")) return;
+      router.push("/");
+    })
+    .catch((error) => {
+      console.log(`ログアウト時にエラーが発生しました (${error})`);
+    });
 };
+
+//ログインしていない状態でMainのURLを検索しても
+//Mainに飛ばずにlogin画面に飛ばしたい。
+//必要な情報はログインしているのか、ログアウトしているのか。
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+  } else {
+    console.log("ログアウト");
+    router.push("/");
+  }
+});
 
 //保存したデータを常に表示させたい。
 //保存と同時に出力する。
