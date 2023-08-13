@@ -21,6 +21,14 @@ import {
 
 import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
 
+import {
+  getStorage,
+  uploadBytes,
+  getDownloadURL,
+  ref as storageRef,
+} from "firebase/storage";
+import { blob } from "stream/consumers";
+
 // import { channel } from "diagnostics_channel";
 
 //const refをまとめる。
@@ -36,11 +44,51 @@ const isSave = ref(true);
 
 const router = useRouter();
 const auth = getAuth();
+const getSaveUrl = ref<string>("");
 
-// const logoutButton = () => {
-//   if (!confirm("ログアウトしますか?")) return;
-//   router.push("/");
-// };
+//ファイルをアップロードする
+//fileをBlobに変換してアップロードする
+const storage = getStorage();
+// const storageRef = ref(storage);
+const storageRef2 = storageRef(storage, "some-child");
+// const storageRef2 = storageRef(storage, "images/image.jpg");
+const file = ref<File | null>(null);
+// const starsRef = storageRef(storage, "images/stars.jpg");
+
+//ユーザーが選択したファイルを↑に格納する関数を作る。
+//pushではない。
+//@changeで入力した内容を取得。
+
+//firebaseの画像をimportする。
+//プレビュー画面も必要。
+//URLもstorageに保存する必要がある。関数必要。
+//URLにクエリを持たせる。何の情報を持っているかがわかるから。
+//saveDataは新たなコンポーネントを作成しなくて良い。直接pだけ書く。
+
+const imgData = (e: any) => {
+  if (e.target.files.length === 0) return;
+  file.value = e.target.files[0];
+  console.log(e.target.files[0].url);
+};
+
+const imgUp = async () => {
+  if (!file.value) return;
+  const blob = new Blob([file.value], { type: file.value.type });
+  await uploadBytes(storageRef2, blob).then((snapshot) => {
+    console.log("Uploaded a blob or file!");
+  });
+};
+
+const getUrl = async () => {
+  await getDownloadURL(
+    storageRef(storage, "gs://vue3app-7dd14.appspot.com/some-child")
+  )
+    .then((url) => {
+      console.log(url);
+      getSaveUrl.value = url;
+    })
+    .catch((error) => {});
+};
 
 /**
  * ログアウトしたことを検知する関数
@@ -151,6 +199,8 @@ const updateDocument = async () => {
 
 const saveDocument = async () => {
   try {
+    await imgUp();
+    await getUrl();
     //, inputData.value);を追加した！！
     //{デフォルトであった波括弧を削除した
 
@@ -574,8 +624,9 @@ const isAbleToSave = (value: boolean) => {
         :isPaddingLeft="false"
         :isReadonly="false"
         @isboolean="isAbleToSave"
+        :isSaveInputOpen="true"
       />
-      <input type="file" class="input-image" />
+      <input type="file" class="input-image" @change="imgData" />
       <ProfileButton
         @click="saveDocument"
         label="保存"
@@ -639,6 +690,11 @@ const isAbleToSave = (value: boolean) => {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.input-image {
+  padding-top: 16px;
+  padding-bottom: 8px;
 }
 
 .right-container {

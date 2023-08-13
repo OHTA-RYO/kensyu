@@ -9,6 +9,7 @@ export type InputData = {
   mail: string;
   remarks: string;
   day: object;
+  image: string;
 };
 
 export const defaultInputData = (): InputData => {
@@ -23,5 +24,6 @@ export const defaultInputData = (): InputData => {
     mail: "",
     remarks: "",
     day: new Date(),
+    image: "",
   };
 };

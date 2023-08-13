@@ -18,9 +18,13 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  saveInputOpen: {
+  isSaveInputOpen: {
     type: Boolean,
-    default: true,
+    default: false,
+  },
+  getSaveUrl: {
+    type: String,
+    default: "",
   },
 });
 
@@ -194,9 +198,10 @@ watch(
       <input v-model="inputData.mail" type="text" :readonly="isReadonly" />
       <p>備考:</p>
       <textarea v-model="inputData.remarks" :readonly="isReadonly"></textarea>
-      <div :class="{ imageTitle: saveInputOpen }">
+      <div :class="{ imagetitle: isSaveInputOpen }">
         <p>画像:</p>
-        <p></p>
+        <!-- <div class="save-image"></div> -->
+        <img src="{getSaveUrl}" alt="" class="save-image" />
       </div>
     </div>
   </div>
@@ -209,6 +214,16 @@ p {
 
 .closearea {
   padding-left: 20px;
+}
+
+.imagetitle {
+  display: none;
+}
+
+.save-image {
+  width: 50%;
+  height: 50%;
+  overflow: hidden;
 }
 
 .error {
