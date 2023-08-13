@@ -613,6 +613,9 @@ const isAbleToSave = (value: boolean) => {
 
 //   alert("データを更新しました。");
 // };
+const information = () => {
+  router.push("/ProfileInformation");
+};
 </script>
 
 <template>
@@ -633,6 +636,7 @@ const isAbleToSave = (value: boolean) => {
         id="save-button"
         :disabled="isSave"
       />
+      <ProfileButton label="詳細" @click="information" />
     </div>
 
     <!-- v-forで回すのをsaveInputDataにすると検索でfileterをかけた時に空の名前のフィールドだけ残ってしまう。 -->
@@ -642,12 +646,15 @@ const isAbleToSave = (value: boolean) => {
         v-for="(s, index) in searchName"
         :key="index"
       >
+        <p></p>
         <!-- sarchNameを双方向でバインド　入力とクリックを同時に行うみたいなこと。 -->
-        <ProfileCard
+        <!-- ↓inputからpタグ変更 -->
+
+        <!-- <ProfileCard
           v-model="searchName[index]"
           :isToggle="s.id === openIndex"
           :isReadonly="isReadonly"
-        />
+        /> -->
       </div>
       <!-- 現状はidが閉じている時の値と等しくない場合↑ -->
       <!-- 押した時点でidとopenIndexにidが入る -->
