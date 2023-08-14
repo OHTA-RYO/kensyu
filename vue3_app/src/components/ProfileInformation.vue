@@ -2,9 +2,9 @@
 import { useRouter, useRoute } from "vue-router";
 import ProfileCard from "./ProfileCard.vue";
 import ProfileButton from "./ProfileButton.vue";
-import { PropType, onMounted, computed } from "vue";
+import { PropType, onMounted, computed, useSSRContext, ref } from "vue";
 import { InputData, defaultInputData } from "../types";
-import { firebaseConfig, app, db } from "../firebass";
+import { firebaseConfig, app, db } from "../firebase";
 import {
   collection,
   addDoc,
@@ -14,7 +14,7 @@ import {
   deleteDoc,
   onSnapshot,
 } from "firebase/firestore";
-import saveInputData from "./Main.vue";
+import { dataSharing, saveInputData } from "../db/usersdb";
 
 const props = defineProps({
   modelValue: {
@@ -49,42 +49,25 @@ const mainButton = () => {
 };
 
 const route = useRoute();
+//vue routerからクエリ情報を取得
 console.log(route.query);
+//profileIdにクエリ情報(id)を代入
+const profileId = route.query;
+//クエリと一致したデータを格納する変数を定義
+const targetData = ref<InputData[]>([]);
 
 //vue routerからクエリを取得できた。
 //idから全データをfirebaseから取得するにはどうするのか。
 
-// onMounted(() => {
-//   const unsub = onSnapshot(collection(db, "users"), (snapshot) => {
-//     snapshot.docChanges()
-//       //firebaseに登録されているデータは常に表示されている。
-//       //saveInputDataに表示させたい。
+onMounted(() => {
+  dataSharing();
+  //filterでidがクエリidと一致したオブジェクトデータのみ抽出したい。
 
-//       if (s.type === "added") {
-//         console.log("New users:", s.doc.data());
-//         // ...はオブジェクト,配列も合体するやつ。
-//         saveInputData.value.push({
-//           ...(s.doc.data() as InputData),
-//           ...{ id: s.doc.id },
-//         });
-//       }
-//       //saveInputDataを編集　✅
-//       if (s.type === "modified") {
-//         console.log("Modified users:", s.doc.data());
-//         //
-//       }
-//       //saveInputDataを削除
-//       if (s.type === "removed") {
-//         //フィルターで新しい配列をsaveInputDataに入れる。
-//         //削除対象のidとドキュメントのidが一致していないデータで配列が返ってくる。
-//         saveInputData.value = saveInputData.value
-//           .filter
-//           // (d, id) => d.id !== s.doc.id
-//           ();
-//         console.log("Removed users:", doc.data());
-//       }
-//     });
-//   });
+  targetData.value = saveInputData.value.filter(
+    (value) => value.id === profileId
+  );
+  console.log(targetData.value);
+});
 </script>
 
 <template>
@@ -95,6 +78,7 @@ console.log(route.query);
         :is-padding-left="false"
         :isToggle="true"
         :isReadonly="false"
+        :dataSharing="dataSharing"
       />
     </div>
     <ProfileButton label="戻る" @click="mainButton" />
