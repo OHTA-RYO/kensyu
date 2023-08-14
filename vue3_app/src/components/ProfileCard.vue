@@ -22,10 +22,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  getSaveUrl: {
-    type: String,
-    default: "",
-  },
 });
 
 // const emit = defineEmits(["update:modelValue"]);
@@ -201,7 +197,7 @@ watch(
       <div :class="{ imagetitle: isSaveInputOpen }">
         <p>画像:</p>
         <!-- <div class="save-image"></div> -->
-        <img src="{getSaveUrl}" alt="" class="save-image" />
+        <img :src="inputData.image" alt="" class="save-image" />
       </div>
     </div>
   </div>

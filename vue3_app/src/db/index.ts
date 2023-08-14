@@ -1,4 +1,4 @@
-import { db } from "../firebass";
+import { db } from "../firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 import { ref } from "vue";
 

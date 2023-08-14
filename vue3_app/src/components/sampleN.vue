@@ -7,7 +7,7 @@ import { ref, watch, computed, onMounted } from "vue";
 import { InputData, defaultInputData } from "../types";
 //index.tsをインポート
 import { startConnect, saveInputData } from "../db";
-import { db } from "../firebass";
+import { db } from "../firebase";
 import {
   collection,
   addDoc,
@@ -272,3 +272,4 @@ button:nth-child(n + 2) {
   margin: 16px 0px;
 }
 </style>
+../firebase

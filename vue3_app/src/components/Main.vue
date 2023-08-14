@@ -6,8 +6,9 @@ import name from "./name.vue";
 
 import { ref, reactive, watch, computed, onMounted } from "vue";
 import { InputData, defaultInputData } from "../types";
-import { firebaseConfig, app, db } from "../firebass";
+import { firebaseConfig, app, db } from "../firebase";
 import { useRouter } from "vue-router";
+import { dataSharing, saveInputData } from "../db";
 
 import {
   collection,
@@ -33,7 +34,7 @@ import { blob } from "stream/consumers";
 
 //const refをまとめる。
 const inputData = ref<InputData>(defaultInputData());
-const saveInputData = ref<InputData[]>([]);
+// const saveInputData = ref<InputData[]>([]);
 const isToggle = ref<boolean>(false);
 const editIndex = ref<string>("");
 const openIndex = ref<string>("");
@@ -44,7 +45,6 @@ const isSave = ref(true);
 
 const router = useRouter();
 const auth = getAuth();
-const getSaveUrl = ref<string>("");
 
 //ファイルをアップロードする
 //fileをBlobに変換してアップロードする
@@ -85,7 +85,7 @@ const getUrl = async () => {
   )
     .then((url) => {
       console.log(url);
-      getSaveUrl.value = url;
+      inputData.value.image = url;
     })
     .catch((error) => {});
 };
@@ -261,6 +261,11 @@ const setIndex = (id: string) => {
   if (isToggle.value) return;
   //ここでeditIndexにオブジェクトのidを入れる。
   editIndex.value = id;
+  //✅URLにクエリ情報を付与する関数を一旦ここで追加
+
+  router.push(`/ProfileInformation?id=${editIndex.value}`);
+
+  //vueRouterからもクエリを取得できる。
 
   //idがopenIndex(toggle閉じている。)と等しい時にはopenIndexに空文字を代入。
   if (id === openIndex.value) {
@@ -613,8 +618,18 @@ const isAbleToSave = (value: boolean) => {
 
 //   alert("データを更新しました。");
 // };
+
+//一旦Mainとinformationを遷移する関数を作成
 const information = () => {
   router.push("/ProfileInformation");
+};
+
+//クリックしたデータのinfomationへ遷移する関数。
+//idが取れてないから、一旦、名前をurlに入れた。
+const informationTarget = (e: any) => {
+  // console.log(e.target.innerText);
+  // console.log(e.target.id);
+  // router.push(`/ProfileInformation?${e.target.innerText}`);
 };
 </script>
 
@@ -646,7 +661,7 @@ const information = () => {
         v-for="(s, index) in searchName"
         :key="index"
       >
-        <p></p>
+        <p @click="informationTarget">{{ searchName[index].name }}</p>
         <!-- sarchNameを双方向でバインド　入力とクリックを同時に行うみたいなこと。 -->
         <!-- ↓inputからpタグ変更 -->
 
@@ -739,3 +754,4 @@ button:nth-child(n + 2) {
   background-color: #eb6100;
 }
 </style>
+../firebase
