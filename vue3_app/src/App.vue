@@ -5,10 +5,16 @@ import Test from "./components/Test.vue";
 // import oya from "./components/oya.vue";
 // import ProfileLogin from "./components/ProfileLogin.vue";
 // import ProfileInformation from "./components/ProfileInformation.vue";
+
+import { loginJage } from "./router";
+
+//v-ifを入れた。
 </script>
 
 <template>
-  <router-view></router-view>
+  <div v-if="loginJage">
+    <router-view></router-view>
+  </div>
   <!-- <Main /> -->
   <!-- <ProfileLogin /> -->
   <!-- <sampleN /> -->

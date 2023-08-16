@@ -12,7 +12,8 @@ import { ref } from "vue";
 // import { firebaseConfig, app, db } from "./firebase";
 
 import { useRouter } from "vue-router";
-import { router } from "./router/index";
+import { router, loginJage, routes } from "./router/index";
+import path from "path";
 
 export const isLogin = ref(false);
 export const auth = getAuth();
@@ -85,19 +86,30 @@ export const logoutButton = () => {
     });
 };
 
+//ifの上にloginjage.valuを入れた。
 /**
  * ログイン中かどうかを検知する関数
  */
 export const loginSearch = () => {
   onAuthStateChanged(auth, (user) => {
+    loginJage.value = true;
+    console.log(loginJage.value);
     if (user) {
       // useLogin();
       // logoutがfalseの場合は何もしない。1回目の動きをスキップ
       isLogin.value = true;
       console.log("ログイン中");
+      // if (routes.keys.name === "ProfileLogin") {
+      // }
+      // if(router.push("/")){
+
+      // }
       router.push("/Main");
     } else {
+      // loginJage.value = false;
       isLogin.value = false;
+      console.log(isLogin.value);
+      router.push("/");
       console.log("ログアウト");
     }
   });

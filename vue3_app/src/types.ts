@@ -27,3 +27,23 @@ export const defaultInputData = (): InputData => {
     image: "",
   };
 };
+
+export type InquiryDetail = {
+  id: string;
+  name: string;
+  tell: string;
+  info: string;
+  times: string;
+  remarks: string;
+};
+
+export const defaultInquiryDetail = (): InquiryDetail => {
+  return {
+    id: "",
+    name: "",
+    tell: "",
+    info: "",
+    times: "",
+    remarks: "",
+  };
+};

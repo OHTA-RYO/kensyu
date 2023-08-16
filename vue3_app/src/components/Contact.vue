@@ -1,9 +1,36 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Confirmation from "./Confirmation.vue";
+import { useRouter } from "vue-router";
+import { router } from "../router/index";
+import { InquiryDetail, defaultInquiryDetail } from "../types";
+import { ref } from "vue";
+
+const inquiryDetail = ref<InquiryDetail>(defaultInquiryDetail());
+const props = defineProps({
+  modelValue: {
+    // type: Object as PropType<InputData>,
+  },
+
+  isButton: {
+    type: Boolean,
+    default: false,
+  },
+  isTitle: {
+    type: Boolean,
+    default: false,
+  },
+});
+const preview = () => {
+  router.push("./Confirmation");
+};
+
+// const label = "contact";
+</script>
 
 <template>
   <div class="main-container">
-    <div class="title">
-      <h1>お問合せ</h1>
+    <div class="title-area">
+      <h1 :class="{ title: isTitle }">contact</h1>
     </div>
     <div class="contact-container">
       <p>氏名</p>
@@ -16,9 +43,9 @@
         <div class="contact-radio">
           <p>問合せ内容</p>
           <input type="radio" name="contact" value="資料請求" />
-          <div>資料請求</div>
+          資料請求
           <input type="radio" name="contact" value="電話でやり取り" />
-          <div>電話でやり取り</div>
+          電話でやり取り
           <input
             type="radio"
             name="contact"
@@ -32,8 +59,13 @@
           <input type="radio" name="day" value="休日のみ" />休日のみ
         </div>
       </div>
-      <p>備考</p>
-      <textarea></textarea>
+      <div class="remarks-container">
+        <p>備考</p>
+        <textarea></textarea>
+      </div>
+    </div>
+    <div :class="{ previewArea: isButton }" class="button-area">
+      <button @click="preview">プレビュー</button>
     </div>
   </div>
 </template>
@@ -42,34 +74,67 @@
 .main-container {
   width: 100%;
 }
-.title {
+.title-area {
   width: 100%;
   /* padding: ; */
-  background: rgb(197, 255, 255);
+  background: rgb(255, 255, 255);
+}
+
+.title {
+  display: none;
 }
 
 h1 {
-  font-size: 40px;
-  padding: 32px 0 32px 64px;
+  font-size: 48px;
+  padding-left: 64px;
 }
 
 .contact-container {
   width: 100%;
   padding: 32px 0 32px 64px;
+  background: rgb(210, 209, 209);
 }
 
 p {
   font-size: 24px;
   /* margin: 16px 0 16px; */
   margin-top: 24px;
+  width: 178px;
 }
 
 input {
-  width: 240px;
+  width: 200px;
 }
 
-.contact-radio {
-  display: flex;
-  flex-direction: column;
+.contact-radio input {
+  width: 64px;
+  margin-top: 16px;
+}
+
+.contact-day input {
+  width: 64px;
+  margin-top: 16px;
+}
+
+.remarks-container textarea {
+  margin-top: 8px;
+  width: 320px;
+  height: 128px;
+}
+
+.button-area {
+  width: 100%;
+  background: rgb(210, 209, 209);
+}
+
+button {
+  width: 96px;
+  height: 48px;
+  margin: 0 0 32px 64px;
+  /* padding: 32px 0 32px 64px; */
+}
+
+.previewArea {
+  display: none;
 }
 </style>

@@ -70,26 +70,28 @@ const profileId = route.query.id;
 const profileId2 = profileId!.toString();
 console.log(profileId);
 
-console.log(typeof profileId2);
 //クエリと一致したデータを格納する変数を定義
 const targetData = ref<InputData | undefined>(undefined);
 
 //vue routerからクエリを取得できた。
 //idから全データをfirebaseから取得するにはどうするのか。
 
-onMounted(() => {
-  dataSharing();
-  //filterでidがクエリ
-  if (targetData.value === undefined) return;
+// onMounted(() => {
+//   dataSharing();
+//   //filterでidがクエリ
+// });
+
+const findData = () => {
+  //undefindの時はreturnが邪魔をしていたから削除。
+  //v-model＝targetDataでデータを反映
   targetData.value = saveInputData.value.find(
     (d: InputData) => d.id === profileId2
   );
   console.log(targetData.value);
-});
+};
+findData();
 // findData();
 // idと一致したオブジェクトデータのみ抽出したい。
-
-// const findData = () => {
 
 const editButton = () => {
   //openIndex(toggleが閉じている時)がnullの時は何もしない。
