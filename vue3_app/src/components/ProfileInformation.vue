@@ -2,7 +2,14 @@
 import { useRouter, useRoute } from "vue-router";
 import ProfileCard from "./ProfileCard.vue";
 import ProfileButton from "./ProfileButton.vue";
-import { PropType, onMounted, computed, useSSRContext, ref } from "vue";
+import {
+  PropType,
+  onMounted,
+  computed,
+  useSSRContext,
+  ref,
+  isReadonly,
+} from "vue";
 import { InputData, defaultInputData } from "../types";
 import { firebaseConfig, app, db } from "../firebase";
 import {
@@ -13,17 +20,24 @@ import {
   updateDoc,
   deleteDoc,
   onSnapshot,
+  DocumentReference,
+  DocumentData,
 } from "firebase/firestore";
 import { dataSharing, saveInputData } from "../db/usersdb";
 
 const props = defineProps({
   modelValue: {
     type: Object as PropType<InputData>,
-    isToggle: {
-      type: Boolean,
-      default: false,
-    },
   },
+  isToggle: {
+    type: Boolean,
+    default: false,
+  },
+  isReadonly: {
+    type: Boolean,
+    default: true,
+  },
+
   // inputData: {
   //   type: inputData,
   // },
@@ -50,24 +64,37 @@ const mainButton = () => {
 
 const route = useRoute();
 //vue routerからクエリ情報を取得
-console.log(route.query);
+console.log(route.query.id);
 //profileIdにクエリ情報(id)を代入
-const profileId = route.query;
+const profileId = route.query.id;
+const profileId2 = profileId!.toString();
+console.log(profileId);
+
+console.log(typeof profileId2);
 //クエリと一致したデータを格納する変数を定義
-const targetData = ref<InputData[]>([]);
+const targetData = ref<InputData | undefined>(undefined);
 
 //vue routerからクエリを取得できた。
 //idから全データをfirebaseから取得するにはどうするのか。
 
 onMounted(() => {
   dataSharing();
-  //filterでidがクエリidと一致したオブジェクトデータのみ抽出したい。
-
-  targetData.value = saveInputData.value.filter(
-    (value) => value.id === profileId
+  //filterでidがクエリ
+  if (targetData.value === undefined) return;
+  targetData.value = saveInputData.value.find(
+    (d: InputData) => d.id === profileId2
   );
   console.log(targetData.value);
 });
+// findData();
+// idと一致したオブジェクトデータのみ抽出したい。
+
+// const findData = () => {
+
+const editButton = () => {
+  //openIndex(toggleが閉じている時)がnullの時は何もしない。
+  !isReadonly;
+};
 </script>
 
 <template>
@@ -77,11 +104,17 @@ onMounted(() => {
       <ProfileCard
         :is-padding-left="false"
         :isToggle="true"
-        :isReadonly="false"
+        :isReadonly="true"
         :dataSharing="dataSharing"
+        v-model="targetData"
       />
     </div>
     <ProfileButton label="戻る" @click="mainButton" />
+  </div>
+  <div class="button-area">
+    <ProfileButton label="編集" @click="!isReadonly" />
+    <ProfileButton label="更新" @click="" />
+    <ProfileButton label="削除" @click="" />
   </div>
 </template>
 

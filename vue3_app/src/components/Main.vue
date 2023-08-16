@@ -9,6 +9,7 @@ import { InputData, defaultInputData } from "../types";
 import { firebaseConfig, app, db } from "../firebase";
 import { useRouter } from "vue-router";
 import { dataSharing, saveInputData } from "../db/usersdb";
+import { router } from "../router/index";
 
 import {
   collection,
@@ -20,7 +21,14 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 
-import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  auth,
+  registerUser,
+  loginUser,
+  isLogin,
+  loginSearch,
+  logoutButton,
+} from "../firebaseAuth";
 
 import {
   getStorage,
@@ -42,9 +50,6 @@ const searchTextSave = ref<string>("");
 const searchText = ref<string>("");
 const isReadonly = ref(true);
 const isSave = ref(true);
-
-const router = useRouter();
-const auth = getAuth();
 
 //ファイルをアップロードする
 //fileをBlobに変換してアップロードする
@@ -90,31 +95,11 @@ const getUrl = async () => {
     .catch((error) => {});
 };
 
-/**
- * ログアウトしたことを検知する関数
- */
-const logoutButton = () => {
-  signOut(auth)
-    .then(() => {
-      if (!confirm("ログアウトしますか?")) return;
-      router.push("/");
-    })
-    .catch((error) => {
-      console.log(`ログアウト時にエラーが発生しました (${error})`);
-    });
-};
-
 //ログインしていない状態でMainのURLを検索しても
 //Mainに飛ばずにlogin画面に飛ばしたい。
 //必要な情報はログインしているのか、ログアウトしているのか。
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-  } else {
-    console.log("ログアウト");
-    router.push("/");
-  }
-});
+isLogin;
 
 //保存したデータを常に表示させたい。
 //保存と同時に出力する。
@@ -126,38 +111,6 @@ onAuthStateChanged(auth, (user) => {
  */
 onMounted(() => {
   dataSharing();
-  // const unsub = onSnapshot(collection(db, "users"), (snapshot) => {
-  //   snapshot.docChanges().forEach((s) => {
-  //     //firebaseに登録されているデータは常に表示されている。
-  //     //saveInputDataに表示させたい。
-
-  //     if (s.type === "added") {
-  //       console.log("New users:", s.doc.data());
-  //       // ...はオブジェクト,配列も合体するやつ。
-  //       saveInputData.value.push({
-  //         ...(s.doc.data() as InputData),
-  //         ...{ id: s.doc.id },
-  //       });
-  //       let resule = saveInputData.value.sort((a, b) => {
-  //         return a.day < b.day ? -1 : 1;
-  //       });
-  //     }
-  //     //saveInputDataを編集　✅
-  //     if (s.type === "modified") {
-  //       console.log("Modified users:", s.doc.data());
-  //       //
-  //     }
-  //     //saveInputDataを削除
-  //     if (s.type === "removed") {
-  //       //フィルターで新しい配列をsaveInputDataに入れる。
-  //       //削除対象のidとドキュメントのidが一致していないデータで配列が返ってくる。
-  //       saveInputData.value = saveInputData.value.filter(
-  //         (d, id) => d.id !== s.doc.id
-  //       );
-  //       console.log("Removed users:", s.doc.data());
-  //     }
-  //   });
-  // });
 });
 
 console.log(typeof new Date());
@@ -621,8 +574,8 @@ const isAbleToSave = (value: boolean) => {
 // };
 
 //一旦Mainとinformationを遷移する関数を作成
-const information = () => {
-  router.push("/ProfileInformation");
+const contact = () => {
+  router.push("/Contact");
 };
 </script>
 
@@ -644,7 +597,7 @@ const information = () => {
         id="save-button"
         :disabled="isSave"
       />
-      <ProfileButton label="詳細" @click="information" />
+      <ProfileButton label="問合せ" @click="contact" class="contact-us" />
     </div>
 
     <!-- v-forで回すのをsaveInputDataにすると検索でfileterをかけた時に空の名前のフィールドだけ残ってしまう。 -->
@@ -654,7 +607,7 @@ const information = () => {
         v-for="(s, index) in searchName"
         :key="index"
       >
-        <p>{{ searchName[index].name }}</p>
+        <p class="name-data">{{ searchName[index].name }}</p>
         <!-- sarchNameを双方向でバインド　入力とクリックを同時に行うみたいなこと。 -->
         <!-- ↓inputからpタグ変更 -->
 
@@ -745,6 +698,19 @@ button:nth-child(n + 2) {
   width: 100px;
   color: #fff;
   background-color: #eb6100;
+}
+
+.name-data {
+  font-size: 18px;
+  margin: 8px 0;
+  cursor: pointer;
+  color: rgb(0, 153, 255);
+  width: 160px;
+  /* border: 1px solid black; */
+  /* text-align: center; */
+}
+.contact-us {
+  width: 64px;
 }
 </style>
 ../firebase

@@ -1,96 +1,18 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
+import { router } from "../router/index";
 import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  reauthenticateWithCredential,
+  auth,
+  registerUser,
+  loginUser,
+  isLogin,
+  loginSearch,
+} from "../firebaseAuth";
 
-  // optimizeAsyncOperations,
-} from "firebase/auth";
-// import { userInfo } from "os";
-// import { userInfo } from "os";
-
-const router = useRouter();
-const auth = getAuth();
-let email = ""; // ユーザーのメールアドレスを定義だけしておく。inputに入力したメールアドレスが入る
-let password = ""; // ユーザーのパスワードを定義だけしておく。inputに入力したメールアドレスが入る
-
-console.log(email);
-//test1234
-
-/**
- * アカウント作成用の関数
- */
-const registerUser = async () => {
-  await createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      alert("アカウントを作成しました。");
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert("正しい情報を入力して下さい。");
-      // ..
-      if (errorCode === email) {
-        alert("既に登録がある為、このメールアドレスは登録出来ません。");
-      }
-      if (errorMessage === password) {
-        alert("パスワードは6文字以上で入力下さい。");
-      }
-    });
-};
-
-/**
- * ログイン時の関数
- */
-const loginUser = async () => {
-  await signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      if (!confirm("ログインしますか?")) return;
-      router.push("/Main");
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
-};
-
-// onAuthStateChanged を使う？
-
-//そもそも誰がログインしているのかがわかってないのでは？
-
-// ログイン状態を検知する関数
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    router.push("/Main");
-  } else {
-    console.log("ログアウト");
-    // router.push("/");
-    //login画面で↑の処理をする場合にはApp.vueに71〜76を描く必要がある。App.vueに書く場合にも現在どこにいるのかを検知する何かを描く必要がある。
-  }
-});
-
-//上手く使えなかった。
-// router.beforeEach((to, from, next) => {
-//   if (to.name === "Main") {
-//     console.log("テスト");
-//     // next({ name: "Main" });
-//     router.push("/");
-//   } else next();
-// });
-
-//test@test.com
-//test12345
+import { ref } from "vue";
+const emailData = ref("");
+const passwordData = ref("");
 
 //ユーザを再認証する関数
 // const user = auth.currentUser;
@@ -112,12 +34,12 @@ onAuthStateChanged(auth, (user) => {
     <h1>サインイン</h1>
     <div class="login-container">
       <p>メールアドレス</p>
-      <input type="email" v-model="email" />
+      <input type="email" v-model="emailData" />
       <p class="text-ps">パスワード</p>
-      <input type="password" v-model="password" />
-      <button @click="loginUser">サインイン</button>
+      <input type="password" v-model="passwordData" />
+      <button @click="loginUser(emailData, passwordData)">サインイン</button>
     </div>
-    <h2 @click="registerUser">アカウントを作成</h2>
+    <h2 @click="registerUser(emailData, passwordData)">アカウントを作成</h2>
   </div>
 </template>
 
