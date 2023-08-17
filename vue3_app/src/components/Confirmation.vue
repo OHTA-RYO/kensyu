@@ -6,8 +6,10 @@ import { ref, onMounted } from "vue";
 const saveInquiryDetail = ref<InquiryDetail | undefined>(undefined);
 
 onMounted(() => {
+  // const getData = () =>{
   saveInquiryDetail.value = inquiryDetail.value;
   console.log(saveInquiryDetail.value);
+  // }
 });
 </script>
 

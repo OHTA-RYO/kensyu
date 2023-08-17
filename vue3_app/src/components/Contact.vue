@@ -9,12 +9,14 @@ import { ref } from "vue";
 
 const previewData = () => {
   console.log(inquiryDetail.value);
+  console.log(inquiryDetail.value.name);
+  console.log(inquiryDetail.value.tell);
 };
 
 const props = defineProps({
-  modelValue: {
-    // type: Object as PropType<InputData>,
-  },
+  // modelValue: {
+  //   // type: Object as PropType<InputData>,
+  // },
 
   isButton: {
     type: Boolean,
@@ -26,7 +28,7 @@ const props = defineProps({
   },
 });
 const preview = () => {
-  router.push("./Confirmation");
+  // router.push("./Confirmation");
   previewData();
 };
 
@@ -40,11 +42,11 @@ const preview = () => {
     </div>
     <div class="contact-container">
       <p>氏名</p>
-      <input type="text" :inquiryDetail="inquiryDetail.name" />
+      <input type="text" v-model="inquiryDetail.name" />
       <p>電話番号</p>
-      <input type="text" :inquiryDetail="inquiryDetail.tell" />
+      <input type="text" v-model="inquiryDetail.tell" />
       <p>メールアドレス</p>
-      <input type="text" :inquiryDetail="inquiryDetail.maill" />
+      <input type="text" v-model="inquiryDetail.maill" />
       <div class="radio-area">
         <div class="contact-radio">
           <p>問合せ内容</p>
@@ -52,21 +54,21 @@ const preview = () => {
             type="radio"
             name="contact"
             value="資料請求"
-            :inquiryDetail="inquiryDetail.info"
+            v-model="inquiryDetail.info"
           />
           資料請求
           <input
             type="radio"
             name="contact"
             value="電話でやり取り"
-            :inquiryDetail="inquiryDetail.info"
+            v-model="inquiryDetail.info"
           />
           電話でやり取り
           <input
             type="radio"
             name="contact"
             value="メールでやり取り"
-            :inquiryDetail="inquiryDetail.info"
+            v-model="inquiryDetail.info"
           />メールでやり取り
         </div>
         <div class="contact-day">
@@ -75,25 +77,25 @@ const preview = () => {
             type="radio"
             name="day"
             value="いつでも"
-            :inquiryDetail="inquiryDetail.times"
+            v-model="inquiryDetail.times"
           />いつでも
           <input
             type="radio"
             name="day"
             value="平日のみ"
-            :inquiryDetail="inquiryDetail.times"
+            v-model="inquiryDetail.times"
           />平日のみ
           <input
             type="radio"
             name="day"
             value="休日のみ"
-            :inquiryDetail="inquiryDetail.times"
+            v-model="inquiryDetail.times"
           />休日のみ
         </div>
       </div>
       <div class="remarks-container">
         <p>備考</p>
-        <textarea :inquiryDetail="inquiryDetail.remarks"></textarea>
+        <textarea v-model="inquiryDetail.remarks"></textarea>
       </div>
     </div>
     <div :class="{ previewArea: isButton }" class="button-area">
