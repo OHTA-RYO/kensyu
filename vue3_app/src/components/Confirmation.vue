@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import Contact from "./Contact.vue";
-import { inquiryDetail, InquiryDetail } from "../types";
+import { defaultInquiryDetail, InquiryDetail } from "../types";
+import { inquiryDetail } from "../contact";
 import { ref, onMounted } from "vue";
+import { router } from "@/router";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase";
 
 const saveInquiryDetail = ref<InquiryDetail | undefined>(undefined);
+// const isReadonly = ref(true);
 
 onMounted(() => {
   // const getData = () =>{
@@ -11,15 +16,39 @@ onMounted(() => {
   console.log(saveInquiryDetail.value);
   // }
 });
+
+const saveContact = async () => {
+  try {
+    const docRef = await addDoc(
+      collection(db, "contacts"),
+      saveInquiryDetail.value
+    );
+    console.log("Document written with ID: ", docRef.id);
+    if (!confirm("送信が完了しました。お問合せありがとうございます。")) return;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+  inquiryDetail.value = defaultInquiryDetail();
+};
+
+const contactReturn = () => {
+  router.push("/Contact");
+};
 </script>
 
 <template>
   <div class="preview-area">
     <h1 class="preview">preview</h1>
   </div>
-  <Contact :isButton="true" :isTitle="true" v-model="saveInquiryDetail" />
+  <Contact
+    :isButton="true"
+    :isTitle="true"
+    v-model="saveInquiryDetail"
+    :isReadonly="true"
+  />
   <div class="sending-area">
-    <button>送信</button>
+    <button @click="saveContact">送信</button>
+    <button @click="contactReturn">戻る</button>
   </div>
 </template>
 

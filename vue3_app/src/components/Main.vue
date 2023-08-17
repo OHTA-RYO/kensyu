@@ -103,13 +103,15 @@ const getUrl = async () => {
 //保存と同時に出力する。
 //必要な処理は
 
+//ここで書くと何度も実行されてしまうから、
+//
 /**
  * //firestoreに保存されたデータがリアルタイムに表示される関数をonMountedで変化が起きた時に1回だけ実行する関数を上乗せ。
  *
  */
-onMounted(() => {
-  dataSharing();
-});
+// onMounted(() => {
+// dataSharing();
+// });
 
 console.log(typeof new Date());
 
@@ -595,7 +597,6 @@ const contact = () => {
         id="save-button"
         :disabled="isSave"
       />
-      <ProfileButton label="問合せ" @click="contact" class="contact-us" />
     </div>
 
     <!-- v-forで回すのをsaveInputDataにすると検索でfileterをかけた時に空の名前のフィールドだけ残ってしまう。 -->
@@ -628,6 +629,7 @@ const contact = () => {
         />
         <div class="button-area">
           <ProfileButton label="検索" @click="searchButton" />
+          <ProfileButton label="問合せ" @click="contact" class="contact-us" />
           <ProfileButton
             label="編集"
             @click="editButton"

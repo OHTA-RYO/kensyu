@@ -129,7 +129,7 @@ watch(
     };
     const isboolean = booleans();
     emit("isboolean", isboolean);
-    console.log(isboolean);
+    // console.log(isboolean);
   },
   { deep: true }
 );
@@ -164,7 +164,8 @@ watch(
     <p>名前/日本語</p>
     <p v-if="nameData" class="error">漢字・ひらがなで入力して下さい。</p>
     <input v-model="inputData.name" type="text" :readonly="isReadonly" />
-    <div v-if="isToggle" :class="{ closearea: isPaddingLeft }">
+    <div>
+      <!-- <div v-if="isToggle" :class="{ closearea: isPaddingLeft }"> -->
       <p>生年月日/西暦</p>
       <p v-if="birthdayData" class="error" :birthdayData="birthdayData">
         生年月日は西暦で入力下さい。

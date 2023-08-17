@@ -1,17 +1,6 @@
 <script setup lang="ts">
-import Confirmation from "./Confirmation.vue";
-import { useRouter } from "vue-router";
 import { router } from "../router/index";
-import { InquiryDetail, defaultInquiryDetail, inquiryDetail } from "../types";
-import { ref } from "vue";
-
-// const inquiryDetail = ref<InquiryDetail>(defaultInquiryDetail());
-
-const previewData = () => {
-  console.log(inquiryDetail.value);
-  console.log(inquiryDetail.value.name);
-  console.log(inquiryDetail.value.tell);
-};
+import { inquiryDetail } from "../contact";
 
 const props = defineProps({
   // modelValue: {
@@ -26,10 +15,19 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isReadonly: {
+    type: Boolean,
+    default: false,
+  },
 });
 const preview = () => {
-  // router.push("./Confirmation");
-  previewData();
+  if (!confirm("入力したデータを確認する")) return;
+  console.log(inquiryDetail.value);
+  router.push("./Confirmation");
+};
+// if (!confirm(`${targetData.name}削除しますか？`)) return;
+const mainButton = () => {
+  router.push("/Main");
 };
 
 // const label = "contact";
@@ -42,11 +40,11 @@ const preview = () => {
     </div>
     <div class="contact-container">
       <p>氏名</p>
-      <input type="text" v-model="inquiryDetail.name" />
+      <input type="text" v-model="inquiryDetail.name" :readonly="isReadonly" />
       <p>電話番号</p>
-      <input type="text" v-model="inquiryDetail.tell" />
+      <input type="text" v-model="inquiryDetail.tell" :readonly="isReadonly" />
       <p>メールアドレス</p>
-      <input type="text" v-model="inquiryDetail.maill" />
+      <input type="text" v-model="inquiryDetail.maill" :readonly="isReadonly" />
       <div class="radio-area">
         <div class="contact-radio">
           <p>問合せ内容</p>
@@ -55,6 +53,7 @@ const preview = () => {
             name="contact"
             value="資料請求"
             v-model="inquiryDetail.info"
+            :readonly="isReadonly"
           />
           資料請求
           <input
@@ -62,6 +61,7 @@ const preview = () => {
             name="contact"
             value="電話でやり取り"
             v-model="inquiryDetail.info"
+            :readonly="isReadonly"
           />
           電話でやり取り
           <input
@@ -69,6 +69,7 @@ const preview = () => {
             name="contact"
             value="メールでやり取り"
             v-model="inquiryDetail.info"
+            :readonly="isReadonly"
           />メールでやり取り
         </div>
         <div class="contact-day">
@@ -78,28 +79,35 @@ const preview = () => {
             name="day"
             value="いつでも"
             v-model="inquiryDetail.times"
+            :readonly="isReadonly"
           />いつでも
           <input
             type="radio"
             name="day"
             value="平日のみ"
             v-model="inquiryDetail.times"
+            :readonly="isReadonly"
           />平日のみ
           <input
             type="radio"
             name="day"
             value="休日のみ"
             v-model="inquiryDetail.times"
+            :readonly="isReadonly"
           />休日のみ
         </div>
       </div>
       <div class="remarks-container">
         <p>備考</p>
-        <textarea v-model="inquiryDetail.remarks"></textarea>
+        <textarea
+          v-model="inquiryDetail.remarks"
+          :readonly="isReadonly"
+        ></textarea>
       </div>
     </div>
     <div :class="{ previewArea: isButton }" class="button-area">
       <button @click="preview">プレビュー</button>
+      <button @click="mainButton">メインへ戻る</button>
     </div>
   </div>
 </template>
@@ -170,5 +178,9 @@ button {
 
 .previewArea {
   display: none;
+}
+
+input[type="radio"][readonly] {
+  pointer-events: none;
 }
 </style>

@@ -2,14 +2,7 @@
 import { useRouter, useRoute } from "vue-router";
 import ProfileCard from "./ProfileCard.vue";
 import ProfileButton from "./ProfileButton.vue";
-import {
-  PropType,
-  onMounted,
-  computed,
-  useSSRContext,
-  ref,
-  isReadonly,
-} from "vue";
+import { PropType, onMounted, computed, useSSRContext, ref, watch } from "vue";
 import { InputData, defaultInputData } from "../types";
 import { firebaseConfig, app, db } from "../firebase";
 import {
@@ -25,6 +18,8 @@ import {
 } from "firebase/firestore";
 import { dataSharing, saveInputData } from "../db/usersdb";
 
+const isReadonly = ref(true);
+
 const props = defineProps({
   modelValue: {
     type: Object as PropType<InputData>,
@@ -33,10 +28,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  isReadonly: {
-    type: Boolean,
-    default: true,
-  },
+  // isReadonly: {
+  //   type: Boolean,
+  //   default: true,
+  // },
 
   // inputData: {
   //   type: inputData,
@@ -64,11 +59,9 @@ const mainButton = () => {
 
 const route = useRoute();
 //vue routerからクエリ情報を取得
-console.log(route.query.id);
+// console.log(route.query.id);
 //profileIdにクエリ情報(id)を代入
 const profileId = route.query.id;
-const profileId2 = profileId!.toString();
-console.log(profileId);
 
 //クエリと一致したデータを格納する変数を定義
 const targetData = ref<InputData | undefined>(undefined);
@@ -76,20 +69,41 @@ const targetData = ref<InputData | undefined>(undefined);
 //vue routerからクエリを取得できた。
 //idから全データをfirebaseから取得するにはどうするのか。
 
-// onMounted(() => {
-//   dataSharing();
-//   //filterでidがクエリ
-// });
-
-const findData = () => {
-  //undefindの時はreturnが邪魔をしていたから削除。
-  //v-model＝targetDataでデータを反映
+//onSnapshotは常に関ししてくれる関数
+const unsub = onSnapshot(collection(db, "users"), (snapshot) => {
+  // console.log("大田");
+  snapshot.docChanges();
   targetData.value = saveInputData.value.find(
-    (d: InputData) => d.id === profileId2
+    (d: InputData) => d.id === profileId
   );
   console.log(targetData.value);
+});
+
+console.log(isReadonly.value);
+const readonlyFalse = () => {
+  isReadonly.value = !isReadonly.value;
+  console.log(isReadonly.value);
 };
-findData();
+
+const readonlyTrue = () => {
+  isReadonly.value = !isReadonly.value;
+};
+
+//データが取れなかった。そんな時はwatch!!
+// watch(targetData, () => {
+//   console.log("大田", targetData.value);
+// });
+
+//onSnapshotの中に↓の関数を入れた。そして関数は削除した。動かないから
+// const findData = () => {
+//   //undefindの時はreturnが邪魔をしていたから削除。
+//   //v-model＝targetDataでデータを反映
+//   targetData.value = saveInputData.value.find(
+//     (d: InputData) => d.id === profileId
+//   );
+//   console.log(targetData.value);
+// };
+// findData();
 // findData();
 // idと一致したオブジェクトデータのみ抽出したい。
 
@@ -106,7 +120,7 @@ const editButton = () => {
       <ProfileCard
         :is-padding-left="false"
         :isToggle="true"
-        :isReadonly="true"
+        :readonly="isReadonly"
         :dataSharing="dataSharing"
         v-model="targetData"
       />
@@ -114,7 +128,7 @@ const editButton = () => {
     <ProfileButton label="戻る" @click="mainButton" />
   </div>
   <div class="button-area">
-    <ProfileButton label="編集" @click="!isReadonly" />
+    <ProfileButton label="編集" @click="readonlyFalse" />
     <ProfileButton label="更新" @click="" />
     <ProfileButton label="削除" @click="" />
   </div>

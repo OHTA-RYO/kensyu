@@ -11,12 +11,13 @@ import { ref } from "vue";
 
 // import { firebaseConfig, app, db } from "./firebase";
 
-import { useRouter } from "vue-router";
+// import { useRoute } from "vue-router";
 import { router, loginJage, routes } from "./router/index";
-import path from "path";
 
 export const isLogin = ref(false);
 export const auth = getAuth();
+
+// const profileId = useRoute().query.id;
 
 // export let email = ""; // ユーザーのメールアドレスを定義だけしておく。inputに入力したメールアドレスが入る
 // export let password = ""; // ユーザーのパスワードを定義だけしておく。inputに入力したメールアドレスが入る
@@ -91,20 +92,37 @@ export const logoutButton = () => {
  * ログイン中かどうかを検知する関数
  */
 export const loginSearch = () => {
+  //window.locationで現在のurl,パスを取得
+  const pathName = window.location.pathname;
+  //searchで?=クエリ情報を取得
+  const queryId = window.location.search;
   onAuthStateChanged(auth, (user) => {
     loginJage.value = true;
-    console.log(loginJage.value);
+    // console.log(loginJage.value);
     if (user) {
-      // useLogin();
-      // logoutがfalseの場合は何もしない。1回目の動きをスキップ
       isLogin.value = true;
       console.log("ログイン中");
-      // if (routes.keys.name === "ProfileLogin") {
-      // }
+      //ログイン中にlogin画面に飛ぼうとしたらMainに飛ばす。
+      if (pathName === "/") {
+        router.push("/Main");
+        //pathName(直前のurl)がprofileInformationの場合には
+      } else if (pathName === "/ProfileInformation") {
+        //pathNameとクエリ情報を含めて飛ばす。
+        router.push(`${pathName}${queryId}`);
+        // console.log(`${pathName}${queryId}`);
+      } else {
+        //それ以外の場合にはリロードしても元いたところに戻す。
+        router.push(pathName);
+      }
+      // else if(window.location.href === queryId){
+      //   router.push(`${queryId}`);
+      // }else {
+      //   router.push(pathName);
+      //↓ここでwindowの情報をif文で使用して条件分岐
       // if(router.push("/")){
+      //ルータで今の場所を取得する。
 
       // }
-      router.push("/Main");
     } else {
       // loginJage.value = false;
       isLogin.value = false;

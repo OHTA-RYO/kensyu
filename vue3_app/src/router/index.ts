@@ -1,23 +1,11 @@
-import { createRouter, createWebHistory, Router, useRouter } from "vue-router";
+import { createRouter, createWebHistory, Router, useRoute } from "vue-router";
 import Main from "../components/Main.vue";
 import ProfileLogin from "../components/ProfileLogin.vue";
 import ProfileInformation from "../components/ProfileInformation.vue";
 import Contact from "../components/Contact.vue";
 import Confirmation from "../components/Confirmation.vue";
-import { isLogin } from "../firebaseAuth";
-
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  reauthenticateWithCredential,
-  // optimizeAsyncOperations,
-} from "firebase/auth";
-
+import { isLogin, auth } from "../firebaseAuth";
 import { ref } from "vue";
-
-const auth = getAuth();
 
 export const routes = [
   { path: "/", name: "ProfileLogin", component: ProfileLogin },
@@ -47,9 +35,8 @@ export const loginJage = ref(false);
 //loginjage&&
 export const routerIslogin = () => {
   router.beforeEach((to, from, next) => {
-    console.log(loginJage.value);
-    if (!loginJage.value) return;
-
+    // console.log(loginJage.value);
+    // if (!loginJage.value) return;
     //toは次にナビゲーションされる対象
     //次の遷移先がprofilelogin以外でログアウトしている場合は
     //router.pushでlogin画面に飛ばす。
@@ -59,6 +46,10 @@ export const routerIslogin = () => {
   });
 };
 
+//↓クエリ情報を取得する変数をエクスポートしたいが出来ない。
+// const route = useRoute();
+// export const profileId = route.query.id;
+//
 // export const routerIslogin = () => {
 //   if (loginJage.value === isLogin.value) {
 //     router.beforeEach((to, from, next) => {
