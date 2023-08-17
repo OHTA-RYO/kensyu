@@ -64,6 +64,7 @@ export const loginUser = async (email: string, password: string) => {
       const user = userCredential.user;
       if (!confirm("ログインしますか?")) return;
       router.push("/Main");
+
       // ...
     })
     .catch((error) => {
@@ -91,6 +92,8 @@ export const logoutButton = () => {
  * ログイン中かどうかを検知する関数
  */
 export const loginSearch = () => {
+  const path = window.location.pathname;
+  console.log("path=>", path);
   onAuthStateChanged(auth, (user) => {
     loginJage.value = true;
     console.log(loginJage.value);
@@ -104,7 +107,11 @@ export const loginSearch = () => {
       // if(router.push("/")){
 
       // }
-      router.push("/Main");
+      if (path === "/") {
+        router.push("/Main");
+      }else{
+        router.push(path);
+      }
     } else {
       // loginJage.value = false;
       isLogin.value = false;
