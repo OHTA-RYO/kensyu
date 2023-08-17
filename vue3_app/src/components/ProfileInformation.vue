@@ -18,38 +18,26 @@ import {
 } from "firebase/firestore";
 import { dataSharing, saveInputData } from "../db/usersdb";
 
-const isReadonly = ref(true);
+const isReadonly = ref(false);
 
 const props = defineProps({
   modelValue: {
     type: Object as PropType<InputData>,
   },
-  isToggle: {
-    type: Boolean,
-    default: false,
-  },
-  // isReadonly: {
-  //   type: Boolean,
-  //   default: true,
-  // },
-
-  // inputData: {
-  //   type: inputData,
-  // },
 });
 
-const emit = defineEmits<{
-  (e: "update:modelValue", value?: InputData): void;
-}>();
+// const emit = defineEmits<{
+//   (e: "update:modelValue", value?: InputData): void;
+// }>();
 
-const inputData = computed({
-  get() {
-    return props.modelValue ?? defaultInputData();
-  },
-  set(v) {
-    emit("update:modelValue", v);
-  },
-});
+// const inputData = computed({
+//   get() {
+//     return props.modelValue ?? defaultInputData();
+//   },
+//   set(v) {
+//     emit("update:modelValue", v);
+//   },
+// });
 
 const router = useRouter();
 
@@ -62,6 +50,8 @@ const route = useRoute();
 // console.log(route.query.id);
 //profileIdにクエリ情報(id)を代入
 const profileId = route.query.id;
+const saveId = ref<string | undefined>("");
+// profileId.value = route.query.id
 
 //クエリと一致したデータを格納する変数を定義
 const targetData = ref<InputData | undefined>(undefined);
@@ -69,24 +59,68 @@ const targetData = ref<InputData | undefined>(undefined);
 //vue routerからクエリを取得できた。
 //idから全データをfirebaseから取得するにはどうするのか。
 
-//onSnapshotは常に関ししてくれる関数
+//
+/**
+ * onSnapshotは常に関ししながら、クエリidとfirebaseのidが一致したデータを取得
+ */
 const unsub = onSnapshot(collection(db, "users"), (snapshot) => {
   // console.log("大田");
   snapshot.docChanges();
   targetData.value = saveInputData.value.find(
     (d: InputData) => d.id === profileId
   );
+  saveId.value = targetData.value?.id;
   console.log(targetData.value);
 });
 
-console.log(isReadonly.value);
+// //✅データを更新
+//saveInputDataのidとオブジェクトidが一致しているのを対象にする。
+// const updateDocument = async () => {
+//   //saveInputDataの中から、idがオブジェクトのidと一致するデータを取り出す。
+//   targetData.value = saveInputData.value.find((d) => d.id === saveId.value);
+//   //editIndexでオブジェクトのidを選択肢に入れる。
+//   const useRef = doc(db, "users", saveId.value);
+//   console.log(targetData.value);
+//   //findDataのidがオブジェクトのidと一致するデータがなければ何もしない。
+//   // if (!findData) return;
+//   //useRef、第2引数に更新するデータ(findData)を指定
+//   await updateDoc(useRef, targetData );
+// };
+
+// //データを削除✅
+// /**
+//  * firebaseに保存したデータを削除する関数
+//  */
+// const deleteDocument = async () => {
+//   //findで対象となるオブジェクトの要素を探す。saveInputDataのidとドキュメントのidが一致しているデータ
+//   targetData.value = saveInputData.value.find((d) => d.id === saveId.value);
+//   //confirmで選択中の名前をアラートで表示
+//   if (!targetData) return;
+//   if (!confirm(`${targetData.value?.name}削除しますか？`)) return;
+
+//   //オブジェクトを削除する
+// await deleteDoc(doc(db, "users", saveId.value));
+//   //editIndexに削除したidが入っているから空文字を入れる。
+//   // editIndex.value = "";
+// };
+
+/**
+ * isReadonlyをtrue→falseに切り替える関数
+ */
 const readonlyFalse = () => {
+  if (isReadonly.value) return false;
   isReadonly.value = !isReadonly.value;
-  console.log(isReadonly.value);
+  // console.log(isReadonly.value);
 };
 
+/**
+ * isReadonlyをfalse→trueに切り替える関数
+ */
 const readonlyTrue = () => {
+  if (isReadonly.value === false) return;
   isReadonly.value = !isReadonly.value;
+  alert("データを更新しました。");
+  confirm("更新しました。");
 };
 
 //データが取れなかった。そんな時はwatch!!
@@ -106,21 +140,14 @@ const readonlyTrue = () => {
 // findData();
 // findData();
 // idと一致したオブジェクトデータのみ抽出したい。
-
-const editButton = () => {
-  //openIndex(toggleが閉じている時)がnullの時は何もしない。
-  !isReadonly;
-};
 </script>
 
 <template>
   <!-- <h1>テスト</h1> -->
   <div class="content">
-    <div class="information" :is-padding-left="true">
+    <div class="information">
       <ProfileCard
-        :is-padding-left="false"
-        :isToggle="true"
-        :readonly="isReadonly"
+        :isReadonly="!isReadonly"
         :dataSharing="dataSharing"
         v-model="targetData"
       />
@@ -129,7 +156,7 @@ const editButton = () => {
   </div>
   <div class="button-area">
     <ProfileButton label="編集" @click="readonlyFalse" />
-    <ProfileButton label="更新" @click="" />
+    <ProfileButton label="更新" @click="readonlyTrue" :disabled="!isReadonly" />
     <ProfileButton label="削除" @click="" />
   </div>
 </template>

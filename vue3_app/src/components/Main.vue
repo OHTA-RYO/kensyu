@@ -71,9 +71,12 @@ const file = ref<File | null>(null);
 //saveDataは新たなコンポーネントを作成しなくて良い。直接pだけ書く。
 
 const imgData = (e: any) => {
-  if (e.target.files.length === 0) return;
+  // if (e.target.files.length === 0) return;
   file.value = e.target.files[0];
   console.log(e.target.files[0].url);
+  console.log(e.target.files);
+  console.log(e.target.files.url);
+  console.log(e.target.files[0]);
 };
 
 const imgUp = async () => {
@@ -586,7 +589,6 @@ const contact = () => {
         v-model="inputData"
         :isToggle="true"
         :isPaddingLeft="false"
-        :isReadonly="false"
         @isboolean="isAbleToSave"
         :isSaveInputOpen="true"
       />

@@ -16,7 +16,7 @@ const props = defineProps({
   },
   isReadonly: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   isSaveInputOpen: {
     type: Boolean,
@@ -172,7 +172,7 @@ watch(
       </p>
       <input v-model="inputData.birthday" type="text" :readonly="isReadonly" />
       <p>年齢/歳</p>
-      <input type="text" :readonly="isReadonly" :value="inputData.age" />
+      <input type="text" :value="inputData.age" :readonly="isReadonly" />
       <p>身長/cm</p>
       <p v-if="heightData" class="error" :heightData="heightData">
         身長は半角数字のみ入力下さい。
