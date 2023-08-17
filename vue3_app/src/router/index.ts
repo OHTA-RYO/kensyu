@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory, Router, useRoute } from "vue-router";
-import Main from "../components/Main.vue";
-import ProfileLogin from "../components/ProfileLogin.vue";
-import ProfileInformation from "../components/ProfileInformation.vue";
-import Contact from "../components/Contact.vue";
-import Confirmation from "../components/Confirmation.vue";
+import Main from "../components/Profile_data/Main.vue";
+import ProfileLogin from "../components/Profile_data/ProfileLogin.vue";
+import ProfileInformation from "../components/Profile_data/ProfileInformation.vue";
+import Contact from "../components/Profile_contact/Contact.vue";
+import Confirmation from "../components/Profile_contact/Confirmation.vue";
 import { isLogin, auth } from "../firebaseAuth";
 import { ref } from "vue";
 

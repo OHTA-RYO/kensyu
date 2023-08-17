@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from "vue-router";
 import ProfileCard from "./ProfileCard.vue";
-import ProfileButton from "./ProfileButton.vue";
+import ProfileButton from "../Profile_data/ProfileButton.vue";
 import { PropType, onMounted, computed, useSSRContext, ref, watch } from "vue";
-import { InputData, defaultInputData } from "../types";
-import { firebaseConfig, app, db } from "../firebase";
+import { InputData, defaultInputData } from "../../types";
+import { firebaseConfig, app, db } from "../../firebase";
 import {
   collection,
   addDoc,
@@ -16,7 +16,7 @@ import {
   DocumentReference,
   DocumentData,
 } from "firebase/firestore";
-import { dataSharing, saveInputData } from "../db/usersdb";
+import { dataSharing, saveInputData } from "../../db/usersdb";
 
 const isReadonly = ref(false);
 
@@ -79,7 +79,7 @@ const unsub = onSnapshot(collection(db, "users"), (snapshot) => {
 //   //saveInputDataの中から、idがオブジェクトのidと一致するデータを取り出す。
 //   targetData.value = saveInputData.value.find((d) => d.id === saveId.value);
 //   //editIndexでオブジェクトのidを選択肢に入れる。
-//   const useRef = doc(db, "users", saveId.value);
+// const useRef = doc(db, "users", saveId.value);
 //   console.log(targetData.value);
 //   //findDataのidがオブジェクトのidと一致するデータがなければ何もしない。
 //   // if (!findData) return;

@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import ProfileCard from "./ProfileCard.vue";
-import ProfileButton from "./ProfileButton.vue";
-import ProfileSarch from "./ProfileSarch.vue";
-import name from "./name.vue";
+import ProfileButton from "../Profile_data/ProfileButton.vue";
+import ProfileSarch from "../Profile_data/ProfileSarch.vue";
 
 import { ref, reactive, watch, computed, onMounted } from "vue";
-import { InputData, defaultInputData } from "../types";
-import { firebaseConfig, app, db } from "../firebase";
+import { InputData, defaultInputData } from "../../types";
+import { firebaseConfig, app, db } from "../../firebase";
 import { useRouter } from "vue-router";
-import { dataSharing, saveInputData } from "../db/usersdb";
-import { router } from "../router/index";
+import { dataSharing, saveInputData } from "../../db/usersdb";
+import { router } from "../../router/index";
 
 import {
   collection,
@@ -28,7 +27,7 @@ import {
   isLogin,
   loginSearch,
   logoutButton,
-} from "../firebaseAuth";
+} from "../../firebaseAuth";
 
 import {
   getStorage,

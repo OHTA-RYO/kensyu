@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
-import { router } from "../router/index";
+import { router } from "../../router/index";
 import {
   auth,
   registerUser,
   loginUser,
   isLogin,
   loginSearch,
-} from "../firebaseAuth";
+} from "../../firebaseAuth";
 
 import { ref } from "vue";
 const emailData = ref("");

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { router } from "../router/index";
-import { inquiryDetail } from "../contact";
+import { router } from "../../router/index";
+import { inquiryDetail } from "../../contact";
 
 const props = defineProps({
   // modelValue: {

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import ProfileCard from "./ProfileCard.vue";
-import ProfileButton from "./ProfileButton.vue";
-import ProfileSarch from "./ProfileSarch.vue";
+import ProfileCard from "../Plofile_data/ProfileCard.vue";
+import ProfileButton from "../Plofile_data/ProfileButton.vue";
+import ProfileSarch from "../Plofile_data/ProfileSarch.vue";
 
 import { ref, watch, computed, onMounted } from "vue";
-import { InputData, defaultInputData } from "../types";
+import { InputData, defaultInputData } from "../../types";
 //index.tsをインポート
-import { startConnect, saveInputData } from "../db";
-import { db } from "../firebase";
+import { startConnect, saveInputData } from "../../db";
+import { db } from "../../firebase";
 import {
   collection,
   addDoc,

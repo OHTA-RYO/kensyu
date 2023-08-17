@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PropType, computed, watch } from "vue";
-import { InputData, defaultInputData } from "../types";
+import { InputData, defaultInputData } from "../../types";
 
 const props = defineProps({
   modelValue: {
