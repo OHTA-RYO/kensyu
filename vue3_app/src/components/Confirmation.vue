@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import Contact from "./Contact.vue";
+import { inquiryDetail, InquiryDetail } from "../types";
+import { ref, onMounted } from "vue";
+
+const saveInquiryDetail = ref<InquiryDetail | undefined>(undefined);
+
+onMounted(() => {
+  saveInquiryDetail.value = inquiryDetail.value;
+  console.log(saveInquiryDetail.value);
+});
 </script>
 
 <template>
   <div class="preview-area">
     <h1 class="preview">preview</h1>
   </div>
-  <Contact :isButton="true" :isTitle="true" />
+  <Contact :isButton="true" :isTitle="true" v-model="saveInquiryDetail" />
   <div class="sending-area">
     <button>送信</button>
   </div>

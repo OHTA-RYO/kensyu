@@ -1,3 +1,5 @@
+import { ref } from "vue";
+
 export type InputData = {
   id: string;
   name: string;
@@ -32,6 +34,7 @@ export type InquiryDetail = {
   id: string;
   name: string;
   tell: string;
+  maill: string;
   info: string;
   times: string;
   remarks: string;
@@ -42,8 +45,11 @@ export const defaultInquiryDetail = (): InquiryDetail => {
     id: "",
     name: "",
     tell: "",
+    maill: "",
     info: "",
     times: "",
     remarks: "",
   };
 };
+
+export const inquiryDetail = ref<InquiryDetail>(defaultInquiryDetail());
