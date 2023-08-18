@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { InputData } from "../../types";
+import { InputData } from "../../Profile_types/types";
 
 const emit = defineEmits<{
   (e: "update:modelValue", value?: InputData): void;

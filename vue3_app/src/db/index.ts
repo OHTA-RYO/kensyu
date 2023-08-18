@@ -1,8 +1,8 @@
-import { db } from "../firebase";
+import { db } from "../firebase/firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 import { ref } from "vue";
 
-import { InputData } from "../types";
+import { InputData } from "../Profile_types/types";
 
 export const saveInputData = ref<InputData[]>([]);
 

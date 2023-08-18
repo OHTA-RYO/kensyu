@@ -1,7 +1,7 @@
 import { onMounted, ref } from "vue";
-import { db } from "../firebase";
+import { db } from "../firebase/firebase";
 import { collection, onSnapshot } from "firebase/firestore";
-import { InputData, defaultInputData } from "../types";
+import { InputData, defaultInputData } from "../Profile_types/types";
 
 export const saveInputData = ref<InputData[]>([]);
 // onMounted(() => {

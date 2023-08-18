@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import ProfileCard from "../Plofile_data/ProfileCard.vue";
-import ProfileButton from "../Plofile_data/ProfileButton.vue";
-import ProfileSarch from "../Plofile_data/ProfileSarch.vue";
+import ProfileCard from "../Profile_data/ProfileCard.vue";
+import ProfileButton from "../Profile_data/ProfileButton.vue";
+import ProfileSarch from "../Profile_data/ProfileSarch.vue";
 
 import { ref, watch, computed, onMounted } from "vue";
-import { InputData, defaultInputData } from "../../types";
+import { InputData, defaultInputData } from "../..//Profile_types/types";
 //index.tsをインポート
 import { startConnect, saveInputData } from "../../db";
-import { db } from "../../firebase";
+import { db } from "../../firebase/firebase";
 import {
   collection,
   addDoc,
@@ -272,4 +272,4 @@ button:nth-child(n + 2) {
   margin: 16px 0px;
 }
 </style>
-../firebase
+../firebase ../../firebase/firebase ../../Profile_types/types

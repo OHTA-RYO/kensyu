@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Contact from "./Contact.vue";
-import { defaultInquiryDetail, InquiryDetail } from "../../types";
-import { inquiryDetail } from "../../contact";
+import { defaultInquiryDetail, InquiryDetail } from "../../Profile_types/types";
+import { inquiryDetail } from "../../db/contact";
 import { ref, onMounted } from "vue";
 import { router } from "../../router";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../firebase/firebase";
 
 const saveInquiryDetail = ref<InquiryDetail | undefined>(undefined);
 // const isReadonly = ref(true);
@@ -75,3 +75,4 @@ button {
   /* padding: 32px 0 32px 64px; */
 }
 </style>
+../../firebase/firebase ../../Profile_types/types ../../db/contact

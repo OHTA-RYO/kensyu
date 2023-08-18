@@ -3,7 +3,7 @@ import "./assets/main.css";
 import { createApp } from "vue";
 import App from "./App.vue";
 import { router, routerIslogin } from "./router/index";
-import { loginSearch } from "./firebaseAuth";
+import { loginSearch } from "./firebase/firebaseAuth";
 import { dataSharing } from "./db/usersdb";
 
 createApp(App).use(router).mount("#app");

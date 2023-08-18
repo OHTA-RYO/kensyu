@@ -4,8 +4,8 @@ import ProfileButton from "../Profile_data/ProfileButton.vue";
 import ProfileSarch from "../Profile_data/ProfileSarch.vue";
 
 import { ref, reactive, watch, computed, onMounted } from "vue";
-import { InputData, defaultInputData } from "../../types";
-import { firebaseConfig, app, db } from "../../firebase";
+import { InputData, defaultInputData } from "../../Profile_types/types";
+import { firebaseConfig, app, db } from "../../firebase/firebase";
 import { useRouter } from "vue-router";
 import { dataSharing, saveInputData } from "../../db/usersdb";
 import { router } from "../../router/index";
@@ -27,15 +27,18 @@ import {
   isLogin,
   loginSearch,
   logoutButton,
-} from "../../firebaseAuth";
+} from "../../firebase/firebaseAuth";
 
 import {
   getStorage,
   uploadBytes,
   getDownloadURL,
   ref as storageRef,
+  StorageReference,
+  deleteObject,
 } from "firebase/storage";
 import { blob } from "stream/consumers";
+import { url } from "inspector";
 
 // import { channel } from "diagnostics_channel";
 
@@ -50,15 +53,6 @@ const searchText = ref<string>("");
 const isReadonly = ref(true);
 const isSave = ref(true);
 
-//ファイルをアップロードする
-//fileをBlobに変換してアップロードする
-const storage = getStorage();
-// const storageRef = ref(storage);
-const storageRef2 = storageRef(storage, "some-child");
-// const storageRef2 = storageRef(storage, "images/image.jpg");
-const file = ref<File | null>(null);
-// const starsRef = storageRef(storage, "images/stars.jpg");
-
 //ユーザーが選択したファイルを↑に格納する関数を作る。
 //pushではない。
 //@changeで入力した内容を取得。
@@ -69,33 +63,43 @@ const file = ref<File | null>(null);
 //URLにクエリを持たせる。何の情報を持っているかがわかるから。
 //saveDataは新たなコンポーネントを作成しなくて良い。直接pだけ書く。
 
+//ファイルをアップロードする
+//fileをBlobに変換してアップロードする
+const storage = getStorage();
+// const storageRef = ref(storage);
+const now = new Date().toLocaleTimeString();
+const storageRef2 = storageRef(storage, `some-child${now}`);
+// const storageRef2 = storageRef(storage, "images/image.jpg");
+const file = ref<File | null>(null);
+
 const imgData = (e: any) => {
   // if (e.target.files.length === 0) return;
   file.value = e.target.files[0];
-  console.log(e.target.files[0].url);
-  console.log(e.target.files);
-  console.log(e.target.files.url);
-  console.log(e.target.files[0]);
+  // console.log(e.target.files[0]);
 };
 
 const imgUp = async () => {
   if (!file.value) return;
   const blob = new Blob([file.value], { type: file.value.type });
-  await uploadBytes(storageRef2, blob).then((snapshot) => {
-    console.log("Uploaded a blob or file!");
-  });
+  const result = await uploadBytes(storageRef2, blob);
+  console.log(result);
+  console.log(result.ref);
+  return result.ref;
 };
+console.log(imgUp);
 
-const getUrl = async () => {
-  await getDownloadURL(
-    storageRef(storage, "gs://vue3app-7dd14.appspot.com/some-child")
-  )
+const getUrl = async (storageRef: StorageReference) => {
+  await getDownloadURL(storageRef)
     .then((url) => {
       console.log(url);
       inputData.value.image = url;
     })
     .catch((error) => {});
 };
+
+//画像を削除
+
+// Create a reference to the file to delete
 
 //ログインしていない状態でMainのURLを検索しても
 //Mainに飛ばずにlogin画面に飛ばしたい。
@@ -115,7 +119,7 @@ const getUrl = async () => {
 // dataSharing();
 // });
 
-console.log(typeof new Date());
+// console.log(typeof new Date());
 
 //一旦一番上まで移動。
 //更新をした時のfirebaseとの連携に必要なもの
@@ -155,8 +159,10 @@ const updateDocument = async () => {
 
 const saveDocument = async () => {
   try {
-    await imgUp();
-    await getUrl();
+    //ファイルアップロードの関数を変数にした。
+    const storageRef = await imgUp();
+    //引数に↑の関数を定数にした値を入力。
+    await getUrl(storageRef!);
     //, inputData.value);を追加した！！
     //{デフォルトであった波括弧を削除した
 
@@ -631,13 +637,13 @@ const contact = () => {
         <div class="button-area">
           <ProfileButton label="検索" @click="searchButton" />
           <ProfileButton label="問合せ" @click="contact" class="contact-us" />
-          <ProfileButton
+          <!-- <ProfileButton
             label="編集"
             @click="editButton"
             :disabled="isToggle"
-          />
-          <ProfileButton label="更新" @click="updateDocument" />
-          <ProfileButton label="削除" @click="deleteDocument" />
+          /> -->
+          <!-- <ProfileButton label="更新" @click="updateDocument" />
+          <ProfileButton label="削除" @click="deleteDocument" /> -->
         </div>
       </div>
     </div>
@@ -714,4 +720,4 @@ button:nth-child(n + 2) {
   width: 64px;
 }
 </style>
-../firebase
+../firebase ../../firebase/firebase ../../Profile_types/types

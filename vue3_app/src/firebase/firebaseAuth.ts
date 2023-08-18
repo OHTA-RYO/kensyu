@@ -12,7 +12,7 @@ import { ref } from "vue";
 // import { firebaseConfig, app, db } from "./firebase";
 
 // import { useRoute } from "vue-router";
-import { router, loginJage, routes } from "./router/index";
+import { router, loginJage, routes } from "../router/index";
 
 export const isLogin = ref(false);
 export const auth = getAuth();

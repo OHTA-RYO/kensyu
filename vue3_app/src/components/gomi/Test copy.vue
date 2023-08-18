@@ -3,7 +3,7 @@ import TestCard from "./TestCard.vue";
 import TestButton from "./TestButton.vue";
 import TestSearch from "./TestSearch.vue";
 import { ref, reactive, watch } from "vue";
-import { InputData, defaultInputData } from "../typesTest";
+import { InputData, defaultInputData } from "../../Profile_types/typesTest";
 
 const inputData = ref<InputData>(defaultInputData());
 const saveInputData = ref<InputData[]>([

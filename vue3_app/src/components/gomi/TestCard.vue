@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PropType, computed } from "vue";
-import { InputData, defaultInputData } from "../typesTest";
-import ProfileCardD from "./ProfileCardD.vue";
+import { InputData, defaultInputData } from "../../Profile_types/typesTest";
+import ProfileCardD from "../Profile_data/ProfileCardD.vue";
 
 const props = defineProps({
   modelValue: {

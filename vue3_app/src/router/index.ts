@@ -4,7 +4,7 @@ import ProfileLogin from "../components/Profile_data/ProfileLogin.vue";
 import ProfileInformation from "../components/Profile_data/ProfileInformation.vue";
 import Contact from "../components/Profile_contact/Contact.vue";
 import Confirmation from "../components/Profile_contact/Confirmation.vue";
-import { isLogin, auth } from "../firebaseAuth";
+import { isLogin, auth } from "../firebase/firebaseAuth";
 import { ref } from "vue";
 
 export const routes = [
@@ -36,7 +36,7 @@ export const loginJage = ref(false);
 export const routerIslogin = () => {
   router.beforeEach((to, from, next) => {
     // console.log(loginJage.value);
-    // if (!loginJage.value) return;
+    if (!loginJage.value) return;
     //toは次にナビゲーションされる対象
     //次の遷移先がprofilelogin以外でログアウトしている場合は
     //router.pushでlogin画面に飛ばす。

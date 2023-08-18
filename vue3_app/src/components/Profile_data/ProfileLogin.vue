@@ -8,7 +8,7 @@ import {
   loginUser,
   isLogin,
   loginSearch,
-} from "../../firebaseAuth";
+} from "../../firebase/firebaseAuth";
 
 import { ref } from "vue";
 const emailData = ref("");

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PropType, computed, watch } from "vue";
-import { InputData, defaultInputData } from "../../types";
+import { InputData, defaultInputData } from "../../Profile_types/types";
 
 const props = defineProps({
   modelValue: {
@@ -227,3 +227,4 @@ p {
   color: rgb(255, 73, 73);
 }
 </style>
+../../Profile_types/types

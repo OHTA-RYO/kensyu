@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { router } from "../../router/index";
-import { inquiryDetail } from "../../contact";
+import { inquiryDetail } from "../../db/contact";
 
 const props = defineProps({
   // modelValue: {
@@ -184,3 +184,4 @@ input[type="radio"][readonly] {
   pointer-events: none;
 }
 </style>
+../../db/contact

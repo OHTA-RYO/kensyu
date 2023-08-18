@@ -3,8 +3,8 @@ import { useRouter, useRoute } from "vue-router";
 import ProfileCard from "./ProfileCard.vue";
 import ProfileButton from "../Profile_data/ProfileButton.vue";
 import { PropType, onMounted, computed, useSSRContext, ref, watch } from "vue";
-import { InputData, defaultInputData } from "../../types";
-import { firebaseConfig, app, db } from "../../firebase";
+import { InputData, defaultInputData } from "../../Profile_types/types";
+import { firebaseConfig, app, db } from "../../firebase/firebase";
 import {
   collection,
   addDoc,
@@ -17,6 +17,15 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import { dataSharing, saveInputData } from "../../db/usersdb";
+
+import {
+  getStorage,
+  ref as storageRef,
+  deleteObject,
+  StorageReference,
+} from "firebase/storage";
+
+import { InquiryDetail, defaultInquiryDetail } from "../../Profile_types/types";
 
 const isReadonly = ref(false);
 
@@ -55,6 +64,7 @@ const saveId = ref<string | undefined>("");
 
 //クエリと一致したデータを格納する変数を定義
 const targetData = ref<InputData | undefined>(undefined);
+const getUrl = ref<string | undefined>("");
 
 //vue routerからクエリを取得できた。
 //idから全データをfirebaseから取得するにはどうするのか。
@@ -70,38 +80,71 @@ const unsub = onSnapshot(collection(db, "users"), (snapshot) => {
     (d: InputData) => d.id === profileId
   );
   saveId.value = targetData.value?.id;
-  console.log(targetData.value);
 });
 
-// //✅データを更新
-//saveInputDataのidとオブジェクトidが一致しているのを対象にする。
-// const updateDocument = async () => {
-//   //saveInputDataの中から、idがオブジェクトのidと一致するデータを取り出す。
-//   targetData.value = saveInputData.value.find((d) => d.id === saveId.value);
-//   //editIndexでオブジェクトのidを選択肢に入れる。
-// const useRef = doc(db, "users", saveId.value);
-//   console.log(targetData.value);
-//   //findDataのidがオブジェクトのidと一致するデータがなければ何もしない。
-//   // if (!findData) return;
-//   //useRef、第2引数に更新するデータ(findData)を指定
-//   await updateDoc(useRef, targetData );
-// };
+//✅データを更新
+// saveInputDataのidとオブジェクトidが一致しているのを対象にする。
+const updateDocument = async () => {
+  //saveInputDataの中から、idがオブジェクトのidと一致するデータを取り出す。
+  targetData.value = saveInputData.value.find((d) => d.id === saveId.value);
+  //editIndexでオブジェクトのidを選択肢に入れる。
+  const useRef = doc(db, "users", saveId.value ?? "");
+  console.log(targetData.value);
+  //findDataのidがオブジェクトのidと一致するデータがなければ何もしない。
+  // if (!findData) return;
+  //useRef、第2引数に更新するデータ(findData)を指定
+  await updateDoc(useRef, targetData.value ?? defaultInquiryDetail());
+  if (isReadonly.value === false) return;
+  isReadonly.value = !isReadonly.value;
+  alert("データを更新しました。");
+  confirm("更新しました。");
+};
 
-// //データを削除✅
-// /**
-//  * firebaseに保存したデータを削除する関数
-//  */
-// const deleteDocument = async () => {
-//   //findで対象となるオブジェクトの要素を探す。saveInputDataのidとドキュメントのidが一致しているデータ
-//   targetData.value = saveInputData.value.find((d) => d.id === saveId.value);
-//   //confirmで選択中の名前をアラートで表示
-//   if (!targetData) return;
-//   if (!confirm(`${targetData.value?.name}削除しますか？`)) return;
+//画像を削除する関数も入れる必要がある。
+//データを削除✅
+/**
+ * firebaseに保存したデータを削除する関数
+ */
+const deleteDocument = async () => {
+  //findで対象となるオブジェクトの要素を探す。saveInputDataのidとドキュメントのidが一致しているデータ
+  targetData.value = saveInputData.value.find((d) => d.id === saveId.value);
+  getUrl.value = targetData.value?.image;
+  console.log(getUrl.value);
+  //confirmで選択中の名前をアラートで表示
+  if (!targetData) return;
+  if (!confirm(`${targetData.value?.name}削除しますか？`)) return;
 
-//   //オブジェクトを削除する
-// await deleteDoc(doc(db, "users", saveId.value));
-//   //editIndexに削除したidが入っているから空文字を入れる。
-//   // editIndex.value = "";
+  //オブジェクトを削除する
+  await deleteDoc(doc(db, "users", saveId.value ?? ""));
+  const storage = getStorage();
+  //↓target.value.imageを入れるとエラーになるのは↑で既にfirebaseのデータを削除しているから
+  //urlが取れなくてエラーになるのか？
+  const desertRef = storageRef(storage, getUrl.value);
+  await deleteObject(desertRef)
+    .then(() => {
+      // File deleted successfully
+    })
+    .catch((error) => {
+      // Uh-oh, an error occurred!
+    });
+  //   const imageUrl = unsub();
+  // console.log(imageUrl);
+  // deleteUrl;
+
+  router.push("/Main");
+  //editIndexに削除したidが入っているから空文字を入れる。
+  // editIndex.value = "";
+};
+
+// const deleteUrl = async (storageRef: StorageReference) => {
+//   // Delete the file
+//   await deleteObject(desertRef)
+//     .then(() => {
+//       // File deleted successfully
+//     })
+//     .catch((error) => {
+//       // Uh-oh, an error occurred!
+//     });
 // };
 
 /**
@@ -116,12 +159,7 @@ const readonlyFalse = () => {
 /**
  * isReadonlyをfalse→trueに切り替える関数
  */
-const readonlyTrue = () => {
-  if (isReadonly.value === false) return;
-  isReadonly.value = !isReadonly.value;
-  alert("データを更新しました。");
-  confirm("更新しました。");
-};
+const readonlyTrue = () => {};
 
 //データが取れなかった。そんな時はwatch!!
 // watch(targetData, () => {
@@ -156,8 +194,12 @@ const readonlyTrue = () => {
   </div>
   <div class="button-area">
     <ProfileButton label="編集" @click="readonlyFalse" />
-    <ProfileButton label="更新" @click="readonlyTrue" :disabled="!isReadonly" />
-    <ProfileButton label="削除" @click="" />
+    <ProfileButton
+      label="更新"
+      @click="updateDocument"
+      :disabled="!isReadonly"
+    />
+    <ProfileButton label="削除" @click="deleteDocument" />
   </div>
 </template>
 
@@ -170,4 +212,4 @@ const readonlyTrue = () => {
   width: 100%;
 }
 </style>
-../firebase
+<!-- ../firebase ../../firebase/firebase ../../Profile_types/types -->
