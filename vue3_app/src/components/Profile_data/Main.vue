@@ -673,7 +673,7 @@ const contact = () => {
 }
 
 .right-container {
-  width: 640px;
+  width: 600px;
   height: 100%;
   /* background: lightgray; */
   padding-left: 32px;
@@ -682,7 +682,7 @@ const contact = () => {
 }
 
 .sub-container {
-  width: 100%;
+  width: auto;
   margin-left: 80px;
   position: fixed;
   left: 960px;
@@ -720,4 +720,3 @@ button:nth-child(n + 2) {
   width: 64px;
 }
 </style>
-../firebase ../../firebase/firebase ../../Profile_types/types

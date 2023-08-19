@@ -65,6 +65,7 @@ const saveId = ref<string | undefined>("");
 //クエリと一致したデータを格納する変数を定義
 const targetData = ref<InputData | undefined>(undefined);
 const getUrl = ref<string | undefined>("");
+const preview = ref<string | undefined>("");
 
 //vue routerからクエリを取得できた。
 //idから全データをfirebaseから取得するにはどうするのか。
@@ -76,11 +77,27 @@ const getUrl = ref<string | undefined>("");
 const unsub = onSnapshot(collection(db, "users"), (snapshot) => {
   // console.log("大田");
   snapshot.docChanges();
+
   targetData.value = saveInputData.value.find(
     (d: InputData) => d.id === profileId
   );
   saveId.value = targetData.value?.id;
+  preview.value = targetData.value?.image;
+  if (targetData.value?.image === undefined) return;
+  targetData.value!.image = "";
+  console.log(targetData.value?.image);
+  console.log(preview);
+  if (targetData.value?.image !== "") {
+    targetData.value!.image = preview.value as string;
+    console.log(targetData.value?.image);
+  }
 });
+console.log(preview.value);
+
+const previewButton = () => {
+  if (preview.value === "") return;
+  targetData.value!.image = preview.value as string;
+};
 
 //✅データを更新
 // saveInputDataのidとオブジェクトidが一致しているのを対象にする。
@@ -108,6 +125,8 @@ const updateDocument = async () => {
 const deleteDocument = async () => {
   //findで対象となるオブジェクトの要素を探す。saveInputDataのidとドキュメントのidが一致しているデータ
   targetData.value = saveInputData.value.find((d) => d.id === saveId.value);
+  targetData.value!.image = preview.value as string;
+  console.log(targetData.value?.image);
   getUrl.value = targetData.value?.image;
   console.log(getUrl.value);
   //confirmで選択中の名前をアラートで表示
@@ -190,6 +209,7 @@ const readonlyTrue = () => {};
         v-model="targetData"
       />
     </div>
+    <ProfileButton label="image" @click="previewButton" />
     <ProfileButton label="戻る" @click="mainButton" />
   </div>
   <div class="button-area">
@@ -210,6 +230,13 @@ const readonlyTrue = () => {};
 }
 .information {
   width: 100%;
+}
+
+.button-area {
+  /* margin-left: 480px; */
+  position: fixed;
+  top: 800px;
+  left: 800px;
 }
 </style>
 <!-- ../firebase ../../firebase/firebase ../../Profile_types/types -->
