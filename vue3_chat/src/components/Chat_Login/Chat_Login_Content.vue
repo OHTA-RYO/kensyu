@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { router } from "../../router/index";
-// import Chat_Login_ContentVue from "./Chat_Login_Content.vue";
-import Chat_Login_Registration from "./Chat_Login_Registration.vue";
-import Chat_Input from "../Chat_Data/Chat_Input.vue";
+
 const login = () => {
   router.push("/Chat_Main");
 };
@@ -16,9 +14,9 @@ const registration = () => {
   <div class="main">
     <div class="main-container">
       <div class="container">
-        <Chat_Input type="text" placeholder="User Email" :isLogin="true" />
-        <Chat_Input type="text" placeholder="User Password" :isLogin="true" />
-        <p class="loginp" @click="login">ログイン</p>
+        <input type="mail" placeholder="User Id" />
+        <input type="password" placeholder="User Password" />
+        <p class="login" @click="login">ログイン</p>
         <p class="account" @click="registration">アカウント登録はこちら</p>
       </div>
     </div>
@@ -50,6 +48,14 @@ p {
   align-items: center;
 }
 
+.container input {
+  width: 320px;
+  margin: 8px 0;
+  padding: 16px 0;
+  background: rgb(230, 228, 228);
+  border: none;
+}
+
 .container p {
   width: 320px;
   margin: 32px 0 16px 0;
@@ -59,7 +65,7 @@ p {
   cursor: pointer;
 }
 
-.loginp {
+.login {
   /* border: 1px solid black; */
   background: rgb(98, 212, 250);
   color: white;

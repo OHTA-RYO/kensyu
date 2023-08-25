@@ -22,6 +22,6 @@ li {
   width: auto;
   margin: 16px 0;
   /* border: 1px solid black; */
-  border-radius: 24px;
+  border-radius: 16px;
 }
 </style>
