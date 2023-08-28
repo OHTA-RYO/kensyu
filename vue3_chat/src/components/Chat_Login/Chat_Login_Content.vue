@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { router } from "../../router/index";
+import { router } from "../../router";
 
 const login = () => {
   router.push("/Chat_Main");

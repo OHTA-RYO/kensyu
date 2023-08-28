@@ -1,14 +1,26 @@
 <script setup lang="ts">
-import { router } from "../../router/index";
+import { router } from "../router/";
+import { ref } from "vue";
 // import Chat_Login_ContentVue from "./Chat_Login_Content.vue";
 import Chat_Login_Registration from "./Chat_Login_Registration.vue";
-import Chat_Input from "../Chat_Data/Chat_Input.vue";
-const login = () => {
-  router.push("/Chat_Main");
-};
+import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
+import {
+  //↓Auth.tsで作成して、importしたが、グローバルな変数はNG
+  //tsファイルでexportするのは一旦は関数だけ。
+  // emailData,
+  // passwordData,
+  loginUser,
+} from "../firebase/firebaseAuth";
+
+const emailData = ref<string>("");
+const passwordData = ref<string>("");
 
 const registration = () => {
   router.push("/Chat_Login_Registration");
+};
+
+const loginAccount = async () => {
+  loginUser(emailData.value, passwordData.value);
 };
 </script>
 
@@ -16,9 +28,21 @@ const registration = () => {
   <div class="main">
     <div class="main-container">
       <div class="container">
-        <Chat_Input type="text" placeholder="User Email" :isLogin="true" />
-        <Chat_Input type="text" placeholder="User Password" :isLogin="true" />
-        <p class="loginp" @click="login">ログイン</p>
+        <Chat_Input
+          type="email"
+          placeholder="User Email"
+          :isLogin="true"
+          class="inputarea"
+          v-model="emailData"
+        />
+        <Chat_Input
+          type="password"
+          placeholder="User Password"
+          :isLogin="true"
+          class="inputarea"
+          v-model="passwordData"
+        />
+        <p class="loginp" @click="loginAccount">ログイン</p>
         <p class="account" @click="registration">アカウント登録はこちら</p>
       </div>
     </div>
@@ -26,6 +50,12 @@ const registration = () => {
 </template>
 
 <style scoped>
+.inputarea {
+  width: 320px;
+  margin: 8px 0;
+  /* padding: 16px 0; */
+}
+
 .main {
   background: rgb(98, 212, 250);
   height: auto;

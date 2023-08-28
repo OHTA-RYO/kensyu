@@ -1,18 +1,39 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch, computed } from "vue";
 import Chat_Login_Main from "./Chat_Login_Main.vue";
-import Chat_Input from "../Chat_Data/Chat_Input.vue";
-import { router } from "../../router/index";
-import { registerUser } from "../../firebase/firebaseAuth";
+import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
+import { router } from "../router/";
+import {
+  // emailData,
+  // passwordData,
+  registerUser,
+} from "../firebase/firebaseAuth";
 
+const nameData = ref<string>("");
 const emailData = ref<string>("");
 const passwordData = ref<string>("");
-
-console.log(emailData);
 
 const login = () => {
   router.push("/");
 };
+
+watch([nameData, emailData, passwordData], (a, b) => {
+  console.log(a, b);
+  console.log(passwordData.value);
+});
+
+const saveAccount = async () => {
+  await registerUser(emailData.value, passwordData.value);
+
+  nameData.value = "";
+  emailData.value = "";
+  passwordData.value = "";
+};
+
+const passwordDataError = computed(() => {
+  if (!passwordData.value) return false;
+  if (passwordData.value.length < 6) return true;
+});
 </script>
 
 <template>
@@ -23,26 +44,33 @@ const login = () => {
     </div>
     <div class="container">
       <div class="container-parea">
-        <p>お名前</p>
+        <!-- <p>お名前</p> -->
         <p>メールアドレス</p>
         <p>パスワード</p>
       </div>
       <div class="container-inputarea">
-        <Chat_Input
+        <!-- <Chat_Input
           :isRegistration="true"
           type="text"
           placeholder="フルネーム"
-        />
+          class="inputarea"
+          :height="46"
+          v-model="nameData"
+        /> -->
         <Chat_Input
           :isRegistration="true"
           type="email"
-          :mail="emailData"
-          @getEmailData?="emailData"
+          v-model="emailData"
+          class="inputarea"
+          :height="46"
         />
+        <div v-if="passwordDataError">パスワードは6文字以上で入力下さい。</div>
         <Chat_Input
           :isRegistration="true"
           type="password"
-          @getPasswordData?="passwordData"
+          v-model="passwordData"
+          class="inputarea"
+          :height="46"
         />
         <!-- <input type="text" />
         <input type="mail" />
@@ -50,12 +78,19 @@ const login = () => {
       </div>
     </div>
     <div class="sendarea">
-      <p @click="registerUser(emailData, passwordData)">送信する</p>
+      <p @click="saveAccount">送信する</p>
     </div>
   </div>
 </template>
 
 <style scoped>
+.inputarea {
+  width: 480px;
+  margin: 6px 0 6px 0;
+  /* height: 16px;¥ */
+  /* padding: 15px 0; */
+}
+
 h1 {
   margin: 32px 0;
   text-align: center;

@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsYXGWpam_LwQF3CgIxxGOj8GY0nzJTts",
@@ -11,6 +12,7 @@ const firebaseConfig = {
 };
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 // try {
 //   const docRef = await addDoc(collection(db, "users"), {
