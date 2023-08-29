@@ -16,11 +16,16 @@ const props = defineProps({
     type: String,
   },
   type: {
-    type: String as PropType<"password" | "text" | "email">,
+    type: String as PropType<"password" | "text" | "email" | "checkbox">,
   },
   placeholder: {
     type: String as PropType<
-      "User Email" | "User Password" | "フルネーム" | "🔍 検索" | "🔍 友達検索"
+      | "User Email"
+      | "User Password"
+      | "フルネーム"
+      | "🔍 検索"
+      | "🔍 友達検索"
+      | "🔍 フレンドID検索"
     >,
   },
   height: {

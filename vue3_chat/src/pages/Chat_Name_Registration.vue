@@ -23,7 +23,7 @@ const nameRegistration = async () => {
     const docRef = await addDoc(collection(db, "names"), nameData.value);
     console.log(nameData.value);
     console.log("Document written with ID: ", docRef.id);
-    // router.push("/")
+    router.push("/Chat_Room");
   } catch (e) {
     console.error("Error adding document: ", e);
   }
@@ -39,16 +39,21 @@ const loginMain = () => {
 const roomButton = () => {
   router.push("/Chat_Room");
 };
-// watch([nameData], (a, b) => {
-//   console.log(a, b);
-//   console.log(nameData.value);
-// });
+
+const friendList = () => {
+  router.push("/ChatFriendList");
+};
+const friendSave = () => {
+  router.push("/ChatFriendSave");
+};
 </script>
 
 <template>
   <button @click="login">login</button>
   <button @click="loginMain">loginMain</button>
   <button @click="roomButton">roomButton</button>
+  <button @click="friendList">friendList</button>
+  <button @click="friendSave">friendSave</button>
   <div class="main-container">
     <div class="title">
       <h1>プロフィール登録</h1>

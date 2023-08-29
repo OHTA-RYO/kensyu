@@ -3,7 +3,7 @@ import { router } from "../router/index";
 import { ref, watch } from "vue";
 import Chat_List from "../components/Chat_Data/Chat_List.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
-import { defaultTweet } from "@/db";
+import { defaultTweet, saveDocumentTweet } from "@/db";
 import type { Tweet } from "@/Types/TweetTypes";
 import { collection, addDoc } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
@@ -18,6 +18,7 @@ const nameButton = () => {
 };
 
 const tweeting = () => {
+  saveDocumentTweet(tweet.value);
   saveTweet.value.push(tweet.value);
   tweet.value = defaultTweet();
   console.log(saveTweet.value);
@@ -32,16 +33,16 @@ watch(tweet.value, () => {
 /**
  * firebaseにTweetを保存する関数
  */
-const saveDocumentTweet = async () => {
-  try {
-    const docRef = await addDoc(collection(db, "users"), tweet.value);
-    // tweet.value.id = docRef.id;
-    // console.log(tweet.value.id);
-    console.log("Document written with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
-};
+// const saveDocumentTweet = async () => {
+//   try {
+//     const docRef = await addDoc(collection(db, "users"), tweet.value);
+//     // tweet.value.id = docRef.id;
+//     // console.log(tweet.value.id);
+//     console.log("Document written with ID: ", docRef.id);
+//   } catch (e) {
+//     console.error("Error adding document: ", e);
+//   }
+// };
 
 //saveTweetの送信時間を取得したい。
 </script>
@@ -101,6 +102,7 @@ h1 {
   margin: 0 0 0 auto;
   display: flex;
   align-items: center;
+  padding-right: 16px;
   /* word-wrap: 64px; */
 }
 
@@ -137,4 +139,3 @@ h1 {
   height: auto;
 }
 </style>
-../../Types/types

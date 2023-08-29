@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import { computed } from "vue";
-import type { Tweet } from "@/Types/TweetTypes";
+import type { Tweet, ChatRoom } from "@/Types/TweetTypes";
 import { defaultTweet } from "@/db";
 
 const props = defineProps({
   text: {
     type: Object as PropType<Tweet>,
   },
+  // text: {
+  //   type: Object as PropType<Tweet | ChatRoom>,
+  // },
   // text: {
   //   type: String,
   // },
@@ -18,6 +21,7 @@ const props = defineProps({
   <div class="list-area">
     <ul>
       <li>{{ text?.tweets }}</li>
+      <!-- <li>{{ text?.tweets text?.name! }}</li> -->
     </ul>
   </div>
 </template>

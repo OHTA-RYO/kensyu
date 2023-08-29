@@ -33,6 +33,16 @@ export const routes = [
     name: "/Chat_Room_Creation",
     component: () => import("@/pages/Chat_Room_Creation.vue"),
   },
+  {
+    path: "/ChatFriendSave",
+    name: "/ChatFriendSave",
+    component: () => import("@/pages/ChatFriendSave.vue"),
+  },
+  {
+    path: "/ChatFriendList",
+    name: "/ChatFriendList",
+    component: () => import("@/pages/ChatFriendList.vue"),
+  },
 ];
 
 export const router = createRouter({

@@ -17,56 +17,37 @@ const nameButton = () => {
   router.push("/Chat_Name_Registration");
 };
 
-const chatroomCreation = () => {
-  router.push("/Chat_Room_Creation");
+const roomButton = () => {
+  router.push("/Chat_Room");
 };
-
-// const tweeting = () => {
-//   saveTweet.value.push(tweet.value);
-//   tweet.value = defaultTweet();
-//   console.log(saveTweet.value);
-// };
-
-// watch(tweet.value, () => {
-//   // tweeting;
-//   // console.log(tweet.value);
-//   // console.log(saveTweet.value);
-// });
-
-// /**
-//  * firebaseにTweetを保存する関数
-//  */
-// const saveDocumentTweet = async () => {
-//   try {
-//     const docRef = await addDoc(collection(db, "users"), tweet.value);
-//     // tweet.value.id = docRef.id;
-//     // console.log(tweet.value.id);
-//     console.log("Document written with ID: ", docRef.id);
-//   } catch (e) {
-//     console.error("Error adding document: ", e);
-//   }
-// };
-
-//saveTweetの送信時間を取得したい。
+const friendSave = () => {
+  router.push("/ChatFriendSave");
+};
 </script>
 
 <template>
   <button @click="topButton">Top</button>
   <button @click="nameButton">nameButton</button>
   <div class="container">
+    <div class="friend-container">
+      <div class="friend-title">フレンド一覧</div>
+      <div class="friend-addition" @click="friendSave">友達追加へ</div>
+    </div>
+
     <div class="header-container">
       <div class="edit">編集</div>
-      <div class="new-talkroom" @click="chatroomCreation">
-        チャットルームを作成
-      </div>
+      <div class="edit">削除</div>
+      <div class="new-talkroom" @click="roomButton">チャットルーム一覧へ</div>
     </div>
     <div class="search-room">
       <Chat_Input placeholder="🔍 検索" />
     </div>
   </div>
   <div class="room-container">
-    <div class="room-icon">アイコン</div>
-    <Chat_List class="room-list" />
+    <div class="room-icon"></div>
+    <!-- <Chat_List class="room-list" /> -->
+    <input type="checkbox" class="checkbox" v-if="false" />
+    <div class="room-list">名前</div>
   </div>
   <!-- <h1>トークルーム</h1> -->
 </template>
@@ -80,6 +61,20 @@ const chatroomCreation = () => {
   /* text-align: center; */
   color: white;
   background: rgb(0, 22, 47);
+}
+
+.friend-container {
+  display: flex;
+}
+
+.friend-title {
+  margin: -16px 0 32px 32px;
+  font-size: 28px;
+}
+
+.friend-addition {
+  margin: 0 32px 0 auto;
+  cursor: pointer;
 }
 
 .edit {
@@ -118,7 +113,7 @@ const chatroomCreation = () => {
   height: 160px;
 
   padding-right: 16px;
-  background: pink;
+  /* background: pink; */
 }
 
 .room-list {
@@ -126,12 +121,11 @@ const chatroomCreation = () => {
   background: white;
   border: none;
   margin-left: 16px;
+  font-size: 24px;
 }
 
-/* h1 {
-  text-align: center;
-  margin: 0;
-  padding-bottom: 24px;
-  border-bottom: 1px solid black;
-} */
+.checkbox {
+  width: 24px;
+  height: 24px;
+}
 </style>
