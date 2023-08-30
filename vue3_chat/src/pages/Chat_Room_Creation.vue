@@ -3,6 +3,7 @@ import { router } from "../router/index";
 import { ref, watch } from "vue";
 import Chat_List from "../components/Chat_Data/Chat_List.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
+import ChatCheckbox from "../components/Chat_Data/ChatCheckbox.vue";
 import { defaultTweet, defaultChatRoom, nameDocument } from "@/db";
 import type { Tweet, ChatRoom, TweetCollection } from "@/Types/TweetTypes";
 import { collection, addDoc, doc, getDoc } from "firebase/firestore";
@@ -59,9 +60,9 @@ const searchNameData = async () => {
 //   // chatRoom.value.nameid = nameDocument
 // };
 
-watch(chatRoom.value.name, () => {
-  console.log(chatRoom.value.name);
-});
+// watch(chatRoom.value.name[], () => {
+//   console.log(chatRoom.value.name);
+// });
 
 /**
  * 新規トークルームを作成する関数
@@ -107,17 +108,11 @@ const nameButton = () => {
       />
       <!-- <div class="search-name" @click="searchNameData">検索</div> -->
     </div>
-    <!-- <div class="room-container" v-for="t in name"> -->
     <div class="room-friend-container">
       <div class="friend-check">フレンドを選択:</div>
 
-      <!-- <Chat_List class="friend-select" /> -->
-      <div class="friend-select-container">
-        <label for="friend-list">
-          <div class="friend-select">テスト　太郎</div>
-          <!-- <div class="friend-select">{{ t }}</div> -->
-          <div class="check"><input type="checkbox" id="friend-list" /></div>
-        </label>
+      <div class="friend-select-container" v-for="t in name">
+        <ChatCheckbox text="{{ t }}" />
       </div>
     </div>
   </div>
@@ -168,10 +163,6 @@ const nameButton = () => {
   display: flex;
 }
 
-label {
-  display: flex;
-}
-
 .room-name {
   padding: 0 16px 0 32px;
 }
@@ -190,8 +181,7 @@ label {
   width: 160px;
 }
 
-.check {
-  width: 24px;
-  height: 24px;
+.friend-check {
+  margin-right: 32px;
 }
 </style>

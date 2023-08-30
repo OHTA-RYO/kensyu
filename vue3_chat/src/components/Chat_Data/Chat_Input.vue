@@ -90,4 +90,3 @@ input {
   width: 480px;
 } */
 </style>
-../../Types/types

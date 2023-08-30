@@ -7,6 +7,9 @@ import {
   query,
   where,
   getDocs,
+  limit,
+  updateDoc,
+  onSnapshot,
 } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 
@@ -36,16 +39,17 @@ export const defaultName = (): Name => {
   return {
     nameid: "",
     name: "",
+    friends: [],
   };
 };
 
 export const defaultChatRoom = (): ChatRoom => {
   return {
-    id: "", //documentId
+    roomid: "", //documentId
     roomname: "",
-    nameid: [""], //["nameid1","nameid2"]
-    name: [""], //["name1","name2"]
-    tweetsid: [""], //["tweetsid1", "tweetsid2"]
+    nameid: [], //["nameid1","nameid2"]
+    // name: [""], //["name1","name2"]
+    tweetsid: [], //["tweetsid1", "tweetsid2"]
   };
 };
 export const defaultTweetCollection = (): TweetCollection => {
@@ -61,21 +65,27 @@ export const defaultTweetCollection = (): TweetCollection => {
     },
   };
 };
-//↓を使う
-//友達検索inputの値をnameに渡す。
-export const nameidDocument = async (ni: string) => {
-  const q = query(collection(db, "names"), where("nameid", "==", ni));
+
+/**
+ * フレンドIDを検索して一致したら名前を返す関数
+ * @param ni フレンド追加画面の入力したフレンドid
+ * @returns 名前、コレクションID
+ */
+export const nameidDocument = async (ni: string): Promise<Name | null> => {
+  let q = query(collection(db, "names"), where("nameid", "==", ni));
+  q = query(q, limit(1));
   const querySnapshot = await getDocs(q);
+  let name: Name | null = null;
   querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
-    console.log(doc.id);
-    console.log(doc.data().nameid);
-    console.log(doc.data().name);
-    return (ni = doc.data().name);
+    // console.log(doc.id, " => ", doc.data());
+    // console.log(doc.id); //ドキュメントid
+    // console.log(doc.data().nameid);
+    // console.log(doc.data().name);
+    if (doc.exists()) name = doc.data() as Name;
+    // return (ni = doc.data().name);
   });
+  return name; //リターンするのをforEachの中でやってたからデータ取れなかった。
 };
-// console.log(nameidDocument);
 
 export const nameDocument = async (name: string) => {
   const q = query(collection(db, "names"), where("name", "==", name));
@@ -99,6 +109,7 @@ nameDocument("テスト太郎");
 // });
 // console.log(querySnapshot);
 
+//firebaseのusersの情報を登録する関数
 export const saveDocumentTweet = async (a: Tweet) => {
   try {
     const docRef = await addDoc(collection(db, "users"), a);
@@ -109,3 +120,23 @@ export const saveDocumentTweet = async (a: Tweet) => {
     console.error("Error adding document: ", e);
   }
 };
+
+export const updateDocment = async (nameid: string) => {
+  const washingtonRef = doc(db, "name", nameid);
+
+  // Set the "capital" field of the city 'DC'
+  await updateDoc(washingtonRef, {
+    capital: true,
+  });
+};
+
+// const updateDocument = onSnapshot(collection(db, "name"), (snapshot) => {});
+
+// const q = query(collection(db, "cities"), where("state", "==", "CA"));
+// const unsubscribe = onSnapshot(q, (querySnapshot) => {
+//   const cities = [];
+//   querySnapshot.forEach((doc) => {
+//       cities.push(doc.data().name);
+//   });
+//   console.log("Current cities in CA: ", cities.join(", "));
+// });
