@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import Chat_Login_Main from "./Chat_Login_Main.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 import { router } from "../router/";
@@ -7,7 +7,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 import type { Name } from "@/Types";
 import { defaultName } from "@/db";
-import { user } from "@/firebase/firebaseAuth";
+// import { user } from "@/firebase/firebaseAuth";
 
 const nameData = ref<Name>(defaultName());
 
@@ -28,6 +28,10 @@ const nameRegistration = async () => {
     console.error("Error adding document: ", e);
   }
 };
+
+// onMounted(() => {
+
+// })
 
 const login = () => {
   router.push("/");

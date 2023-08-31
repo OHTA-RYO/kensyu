@@ -1,15 +1,96 @@
 <script setup lang="ts">
 import { router } from "../router/index";
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import Chat_List from "../components/Chat_Data/Chat_List.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
-import { defaultTweet } from "@/db";
-import type { Tweet } from "@/Types/TweetTypes";
+import {
+  defaultTweet,
+  mynameData,
+  allNameDocumentData,
+  nameidDocument,
+} from "@/db";
+import type { Tweet, Name } from "@/Types/TweetTypes";
 import { collection, addDoc } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
+import { logoutUser } from "@/firebase/firebaseAuth";
 
-// const tweet = ref<Tweet>(defaultTweet());
-// const saveTweet = ref<Tweet[]>([]);
+// const friendNameData = ref<string | object>({});
+const friendNameData = ref<string[] | undefined | string>([]);
+
+// onMounted(async () => {
+//   const allNameData = await allNameDocumentData();
+//   console.log(allNameData);
+//   console.log(Object.entries(allNameData));
+//   allNameData.filter((array) => array.nameid === mynameData.value?.nameid);
+//   console.log(
+//     allNameData.filter((array) => array.nameid === mynameData.value?.nameid)
+//   );
+//   friendNameData.value = allNameData
+//     .filter((array) => array.nameid !== mynameData.value?.nameid)
+//     .map((d) => {
+//       console.log(d.name);
+//       // console
+//       return d.name;
+//     });
+// });
+
+//縦に文字が表示されてテスト2しか取れない。
+onMounted(async () => {
+  const allNameData = await allNameDocumentData();
+  Object.entries(allNameData)
+    //自分のコレクションの中にある、フレンドnameを表示したい。
+    .filter((array) => array[1].nameid === mynameData.value?.nameid)
+    .map((d) => {
+      // console.log(d[1].name);
+      // console.log(d[1].nameid);
+      // console.log(d[1].friends);
+      let friendsNameGet: Name | null = null;
+      d[1].friends.forEach(async (a) => {
+        friendsNameGet = await nameidDocument(a);
+        // console.log(a);
+        console.log(friendsNameGet?.name);
+        friendNameData.value = friendsNameGet?.name;
+      });
+      return friendNameData.value;
+    });
+});
+
+// onMounted(async () => {
+//   const allNameData = await allNameDocumentData();
+//   friendNameData.value = Object.entries(allNameData)
+//     //自分のコレクションの中にある、フレンドnameを表示したい。
+//     .filter((array) => array[1].nameid === mynameData.value?.nameid)
+//     .map((d) => {
+//       // console.log(d[1].name);
+//       // console.log(d[1].nameid);
+//       // console.log(d[1].friends);
+//       let friendsNameGet: Name | null = null;
+//       d[1].friends.forEach(async (a) => {;
+//         friendsNameGet = await nameidDocument(a);
+//         // console.log(a);
+//         console.log(friendsNameGet?.name);
+//       });
+//       return friendsNameGet?.name
+//     });
+// });
+
+// onMounted(async () => {
+//   const allNameData = await allNameDocumentData();
+//   friendNameData.value = Object.entries(allNameData)
+//     //自分のコレクションの中にある、フレンドnameを表示したい。
+//     .filter((array) => array[1].nameid === mynameData.value?.nameid)
+//     .map(async (d) => {
+//       console.log(d[1].name);
+//       console.log(d[1].nameid);
+//       console.log(d[1].friends);
+//       const friendNames = await Promise.all(
+//         d[1].friends.map((a) => nameidDocument(a))
+//       );
+//       console.log(friendNames);
+//       return friendNames;
+//     });
+// });
+
 const topButton = () => {
   router.push("/");
 };
@@ -28,9 +109,11 @@ const friendSave = () => {
 <template>
   <button @click="topButton">Top</button>
   <button @click="nameButton">nameButton</button>
+  <button @click="logoutUser">logoutButton</button>
   <div class="container">
     <div class="friend-container">
       <div class="friend-title">フレンド一覧</div>
+      <div class="friend-title">{{ mynameData?.name }}</div>
       <div class="friend-addition" @click="friendSave">友達追加へ</div>
     </div>
 
@@ -43,11 +126,11 @@ const friendSave = () => {
       <Chat_Input placeholder="🔍 検索" />
     </div>
   </div>
-  <div class="room-container">
+  <div class="room-container" v-for="t in friendNameData">
     <div class="room-icon"></div>
     <!-- <Chat_List class="room-list" /> -->
     <input type="checkbox" class="checkbox" v-if="false" />
-    <div class="room-list">名前</div>
+    <div class="room-list">{{ t }}</div>
   </div>
   <!-- <h1>トークルーム</h1> -->
 </template>

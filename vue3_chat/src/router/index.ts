@@ -1,6 +1,7 @@
+import { isLogin } from "@/firebase/firebaseAuth";
 import { createRouter, createWebHistory } from "vue-router";
 
-// import HomeViewVue from "@/views/HomeView.vue";
+// import { isLogin } from "../firebase/firebaseAuth";
 
 export const routes = [
   {
@@ -49,4 +50,17 @@ export const router = createRouter({
   history: createWebHistory(), // HTML5 History モード
   routes,
 });
+
+// export const routerBefore = () => {
+//   router.beforeEach((to, from, next) => {
+//     //遷移先がパスネーム:チャットログイン以外の場合にはチャットログイン画面に飛ばす。
+//     console.log(isLogin.value);
+//     if (to.name !== "Chat_Login_Main" && isLogin.value === false) {
+//       router.push("/");
+//     } else next();
+//   });
+// };
+
+// routerBefore();
+
 // export default router;

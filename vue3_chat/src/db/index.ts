@@ -23,6 +23,24 @@ import type {
 } from "../Types/TweetTypes";
 // import { app, db, auth } from "../firebase/firebase";
 
+//ログインしたアカウントのnameData↓
+export const mynameData = ref<Name>();
+/**
+ * ログインしているアカウントのuidを渡してドキュメントidを取得する関数
+ */
+export const realTimeMydata = (uid: string) => {
+  const q = query(collection(db, "names"), where("nameid", "==", uid));
+  onSnapshot(q, (docs) => {
+    docs.forEach((d) => {
+      if (d.data().nameid === uid) {
+        mynameData.value = d.data() as Name;
+      }
+    });
+
+    // console.log(source, " data: ", doc.data());
+  });
+};
+
 export const defaultTweet = (): Tweet => {
   return {
     id: "",
@@ -48,23 +66,23 @@ export const defaultChatRoom = (): ChatRoom => {
     roomid: "", //documentId
     roomname: "",
     nameid: [], //["nameid1","nameid2"]
-    // name: [""], //["name1","name2"]
     tweetsid: [], //["tweetsid1", "tweetsid2"]
   };
 };
-export const defaultTweetCollection = (): TweetCollection => {
-  return {
-    id: "", //documentId
-    nameId: "", //userID
-    message: {
-      text: "",
-      sendAt: new Date().toLocaleTimeString("ja-JP", {
-        hour: "numeric",
-        minute: "numeric",
-      }),
-    },
-  };
-};
+
+// export const defaultTweetCollection = (): TweetCollection => {
+//   return {
+//     id: "", //documentId
+//     nameId: "", //userID
+//     message: {
+//       text: "",
+//       sendAt: new Date().toLocaleTimeString("ja-JP", {
+//         hour: "numeric",
+//         minute: "numeric",
+//       }),
+//     },
+//   };
+// };
 
 /**
  * フレンドIDを検索して一致したら名前を返す関数
@@ -87,29 +105,34 @@ export const nameidDocument = async (ni: string): Promise<Name | null> => {
   return name; //リターンするのをforEachの中でやってたからデータ取れなかった。
 };
 
-export const nameDocument = async (name: string) => {
-  const q = query(collection(db, "names"), where("name", "==", name));
+/**
+ * ログインしているアカウントのuidを渡してドキュメントidを取得する関数
+ * @param uid
+ * @returns ドキュメントid
+ */
+export const nameDocument = async (nameid: string | undefined) => {
+  if (!nameid) return;
+  const q = query(collection(db, "names"), where("nameid", "==", nameid));
   const querySnapshot = await getDocs(q);
+  let docid: string = "";
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     console.log(doc.id, " => ", doc.data());
-    console.log(doc.id);
+    console.log(doc.id); //ドキュメントid
     console.log(doc.data());
-    return doc.id;
+    console.log(doc.data().name);
+    // const d = doc.id;
+    if (doc.exists()) docid = doc.id;
   });
+  // console.log(doc.id, "=>", doc.data());
+  console.log(docid);
+  return docid;
 };
 
-nameDocument("テスト太郎");
-
-//↓全て取得する場合はデータ取得出来る。
-// const querySnapshot = await getDocs(collection(db, "names"));
-// querySnapshot.forEach((doc) => {
-//   // doc.data() is never undefined for query doc snapshots
-//   console.log(doc.id, " => ", doc.data());
-// });
-// console.log(querySnapshot);
-
-//firebaseのusersの情報を登録する関数
+/**
+ * firebaseのusersの情報を登録する関数
+ * @param a トークルームでinputに入力した値。
+ */
 export const saveDocumentTweet = async (a: Tweet) => {
   try {
     const docRef = await addDoc(collection(db, "users"), a);
@@ -120,23 +143,46 @@ export const saveDocumentTweet = async (a: Tweet) => {
     console.error("Error adding document: ", e);
   }
 };
-
-export const updateDocment = async (nameid: string) => {
-  const washingtonRef = doc(db, "name", nameid);
-
-  // Set the "capital" field of the city 'DC'
-  await updateDoc(washingtonRef, {
-    capital: true,
-  });
+/**
+ * firebaseのnameコレクションの更新をする関数
+ * @param nameid 引数にログイン中のnameidを渡す。
+ */
+export const updateDocment = async (uid: string, obj: object) => {
+  const docId = await nameDocument(uid);
+  if (!docId) {
+    console.log("みつからんかった");
+    return;
+  }
+  const washingtonRef = doc(db, "names", docId);
+  await updateDoc(washingtonRef, obj);
 };
 
-// const updateDocument = onSnapshot(collection(db, "name"), (snapshot) => {});
+// /**
+//  * 単一のドキュメントを取得する関数
+//  */
+// export const getNameData = async (nameid: string) => {
+//   const docRef = doc(db, "names", "nameid");
+//   const docSnap = await getDoc(docRef);
+//   if (docSnap.exists()) {
+//     console.log("Document data:", docSnap.data());
+//     console.log(docSnap.data().name);
+//   } else {
+//     // docSnap.data() will be undefined in this case
+//     console.log("No such document!");
+//   }
+// };
 
-// const q = query(collection(db, "cities"), where("state", "==", "CA"));
-// const unsubscribe = onSnapshot(q, (querySnapshot) => {
-//   const cities = [];
-//   querySnapshot.forEach((doc) => {
-//       cities.push(doc.data().name);
-//   });
-//   console.log("Current cities in CA: ", cities.join(", "));
-// });
+/**
+ * nameの全てのコレクションデータを取得する関数
+ * @returns namesコレクションの全てのコレクションデータ
+ */
+export const allNameDocumentData = async () => {
+  const querySnapshot = await getDocs(collection(db, "names"));
+  const allData: Name[] = [];
+  querySnapshot.forEach((doc) => {
+    // console.log(doc.id, " => ", doc.data());
+    // console.log(doc.data().name);
+    allData.push(doc.data() as Name);
+  });
+  return allData;
+};

@@ -3,15 +3,23 @@ import { router } from "../router/index";
 import { ref, watch } from "vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 import ChatCheckbox from "../components/Chat_Data/ChatCheckbox.vue";
-import { nameidDocument, defaultName, updateDocment } from "@/db";
+import {
+  nameidDocument,
+  defaultName,
+  updateDocment,
+  mynameData,
+  nameDocument,
+} from "@/db";
 import type { Name } from "@/Types/TweetTypes";
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
+import { logoutUser } from "@/firebase/firebaseAuth";
 
 // const isCheckbox = ref(false);
 const chatName = ref<Name[]>([]); //型を配列に
 const nameid = ref(""); //フレンドid入力用に変数を作成。
 const friendsid = ref<{ [key: string]: boolean }>({});
+const uid = ref(auth.currentUser?.uid);
 // const name = ref<Name | null>(null)
 
 //既に存在するidを入力すると既にフレンドにいます。という風に
@@ -33,24 +41,38 @@ const nameidSearch = async () => {
     console.log(friendsid.value);
   }
 };
-//スコープ外で[name.nameid]が使えない。
-//値が取れない。
-if (friendsid.value[nameid.value] === true) {
-  console.log(friendsid.value);
-}
-console.log(friendsid.value[nameid.value]);
-console.log(friendsid.value.target);
-//
 
-const friendsidUpdate = () => {
-  // if (friendsid.value === true) {
-  //   // chatName.value.push(friendsid.value[])
-  //   updateDocment(chatName.value[0].nameid);
-  //   console.log(chatName.value)
-  // }
+/**
+ * 追加ボタンを押すと、チェックボックスがtrueのデータを追加する関数
+ */
+
+const pushID = () => {
+  //Object.entriesでオブジェと→配列にする。
+  const filterData = Object.entries(friendsid.value).filter(
+    //filterでtrueのデータだけ抽出する。
+    (array) => array[1] === true
+  ); //mapでtrueの配列のidの部分のみ取得。
+
+  const newFilterData = filterData.map((d) => {
+    console.log(d);
+    return d[0];
+  });
+
+  return newFilterData;
 };
+pushID();
+
+const friendsidUpdate = async () => {
+  updateDocment(mynameData.value?.nameid ?? "", {
+    //↓更新するデータ
+    friends: pushID(),
+  } as object);
+};
+
 //checkboxのコンポーネントでbooleanの引数を渡す。
 //emitでtrue falseを受け取れるように。
+
+// updateDocment(uid.value);
 
 const topButton = () => {
   router.push("/");
@@ -67,12 +89,19 @@ const friendList = () => {
 };
 
 watch(
-  friendsid,
+  [friendsid, uid],
   () => {
     console.log(friendsid.value);
+    console.log(uid);
   },
   { deep: true }
 );
+
+const test = () => {};
+
+// const username = ref<string | undefined | Promise<null>>(undefined);
+// username.value = userName(auth.currentUser!.uid);
+// console.log(username);
 
 //trueの時にtrueの情報だけを配列にして保存する。
 </script>
@@ -80,16 +109,18 @@ watch(
 <template>
   <button @click="topButton">Top</button>
   <button @click="nameButton">nameButton</button>
+  <button @click="logoutUser">logoutButton</button>
   <div class="container">
     <div class="friend-container">
       <div class="friend-title">フレンド追加</div>
+      <div class="friend-title">{{ mynameData?.name }}</div>
       <!-- <div class="friend-addition" @click="friendSave">友達追加へ</div> -->
     </div>
 
     <div class="header-container">
       <div class="edit" @click="nameidSearch()">検索</div>
-      <div class="edit">追加</div>
-      <div class="edit">編集</div>
+      <div class="edit" @click="friendsidUpdate()">追加</div>
+      <div class="edit" @click="nameDocument(mynameData?.nameid)">編集</div>
       <div class="edit">削除</div>
       <div class="new-talkroom" @click="friendList">フレンド一覧へ</div>
     </div>
@@ -183,7 +214,7 @@ watch(
 
 .checkbox {
   width: 100%;
-  padding: 16px 16px 0 0;
+  padding: 16px 16px 16px 0;
   margin-right: 24px;
 }
 </style>

@@ -2,13 +2,19 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
-import { app, db, auth } from "./firebase";
+import { app, db } from "./firebase";
 import { ref } from "vue";
 import { router } from "@/router";
+import { realTimeMydata } from "@/db";
 
-//login時にUIDを取得する。
-export const user = auth.currentUser;
+const auth = getAuth();
+export const isLogin = ref(false);
+
+// //login時にUIDを取得する。
+// export const user = auth.currentUser;
 
 /**
  *
@@ -49,15 +55,16 @@ export const registerUser = async (email: string, password: string) => {
 
 /**
  *
- * ログイン時にメールアドレスとパスワードを送信する関数
+ * ログイン時の関数（メールアドレスとパスワードを送信）
  */
 export const loginUser = async (email: string, password: string) => {
+  if (!confirm("ログインしますか?")) return;
   await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      if (!confirm("ログインしますか?")) return;
-      console.log(user?.uid);
+
+      console.log(user?.uid, "ログイン中");
       router.push("/Chat_Name_Registration");
       // ...↑元々はログイン後は直でトークルーム
     })
@@ -76,4 +83,49 @@ export const loginUser = async (email: string, password: string) => {
     });
 };
 
+/**
+ * ログアウト時の関数
+ */
+export const logoutUser = () => {
+  if (!confirm("ログアウトしますか?")) return;
+  signOut(auth)
+    .then(() => {
+      router.push("/");
+      console.log(auth.currentUser?.uid, "ログアウト中");
+      // Sign-out successful.
+    })
+    .catch((error) => {
+      console.log("ログアウト失敗");
+      // An error happened.
+    });
+};
+
+/**
+ * ログイン中かどうかを検知する関数
+ */
+export const loginSearch = () => {
+  //window.locationで現在のurl,パスを取得
+  const pathName = window.location.pathname;
+  //searchで?=クエリ情報を取得
+  // const queryId = window.location.search;
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      isLogin.value = true;
+      realTimeMydata(user.uid);
+      console.log(isLogin.value);
+      if (pathName === "/") {
+        router.push("/ChatFriendList");
+      } else {
+        router.push(pathName);
+      }
+    } else {
+      isLogin.value = false;
+      console.log(isLogin.value);
+      router.push("/");
+      console.log("ログアウト");
+    }
+  });
+};
+
+loginSearch();
 // export const auth = getAuth(app);

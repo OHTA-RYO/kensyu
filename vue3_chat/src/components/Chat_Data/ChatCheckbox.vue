@@ -34,7 +34,10 @@ const result = computed({
 </script>
 <template>
   <div class="main">
-    <input type="checkbox" class="checkbox" v-model="result" />
+    <!-- <div @click="result = !result"> -->
+    <input type="checkbox" class="checkbox" v-model="result" id="checked" />
+    <!-- <label for="checked">{{ text }}</label>
+    </div> -->
     <div @click="result = !result">{{ text }}</div>
   </div>
 </template>
@@ -51,7 +54,7 @@ const result = computed({
 }
 
 label {
-  font-size: 24px;
-  /* margin-bottom: 4px; */
+  font-size: 20px;
+  /* padding-bottom: 16px; */
 }
 </style>
