@@ -16,6 +16,7 @@ import { logoutUser } from "@/firebase/firebaseAuth";
 
 // const friendNameData = ref<string | object>({});
 const friendNameData = ref<string[] | undefined | string>([]);
+const friendPushData = ref<string[]>([]);
 
 // onMounted(async () => {
 //   const allNameData = await allNameDocumentData();
@@ -34,24 +35,23 @@ const friendNameData = ref<string[] | undefined | string>([]);
 //     });
 // });
 
-//縦に文字が表示されてテスト2しか取れない。
+// 縦に文字が表示されてテスト2しか取れない。
 onMounted(async () => {
   const allNameData = await allNameDocumentData();
   Object.entries(allNameData)
     //自分のコレクションの中にある、フレンドnameを表示したい。
     .filter((array) => array[1].nameid === mynameData.value?.nameid)
     .map((d) => {
-      // console.log(d[1].name);
-      // console.log(d[1].nameid);
-      // console.log(d[1].friends);
       let friendsNameGet: Name | null = null;
       d[1].friends.forEach(async (a) => {
         friendsNameGet = await nameidDocument(a);
         // console.log(a);
         console.log(friendsNameGet?.name);
         friendNameData.value = friendsNameGet?.name;
+        friendPushData.value.push(friendNameData.value ?? "");
+        console.log(friendPushData.value);
       });
-      return friendNameData.value;
+      // return friendNameData.value;
     });
 });
 
@@ -65,12 +65,12 @@ onMounted(async () => {
 //       // console.log(d[1].nameid);
 //       // console.log(d[1].friends);
 //       let friendsNameGet: Name | null = null;
-//       d[1].friends.forEach(async (a) => {;
+//       d[1].friends.forEach(async (a) => {
 //         friendsNameGet = await nameidDocument(a);
 //         // console.log(a);
 //         console.log(friendsNameGet?.name);
 //       });
-//       return friendsNameGet?.name
+//       // return friendsNameGet?.name
 //     });
 // });
 
@@ -126,7 +126,7 @@ const friendSave = () => {
       <Chat_Input placeholder="🔍 検索" />
     </div>
   </div>
-  <div class="room-container" v-for="t in friendNameData">
+  <div class="room-container" v-for="t in friendPushData">
     <div class="room-icon"></div>
     <!-- <Chat_List class="room-list" /> -->
     <input type="checkbox" class="checkbox" v-if="false" />

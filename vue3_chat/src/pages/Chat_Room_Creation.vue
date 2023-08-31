@@ -1,16 +1,44 @@
 <script setup lang="ts">
 import { router } from "../router/index";
-import { ref, watch } from "vue";
-import Chat_List from "../components/Chat_Data/Chat_List.vue";
+import { ref, onMounted } from "vue";
+
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 import ChatCheckbox from "../components/Chat_Data/ChatCheckbox.vue";
-import { defaultTweet, defaultChatRoom, nameDocument } from "@/db";
-import type { Tweet, ChatRoom, TweetCollection } from "@/Types/TweetTypes";
+import {
+  defaultChatRoom,
+  nameDocument,
+  allNameDocumentData,
+  mynameData,
+  nameidDocument,
+} from "@/db";
+import type { ChatRoom, Name } from "@/Types/TweetTypes";
 import { collection, addDoc, doc, getDoc } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 
+const friendNameData = ref<string[] | undefined | string>([]);
+const friendPushData = ref<string[]>([]);
+
 const chatRoom = ref<ChatRoom>(defaultChatRoom());
 const name = ref("");
+
+onMounted(async () => {
+  const allNameData = await allNameDocumentData();
+  Object.entries(allNameData)
+    //自分のコレクションの中にある、フレンドnameを表示したい。
+    .filter((array) => array[1].nameid === mynameData.value?.nameid)
+    .map((d) => {
+      let friendsNameGet: Name | null = null;
+      d[1].friends.forEach(async (a) => {
+        friendsNameGet = await nameidDocument(a);
+        // console.log(a);
+        console.log(friendsNameGet?.name);
+        friendNameData.value = friendsNameGet?.name;
+        friendPushData.value.push(friendNameData.value ?? "");
+        console.log(friendPushData.value);
+      });
+      // return friendNameData.value;
+    });
+});
 
 //トークルームには全フレンドが全て表示される。
 //検索をかけると、絞り込みが出来る。
@@ -108,11 +136,12 @@ const nameButton = () => {
       />
       <!-- <div class="search-name" @click="searchNameData">検索</div> -->
     </div>
-    <div class="room-friend-container">
+    <div class="room-friend-container" v-for="t in friendPushData">
       <div class="friend-check">フレンドを選択:</div>
 
-      <div class="friend-select-container" v-for="t in name">
-        <ChatCheckbox text="{{ t }}" />
+      <div class="friend-select-container">
+        <ChatCheckbox :text="t" />
+        <div></div>
       </div>
     </div>
   </div>
