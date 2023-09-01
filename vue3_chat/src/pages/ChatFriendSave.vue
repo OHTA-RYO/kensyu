@@ -15,12 +15,9 @@ import { collection, addDoc, onSnapshot } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 import { logoutUser } from "@/firebase/firebaseAuth";
 
-// const isCheckbox = ref(false);
 const chatName = ref<Name[]>([]); //型を配列に
 const nameid = ref(""); //フレンドid入力用に変数を作成。
 const friendsid = ref<{ [key: string]: boolean }>({});
-const uid = ref(auth.currentUser?.uid);
-// const name = ref<Name | null>(null)
 
 //既に存在するidを入力すると既にフレンドにいます。という風に
 //コレクションにフレンドを作る？
@@ -30,6 +27,7 @@ const uid = ref(auth.currentUser?.uid);
 const nameidSearch = async () => {
   const name = await nameidDocument(nameid.value);
   console.log(name?.nameid); //フレンドのid
+
   if (!name) return alert("フレンドが存在しません。");
   if (name) {
     chatName.value.push(name);
@@ -42,12 +40,17 @@ const nameidSearch = async () => {
   }
 };
 
+// console.log(nameDocument(mynameData.value));
+
 /**
  * 追加ボタンを押すと、チェックボックスがtrueのデータを追加する関数
  */
 
 const pushID = () => {
+  if (!confirm("追加しますか！？")) return;
   //Object.entriesでオブジェと→配列にする。
+  const pushData = nameDocument(nameid.value);
+  // chatName.value.push(pushData)
   const filterData = Object.entries(friendsid.value).filter(
     //filterでtrueのデータだけ抽出する。
     (array) => array[1] === true
@@ -60,7 +63,7 @@ const pushID = () => {
 
   return newFilterData;
 };
-pushID();
+// pushID();
 
 const friendsidUpdate = async () => {
   updateDocment(mynameData.value?.nameid ?? "", {
@@ -89,15 +92,12 @@ const friendList = () => {
 };
 
 watch(
-  [friendsid, uid],
+  friendsid,
   () => {
     console.log(friendsid.value);
-    console.log(uid);
   },
   { deep: true }
 );
-
-const test = () => {};
 
 // const username = ref<string | undefined | Promise<null>>(undefined);
 // username.value = userName(auth.currentUser!.uid);

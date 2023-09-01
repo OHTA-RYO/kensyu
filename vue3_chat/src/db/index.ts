@@ -15,12 +15,7 @@ import { app, db, auth } from "../firebase/firebase";
 
 // import { Tweet } from "../Chat_Types/types";
 // import { Tweet } from "@/Chat_Types";
-import type {
-  Tweet,
-  Name,
-  ChatRoom,
-  TweetCollection,
-} from "../Types/TweetTypes";
+import type { Tweet, Name, ChatRoom } from "../Types/TweetTypes";
 // import { app, db, auth } from "../firebase/firebase";
 
 //ログインしたアカウントのnameData↓
@@ -41,18 +36,6 @@ export const realTimeMydata = (uid: string) => {
   });
 };
 
-export const defaultTweet = (): Tweet => {
-  return {
-    id: "",
-    name: "",
-    time: new Date().toLocaleTimeString("ja-JP", {
-      hour: "numeric",
-      minute: "numeric",
-    }),
-    tweets: "",
-  };
-};
-
 export const defaultName = (): Name => {
   return {
     nameid: "",
@@ -70,19 +53,19 @@ export const defaultChatRoom = (): ChatRoom => {
   };
 };
 
-// export const defaultTweetCollection = (): TweetCollection => {
-//   return {
-//     id: "", //documentId
-//     nameId: "", //userID
-//     message: {
-//       text: "",
-//       sendAt: new Date().toLocaleTimeString("ja-JP", {
-//         hour: "numeric",
-//         minute: "numeric",
-//       }),
-//     },
-//   };
-// };
+export const defaultTweetCollection = (): Tweet => {
+  return {
+    id: "", //documentId
+    nameId: "", //userID
+    message: {
+      text: "",
+      sendAt: new Date().toLocaleTimeString("ja-JP", {
+        hour: "numeric",
+        minute: "numeric",
+      }),
+    },
+  };
+};
 
 /**
  * フレンドIDを検索して一致したら名前を返す関数
@@ -104,6 +87,45 @@ export const nameidDocument = async (ni: string): Promise<Name | null> => {
   });
   return name; //リターンするのをforEachの中でやってたからデータ取れなかった。
 };
+
+//ChatRoomのnameを渡してdocidを取得したかった。
+//promiseでデータ取れなかった。
+export const chatRoomDocumentName = async (
+  ni: string
+): Promise<ChatRoom | null> => {
+  let q = query(collection(db, "chatRoom"), where("roomname", "==", ni));
+  q = query(q, limit(1));
+  const querySnapshot = await getDocs(q);
+  let roomid: string | null = null;
+  querySnapshot.forEach((doc) => {
+    // console.log(doc.id, " => ", doc.data());
+    // console.log(doc.id); //ドキュメントid
+    // console.log(doc.data().nameid);
+    // console.log(doc.data().name);
+    if (doc.exists()) roomid = doc.id;
+    // return (ni = doc.data().name);
+  });
+  console.log(roomid);
+  return roomid; //リターンするのをforEachの中でやってたからデータ取れなかった。
+};
+
+// console.log(chatRoomDocumentName("テスト2"));
+
+// export const chatRoomDocumenId = async (ni: string): Promise<ChatRoom | null> => {
+//   let q = query(collection(db, "chatRoom"), where("roomid", "==", ni));
+//   q = query(q, limit(1));
+//   const querySnapshot = await getDocs(q);
+//   let roomid: ChatRoom | null = null;
+//   querySnapshot.forEach((doc) => {
+//     console.log(doc.id, " => ", doc.data());
+//     console.log(doc.id); //ドキュメントid
+//     console.log(doc.data().nameid);
+//     console.log(doc.data().name);
+//     if (doc.exists()) roomid = doc.id as ChatRoom;
+//     // return (ni = doc.data().name);
+//   });
+//   return roomid; //リターンするのをforEachの中でやってたからデータ取れなかった。
+// };
 
 /**
  * ログインしているアカウントのuidを渡してドキュメントidを取得する関数
@@ -143,6 +165,23 @@ export const saveDocumentTweet = async (a: Tweet) => {
     console.error("Error adding document: ", e);
   }
 };
+
+/**
+ * firebaseのusersの情報を登録する関数
+ * @param a チャットルームでinputに入力した値（部屋の名前）。
+ */
+export const saveDocumentChatRoom = async (a: ChatRoom) => {
+  try {
+    const docRef = await addDoc(collection(db, "chatRoom"), a);
+    a.roomid = docRef.id;
+    // tweet.value.id = docRef.id;
+    // console.log(tweet.value.id);
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
+
 /**
  * firebaseのnameコレクションの更新をする関数
  * @param nameid 引数にログイン中のnameidを渡す。
@@ -183,6 +222,22 @@ export const allNameDocumentData = async () => {
     // console.log(doc.id, " => ", doc.data());
     // console.log(doc.data().name);
     allData.push(doc.data() as Name);
+  });
+  return allData;
+};
+
+/**
+ * chatRoomの全てのコレクションデータを取得する関数
+ * @returns chatRoomの全てのコレクションデータ
+ */
+export const allChatRoomDocumentData = async () => {
+  const querySnapshot = await getDocs(collection(db, "chatRoom"));
+  const allData: ChatRoom[] = [];
+  querySnapshot.forEach((doc) => {
+    // console.log(doc.id, " => ", doc.data());
+    // console.log(doc.data().name);
+    // console.log(doc.id);
+    allData.push(doc.data() as ChatRoom);
   });
   return allData;
 };

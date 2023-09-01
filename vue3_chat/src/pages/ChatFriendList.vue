@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { router } from "../router/index";
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import Chat_List from "../components/Chat_Data/Chat_List.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 import {
-  defaultTweet,
+  // defaultTweet,
   mynameData,
   allNameDocumentData,
   nameidDocument,
@@ -15,81 +15,21 @@ import { app, db, auth } from "../firebase/firebase";
 import { logoutUser } from "@/firebase/firebaseAuth";
 
 // const friendNameData = ref<string | object>({});
-const friendNameData = ref<string[] | undefined | string>([]);
-const friendPushData = ref<string[]>([]);
+const allNameData = ref<Name[]>([]);
 
-// onMounted(async () => {
-//   const allNameData = await allNameDocumentData();
-//   console.log(allNameData);
-//   console.log(Object.entries(allNameData));
-//   allNameData.filter((array) => array.nameid === mynameData.value?.nameid);
-//   console.log(
-//     allNameData.filter((array) => array.nameid === mynameData.value?.nameid)
-//   );
-//   friendNameData.value = allNameData
-//     .filter((array) => array.nameid !== mynameData.value?.nameid)
-//     .map((d) => {
-//       console.log(d.name);
-//       // console
-//       return d.name;
-//     });
-// });
-
-// 縦に文字が表示されてテスト2しか取れない。
 onMounted(async () => {
-  const allNameData = await allNameDocumentData();
-  Object.entries(allNameData)
-    //自分のコレクションの中にある、フレンドnameを表示したい。
-    .filter((array) => array[1].nameid === mynameData.value?.nameid)
-    .map((d) => {
-      let friendsNameGet: Name | null = null;
-      d[1].friends.forEach(async (a) => {
-        friendsNameGet = await nameidDocument(a);
-        // console.log(a);
-        console.log(friendsNameGet?.name);
-        friendNameData.value = friendsNameGet?.name;
-        friendPushData.value.push(friendNameData.value ?? "");
-        console.log(friendPushData.value);
-      });
-      // return friendNameData.value;
-    });
+  allNameData.value = await allNameDocumentData();
+  console.log(allNameData.value);
 });
 
-// onMounted(async () => {
-//   const allNameData = await allNameDocumentData();
-//   friendNameData.value = Object.entries(allNameData)
-//     //自分のコレクションの中にある、フレンドnameを表示したい。
-//     .filter((array) => array[1].nameid === mynameData.value?.nameid)
-//     .map((d) => {
-//       // console.log(d[1].name);
-//       // console.log(d[1].nameid);
-//       // console.log(d[1].friends);
-//       let friendsNameGet: Name | null = null;
-//       d[1].friends.forEach(async (a) => {
-//         friendsNameGet = await nameidDocument(a);
-//         // console.log(a);
-//         console.log(friendsNameGet?.name);
-//       });
-//       // return friendsNameGet?.name
-//     });
-// });
-
-// onMounted(async () => {
-//   const allNameData = await allNameDocumentData();
-//   friendNameData.value = Object.entries(allNameData)
-//     //自分のコレクションの中にある、フレンドnameを表示したい。
-//     .filter((array) => array[1].nameid === mynameData.value?.nameid)
-//     .map(async (d) => {
-//       console.log(d[1].name);
-//       console.log(d[1].nameid);
-//       console.log(d[1].friends);
-//       const friendNames = await Promise.all(
-//         d[1].friends.map((a) => nameidDocument(a))
-//       );
-//       console.log(friendNames);
-//       return friendNames;
-//     });
-// });
+//mynameDataが取得出来ない時がある。その為にcomputedを使用。
+const result = computed(() => {
+  return (
+    allNameData.value
+      //自分のコレクションの中にある、フレンドnameを表示したい。
+      .filter((n) => mynameData.value?.friends.includes(n.nameid))
+  );
+});
 
 const topButton = () => {
   router.push("/");
@@ -126,11 +66,11 @@ const friendSave = () => {
       <Chat_Input placeholder="🔍 検索" />
     </div>
   </div>
-  <div class="room-container" v-for="t in friendPushData">
+  <div class="room-container" v-for="t in result">
     <div class="room-icon"></div>
     <!-- <Chat_List class="room-list" /> -->
     <input type="checkbox" class="checkbox" v-if="false" />
-    <div class="room-list">{{ t }}</div>
+    <div class="room-list">{{ t.name }}</div>
   </div>
   <!-- <h1>トークルーム</h1> -->
 </template>

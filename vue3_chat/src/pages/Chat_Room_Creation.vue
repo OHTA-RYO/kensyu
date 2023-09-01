@@ -1,110 +1,87 @@
 <script setup lang="ts">
 import { router } from "../router/index";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 import ChatCheckbox from "../components/Chat_Data/ChatCheckbox.vue";
 import {
   defaultChatRoom,
-  nameDocument,
   allNameDocumentData,
   mynameData,
-  nameidDocument,
+  saveDocumentChatRoom,
+  chatRoomDocumentName,
 } from "@/db";
 import type { ChatRoom, Name } from "@/Types/TweetTypes";
-import { collection, addDoc, doc, getDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 
-const friendNameData = ref<string[] | undefined | string>([]);
-const friendPushData = ref<string[]>([]);
-
 const chatRoom = ref<ChatRoom>(defaultChatRoom());
-const name = ref("");
+const allNameData = ref<Name[]>([]);
+const chatName = ref<Name[]>([]); //型を配列に
+const nameid = ref(""); //フレンドid入力用に変数を作成。
+const friendsid = ref<{
+  [key: string]: {
+    val: boolean;
+    name: string;
+  };
+}>({});
+const checkData = ref<string[]>([]);
 
+//フレンドを全て表示する。
 onMounted(async () => {
-  const allNameData = await allNameDocumentData();
-  Object.entries(allNameData)
-    //自分のコレクションの中にある、フレンドnameを表示したい。
-    .filter((array) => array[1].nameid === mynameData.value?.nameid)
-    .map((d) => {
-      let friendsNameGet: Name | null = null;
-      d[1].friends.forEach(async (a) => {
-        friendsNameGet = await nameidDocument(a);
-        // console.log(a);
-        console.log(friendsNameGet?.name);
-        friendNameData.value = friendsNameGet?.name;
-        friendPushData.value.push(friendNameData.value ?? "");
-        console.log(friendPushData.value);
-      });
-      // return friendNameData.value;
-    });
+  allNameData.value = await allNameDocumentData();
+  allNameData.value.forEach((a) => {
+    friendsid.value[a.nameid] = {
+      val: false,
+      name: a.name,
+    };
+  });
 });
 
-//トークルームには全フレンドが全て表示される。
-//検索をかけると、絞り込みが出来る。
-//チェックボックスにチェックを入れると右側に選択したフレンドが表示。
+//mynameDataが取得出来ない時がある。その為にcomputedを使用。
+const result = computed(() => {
+  return allNameData.value.filter((n) =>
+    mynameData.value?.friends.includes(n.nameid)
+  );
+});
 
-//友達検索inputに名前を入力して検索をかけ、ヒットすると
-//友達を追加に名前が表示される。
-//保存ボタンをクリックすると、入力したデータがfirebaseに保存され、
-//チャットルームが作成される。
-
-//firebaseから取得するデータ
-//自身のnameとnameid
-//招待するuserのnameとnameid
-
-//ChatRoomに↑の情報を取得する関数
-
-// const getData = () => {
-//   chatRoom.value.nameid
-// }
-
-//友達検索画面に入力した値を取得する。
-//その値をnameDocumentに渡す。
-// nameDocument();
-
-// const testfun = () => {
-//   chatRoom.value.name.push(chatRoom.value.name[0]);
-// };
-
-const searchNameData = async () => {
-  //↓わからない。
-  // chatRoom.value.nameid = await nameDocument(name.value);
-  // await nameDocument(chatRoom.value.name[0]);
-  // chatRoom.value.name.push(chatRoom.value.name[0]);
-  // chatRoom.value.name.push(name.value);
-  // a = chatRoom.value.name[0];
-  // chatRoom.value.name.push(a);
-  // console.log(a);
-  console.log(nameDocument(name.value));
-  // chatRoom.value.nameid = nameDocument
-};
-
-// const searchNameData = (a: string) => {
-//   a = chatRoom.value.name[0];
-//   chatRoom.value.name.push(a);
-//   console.log(a);
-//   console.log(nameDocument(a));
-//   // chatRoom.value.nameid = nameDocument
-// };
-
-// watch(chatRoom.value.name[], () => {
-//   console.log(chatRoom.value.name);
-// });
+//ログイン中アカウントのフレンドを選択し、右側に表示させる動き。
+watch(
+  friendsid,
+  () => {
+    console.log(friendsid.value);
+    const checkbox = Object.entries(friendsid.value).filter(
+      //filterでtrueのデータだけ抽出する。
+      (array) => array[1].val === true
+    );
+    // try {
+    console.log(checkbox);
+    console.log(checkbox[0]);
+    //   console.log(checkbox[0][1]);
+    // } catch {}
+    checkData.value = checkbox.map((m) => m[1].name);
+    chatRoom.value.nameid = checkbox.map((m) => m[0]);
+    console.log(checkData.value);
+    console.log(chatRoom.value);
+  },
+  { deep: true }
+);
 
 /**
  * 新規トークルームを作成する関数
  */
-const saveDocumentChatRoom = async () => {
-  try {
-    const docRef = await addDoc(collection(db, "users"), chatRoom.value);
-    // tweet.value.id = docRef.id;
-    // console.log(tweet.value.id);
-    console.log("Document written with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
+const createChatRoom = async () => {
+  if (!confirm("保存しますか？")) return;
+  chatRoom.value.nameid.push(mynameData.value?.nameid as string);
+  await saveDocumentChatRoom(chatRoom.value);
+
+  // const getChatRoomid = chatRoomDocumentName(chatRoom.value.roomname);
+  // // chatRoom.value.roomid = getChatRoomid
+  // console.log(getChatRoomid);
+  alert("チャットルームが保存されました。");
 };
+
+console.log(chatRoom.value.roomname);
 
 const topButton = () => {
   router.push("/");
@@ -122,26 +99,30 @@ const nameButton = () => {
     <div class="header-container">
       <div class="title">チャットルームを作成</div>
     </div>
-    <div class="search-room">チャットルームを保存</div>
+    <div class="search-room" @click="createChatRoom">チャットルームを保存</div>
   </div>
   <div class="room-main-container">
     <div class="room-container">
       <div class="room-name">チャットルーム名:</div>
-      <Chat_Input class="room-name-input" />
+      <Chat_Input class="room-name-input" v-model="chatRoom.roomname" />
       <div class="room-friend">友達を検索:</div>
-      <Chat_Input
-        placeholder="🔍 友達検索"
-        class="friend-search"
-        v-model="name"
-      />
+      <Chat_Input placeholder="🔍 友達検索" class="friend-search" />
       <!-- <div class="search-name" @click="searchNameData">検索</div> -->
     </div>
-    <div class="room-friend-container" v-for="t in friendPushData">
-      <div class="friend-check">フレンドを選択:</div>
-
-      <div class="friend-select-container">
-        <ChatCheckbox :text="t" />
-        <div></div>
+    <div class="fc">
+      <div class="fc2">
+        <div class="room-friend-container" v-for="t in result">
+          <div class="friend-check">フレンドを選択:</div>
+          <div class="friend-select-container">
+            <ChatCheckbox :text="t.name" v-model="friendsid[t.nameid].val" />
+            <!-- <ChatCheckbox :text="t.name" v-model="friendsid[t.name]" /> -->
+          </div>
+        </div>
+      </div>
+      <div class="fc3">
+        <div class="friend-check2" v-for="c in checkData">
+          {{ c }}
+        </div>
       </div>
     </div>
   </div>
@@ -190,6 +171,7 @@ const nameButton = () => {
 .room-friend-container {
   margin: 32px 0 32px 32px;
   display: flex;
+  /* flex-direction: column; */
 }
 
 .room-name {
@@ -212,5 +194,25 @@ const nameButton = () => {
 
 .friend-check {
   margin-right: 32px;
+  /* padding-bottom: 32px; */
+}
+.friend-check2 {
+  margin-right: 32px;
+  padding-bottom: 32px;
+}
+
+.fc {
+  display: flex;
+}
+
+.fc2 {
+  width: 480px;
+}
+
+.fc3 {
+  margin-left: 360px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  width: 280px;
 }
 </style>

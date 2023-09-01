@@ -1,15 +1,35 @@
 <script setup lang="ts">
 import { router } from "../router/index";
-import { ref, watch } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import Chat_List from "../components/Chat_Data/Chat_List.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
-import { defaultTweet } from "@/db";
-import type { Tweet } from "@/Types/TweetTypes";
-import { collection, addDoc } from "firebase/firestore";
-import { app, db, auth } from "../firebase/firebase";
+// import {  } from "@/db";
+import type { Tweet, ChatRoom } from "@/Types/TweetTypes";
+import { defaultChatRoom, allChatRoomDocumentData, mynameData } from "@/db";
+// import { collection, addDoc, doc, getDoc } from "firebase/firestore";
+// import { app, db, auth } from "../firebase/firebase";
 
-// const tweet = ref<Tweet>(defaultTweet());
-// const saveTweet = ref<Tweet[]>([]);
+const chatRoom = ref<ChatRoom>(defaultChatRoom());
+
+const allChatRoomData = ref<ChatRoom[]>([]);
+
+//ChatRoomの全てのコクションデータを取得
+onMounted(async () => {
+  allChatRoomData.value = await allChatRoomDocumentData();
+  console.log(allChatRoomData.value);
+});
+
+//fileterが動かない時があるからcomputedで↑のデータからログイン中のアカウントの
+//トークルームを取得。
+const result = computed(() => {
+  return allChatRoomData.value.filter((o) =>
+    o.nameid.includes(mynameData.value?.nameid!)
+  );
+});
+
+//   //✅URLにクエリ情報を付与する↓
+//   router.push(`/Chat_Main?id=${chatRoom.value.roomid}`);
+
 const topButton = () => {
   router.push("/");
 };
@@ -20,34 +40,6 @@ const nameButton = () => {
 const chatroomCreation = () => {
   router.push("/Chat_Room_Creation");
 };
-
-// const tweeting = () => {
-//   saveTweet.value.push(tweet.value);
-//   tweet.value = defaultTweet();
-//   console.log(saveTweet.value);
-// };
-
-// watch(tweet.value, () => {
-//   // tweeting;
-//   // console.log(tweet.value);
-//   // console.log(saveTweet.value);
-// });
-
-// /**
-//  * firebaseにTweetを保存する関数
-//  */
-// const saveDocumentTweet = async () => {
-//   try {
-//     const docRef = await addDoc(collection(db, "users"), tweet.value);
-//     // tweet.value.id = docRef.id;
-//     // console.log(tweet.value.id);
-//     console.log("Document written with ID: ", docRef.id);
-//   } catch (e) {
-//     console.error("Error adding document: ", e);
-//   }
-// };
-
-//saveTweetの送信時間を取得したい。
 </script>
 
 <template>
@@ -64,9 +56,10 @@ const chatroomCreation = () => {
       <Chat_Input placeholder="🔍 検索" />
     </div>
   </div>
-  <div class="room-container">
+  <div class="room-container" v-for="t in result">
     <div class="room-icon">アイコン</div>
-    <Chat_List class="room-list" />
+    <div class="room-list">{{ t.roomname }}</div>
+    <!-- <Chat_List class="room-list" /> -->
   </div>
   <!-- <h1>トークルーム</h1> -->
 </template>
@@ -126,6 +119,7 @@ const chatroomCreation = () => {
   background: white;
   border: none;
   margin-left: 16px;
+  cursor: pointer;
 }
 
 /* h1 {

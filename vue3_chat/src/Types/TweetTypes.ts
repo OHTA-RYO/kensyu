@@ -1,11 +1,11 @@
 import { ref } from "vue";
 
-export type Tweet = {
-  id: string;
-  name: string;
-  time: string;
-  tweets: string;
-};
+// export type Tweet = {
+//   id: string;
+//   name: string;
+//   time: string;
+//   tweets: string;
+// };
 
 export type Name = {
   nameid: string; //id===uid
@@ -21,7 +21,7 @@ export type ChatRoom = {
   tweetsid: string[]; //["tweetsid1", "tweetsid2"]
 };
 
-export type TweetCollection = {
+export type Tweet = {
   id: string; //documentId
   nameId: string; //userID
   message: {

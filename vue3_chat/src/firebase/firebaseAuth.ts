@@ -112,7 +112,7 @@ export const loginSearch = () => {
     if (user) {
       isLogin.value = true;
       realTimeMydata(user.uid);
-      console.log(isLogin.value);
+      console.log(isLogin.value, "ログイン中");
       if (pathName === "/") {
         router.push("/ChatFriendList");
       } else {
@@ -120,9 +120,8 @@ export const loginSearch = () => {
       }
     } else {
       isLogin.value = false;
-      console.log(isLogin.value);
+      console.log(isLogin.value, "ログアウト");
       router.push("/");
-      console.log("ログアウト");
     }
   });
 };

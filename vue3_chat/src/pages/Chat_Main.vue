@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { router } from "../router/index";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import Chat_List from "../components/Chat_Data/Chat_List.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
-import { defaultTweet, saveDocumentTweet } from "@/db";
+import { defaultTweetCollection, saveDocumentTweet } from "@/db";
 import type { Tweet } from "@/Types/TweetTypes";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, doc } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 
-const tweet = ref<Tweet>(defaultTweet());
+const tweet = ref<Tweet>(defaultTweetCollection());
 const saveTweet = ref<Tweet[]>([]);
 const topButton = () => {
   router.push("/");
@@ -17,10 +17,21 @@ const nameButton = () => {
   router.push("/Chat_Name_Registration");
 };
 
-const tweeting = () => {
+const profileId = router.currentRoute.value.query.roomid;
+
+//部屋一覧から飛ぶ時にドキュメントidをクエリとして渡す。
+console.log(profileId);
+
+onMounted(() => {
+  //sFドキュメントidをクエリで取る。
+  const unsub = onSnapshot(doc(db, "Tweet", "SF"), (doc) => {
+    console.log("Current data: ", doc.data());
+  });
+});
+const sendmessage = () => {
   saveDocumentTweet(tweet.value);
   saveTweet.value.push(tweet.value);
-  tweet.value = defaultTweet();
+  tweet.value = defaultTweetCollection();
   console.log(saveTweet.value);
 };
 
@@ -55,15 +66,15 @@ watch(tweet.value, () => {
 
     <div v-for="t in saveTweet" class="talk-area">
       <div class="tweet-area">
-        {{ t.time }}
+        {{ t.message.sendAt }}
       </div>
       <Chat_List :text="t" />
     </div>
   </div>
   <div class="input-area">
     <p class="image-up">＋</p>
-    <Chat_Input v-model="tweet.tweets" class="inputarea" />
-    <p class="sending" @click="tweeting">送信</p>
+    <Chat_Input v-model="tweet.message.text" class="inputarea" />
+    <p class="sending" @click="sendmessage">送信</p>
   </div>
 </template>
 

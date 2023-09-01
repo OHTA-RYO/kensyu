@@ -37,10 +37,6 @@ import {
   StorageReference,
   deleteObject,
 } from "firebase/storage";
-import { blob } from "stream/consumers";
-import { url } from "inspector";
-
-// import { channel } from "diagnostics_channel";
 
 //const refをまとめる。
 const inputData = ref<InputData>(defaultInputData());

@@ -2,7 +2,7 @@
 import type { PropType } from "vue";
 import { computed } from "vue";
 import type { Tweet, ChatRoom } from "@/Types/TweetTypes";
-import { defaultTweet } from "@/db";
+// import {  } from "@/db";
 
 const props = defineProps({
   text: {
