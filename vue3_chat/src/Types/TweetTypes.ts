@@ -11,6 +11,7 @@ export type Name = {
   nameid: string; //id===uid
   name: string;
   friends: string[];
+  image: string;
 };
 
 export type ChatRoom = {
@@ -22,8 +23,10 @@ export type ChatRoom = {
 };
 
 export type Tweet = {
-  id: string; //documentId
+  tweetsId: string; //documentId
   nameId: string; //userID
+  time: Date;
+  image: string;
   message: {
     text: string;
     // sendAt: Date;

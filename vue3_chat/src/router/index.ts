@@ -1,5 +1,5 @@
 import { isLogin } from "@/firebase/firebaseAuth";
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, useRoute } from "vue-router";
 
 // import { isLogin } from "../firebase/firebaseAuth";
 
@@ -50,6 +50,8 @@ export const router = createRouter({
   history: createWebHistory(), // HTML5 History モード
   routes,
 });
+
+// export const route = useRoute();
 
 // export const routerBefore = () => {
 //   router.beforeEach((to, from, next) => {

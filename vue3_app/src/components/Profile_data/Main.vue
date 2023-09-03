@@ -61,10 +61,12 @@ const isSave = ref(true);
 
 //ファイルをアップロードする
 //fileをBlobに変換してアップロードする
+const randomID =
+  Math.floor(Math.random() * 9000000000000000) + 1000000000000000;
 const storage = getStorage();
 // const storageRef = ref(storage);
 const now = new Date().toLocaleTimeString();
-const storageRef2 = storageRef(storage, `some-child${now}`);
+const storageRef2 = storageRef(storage, `${randomID}`);
 // const storageRef2 = storageRef(storage, "images/image.jpg");
 const file = ref<File | null>(null);
 
@@ -92,6 +94,26 @@ const getUrl = async (storageRef: StorageReference) => {
     })
     .catch((error) => {});
 };
+
+// 案１;
+// const roomidQuery = query(
+//   collection(db, "chatRoom"),
+//   where("roomid", "==", roomId?.toString() ?? "")
+// );
+
+// onMounted(() => {
+//   //ドキュメントidをクエリで取る。
+//   const unsub = onSnapshot(collection(db, "tweets"), (querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//       console.log("あ", doc.data());
+//       saveTweet.value.push(doc.data() as Tweet);
+//     });
+//     saveTweet.value.sort((a, b) => {
+//       return a.time < b.time ? -1 : 1;
+//     });
+//     // console.log("Current data: ", doc.data());
+//   });
+// });
 
 //画像を削除
 

@@ -1,52 +1,214 @@
 <script setup lang="ts">
 import { router } from "../router/index";
-import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import { onMounted, ref, watch, computed } from "vue";
 import Chat_List from "../components/Chat_Data/Chat_List.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
-import { defaultTweetCollection, saveDocumentTweet } from "@/db";
+import {
+  defaultTweet,
+  saveDocumentTweet,
+  mynameData,
+  imgUp,
+  imgData,
+} from "@/db";
 import type { Tweet } from "@/Types/TweetTypes";
-import { collection, addDoc, onSnapshot, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  doc,
+  query,
+  where,
+  getDocs,
+  CollectionReference,
+  Query,
+} from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 
-const tweet = ref<Tweet>(defaultTweetCollection());
+const tweet = ref<Tweet>(defaultTweet());
 const saveTweet = ref<Tweet[]>([]);
-const topButton = () => {
-  router.push("/");
-};
-const nameButton = () => {
-  router.push("/Chat_Name_Registration");
-};
 
-const profileId = router.currentRoute.value.query.roomid;
+const route = useRoute();
+const roomId = route.query.id;
+// const saveId = ref<string[] | string | undefined>();
 
-//部屋一覧から飛ぶ時にドキュメントidをクエリとして渡す。
-console.log(profileId);
+//uidを常に表示させる。
+//uidをtweet.nameidに代入。
+watch(mynameData, () => {
+  tweet.value.nameId = mynameData.value?.nameid!;
+  console.log(tweet.value.nameId);
+});
+
+//roomIdをtweet.tweetsIdに代入
+//↑型をstringに変換しないといけない。
+
+console.log(roomId);
+
+const resule = computed(() => {
+  mynameData.value?.nameid;
+});
+
+tweet.value.tweetsId = roomId?.toString() ?? "";
+console.log(roomId?.toString());
+
+// ドキュメントidをクエリで取る。
+// const roomidQuery = query(
+//   collection(db, "chatRoom"),
+//   where("roomid", "==", roomId?.toString() ?? "")
+// );
 
 onMounted(() => {
-  //sFドキュメントidをクエリで取る。
-  const unsub = onSnapshot(doc(db, "Tweet", "SF"), (doc) => {
-    console.log("Current data: ", doc.data());
-  });
+  const getTweets = async () => {
+    let q: CollectionReference | Query = collection(db, "tweets");
+    console.log(roomId?.toString() ?? "");
+    q = query(q, where("tweetsId", "==", roomId?.toString() ?? ""));
+    const querySnapshot = await getDocs(q);
+    onSnapshot(q, (docs) => {
+      docs.forEach((d) => {
+        // console.log(d.data());
+        saveTweet.value.push(d.data() as Tweet);
+      });
+      saveTweet.value.sort((a, b) => {
+        return a.time < b.time ? -1 : 1;
+      });
+    });
+  };
+  getTweets();
 });
-const sendmessage = () => {
-  saveDocumentTweet(tweet.value);
-  saveTweet.value.push(tweet.value);
-  tweet.value = defaultTweetCollection();
+
+//   const querySnapshot = await getDocs(q);
+//   querySnapshot.docChanges().forEach((doc) => {
+//     if (doc.type === "added") {
+//       console.log("New tweets:", doc.doc.data());
+//       //↓tweetidとroomidが一致しているtweetだけ表示させる。
+//       saveTweet.value.push(
+//         doc.doc
+//           .data()
+//           .fillter((o: Tweet) => o.tweetsId === roomId?.toString() ?? "")
+//       );
+//       //saveTweetをソートする。
+//       saveTweet.value.sort((a, b) => {
+//         return a.time < b.time ? -1 : 1;
+//       });
+//     }
+//     //saveTweetを編集
+//     if (doc.type === "modified") {
+//       console.log("Modified tweets:", doc.doc.data());
+//     }
+//     //saveTweetを削除
+//     if (doc.type === "removed") {
+//       //フィルターで新しい配列をsaveInputDataに入れる。
+//       //削除対象のidとドキュメントのidが一致していないデータで配列が返ってくる。
+//       saveTweet.value = saveTweet.value.filter(
+//         (d, tweetsId) => d.tweetsId !== doc.doc.id
+//       );
+//       console.log("Removed users:", doc.doc.data());
+//     }
+//   });
+
+// const getTweets = async () => {
+//   let q = collection(db, "tweets");
+//   q = query(q, where("tweetid", "==", roomId?.toString() ?? ""));
+//   const querySnapshot = await getDocs(q);
+//   querySnapshot.docChanges().forEach((doc) => {
+//     if (doc.type === "added") {
+//       console.log("New tweets:", doc.doc.data());
+//       //↓tweetidとroomidが一致しているtweetだけ表示させる。
+//       saveTweet.value.push(
+//         doc.doc
+//           .data()
+//           .fillter((o: Tweet) => o.tweetsId === roomId?.toString() ?? "")
+//       );
+//       //saveTweetをソートする。
+//       saveTweet.value.sort((a, b) => {
+//         return a.time < b.time ? -1 : 1;
+//       });
+//     }
+//     //saveTweetを編集
+//     if (doc.type === "modified") {
+//       console.log("Modified tweets:", doc.doc.data());
+//     }
+//     //saveTweetを削除
+//     if (doc.type === "removed") {
+//       //フィルターで新しい配列をsaveInputDataに入れる。
+//       //削除対象のidとドキュメントのidが一致していないデータで配列が返ってくる。
+//       saveTweet.value = saveTweet.value.filter(
+//         (d, tweetsId) => d.tweetsId !== doc.doc.id
+//       );
+//       console.log("Removed users:", doc.doc.data());
+//     }
+//   });
+// };
+// getTweets();
+
+// onMounted(() => {
+// 案3
+//   const roomidQuery = query(
+//     collection(db, "chatRoom"),
+//     where("roomid", "==", roomId?.toString() ?? "")
+//   );
+
+//   const unsub = onSnapshot(collection(db, "tweets"), (querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//       // saveTweet.value.push(
+//       //   doc.data().filter((o: Tweet) => o.tweetsId === roomId?.toString() ?? "")
+//       // );
+//       saveTweet.value = doc
+//         .data()
+//         .find((d: Tweet) => d.tweetsId === roomId?.toString() ?? "");
+//       console.log("あ", saveTweet.value);
+//     });
+//   });
+// });
+
+//案2
+//   const unsub = onSnapshot(collection(db, "tweets"),(querySnapshot) => {
+//       query(collection(db, "chatRoom"),
+//         where("roomid", "==", roomId?.toString() ?? ""));
+//       querySnapshot.forEach((doc) => {
+//         console.log("あ", doc.data());
+//         saveTweet.value.push(doc.data() as Tweet);
+//       });
+//       // console.log("Current data: ", doc.data());
+//     }
+//   );
+// });
+
+// 案１;
+// const roomidQuery = query(
+//   collection(db, "chatRoom"),
+//   where("roomid", "==", roomId?.toString() ?? "")
+// );
+
+// onMounted(() => {
+//   //ドキュメントidをクエリで取る。
+//   const unsub = onSnapshot(collection(db, "tweets"), (querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//       console.log("あ", doc.data());
+//       saveTweet.value.push(doc.data() as Tweet);
+//     });
+//     saveTweet.value.sort((a, b) => {
+//       return a.time < b.time ? -1 : 1;
+//     });
+//     // console.log("Current data: ", doc.data());
+//   });
+// });
+
+const sendmessage = async () => {
+  tweet.value.tweetsId = roomId?.toString() ?? "";
+  imgUp();
+  await saveDocumentTweet(tweet.value);
+  tweet.value = defaultTweet();
   console.log(saveTweet.value);
 };
-
-watch(tweet.value, () => {
-  // tweeting;
-  // console.log(tweet.value);
-  // console.log(saveTweet.value);
-});
 
 /**
  * firebaseにTweetを保存する関数
  */
+
 // const saveDocumentTweet = async () => {
 //   try {
-//     const docRef = await addDoc(collection(db, "users"), tweet.value);
+//     const docRef = await addDoc(collection(db, "tweets"), tweet.value);
 //     // tweet.value.id = docRef.id;
 //     // console.log(tweet.value.id);
 //     console.log("Document written with ID: ", docRef.id);
@@ -56,6 +218,12 @@ watch(tweet.value, () => {
 // };
 
 //saveTweetの送信時間を取得したい。
+const topButton = () => {
+  router.push("/");
+};
+const nameButton = () => {
+  router.push("/Chat_Name_Registration");
+};
 </script>
 
 <template>
@@ -73,6 +241,8 @@ watch(tweet.value, () => {
   </div>
   <div class="input-area">
     <p class="image-up">＋</p>
+    <input type="file" @change="imgData" />
+    <!-- <img :src="tweet.image" alt="" /> -->
     <Chat_Input v-model="tweet.message.text" class="inputarea" />
     <p class="sending" @click="sendmessage">送信</p>
   </div>

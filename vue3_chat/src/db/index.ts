@@ -13,13 +13,21 @@ import {
 } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 
-// import { Tweet } from "../Chat_Types/types";
-// import { Tweet } from "@/Chat_Types";
 import type { Tweet, Name, ChatRoom } from "../Types/TweetTypes";
-// import { app, db, auth } from "../firebase/firebase";
+
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
+
+import type { StorageReference } from "firebase/storage";
 
 //ログインしたアカウントのnameData↓
 export const mynameData = ref<Name>();
+// export const tweetmynameData = ref<Tweet>();
+
 /**
  * ログインしているアカウントのuidを渡してドキュメントidを取得する関数
  */
@@ -31,16 +39,15 @@ export const realTimeMydata = (uid: string) => {
         mynameData.value = d.data() as Name;
       }
     });
-
-    // console.log(source, " data: ", doc.data());
   });
 };
 
 export const defaultName = (): Name => {
   return {
-    nameid: "",
+    nameid: "", //uid
     name: "",
     friends: [],
+    image: "",
   };
 };
 
@@ -53,10 +60,12 @@ export const defaultChatRoom = (): ChatRoom => {
   };
 };
 
-export const defaultTweetCollection = (): Tweet => {
+export const defaultTweet = (): Tweet => {
   return {
-    id: "", //documentId
+    tweetsId: "", //documentId
     nameId: "", //userID
+    time: new Date(),
+    image: "",
     message: {
       text: "",
       sendAt: new Date().toLocaleTimeString("ja-JP", {
@@ -88,44 +97,22 @@ export const nameidDocument = async (ni: string): Promise<Name | null> => {
   return name; //リターンするのをforEachの中でやってたからデータ取れなかった。
 };
 
-//ChatRoomのnameを渡してdocidを取得したかった。
-//promiseでデータ取れなかった。
+//✅
+// ChatRoomのnameを渡してdocidを取得したかった。
+// promiseでデータ取れなかった。
 export const chatRoomDocumentName = async (
   ni: string
-): Promise<ChatRoom | null> => {
+): Promise<string | null> => {
   let q = query(collection(db, "chatRoom"), where("roomname", "==", ni));
   q = query(q, limit(1));
   const querySnapshot = await getDocs(q);
   let roomid: string | null = null;
   querySnapshot.forEach((doc) => {
-    // console.log(doc.id, " => ", doc.data());
-    // console.log(doc.id); //ドキュメントid
-    // console.log(doc.data().nameid);
-    // console.log(doc.data().name);
     if (doc.exists()) roomid = doc.id;
-    // return (ni = doc.data().name);
   });
-  console.log(roomid);
+  // console.log(roomid);
   return roomid; //リターンするのをforEachの中でやってたからデータ取れなかった。
 };
-
-// console.log(chatRoomDocumentName("テスト2"));
-
-// export const chatRoomDocumenId = async (ni: string): Promise<ChatRoom | null> => {
-//   let q = query(collection(db, "chatRoom"), where("roomid", "==", ni));
-//   q = query(q, limit(1));
-//   const querySnapshot = await getDocs(q);
-//   let roomid: ChatRoom | null = null;
-//   querySnapshot.forEach((doc) => {
-//     console.log(doc.id, " => ", doc.data());
-//     console.log(doc.id); //ドキュメントid
-//     console.log(doc.data().nameid);
-//     console.log(doc.data().name);
-//     if (doc.exists()) roomid = doc.id as ChatRoom;
-//     // return (ni = doc.data().name);
-//   });
-//   return roomid; //リターンするのをforEachの中でやってたからデータ取れなかった。
-// };
 
 /**
  * ログインしているアカウントのuidを渡してドキュメントidを取得する関数
@@ -152,14 +139,17 @@ export const nameDocument = async (nameid: string | undefined) => {
 };
 
 /**
- * firebaseのusersの情報を登録する関数
+ * firebaseのtweetsの情報を登録する関数
  * @param a トークルームでinputに入力した値。
  */
 export const saveDocumentTweet = async (a: Tweet) => {
   try {
-    const docRef = await addDoc(collection(db, "users"), a);
+    imgUp();
+    const docRef = await addDoc(collection(db, "tweets"), a);
+    // await updateDoc(docRef, { tweetsId: docRef.id });
     // tweet.value.id = docRef.id;
     // console.log(tweet.value.id);
+    docRef.id;
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -174,6 +164,7 @@ export const saveDocumentChatRoom = async (a: ChatRoom) => {
   try {
     const docRef = await addDoc(collection(db, "chatRoom"), a);
     a.roomid = docRef.id;
+    await updateDoc(docRef, { roomid: docRef.id });
     // tweet.value.id = docRef.id;
     // console.log(tweet.value.id);
     console.log("Document written with ID: ", docRef.id);
@@ -181,6 +172,9 @@ export const saveDocumentChatRoom = async (a: ChatRoom) => {
     console.error("Error adding document: ", e);
   }
 };
+
+//クラウドファンクションをいつか使う。
+//ファンクションズを勉強する。
 
 /**
  * firebaseのnameコレクションの更新をする関数
@@ -194,6 +188,17 @@ export const updateDocment = async (uid: string, obj: object) => {
   }
   const washingtonRef = doc(db, "names", docId);
   await updateDoc(washingtonRef, obj);
+};
+
+/**
+ *
+ * @param roomid ドキュメントidを渡す
+ * @param obj chatRoom.valueを渡す。
+ */
+export const chatRoomUpdateDocument = async (roomid: string, obj: ChatRoom) => {
+  const useRef = doc(db, "ChatRoom", roomid);
+  console.log(useRef);
+  await updateDoc(useRef, obj);
 };
 
 // /**
@@ -240,4 +245,38 @@ export const allChatRoomDocumentData = async () => {
     allData.push(doc.data() as ChatRoom);
   });
   return allData;
+};
+
+//画像を追加する
+const randomID =
+  Math.floor(Math.random() * 9000000000000000) + 1000000000000000;
+console.log(randomID);
+
+const storage = getStorage();
+const storageRef2 = storageRef(storage, `${randomID}`);
+const file = ref<File | null>(null);
+
+//↑Main.tsに書くんやっけ？
+
+export const imgData = (e: any) => {
+  file.value = e.target.files;
+  console.log(e.target.files[0]);
+};
+
+export const imgUp = async () => {
+  if (!file.value) return;
+  const blob = new Blob([file.value], { type: file.value.type });
+  const imgresult = await uploadBytes(storageRef2, blob);
+  console.log(imgresult.ref);
+  // if (!confirm("画像を送信しますか？")) return;
+  return imgresult.ref;
+};
+
+const getUrl = async (storageRef: StorageReference, a: Tweet | Name) => {
+  await getDownloadURL(storageRef)
+    .then((url) => {
+      console.log(url);
+      a.image = url;
+    })
+    .catch((error) => {});
 };

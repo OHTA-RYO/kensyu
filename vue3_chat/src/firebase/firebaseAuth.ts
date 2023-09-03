@@ -107,16 +107,17 @@ export const loginSearch = () => {
   //window.locationで現在のurl,パスを取得
   const pathName = window.location.pathname;
   //searchで?=クエリ情報を取得
-  // const queryId = window.location.search;
+  const queryId = window.location.search;
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isLogin.value = true;
       realTimeMydata(user.uid);
+      // tweeetrealTimeMydata(user.uid);
       console.log(isLogin.value, "ログイン中");
       if (pathName === "/") {
         router.push("/ChatFriendList");
-      } else {
-        router.push(pathName);
+      } else if (pathName === "/Chat_Main") {
+        router.push(`${pathName}${queryId}`);
       }
     } else {
       isLogin.value = false;

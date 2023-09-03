@@ -20,7 +20,7 @@ const props = defineProps({
 <template>
   <div class="list-area">
     <ul>
-      <li>{{ text?.tweets }}</li>
+      <li>{{ text?.message.text }}</li>
       <!-- <li>{{ text?.tweets text?.name! }}</li> -->
     </ul>
   </div>

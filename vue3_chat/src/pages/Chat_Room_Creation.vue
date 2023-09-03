@@ -10,9 +10,17 @@ import {
   mynameData,
   saveDocumentChatRoom,
   chatRoomDocumentName,
+  chatRoomUpdateDocument,
 } from "@/db";
 import type { ChatRoom, Name } from "@/Types/TweetTypes";
-import { collection, addDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  setDoc,
+  onSnapshot,
+} from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 
 const chatRoom = ref<ChatRoom>(defaultChatRoom());
@@ -75,10 +83,14 @@ const createChatRoom = async () => {
   chatRoom.value.nameid.push(mynameData.value?.nameid as string);
   await saveDocumentChatRoom(chatRoom.value);
 
-  // const getChatRoomid = chatRoomDocumentName(chatRoom.value.roomname);
-  // // chatRoom.value.roomid = getChatRoomid
+  // // ↓saveDocumentChatRoomにroomidを更新する流れを追加したか↓は不要。
+  // const getChatRoomid = await chatRoomDocumentName(chatRoom.value.roomname);
+  // // ドキュメントidが取れた。
+  // chatRoom.value.roomid = getChatRoomid ?? "";
   // console.log(getChatRoomid);
+  // chatRoomUpdateDocument(chatRoom.value.roomid, chatRoom.value);
   alert("チャットルームが保存されました。");
+  router.push(`/Chat_Main?id=${chatRoom.value.roomid}`);
 };
 
 console.log(chatRoom.value.roomname);

@@ -5,11 +5,9 @@ import Chat_List from "../components/Chat_Data/Chat_List.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 // import {  } from "@/db";
 import type { Tweet, ChatRoom } from "@/Types/TweetTypes";
-import { defaultChatRoom, allChatRoomDocumentData, mynameData } from "@/db";
+import { allChatRoomDocumentData, mynameData } from "@/db";
 // import { collection, addDoc, doc, getDoc } from "firebase/firestore";
 // import { app, db, auth } from "../firebase/firebase";
-
-const chatRoom = ref<ChatRoom>(defaultChatRoom());
 
 const allChatRoomData = ref<ChatRoom[]>([]);
 
@@ -28,7 +26,9 @@ const result = computed(() => {
 });
 
 //   //✅URLにクエリ情報を付与する↓
-//   router.push(`/Chat_Main?id=${chatRoom.value.roomid}`);
+const chatRoomButton = (roomid: string) => {
+  router.push(`/Chat_Main?id=${roomid}`);
+};
 
 const topButton = () => {
   router.push("/");
@@ -58,7 +58,9 @@ const chatroomCreation = () => {
   </div>
   <div class="room-container" v-for="t in result">
     <div class="room-icon">アイコン</div>
-    <div class="room-list">{{ t.roomname }}</div>
+    <div class="room-list" @click="chatRoomButton(t.roomid)">
+      {{ t.roomname }}
+    </div>
     <!-- <Chat_List class="room-list" /> -->
   </div>
   <!-- <h1>トークルーム</h1> -->
