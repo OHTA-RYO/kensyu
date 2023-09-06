@@ -3,6 +3,9 @@ import { createRouter, createWebHistory, useRoute } from "vue-router";
 
 // import { isLogin } from "../firebase/firebaseAuth";
 
+//meta情報を持たせる。
+//リダイレクト機能もつける。
+
 export const routes = [
   {
     path: "/",

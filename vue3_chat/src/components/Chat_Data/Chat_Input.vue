@@ -22,7 +22,7 @@ const props = defineProps({
     type: String as PropType<
       | "User Email"
       | "User Password"
-      | "フルネーム"
+      | "ニックネームを入力して下さい。"
       | "🔍 検索"
       | "🔍 友達検索"
       | "🔍 フレンドID検索"

@@ -1,17 +1,13 @@
 <script setup lang="ts">
 import { router } from "../router/index";
-import { ref, watch, onMounted, computed } from "vue";
-import Chat_List from "../components/Chat_Data/Chat_List.vue";
+import { ref, onMounted, computed } from "vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 import {
   // defaultTweet,
   mynameData,
   allNameDocumentData,
-  nameidDocument,
 } from "@/db";
-import type { Tweet, Name } from "@/Types/TweetTypes";
-import { collection, addDoc } from "firebase/firestore";
-import { app, db, auth } from "../firebase/firebase";
+import type { Name } from "@/Types/TweetTypes";
 import { logoutUser } from "@/firebase/firebaseAuth";
 
 // const friendNameData = ref<string | object>({});
@@ -47,10 +43,12 @@ const friendSave = () => {
 </script>
 
 <template>
-  <button @click="topButton">Top</button>
-  <button @click="nameButton">nameButton</button>
-  <button @click="logoutUser">logoutButton</button>
   <div class="container">
+    <div class="route-area">
+      <!-- <div class="route-button" @click="topButton">Top</div> -->
+      <div class="route-button" @click="logoutUser">ログアウト</div>
+      <div class="route-button" @click="nameButton">プロフィールへ</div>
+    </div>
     <div class="friend-container">
       <div class="friend-title">フレンド一覧</div>
       <div class="friend-title">{{ mynameData?.name }}</div>
@@ -67,7 +65,9 @@ const friendSave = () => {
     </div>
   </div>
   <div class="room-container" v-for="t in result">
-    <div class="room-icon"></div>
+    <div class="room-icon">
+      <img :src="t.image" alt="" />
+    </div>
     <!-- <Chat_List class="room-list" /> -->
     <input type="checkbox" class="checkbox" v-if="false" />
     <div class="room-list">{{ t.name }}</div>
@@ -76,10 +76,38 @@ const friendSave = () => {
 </template>
 
 <style scoped>
+.route-area {
+  margin-left: 720px;
+  display: flex;
+}
+
+.route-button {
+  width: 200px;
+  margin: 0 0 32px 32px;
+  /* margin-left: auto; */
+  /* padding: 8px 0; */
+  font-size: 16px;
+  font-weight: bold;
+  /* border-radius: 20px; */
+  background: rgb(0, 22, 47);
+  color: white;
+  cursor: pointer;
+}
+
+a {
+  margin: 0;
+}
+
+img {
+  width: 176px;
+  height: 160px;
+  object-fit: cover;
+}
+
 .container {
   width: 1080px;
   margin: 0 auto;
-  padding: 40px 0;
+  padding: 20px 0 40px 0;
   font-weight: bold;
   /* text-align: center; */
   color: white;

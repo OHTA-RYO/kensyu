@@ -6,17 +6,25 @@ import { router } from "../router/";
 import { collection, addDoc } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 import type { Name } from "@/Types";
-import { defaultName } from "@/db";
-// import { user } from "@/firebase/firebaseAuth";
+import { defaultName, mynameData, updateDocment, imgUp } from "@/db";
+import { isLogin } from "@/firebase/firebaseAuth";
 
 const nameData = ref<Name>(defaultName());
+const file = ref<File | null>(null);
+
+//updateDocumentをinpopotしてimage upをその中にかく。
 
 //uidをnameidに入れる。
 // console.log(user?.uid)
 //↑undifindの状態でexportしているから一生値が取れない。
 //↓だから、auth.currentUserにするとログイン後の値が取れる。
-console.log(auth.currentUser?.uid);
+// console.log(auth.currentUser?.uid);
+//↑リロードしたら消える。
 
+//エラー
+
+//↓tsに移動させる。
+//collection→docに変えた方が良い的なことを言ってた。
 const nameRegistration = async () => {
   try {
     nameData.value.nameid = auth.currentUser!.uid;
@@ -29,15 +37,20 @@ const nameRegistration = async () => {
   }
 };
 
-// onMounted(() => {
-
-// })
-
-const login = () => {
-  router.push("/");
+const imgData = (e: any) => {
+  file.value = e.target.files[0];
+  console.log(e.target.files[0]);
 };
-const loginMain = () => {
-  router.push("/Chat_Main");
+
+const myIconSet = async () => {
+  if (!file.value) return alert("画像が選択されていません。");
+  nameData.value.image = await imgUp(file.value);
+  console.log(nameData.value.image);
+  console.log(mynameData.value);
+  console.log(nameData.value);
+  updateDocment(mynameData.value?.nameid ?? "", {
+    image: nameData.value.image,
+  });
 };
 
 const roomButton = () => {
@@ -53,75 +66,135 @@ const friendSave = () => {
 </script>
 
 <template>
-  <button @click="login">login</button>
-  <button @click="loginMain">loginMain</button>
-  <button @click="roomButton">roomButton</button>
-  <button @click="friendList">friendList</button>
-  <button @click="friendSave">friendSave</button>
-  <div class="main-container">
-    <div class="title">
-      <h1>プロフィール登録</h1>
-    </div>
+  <div class="border-area">
     <div class="container">
-      <div class="container-parea">
-        <p>お名前</p>
+      <div class="profile-container">
+        <div class="naime-title">プロフィールページ</div>
+        <div class="naime-title">{{}}</div>
+        <div class="friend-addition" @click="friendSave">友達追加へ</div>
       </div>
-      <div class="container-inputarea">
-        <Chat_Input
-          :isRegistration="true"
-          type="text"
-          placeholder="フルネーム"
-          class="inputarea"
-          :height="46"
-          v-model="nameData.name"
-        />
+
+      <div class="header-container">
+        <div class="chatroom" @click="roomButton">チャットルーム一覧へ</div>
       </div>
     </div>
-    <div class="sendarea">
-      <p @click="nameRegistration">登録</p>
+
+    <div class="main-container">
+      <div class="title">
+        <h1 v-if="!mynameData?.nameid">ニックネームを登録して下さい。</h1>
+      </div>
+      <div class="name-container" v-if="!mynameData?.nameid">
+        <div class="container-parea">
+          <p>お名前</p>
+        </div>
+        <div class="container-inputarea">
+          <Chat_Input
+            :isRegistration="true"
+            type="text"
+            placeholder="ニックネームを入力して下さい。"
+            class="inputarea"
+            :height="46"
+            v-model="nameData.name"
+          />
+        </div>
+      </div>
+      <div class="save" v-if="!mynameData?.nameid">
+        <p @click="nameRegistration">登録</p>
+      </div>
+      <div class="sendarea" v-if="mynameData?.nameid">
+        <div class="file-save-area">
+          <h1 v-if="mynameData?.nameid">プロフィール画像を設定</h1>
+        </div>
+        <div class="file-area"><input type="file" @change="imgData" /></div>
+      </div>
+      <div class="file-save" v-if="mynameData?.nameid">
+        <p @click="myIconSet">アイコンを設定</p>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.border-area {
+  width: 1080px;
+  margin: 0 auto;
+  border: 1px solid rgb(187, 186, 186);
+}
+.container {
+  width: 1080px;
+  margin: 0 auto;
+  padding: 40px 0;
+  font-weight: bold;
+  /* text-align: center; */
+  color: white;
+  background: rgb(0, 22, 47);
+}
+.profile-container {
+  display: flex;
+}
+
+.naime-title {
+  margin: -16px 0 32px 32px;
+  font-size: 28px;
+}
+
+.chatroom {
+  margin-left: auto;
+  margin-right: 32px;
+  cursor: pointer;
+}
+
+.friend-addition {
+  margin: 0 32px 0 auto;
+  cursor: pointer;
+}
+
+.header-container {
+  width: 100%;
+  display: flex;
+  margin-left: auto;
+}
+
 .inputarea {
-  width: 480px;
+  width: 400px;
   margin: 6px 0 6px 0;
   /* height: 16px;¥ */
   /* padding: 15px 0; */
 }
+.main-container {
+  width: 1080px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
 
 h1 {
-  margin: 32px 0;
-  text-align: center;
+  margin: 32px 0 32px 32px;
+  font-size: 28px;
+  width: 100%;
+}
+
+.container-parea {
+  margin-right: 100px;
 }
 
 p {
   margin: 0;
 }
 
-.main-container {
+.name-container {
   width: 100%;
-  box-sizing: border-box;
-}
-
-.container {
-  display: flex;
-
-  width: 100%;
-  justify-content: center;
 }
 
 .container-parea {
   width: 400px;
-  margin-right: 32px;
+  margin: 0 32px;
 }
 
 .container-parea p {
   margin: 10px 0;
-  padding: 8px 0;
-  background: rgb(230, 228, 228);
-  text-align: center;
+  padding: 8px 0 8px 32px;
+  background: rgb(0, 22, 47);
+  color: white;
   font-size: 20px;
 }
 
@@ -129,22 +202,49 @@ p {
   display: flex;
   flex-direction: column;
   width: 320px;
+  margin-left: 32px;
 }
 
-.sendarea {
+.save {
   width: 100%;
-  margin-top: 64px;
+  /* margin-top: -80px; */
   text-align: center;
 }
 
-.sendarea p {
+.save p {
   width: 160px;
-  margin: 0 auto;
+  margin: -52px auto 32px;
   padding: 8px 0;
   font-size: 20px;
   font-weight: bold;
-  border-radius: 16px;
-  background: rgb(98, 212, 250);
+  /* border-radius: 20px; */
+  background: rgb(0, 22, 47);
+  color: white;
+  cursor: pointer;
+}
+
+.file-save-area {
+  margin-top: 96px;
+}
+
+.file-area {
+  margin: 0 0 0 32px;
+  color: white;
+}
+.file-save {
+  width: 100%;
+  /* margin-top: -80px; */
+  text-align: center;
+}
+
+.file-save p {
+  width: 160px;
+  margin: -52px auto 32px;
+  padding: 8px 0;
+  font-size: 20px;
+  font-weight: bold;
+  /* border-radius: 20px; */
+  background: rgb(0, 22, 47);
   color: white;
   cursor: pointer;
 }

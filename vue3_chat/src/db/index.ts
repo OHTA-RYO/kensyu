@@ -139,12 +139,57 @@ export const nameDocument = async (nameid: string | undefined) => {
 };
 
 /**
+ * ログインしているアカウントのuidを渡してfriendidを取得する関数
+ * @param uid
+ * @returns ドキュメントid
+ */
+export const friendidGet = async (nameid: string | undefined) => {
+  if (!nameid) return;
+  const q = query(collection(db, "names"), where("nameid", "==", nameid));
+  const querySnapshot = await getDocs(q);
+  let friendsid: string[] = [];
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    // console.log(doc.id, " => ", doc.data());
+    console.log(doc.id); //ドキュメントid
+    // console.log(doc.data());
+    // console.log(doc.data().friends);
+    // const d = doc.id;
+    if (doc.exists()) friendsid.push(doc.id);
+  });
+  // console.log(doc.id, "=>", doc.data());
+  console.log(friendsid);
+  return friendsid;
+};
+
+/**
+ * チャットルームのドキュメントidを渡してnameidを取得する関数。
+ * @param
+ * @returns
+ */
+export const chatRoomNameGet = async (
+  chatroomid: string
+): Promise<string[]> => {
+  if (!chatroomid) return [];
+  const q = query(
+    collection(db, "chatRoom"),
+    where("roomid", "==", chatroomid)
+  );
+  const querySnapshot = await getDocs(q);
+  let docid: string[] = [];
+  querySnapshot.forEach((doc) => {
+    // console.log(doc.data().nameid);
+    if (doc.exists()) docid = doc.data().nameid;
+  });
+  return docid;
+};
+
+/**
  * firebaseのtweetsの情報を登録する関数
  * @param a トークルームでinputに入力した値。
  */
 export const saveDocumentTweet = async (a: Tweet) => {
   try {
-    imgUp();
     const docRef = await addDoc(collection(db, "tweets"), a);
     // await updateDoc(docRef, { tweetsId: docRef.id });
     // tweet.value.id = docRef.id;
@@ -247,36 +292,26 @@ export const allChatRoomDocumentData = async () => {
   return allData;
 };
 
-//画像を追加する
-const randomID =
-  Math.floor(Math.random() * 9000000000000000) + 1000000000000000;
-console.log(randomID);
-
 const storage = getStorage();
-const storageRef2 = storageRef(storage, `${randomID}`);
-const file = ref<File | null>(null);
 
-//↑Main.tsに書くんやっけ？
-
-export const imgData = (e: any) => {
-  file.value = e.target.files;
-  console.log(e.target.files[0]);
-};
-
-export const imgUp = async () => {
-  if (!file.value) return;
-  const blob = new Blob([file.value], { type: file.value.type });
+export const imgUp = async (file: File) => {
+  const randomID =
+    Math.floor(Math.random() * 9000000000000000) + 1000000000000000;
+  const storageRef2 = storageRef(storage, `${randomID}`);
+  const blob = new Blob([file], { type: file.type });
   const imgresult = await uploadBytes(storageRef2, blob);
   console.log(imgresult.ref);
+  const url = await getDownloadURL(storageRef2);
   // if (!confirm("画像を送信しますか？")) return;
-  return imgresult.ref;
+  console.log(url);
+  return url;
 };
 
-const getUrl = async (storageRef: StorageReference, a: Tweet | Name) => {
-  await getDownloadURL(storageRef)
-    .then((url) => {
-      console.log(url);
-      a.image = url;
-    })
-    .catch((error) => {});
-};
+// const getUrl = async (storageRef: StorageReference, a: Tweet | Name) => {
+//   await getDownloadURL(storageRef)
+//     .then((url) => {
+//       console.log(url);
+//       a.image = url;
+//     })
+//     .catch((error) => {});
+// };

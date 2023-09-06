@@ -2,16 +2,17 @@
 import { router } from "../router/index";
 import { useRoute } from "vue-router";
 import { onMounted, ref, watch, computed } from "vue";
-import Chat_List from "../components/Chat_Data/Chat_List.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
+import Chat_List from "../components/Chat_Data/Chat_List.vue";
 import {
   defaultTweet,
   saveDocumentTweet,
   mynameData,
   imgUp,
-  imgData,
+  nameidDocument,
+  chatRoomNameGet,
 } from "@/db";
-import type { Tweet } from "@/Types/TweetTypes";
+import type { Tweet, Name } from "@/Types/TweetTypes";
 import {
   collection,
   addDoc,
@@ -24,206 +25,126 @@ import {
   Query,
 } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
+import { list } from "firebase/storage";
 
 const tweet = ref<Tweet>(defaultTweet());
 const saveTweet = ref<Tweet[]>([]);
+const file = ref<File | null>(null);
+const tweeter = ref<Name[]>([]);
+// const iconBox = ref<string[]>([]);
+const iconBox = ref<string[]>([]);
 
 const route = useRoute();
 const roomId = route.query.id;
-// const saveId = ref<string[] | string | undefined>();
+const isTweet = ref<boolean>(true);
 
 //uidを常に表示させる。
 //uidをtweet.nameidに代入。
-watch(mynameData, () => {
+
+watch([mynameData, tweeter], () => {
   tweet.value.nameId = mynameData.value?.nameid!;
   console.log(tweet.value.nameId);
 });
 
-//roomIdをtweet.tweetsIdに代入
-//↑型をstringに変換しないといけない。
+// const resule = computed(() => {
+//   mynameData.value?.nameid;
+// });
 
-console.log(roomId);
-
-const resule = computed(() => {
-  mynameData.value?.nameid;
-});
-
+//クエリを取得。roomid
 tweet.value.tweetsId = roomId?.toString() ?? "";
 console.log(roomId?.toString());
 
-// ドキュメントidをクエリで取る。
-// const roomidQuery = query(
-//   collection(db, "chatRoom"),
-//   where("roomid", "==", roomId?.toString() ?? "")
-// );
-
-onMounted(() => {
-  const getTweets = async () => {
-    let q: CollectionReference | Query = collection(db, "tweets");
-    console.log(roomId?.toString() ?? "");
-    q = query(q, where("tweetsId", "==", roomId?.toString() ?? ""));
-    const querySnapshot = await getDocs(q);
-    onSnapshot(q, (docs) => {
-      docs.forEach((d) => {
-        // console.log(d.data());
-        saveTweet.value.push(d.data() as Tweet);
-      });
-      saveTweet.value.sort((a, b) => {
-        return a.time < b.time ? -1 : 1;
-      });
+//roomidが一致しているTweetのみリアルタイムで取得
+onMounted(async () => {
+  let q: CollectionReference | Query = collection(db, "tweets");
+  q = query(q, where("tweetsId", "==", roomId?.toString() ?? ""));
+  onSnapshot(q, (docs) => {
+    //          ↑の)を消した。
+    //↓docChanges().を追加。
+    docs.docChanges().forEach(async (d) => {
+      saveTweet.value.push(d.doc.data() as Tweet);
+      // グループに存在している人の分だけ探したい。if()
+      //chatroomにあるnameidを取得する。
+      //↓チャットルームの人数分のidを取得。
     });
-  };
-  getTweets();
+    //ソート（時間で昇順）
+    saveTweet.value.sort((a, b) => {
+      return a.time < b.time ? -1 : 1;
+    });
+  });
+  //chatroomidを渡して、chatroomのメンバーのnameidを取得。
+  const roomMember = await chatRoomNameGet(roomId?.toString() ?? "");
+  // console.log(roomMember);
+  //↓部屋のメンバーに限定しないと。
+  //全てのnameidを取得しないといけない。注意
+  //チャットルームグループのnameidを全て取得。
+  roomMember.forEach(async (d) => {
+    const userData = await nameidDocument(d);
+    if (userData) {
+      tweeter.value.push(userData);
+    }
+  });
+  // roomMember.forEach(async (d) => {
+  //   const userIcon = await getIcon(d);
+  //   console.log(userIcon);
+  //   if (userIcon) {
+  //     // iconBox.value.concat(userIcon);
+  //     // iconBox.value.push(userIcon)
+  //     iconBox.value = userIcon;
+  //   }
+  //   console.log(iconBox.value);
+  // });
 });
 
-//   const querySnapshot = await getDocs(q);
-//   querySnapshot.docChanges().forEach((doc) => {
-//     if (doc.type === "added") {
-//       console.log("New tweets:", doc.doc.data());
-//       //↓tweetidとroomidが一致しているtweetだけ表示させる。
-//       saveTweet.value.push(
-//         doc.doc
-//           .data()
-//           .fillter((o: Tweet) => o.tweetsId === roomId?.toString() ?? "")
-//       );
-//       //saveTweetをソートする。
-//       saveTweet.value.sort((a, b) => {
-//         return a.time < b.time ? -1 : 1;
-//       });
-//     }
-//     //saveTweetを編集
-//     if (doc.type === "modified") {
-//       console.log("Modified tweets:", doc.doc.data());
-//     }
-//     //saveTweetを削除
-//     if (doc.type === "removed") {
-//       //フィルターで新しい配列をsaveInputDataに入れる。
-//       //削除対象のidとドキュメントのidが一致していないデータで配列が返ってくる。
-//       saveTweet.value = saveTweet.value.filter(
-//         (d, tweetsId) => d.tweetsId !== doc.doc.id
-//       );
-//       console.log("Removed users:", doc.doc.data());
-//     }
-//   });
+//v-forのt分だけ回す。かつnameをリターンしているから
+//名前が表示される。
+const findName = (t: Tweet) => {
+  return tweeter.value.find((d) => d.nameid === t.nameId)?.name || "";
+};
+console.log(tweeter.value);
 
-// const getTweets = async () => {
-//   let q = collection(db, "tweets");
-//   q = query(q, where("tweetid", "==", roomId?.toString() ?? ""));
-//   const querySnapshot = await getDocs(q);
-//   querySnapshot.docChanges().forEach((doc) => {
-//     if (doc.type === "added") {
-//       console.log("New tweets:", doc.doc.data());
-//       //↓tweetidとroomidが一致しているtweetだけ表示させる。
-//       saveTweet.value.push(
-//         doc.doc
-//           .data()
-//           .fillter((o: Tweet) => o.tweetsId === roomId?.toString() ?? "")
-//       );
-//       //saveTweetをソートする。
-//       saveTweet.value.sort((a, b) => {
-//         return a.time < b.time ? -1 : 1;
-//       });
-//     }
-//     //saveTweetを編集
-//     if (doc.type === "modified") {
-//       console.log("Modified tweets:", doc.doc.data());
-//     }
-//     //saveTweetを削除
-//     if (doc.type === "removed") {
-//       //フィルターで新しい配列をsaveInputDataに入れる。
-//       //削除対象のidとドキュメントのidが一致していないデータで配列が返ってくる。
-//       saveTweet.value = saveTweet.value.filter(
-//         (d, tweetsId) => d.tweetsId !== doc.doc.id
-//       );
-//       console.log("Removed users:", doc.doc.data());
-//     }
-//   });
-// };
-// getTweets();
+const findData = (t: Tweet) => {
+  return tweeter.value.find((d) => d.nameid === t.nameId)?.image || "";
+};
 
-// onMounted(() => {
-// 案3
-//   const roomidQuery = query(
-//     collection(db, "chatRoom"),
-//     where("roomid", "==", roomId?.toString() ?? "")
-//   );
+//自分のツイートか他の人のツイートを判断。
+const change = (tweetid: Tweet) => {
+  if (!mynameData.value?.nameid) return;
+  if (tweetid.nameId === mynameData.value.nameid) {
+    return (isTweet.value = false);
+  }
+  console.log(isTweet.value, tweetid.nameId);
+};
 
-//   const unsub = onSnapshot(collection(db, "tweets"), (querySnapshot) => {
-//     querySnapshot.forEach((doc) => {
-//       // saveTweet.value.push(
-//       //   doc.data().filter((o: Tweet) => o.tweetsId === roomId?.toString() ?? "")
-//       // );
-//       saveTweet.value = doc
-//         .data()
-//         .find((d: Tweet) => d.tweetsId === roomId?.toString() ?? "");
-//       console.log("あ", saveTweet.value);
-//     });
-//   });
-// });
-
-//案2
-//   const unsub = onSnapshot(collection(db, "tweets"),(querySnapshot) => {
-//       query(collection(db, "chatRoom"),
-//         where("roomid", "==", roomId?.toString() ?? ""));
-//       querySnapshot.forEach((doc) => {
-//         console.log("あ", doc.data());
-//         saveTweet.value.push(doc.data() as Tweet);
-//       });
-//       // console.log("Current data: ", doc.data());
-//     }
-//   );
-// });
-
-// 案１;
-// const roomidQuery = query(
-//   collection(db, "chatRoom"),
-//   where("roomid", "==", roomId?.toString() ?? "")
-// );
-
-// onMounted(() => {
-//   //ドキュメントidをクエリで取る。
-//   const unsub = onSnapshot(collection(db, "tweets"), (querySnapshot) => {
-//     querySnapshot.forEach((doc) => {
-//       console.log("あ", doc.data());
-//       saveTweet.value.push(doc.data() as Tweet);
-//     });
-//     saveTweet.value.sort((a, b) => {
-//       return a.time < b.time ? -1 : 1;
-//     });
-//     // console.log("Current data: ", doc.data());
-//   });
-// });
+const imgData = (e: any) => {
+  file.value = e.target.files[0];
+  console.log(e.target.files[0]);
+  console.log(file.value);
+};
 
 const sendmessage = async () => {
   tweet.value.tweetsId = roomId?.toString() ?? "";
-  imgUp();
+  tweet.value.nameId = mynameData.value?.nameid ?? "";
+  if (file.value) {
+    tweet.value.image = await imgUp(file.value);
+  }
   await saveDocumentTweet(tweet.value);
   tweet.value = defaultTweet();
   console.log(saveTweet.value);
 };
 
-/**
- * firebaseにTweetを保存する関数
- */
-
-// const saveDocumentTweet = async () => {
-//   try {
-//     const docRef = await addDoc(collection(db, "tweets"), tweet.value);
-//     // tweet.value.id = docRef.id;
-//     // console.log(tweet.value.id);
-//     console.log("Document written with ID: ", docRef.id);
-//   } catch (e) {
-//     console.error("Error adding document: ", e);
-//   }
-// };
-
-//saveTweetの送信時間を取得したい。
 const topButton = () => {
   router.push("/");
 };
 const nameButton = () => {
   router.push("/Chat_Name_Registration");
 };
+
+//自分のツイートは右側に
+//他のユーザーのツイートは左側に
+//mynameData.idが一致していたら、右
+//そうでなければ、左。
+//list側で色と左右の方向を書くのか？
 </script>
 
 <template>
@@ -234,9 +155,15 @@ const nameButton = () => {
 
     <div v-for="t in saveTweet" class="talk-area">
       <div class="tweet-area">
-        {{ t.message.sendAt }}
+        <div class="img-container">
+          <img :src="findData(t)" alt="" />
+        </div>
+        <div>{{ findName(t) }}</div>
+        <!-- <div v-if="t.message.text && t.image"> -->
+        <div>{{ t.message.sendAt }}</div>
+        <!-- </div> -->
       </div>
-      <Chat_List :text="t" />
+      <Chat_List :text="t" :isTweet="change(t)" />
     </div>
   </div>
   <div class="input-area">
@@ -244,15 +171,11 @@ const nameButton = () => {
     <input type="file" @change="imgData" />
     <!-- <img :src="tweet.image" alt="" /> -->
     <Chat_Input v-model="tweet.message.text" class="inputarea" />
-    <p class="sending" @click="sendmessage">送信</p>
+    <p class="sending" @click="sendmessage" :disabled="tweet.message">送信</p>
   </div>
 </template>
 
 <style scoped>
-/* body {
-  box-sizing: border-box;
-} */
-
 .inputarea {
   width: 320px;
   height: 24px;
@@ -275,16 +198,22 @@ h1 {
   width: 100%;
   height: auto;
   display: flex;
-  margin: 0 0 0 auto;
-  word-wrap: 64px;
+}
+
+img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  /* object-position: 50% 50%; */
 }
 
 .tweet-area {
-  margin: 0 0 0 auto;
+  margin: 24px 0 0 auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
   padding-right: 16px;
-  /* word-wrap: 64px; */
 }
 
 .input-area {

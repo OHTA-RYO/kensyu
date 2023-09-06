@@ -61,11 +61,11 @@ const isSave = ref(true);
 
 //ファイルをアップロードする
 //fileをBlobに変換してアップロードする
+// const storageRef = ref(storage);
+const now = new Date().toLocaleTimeString();
 const randomID =
   Math.floor(Math.random() * 9000000000000000) + 1000000000000000;
 const storage = getStorage();
-// const storageRef = ref(storage);
-const now = new Date().toLocaleTimeString();
 const storageRef2 = storageRef(storage, `${randomID}`);
 // const storageRef2 = storageRef(storage, "images/image.jpg");
 const file = ref<File | null>(null);
@@ -85,6 +85,31 @@ const imgUp = async () => {
   return result.ref;
 };
 console.log(imgUp);
+
+// const now = new Date().toLocaleTimeString();
+// // const storageRef2 = storageRef(storage, "images/image.jpg");
+// const file = ref<File | null>(null);
+// const storage = getStorage();
+
+// const imgData = (e: any) => {
+//   // if (e.target.files.length === 0) return;
+//   file.value = e.target.files[0];
+//   // console.log(e.target.files[0]);
+// };
+
+// //↓にすると2回目から出来ない。
+// const imgUp = async () => {
+//   if (!file.value) return;
+//   const randomID =
+//   Math.floor(Math.random() * 9000000000000000) + 1000000000000000;
+//   const storageRef2 = storageRef(storage, `${randomID}`);
+//   const blob = new Blob([file.value], { type: file.value.type });
+//   const result = await uploadBytes(storageRef2, blob);
+//   console.log(result);
+//   console.log(result.ref);
+//   return result.ref;
+// };
+// console.log(imgUp);
 
 const getUrl = async (storageRef: StorageReference) => {
   await getDownloadURL(storageRef)

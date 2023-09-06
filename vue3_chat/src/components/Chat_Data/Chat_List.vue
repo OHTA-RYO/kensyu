@@ -8,21 +8,25 @@ const props = defineProps({
   text: {
     type: Object as PropType<Tweet>,
   },
-  // text: {
-  //   type: Object as PropType<Tweet | ChatRoom>,
-  // },
-  // text: {
-  //   type: String,
-  // },
+  isTweet: {
+    type: Boolean,
+    default: true,
+  },
 });
 </script>
 
 <template>
-  <div class="list-area">
-    <ul>
+  <div :class="{ receive: isTweet, listArea: !text?.image }">
+    <ul v-if="text?.message.text">
       <li>{{ text?.message.text }}</li>
       <!-- <li>{{ text?.tweets text?.name! }}</li> -->
     </ul>
+    <div class="img-container">
+      <a :href="text?.image" v-if="text?.image" target="_blank">
+        <img :src="text?.image" alt="" />
+      </a>
+    </div>
+    <!-- <div>{{ isTweet }}</div> -->
   </div>
 </template>
 
@@ -38,12 +42,28 @@ li {
   /* word-wrap: 50px; */
 }
 
-.list-area {
-  width: 240px;
-  /* word-wrap: 64px; */
+.listArea {
+  width: 320px;
   margin: 16px 0;
-  border: 1px solid black;
   border-radius: 16px;
   background: lightgreen;
+}
+
+.receive {
+  width: 320px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  margin-right: 600px;
+  border-radius: 16px;
+  background: lightskyblue;
+}
+
+a {
+  margin: 0;
+}
+
+img {
+  max-width: 320px;
+  object-fit: cover;
 }
 </style>

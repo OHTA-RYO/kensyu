@@ -9,6 +9,7 @@ import {
   updateDocment,
   mynameData,
   nameDocument,
+  friendidGet,
 } from "@/db";
 import type { Name } from "@/Types/TweetTypes";
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
@@ -47,9 +48,8 @@ const nameidSearch = async () => {
  */
 
 const pushID = () => {
-  if (!confirm("追加しますか！？")) return;
   //Object.entriesでオブジェと→配列にする。
-  const pushData = nameDocument(nameid.value);
+
   // chatName.value.push(pushData)
   const filterData = Object.entries(friendsid.value).filter(
     //filterでtrueのデータだけ抽出する。
@@ -64,13 +64,24 @@ const pushID = () => {
   return newFilterData;
 };
 // pushID();
+console.log(chatName.value);
+
+//nameidを渡してfriendidを取得する。
 
 const friendsidUpdate = async () => {
-  updateDocment(mynameData.value?.nameid ?? "", {
-    //↓更新するデータ
-    friends: pushID(),
+  if (!confirm("追加しますか！？")) return;
+  if (!mynameData.value) return;
+  updateDocment(mynameData.value.nameid, {
+    //   //↓更新するデータ
+    friends: pushID().concat(mynameData.value.friends),
   } as object);
+  //配列どうしでなぜpushが出来ないのか？
+  // console.log(mynameData.value?.friends);
 };
+
+// updateDocment(mynameData.value?.nameid ?? "", {
+//     image: nameData.value.image,
+//   });
 
 //checkboxのコンポーネントでbooleanの引数を渡す。
 //emitでtrue falseを受け取れるように。
