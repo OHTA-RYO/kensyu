@@ -53,13 +53,12 @@ const loginAccount = async () => {
 .inputarea {
   width: 320px;
   margin: 8px 0;
-  /* padding: 16px 0; */
 }
 
 .main {
   background: rgb(98, 212, 250);
   height: auto;
-  padding: 64px;
+  padding: 64px 0;
 }
 p {
   margin: 0;
@@ -73,7 +72,7 @@ p {
   background: white;
 }
 .container {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -97,5 +96,34 @@ p {
 
 .account {
   color: rgb(189, 186, 186);
+}
+
+@media screen and (max-width: 820px) {
+  .main-container {
+    width: 640px;
+    padding: 32px 0;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .main {
+    padding: 24px 0;
+  }
+  .main-container {
+    width: 320px;
+    padding: 16px 0;
+  }
+
+  .inputarea {
+    width: 180px;
+    /* margin: 8px 0; */
+  }
+
+  .container p {
+    width: 180px;
+    margin: 8px 0 8px 0;
+    padding: px 0;
+    font-size: 16px;
+  }
 }
 </style>

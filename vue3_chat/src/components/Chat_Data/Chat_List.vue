@@ -39,21 +39,20 @@ ul {
 li {
   width: 100%;
   list-style: none;
-  /* word-wrap: 50px; */
+  overflow-wrap: break-all;
 }
 
 .listArea {
   width: 320px;
-  margin: 16px 0;
+  margin: 16px 16px 0 0;
   border-radius: 16px;
   background: lightgreen;
 }
 
 .receive {
   width: 320px;
-  margin-top: 16px;
-  margin-bottom: 16px;
-  margin-right: 600px;
+  margin: 16px 16px 0 0;
+  margin-right: 800px;
   border-radius: 16px;
   background: lightskyblue;
 }
@@ -65,5 +64,77 @@ a {
 img {
   max-width: 320px;
   object-fit: cover;
+}
+
+@media screen and (max-width: 820px) {
+  .listArea {
+    width: 280px;
+    margin: 16px 24px 0 0;
+    border-radius: 16px;
+    background: lightgreen;
+    object-fit: cover;
+  }
+
+  .receive {
+    width: 280px;
+    margin: 16px 16px 0 0;
+    margin-right: 440px;
+    border-radius: 16px;
+    background: lightskyblue;
+    object-fit: cover;
+  }
+
+  img {
+    max-width: 280px;
+    object-fit: cover;
+  }
+}
+@media screen and (max-width: 430px) {
+  li {
+    font-size: 14px;
+  }
+  .listArea {
+    width: 160px;
+    margin: 16px 8px 0 0;
+    border-radius: 16px;
+    background: lightgreen;
+    object-fit: cover;
+  }
+
+  .receive {
+    width: 160px;
+    margin: 16px 16px 0 0;
+    margin-right: 196px;
+    border-radius: 16px;
+    background: lightskyblue;
+    object-fit: cover;
+  }
+
+  img {
+    max-width: 160px;
+    object-fit: cover;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  li {
+    font-size: 12px;
+  }
+  .listArea {
+    width: 160px;
+    margin: 16px 8px 0 0;
+    border-radius: 16px;
+    background: lightgreen;
+    object-fit: cover;
+  }
+
+  .receive {
+    width: 160px;
+    margin: 16px 16px 0 0;
+    margin-right: 196px;
+    border-radius: 16px;
+    background: lightskyblue;
+    object-fit: cover;
+  }
 }
 </style>

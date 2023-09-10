@@ -6,7 +6,15 @@ import { RouterLink, RouterView } from "vue-router";
 
 <template>
   <!-- <Chat_Main /> -->
-  <router-view></router-view>
+  <div class="main">
+    <router-view></router-view>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.main {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+</style>

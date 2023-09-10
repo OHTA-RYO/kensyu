@@ -51,7 +51,7 @@ const friendSave = () => {
     </div>
     <div class="friend-container">
       <div class="friend-title">フレンド一覧</div>
-      <div class="friend-title">{{ mynameData?.name }}</div>
+      <!-- <div class="friend-title">{{ mynameData?.name }}</div> -->
       <div class="friend-addition" @click="friendSave">友達追加へ</div>
     </div>
 
@@ -77,18 +77,15 @@ const friendSave = () => {
 
 <style scoped>
 .route-area {
-  margin-left: 720px;
+  width: 240px;
+  margin: 0 32px 0 auto;
   display: flex;
 }
 
 .route-button {
-  width: 200px;
-  margin: 0 0 32px 32px;
-  /* margin-left: auto; */
-  /* padding: 8px 0; */
+  margin: 0 0 32px auto;
   font-size: 16px;
   font-weight: bold;
-  /* border-radius: 20px; */
   background: rgb(0, 22, 47);
   color: white;
   cursor: pointer;
@@ -99,17 +96,14 @@ a {
 }
 
 img {
-  width: 176px;
+  width: 160px;
   height: 160px;
   object-fit: cover;
 }
 
 .container {
-  width: 1080px;
-  margin: 0 auto;
   padding: 20px 0 40px 0;
   font-weight: bold;
-  /* text-align: center; */
   color: white;
   background: rgb(0, 22, 47);
 }
@@ -145,15 +139,13 @@ img {
 }
 
 .search-room {
-  width: 1016px;
+  width: 90%;
   margin: 32px auto 0 auto;
 }
 
 .room-container {
-  width: 1078px;
-  margin: 0 auto;
   border: 1px solid rgb(187, 186, 186);
-  /* height: 120px; */
+  border-top: none;
   line-height: 90px;
   display: flex;
   align-items: center;
@@ -162,15 +154,14 @@ img {
 .room-icon {
   width: 160px;
   height: 160px;
-
   padding-right: 16px;
-  /* background: pink; */
+  /* border-top: none; */
 }
 
 .room-list {
   width: 100%;
   background: white;
-  border: none;
+  /* border-top: none; */
   margin-left: 16px;
   font-size: 24px;
 }
@@ -178,5 +169,61 @@ img {
 .checkbox {
   width: 24px;
   height: 24px;
+}
+
+@media screen and (max-width: 430px) {
+  .friend-title {
+    margin: -56px 0 16px 16px;
+    font-size: 18px;
+  }
+
+  .route-area {
+    width: 200px;
+    margin: 0 16px 0 auto;
+    display: flex;
+  }
+
+  .route-button {
+    margin: 0 0 32px auto;
+    font-size: 14px;
+  }
+  .friend-addition {
+    margin: -24px 16px 8px auto;
+    font-size: 14px;
+  }
+  .new-talkroom {
+    margin-right: 16px;
+    font-size: 14px;
+  }
+
+  .edit {
+    margin-left: 18px;
+    margin-top: 4px;
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 20px 0;
+  }
+
+  .search-room {
+    width: 80%;
+    margin: 16px auto 0 auto;
+  }
+
+  .room-icon {
+    width: 100px;
+    height: 100px;
+    padding-right: 16px;
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .room-list {
+    font-size: 16px;
+  }
 }
 </style>

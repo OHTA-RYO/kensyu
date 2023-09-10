@@ -137,8 +137,6 @@ const friendListButton = () => {
 
 <style scoped>
 .container {
-  width: 1080px;
-  margin: 0 auto;
   padding: 20px 0 40px 0;
   font-weight: bold;
   color: white;
@@ -146,7 +144,8 @@ const friendListButton = () => {
 }
 
 .friend-list {
-  margin-left: 935px;
+  width: 160px;
+  margin: 0 -16px 0 auto;
 }
 
 .title {
@@ -167,13 +166,10 @@ const friendListButton = () => {
 }
 
 .room-main-container {
-  width: 1080px;
-  margin: 0 auto;
   border: 1px solid rgb(187, 186, 186);
 }
 
 .room-container {
-  width: 100%;
   margin: 16px 0;
   line-height: 90px;
   display: flex;
@@ -182,7 +178,6 @@ const friendListButton = () => {
 .room-friend-container {
   margin: 32px 0 32px 32px;
   display: flex;
-  /* flex-direction: column; */
 }
 
 .room-name {
@@ -205,7 +200,6 @@ const friendListButton = () => {
 
 .friend-check {
   margin-right: 32px;
-  /* padding-bottom: 32px; */
 }
 .friend-check2 {
   margin-right: 32px;
@@ -225,5 +219,102 @@ const friendListButton = () => {
   margin-top: 32px;
   margin-bottom: 32px;
   width: 280px;
+}
+
+@media screen and (max-width: 820px) {
+  .friend-list {
+    width: 140px;
+    margin: 0 0 0 auto;
+  }
+
+  /* .room-friend-container {
+    margin: 16px 0 16px 16px;
+  } */
+
+  .room-name-input {
+    width: 180px;
+  }
+
+  .friend-search {
+    width: 180px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .title {
+    margin-left: 16px;
+    font-size: 18px;
+  }
+  .container {
+    padding: 15px 0 20px 0;
+  }
+  .friend-list {
+    width: 124px;
+    font-size: 14px;
+  }
+
+  .search-room {
+    margin: 16px 8px 0 auto;
+    font-size: 14px;
+  }
+
+  .room-name-input {
+    width: 200px;
+    margin: 4px 0 0 16px;
+  }
+
+  .friend-search {
+    margin: 4px 0 0 16px;
+    width: 200px;
+  }
+
+  .room-friend {
+    margin-left: auto;
+    padding-left: 60px;
+    font-size: 14px;
+  }
+  .room-name {
+    padding: 0 16px 0 16px;
+    font-size: 14px;
+  }
+
+  .room-container {
+    margin: 16px 0;
+    line-height: 18px;
+    display: block;
+  }
+
+  .friend-check {
+    margin: 0 16px 0 0;
+    width: 180px;
+  }
+  .room-friend {
+    margin: 16px 0 0 16px;
+    padding-left: 0px;
+  }
+  .friend-check2 {
+    margin-right: 0px;
+    padding-bottom: 51px;
+  }
+
+  .room-friend-container {
+    margin: 2px 0 32px 16px;
+    display: block;
+  }
+
+  .fc2 {
+    width: 240px;
+  }
+
+  .main {
+    width: 200px;
+  }
+
+  .fc3 {
+    margin-left: 64px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    width: 180px;
+  }
 }
 </style>

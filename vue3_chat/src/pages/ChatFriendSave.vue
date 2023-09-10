@@ -143,11 +143,8 @@ watch(
 
 <style scoped>
 .container {
-  width: 1080px;
-  margin: 0 auto;
   padding: 40px 0;
   font-weight: bold;
-  /* text-align: center; */
   color: white;
   background: rgb(0, 22, 47);
 }
@@ -179,17 +176,14 @@ watch(
   margin-left: auto;
   margin-right: 32px;
   cursor: pointer;
-  /* font-size: 20px; */
 }
 
 .search-room {
-  width: 508px;
+  width: 50%;
   margin: 32px auto 0 32px;
 }
 
 .room-container {
-  width: 1078px;
-  margin: 0 auto;
   border: 1px solid rgb(187, 186, 186);
   display: flex;
   align-items: center;
@@ -198,13 +192,10 @@ watch(
 .room-icon {
   width: 160px;
   height: 160px;
-
   padding-right: 16px;
-  /* background: pink; */
 }
 
 .room-list {
-  width: 100%;
   background: white;
   border: none;
   margin-left: 16px;
@@ -215,5 +206,33 @@ watch(
   width: 100%;
   padding: 16px 16px 16px 0;
   margin-right: 24px;
+}
+
+@media screen and (max-width: 430px) {
+  .container {
+    padding: 30px 0 20px 0;
+  }
+  .friend-title {
+    margin: -16px 0 32px 16px;
+    font-size: 24px;
+  }
+  .search-room {
+    width: 60%;
+    margin: 32px auto 0 16px;
+  }
+
+  .new-talkroom {
+    margin: -60px 16px 0 auto;
+    font-size: 14px;
+  }
+  .edit {
+    margin-left: 16px;
+    font-size: 14px;
+  }
+  .room-icon {
+    width: 100px;
+    height: 100px;
+    padding-right: 16px;
+  }
 }
 </style>

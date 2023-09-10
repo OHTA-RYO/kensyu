@@ -163,7 +163,7 @@ const friendListButton = () => {
     </div>
   </div>
   <div class="input-area">
-    <p class="image-up">＋</p>
+    <!-- <p class="image-up">＋</p> -->
     <input type="file" @change="imgData" />
     <!-- <img :src="tweet.image" alt="" /> -->
     <Chat_Input v-model="tweet.message.text" class="inputarea" />
@@ -173,9 +173,11 @@ const friendListButton = () => {
 
 <style scoped>
 .friend-list {
+  width: 160px;
   color: rgb(0, 22, 47);
+  font-weight: bold;
   padding-top: 16px;
-  margin-left: 900px;
+  margin-left: auto;
   cursor: pointer;
 }
 .inputarea {
@@ -185,8 +187,6 @@ const friendListButton = () => {
 }
 
 .container {
-  width: 1080px;
-  margin: 0 auto;
   text-align: center;
 }
 
@@ -198,9 +198,8 @@ h1 {
   margin-top: 0;
 }
 .talk-area {
-  width: 100%;
-  height: auto;
   display: flex;
+  /* margin-left: auto; */
 }
 
 img {
@@ -208,7 +207,6 @@ img {
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
-  /* object-position: 50% 50%; */
 }
 
 .tweet-area {
@@ -219,30 +217,26 @@ img {
   padding-right: 16px;
 }
 
+.talk-area img {
+  object-fit: cover;
+}
+
 .input-area {
   display: flex;
   justify-content: center;
-  margin-top: 480px;
-  /* position: fixed;
-  top: 456px;
-  left: 384px; */
+  margin: 240px 0 160px 0;
+  align-items: center;
+  color: white;
 }
 
-.image-up {
-  width: 16px;
-  height: 16px;
-  text-align: center;
-  padding: 9px;
-  margin-top: 4px;
-  margin-right: 16px;
-  font-weight: bold;
-  cursor: pointer;
+.input-area input {
+  margin: 24px 0 0 0;
 }
 
 .sending {
   width: 64px;
   text-align: center;
-  margin-top: 8px;
+  margin-top: 32px;
   margin-left: 16px;
   padding: 8px 16px;
   background: rgb(98, 212, 250);
@@ -250,5 +244,57 @@ img {
   border-radius: 16px;
   cursor: pointer;
   height: auto;
+}
+
+.img-container img {
+  object-fit: cover;
+}
+
+@media screen and (max-width: 820px) {
+  .talk-area {
+    margin-right: 8px;
+  }
+
+  .input-area {
+    margin: 160px 0 160px 0;
+    /* align-items: center; */
+    /* color: white; */
+  }
+}
+@media screen and (max-width: 430px) {
+  img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tweet-area {
+    margin: 24px 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 16px;
+    font-size: 14px;
+  }
+
+  .input-area {
+    margin: 160px 0 160px 16px;
+    width: 320;
+  }
+
+  .sending {
+    font-size: 14px;
+    margin-right: 16px;
+  }
+
+  input-area input {
+    margin-left: 8px;
+  }
+}
+@media screen and (max-width: 390px) {
+  .tweet-area {
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 12px;
+  }
 }
 </style>

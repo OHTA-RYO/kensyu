@@ -64,11 +64,8 @@ const chatroomCreation = () => {
 
 <style scoped>
 .container {
-  width: 1080px;
-  margin: 0 auto;
   padding: 20px 0 40px 0;
   font-weight: bold;
-  /* text-align: center; */
   color: white;
   background: rgb(0, 22, 47);
 }
@@ -78,7 +75,8 @@ const chatroomCreation = () => {
   cursor: pointer;
 }
 .logout {
-  margin-left: 972px;
+  width: 80px;
+  margin: 0 32px 0 auto;
   cursor: pointer;
 }
 .friend-list {
@@ -93,17 +91,17 @@ const chatroomCreation = () => {
 }
 
 .new-talkroom {
-  margin-left: 890px;
+  width: 160px;
+  margin: 0 32px 0 auto;
   cursor: pointer;
 }
 
 .search-room {
-  width: 1016px;
+  width: 80%;
   margin: 32px auto 0 auto;
 }
 
 .room-container {
-  width: 1078px;
   margin: 0 auto;
   border: 1px solid rgb(187, 186, 186);
   /* height: 120px; */
@@ -115,23 +113,56 @@ const chatroomCreation = () => {
 .room-icon {
   width: 160px;
   height: 160px;
-
   padding-right: 16px;
   background: pink;
 }
 
 .room-list {
-  width: 100%;
+  /* width: 100%; */
   background: white;
   border: none;
   margin-left: 16px;
   cursor: pointer;
 }
 
-/* h1 {
-  text-align: center;
-  margin: 0;
-  padding-bottom: 24px;
-  border-bottom: 1px solid black;
-} */
+@media screen and (max-width: 820px) {
+  .room-icon {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .container {
+    padding: 10px 0 20px 0;
+    font-weight: bold;
+    color: white;
+    background: rgb(0, 22, 47);
+  }
+  .edit {
+    font-size: 14px;
+  }
+
+  .logout {
+    margin: 0 7px 0 auto;
+    font-size: 14px;
+  }
+
+  .friend-list {
+    margin-left: auto;
+    margin-right: 16px;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+
+  .new-talkroom {
+    margin: 0 -4px -16px auto;
+    font-size: 14px;
+  }
+
+  .room-icon {
+    width: 100px;
+    height: 100px;
+  }
+}
 </style>

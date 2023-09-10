@@ -13,10 +13,6 @@ const nameData = ref<string>("");
 const emailData = ref<string>("");
 const passwordData = ref<string>("");
 
-const login = () => {
-  router.push("/");
-};
-
 watch([nameData, emailData, passwordData], (a, b) => {
   console.log(a, b);
   console.log(passwordData.value);
@@ -37,7 +33,6 @@ const passwordDataError = computed(() => {
 </script>
 
 <template>
-  <button @click="login">login</button>
   <div class="main-container">
     <div class="title">
       <h1>アカウント登録</h1>
@@ -85,15 +80,16 @@ const passwordDataError = computed(() => {
 
 <style scoped>
 .inputarea {
-  width: 480px;
+  width: 400px;
   margin: 6px 0 6px 0;
-  /* height: 16px;¥ */
-  /* padding: 15px 0; */
 }
 
 h1 {
-  margin: 32px 0;
+  margin: 0 0 32px 0;
+  padding: 32px 0;
   text-align: center;
+  background: rgb(0, 22, 47);
+  color: white;
 }
 
 p {
@@ -101,14 +97,15 @@ p {
 }
 
 .main-container {
-  width: 100%;
+  /* width: 100%; */
   box-sizing: border-box;
+  border: 1px solid rgb(187, 186, 186);
 }
 
 .container {
   display: flex;
 
-  width: 100%;
+  /* width: 100%; */
   justify-content: center;
 }
 
@@ -120,9 +117,10 @@ p {
 .container-parea p {
   margin: 10px 0;
   padding: 8px 0;
-  background: rgb(230, 228, 228);
+  background: rgb(0, 22, 47);
   text-align: center;
   font-size: 20px;
+  color: white;
 }
 
 .container-inputarea {
@@ -132,9 +130,9 @@ p {
 }
 
 .sendarea {
-  width: 100%;
   margin-top: 64px;
   text-align: center;
+  padding-bottom: 32px;
 }
 
 .sendarea p {
@@ -143,9 +141,66 @@ p {
   padding: 8px 0;
   font-size: 20px;
   font-weight: bold;
-  border-radius: 16px;
-  background: rgb(98, 212, 250);
+  background: rgb(0, 22, 47);
   color: white;
   cursor: pointer;
+}
+
+@media screen and (max-width: 820px) {
+  .inputarea {
+    width: 320px;
+  }
+
+  .container-parea {
+    width: 320px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .container-inputarea {
+    width: 192px;
+  }
+  h1 {
+    margin: 0 0 16px 0;
+    font-size: 24px;
+  }
+  .inputarea {
+    width: 160px;
+    margin: 8px 16px 0 16px;
+  }
+
+  .container-parea {
+    width: 160px;
+    margin: 0 16px 0 16px;
+    /* padding: 4px 0; */
+  }
+  .container-parea p {
+    font-size: 16px;
+    width: 160px;
+    padding: 10px 0;
+  }
+
+  .sendarea {
+    margin-top: 32px;
+    text-align: center;
+    padding-bottom: 16px;
+  }
+
+  .sendarea p {
+    width: 80px;
+    font-size: 16px;
+    margin: 0 auto;
+    padding: 8px 0;
+    font-weight: bold;
+    background: rgb(0, 22, 47);
+    color: white;
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .container-inputarea {
+    width: 100%;
+  }
 }
 </style>
