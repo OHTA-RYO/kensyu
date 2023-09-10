@@ -79,15 +79,6 @@ const friendsidUpdate = async () => {
   // console.log(mynameData.value?.friends);
 };
 
-// updateDocment(mynameData.value?.nameid ?? "", {
-//     image: nameData.value.image,
-//   });
-
-//checkboxのコンポーネントでbooleanの引数を渡す。
-//emitでtrue falseを受け取れるように。
-
-// updateDocment(uid.value);
-
 const topButton = () => {
   router.push("/");
 };
@@ -118,9 +109,6 @@ watch(
 </script>
 
 <template>
-  <button @click="topButton">Top</button>
-  <button @click="nameButton">nameButton</button>
-  <button @click="logoutUser">logoutButton</button>
   <div class="container">
     <div class="friend-container">
       <div class="friend-title">フレンド追加</div>

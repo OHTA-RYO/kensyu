@@ -170,7 +170,7 @@ const friendSave = () => {
 h1 {
   margin: 32px 0 32px 32px;
   font-size: 28px;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .container-parea {
@@ -247,5 +247,277 @@ p {
   background: rgb(0, 22, 47);
   color: white;
   cursor: pointer;
+}
+
+/* タブレット用 */
+@media screen and (max-width: 820px) {
+  .border-area {
+    width: 820px;
+    margin: 0 auto;
+    border: 1px solid rgb(187, 186, 186);
+  }
+  .container {
+    width: 820px;
+    margin: 0 auto;
+    padding: 40px 0;
+    font-weight: bold;
+    /* text-align: center; */
+    color: white;
+    background: rgb(0, 22, 47);
+  }
+  .profile-container {
+    display: flex;
+  }
+
+  .naime-title {
+    margin: -16px 0 32px 32px;
+    font-size: 28px;
+  }
+
+  .chatroom {
+    margin-left: auto;
+    margin-right: 32px;
+    cursor: pointer;
+  }
+
+  .friend-addition {
+    margin: 0 32px 0 auto;
+    cursor: pointer;
+  }
+
+  .header-container {
+    width: 100%;
+    display: flex;
+    margin-left: auto;
+  }
+
+  .inputarea {
+    width: 400px;
+    margin: 6px 0 6px 0;
+    /* height: 16px;¥ */
+    /* padding: 15px 0; */
+  }
+  .main-container {
+    width: 820px;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
+  h1 {
+    margin: 32px 0 32px 32px;
+    font-size: 28px;
+  }
+
+  .container-parea {
+    margin-right: 100px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .name-container {
+    width: 100%;
+  }
+
+  .container-parea {
+    width: 400px;
+    margin: 0 32px;
+  }
+
+  .container-parea p {
+    margin: 10px 0;
+    padding: 8px 0 8px 32px;
+    background: rgb(0, 22, 47);
+    color: white;
+    font-size: 20px;
+  }
+
+  .container-inputarea {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    margin-left: 32px;
+  }
+
+  .save {
+    width: 100%;
+    /* margin-top: -80px; */
+    text-align: center;
+  }
+
+  .save p {
+    width: 160px;
+    margin: -52px auto 32px;
+    padding: 8px 0;
+    font-size: 20px;
+    font-weight: bold;
+    /* border-radius: 20px; */
+    background: rgb(0, 22, 47);
+    color: white;
+    cursor: pointer;
+  }
+
+  .file-save-area {
+    margin-top: 96px;
+  }
+
+  .file-area {
+    margin: 0 0 0 32px;
+    color: white;
+  }
+  .file-save {
+    width: 100%;
+    /* margin-top: -80px; */
+    text-align: center;
+  }
+
+  .file-save p {
+    width: 160px;
+    margin: -52px auto 32px;
+    padding: 8px 0;
+    font-size: 20px;
+    font-weight: bold;
+    /* border-radius: 20px; */
+    background: rgb(0, 22, 47);
+    color: white;
+    cursor: pointer;
+  }
+  /*　画面サイズが480px以下の場合ここの記述が適用される　*/
+}
+
+@media screen and (max-width: 390px) {
+  .border-area {
+    width: 100%;
+    margin: 0 auto;
+    border: 1px solid rgb(187, 186, 186);
+  }
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 0;
+    font-weight: bold;
+    /* text-align: center; */
+    color: white;
+    background: rgb(0, 22, 47);
+  }
+  .profile-container {
+    display: flex;
+  }
+
+  .naime-title {
+    margin: -16px 0 32px 32px;
+    font-size: 28px;
+  }
+
+  .chatroom {
+    margin-left: auto;
+    margin-right: 32px;
+    cursor: pointer;
+  }
+
+  .friend-addition {
+    margin: 0 32px 0 auto;
+    cursor: pointer;
+  }
+
+  .header-container {
+    width: 100%;
+    display: flex;
+    margin-left: auto;
+  }
+
+  .inputarea {
+    width: 400px;
+    margin: 6px 0 6px 0;
+    /* height: 16px;¥ */
+    /* padding: 15px 0; */
+  }
+  .main-container {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
+  h1 {
+    margin: 32px 0 32px 32px;
+    font-size: 28px;
+  }
+
+  .container-parea {
+    margin-right: 100px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .name-container {
+    width: 100%;
+  }
+
+  .container-parea {
+    width: 400px;
+    margin: 0 32px;
+  }
+
+  .container-parea p {
+    margin: 10px 0;
+    padding: 8px 0 8px 32px;
+    background: rgb(0, 22, 47);
+    color: white;
+    font-size: 20px;
+  }
+
+  .container-inputarea {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    margin-left: 32px;
+  }
+
+  .save {
+    width: 100%;
+    /* margin-top: -80px; */
+    text-align: center;
+  }
+
+  .save p {
+    width: 160px;
+    margin: -52px auto 32px;
+    padding: 8px 0;
+    font-size: 20px;
+    font-weight: bold;
+    /* border-radius: 20px; */
+    background: rgb(0, 22, 47);
+    color: white;
+    cursor: pointer;
+  }
+
+  .file-save-area {
+    margin-top: 96px;
+  }
+
+  .file-area {
+    margin: 0 0 0 32px;
+    color: white;
+  }
+  .file-save {
+    width: 100%;
+    /* margin-top: -80px; */
+    text-align: center;
+  }
+
+  .file-save p {
+    width: 160px;
+    margin: -52px auto 32px;
+    padding: 8px 0;
+    font-size: 20px;
+    font-weight: bold;
+    /* border-radius: 20px; */
+    background: rgb(0, 22, 47);
+    color: white;
+    cursor: pointer;
+  }
 }
 </style>

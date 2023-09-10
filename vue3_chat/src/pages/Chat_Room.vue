@@ -6,8 +6,7 @@ import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 // import {  } from "@/db";
 import type { Tweet, ChatRoom } from "@/Types/TweetTypes";
 import { allChatRoomDocumentData, mynameData } from "@/db";
-// import { collection, addDoc, doc, getDoc } from "firebase/firestore";
-// import { app, db, auth } from "../firebase/firebase";
+import { logoutUser } from "@/firebase/firebaseAuth";
 
 const allChatRoomData = ref<ChatRoom[]>([]);
 
@@ -30,11 +29,8 @@ const chatRoomButton = (roomid: string) => {
   router.push(`/Chat_Main?id=${roomid}`);
 };
 
-const topButton = () => {
-  router.push("/");
-};
-const nameButton = () => {
-  router.push("/Chat_Name_Registration");
+const friendSave = () => {
+  router.push("/ChatFriendSave");
 };
 
 const chatroomCreation = () => {
@@ -43,14 +39,14 @@ const chatroomCreation = () => {
 </script>
 
 <template>
-  <button @click="topButton">Top</button>
-  <button @click="nameButton">nameButton</button>
   <div class="container">
+    <div class="logout" @click="logoutUser">ログアウト</div>
     <div class="header-container">
       <div class="edit">編集</div>
-      <div class="new-talkroom" @click="chatroomCreation">
-        チャットルームを作成
-      </div>
+      <div class="friend-list" @click="friendSave">フレンド追加</div>
+    </div>
+    <div class="new-talkroom" @click="chatroomCreation">
+      チャットルームを作成
     </div>
     <div class="search-room">
       <Chat_Input placeholder="🔍 検索" />
@@ -70,7 +66,7 @@ const chatroomCreation = () => {
 .container {
   width: 1080px;
   margin: 0 auto;
-  padding: 40px 0;
+  padding: 20px 0 40px 0;
   font-weight: bold;
   /* text-align: center; */
   color: white;
@@ -81,16 +77,24 @@ const chatroomCreation = () => {
   margin-left: 32px;
   cursor: pointer;
 }
+.logout {
+  margin-left: 972px;
+  cursor: pointer;
+}
+.friend-list {
+  margin-left: auto;
+  margin-right: 32px;
+  padding: 16px 0;
+  cursor: pointer;
+}
 
 .header-container {
   display: flex;
 }
 
 .new-talkroom {
-  margin-left: auto;
-  margin-right: 32px;
+  margin-left: 890px;
   cursor: pointer;
-  /* font-size: 20px; */
 }
 
 .search-room {

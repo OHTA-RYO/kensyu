@@ -133,11 +133,8 @@ const sendmessage = async () => {
   console.log(saveTweet.value);
 };
 
-const topButton = () => {
-  router.push("/");
-};
-const nameButton = () => {
-  router.push("/Chat_Name_Registration");
+const friendListButton = () => {
+  router.push("/ChatFriendList");
 };
 
 //自分のツイートは右側に
@@ -148,9 +145,8 @@ const nameButton = () => {
 </script>
 
 <template>
-  <button @click="topButton">Top</button>
-  <button @click="nameButton">nameButton</button>
   <div class="container">
+    <div class="friend-list" @click="friendListButton">フレンド一覧へ</div>
     <h1>トークルーム</h1>
 
     <div v-for="t in saveTweet" class="talk-area">
@@ -176,6 +172,12 @@ const nameButton = () => {
 </template>
 
 <style scoped>
+.friend-list {
+  color: rgb(0, 22, 47);
+  padding-top: 16px;
+  margin-left: 900px;
+  cursor: pointer;
+}
 .inputarea {
   width: 320px;
   height: 24px;
@@ -190,9 +192,10 @@ const nameButton = () => {
 
 h1 {
   text-align: center;
-  /* margin-bottom: 24px; */
+  color: rgb(0, 22, 47);
   padding-bottom: 24px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(0, 22, 47);
+  margin-top: 0;
 }
 .talk-area {
   width: 100%;

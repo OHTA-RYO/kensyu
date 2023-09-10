@@ -95,19 +95,14 @@ const createChatRoom = async () => {
 
 console.log(chatRoom.value.roomname);
 
-const topButton = () => {
-  router.push("/");
-};
-const nameButton = () => {
-  router.push("/Chat_Name_Registration");
+const friendListButton = () => {
+  router.push("/ChatFriendList");
 };
 </script>
 
 <template>
-  <button @click="topButton">Top</button>
-  <button @click="nameButton">nameButton</button>
-
   <div class="container">
+    <div class="friend-list" @click="friendListButton">フレンド一覧へ</div>
     <div class="header-container">
       <div class="title">チャットルームを作成</div>
     </div>
@@ -144,10 +139,14 @@ const nameButton = () => {
 .container {
   width: 1080px;
   margin: 0 auto;
-  padding: 40px 0;
+  padding: 20px 0 40px 0;
   font-weight: bold;
   color: white;
   background: rgb(0, 22, 47);
+}
+
+.friend-list {
+  margin-left: 935px;
 }
 
 .title {
