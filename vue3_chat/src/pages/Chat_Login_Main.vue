@@ -58,7 +58,9 @@ const loginAccount = async () => {
 .main {
   background: rgb(98, 212, 250);
   height: auto;
-  padding: 64px 0;
+  padding: 248px 0;
+  height: auto;
+  min-height: 100vh;
 }
 p {
   margin: 0;
@@ -107,7 +109,7 @@ p {
 
 @media screen and (max-width: 430px) {
   .main {
-    padding: 24px 0;
+    padding: 200px 0;
   }
   .main-container {
     width: 320px;

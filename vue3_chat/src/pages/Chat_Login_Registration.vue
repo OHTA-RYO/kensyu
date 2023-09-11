@@ -79,6 +79,10 @@ const passwordDataError = computed(() => {
 </template>
 
 <style scoped>
+.main-container {
+  height: auto;
+  min-height: 100vh;
+}
 .inputarea {
   width: 400px;
   margin: 6px 0 6px 0;

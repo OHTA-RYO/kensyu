@@ -31,7 +31,7 @@ const nameRegistration = async () => {
     const docRef = await addDoc(collection(db, "names"), nameData.value);
     console.log(nameData.value);
     console.log("Document written with ID: ", docRef.id);
-    router.push("/Chat_Room");
+    router.push("/ChatFriendSave");
   } catch (e) {
     console.error("Error adding document: ", e);
   }
@@ -70,7 +70,6 @@ const friendSave = () => {
     <div class="container">
       <div class="profile-container">
         <div class="naime-title">プロフィールページ</div>
-        <div class="naime-title">{{}}</div>
         <div class="friend-addition" @click="friendSave">友達追加へ</div>
       </div>
 
@@ -111,12 +110,18 @@ const friendSave = () => {
         <p @click="myIconSet">アイコンを設定</p>
       </div>
     </div>
+    <div class="nameid-container">
+      <div class="nameid">{{ `${mynameData?.name}さんのID` }}</div>
+      <div class="nameid">{{ mynameData?.nameid }}</div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .border-area {
   width: 100%;
+  height: auto;
+  min-height: 100vh;
   border: 1px solid rgb(187, 186, 186);
 }
 .container {
@@ -234,6 +239,14 @@ p {
   cursor: pointer;
 }
 
+.nameid-container {
+  margin: 64px 0 0 32px;
+}
+.nameid {
+  color: rgb(0, 22, 47);
+  font-size: 24px;
+}
+
 @media screen and (max-width: 820px) {
   .naime-title {
     font-size: 24px;
@@ -258,6 +271,15 @@ p {
   .file-save p {
     width: 160px;
     font-size: 16px;
+  }
+
+  .nameid-container {
+    margin: 48px 0 0 32px;
+  }
+
+  .nameid {
+    color: rgb(0, 22, 47);
+    font-size: 20px;
   }
 }
 
@@ -325,6 +347,15 @@ p {
 
   .file-area {
     margin: 16px 0 0 16px;
+  }
+
+  .nameid-container {
+    margin: 48px 0 0 16px;
+  }
+
+  .nameid {
+    color: rgb(0, 22, 47);
+    font-size: 18px;
   }
 }
 </style>

@@ -75,6 +75,7 @@ const friendsidUpdate = async () => {
     //   //↓更新するデータ
     friends: pushID().concat(mynameData.value.friends),
   } as object);
+  router.push("/Chat_Room_Creation");
   //配列どうしでなぜpushが出来ないのか？
   // console.log(mynameData.value?.friends);
 };

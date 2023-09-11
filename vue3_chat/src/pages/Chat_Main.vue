@@ -137,6 +137,11 @@ const friendListButton = () => {
   router.push("/ChatFriendList");
 };
 
+const inputDom = ref<HTMLInputElement | null>(null);
+const clickInput = () => {
+  inputDom.value?.click();
+};
+
 //自分のツイートは右側に
 //他のユーザーのツイートは左側に
 //mynameData.idが一致していたら、右
@@ -163,9 +168,9 @@ const friendListButton = () => {
     </div>
   </div>
   <div class="input-area">
-    <!-- <p class="image-up">＋</p> -->
-    <input type="file" @change="imgData" />
-    <!-- <img :src="tweet.image" alt="" /> -->
+    <p class="image-up" @click="clickInput">＋</p>
+    <input type="file" @change="imgData" v-show="false" ref="inputDom" />
+
     <Chat_Input v-model="tweet.message.text" class="inputarea" />
     <p class="sending" @click="sendmessage" :disabled="tweet.message">送信</p>
   </div>
@@ -226,7 +231,6 @@ img {
   justify-content: center;
   margin: 240px 0 160px 0;
   align-items: center;
-  color: white;
 }
 
 .input-area input {
