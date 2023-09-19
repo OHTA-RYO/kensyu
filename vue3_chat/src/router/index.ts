@@ -47,6 +47,11 @@ export const routes = [
     name: "/ChatFriendList",
     component: () => import("@/pages/ChatFriendList.vue"),
   },
+  {
+    path: "/Drawer",
+    name: "/Drawer",
+    component: () => import("@/pages/Drawer.vue"),
+  },
 ];
 
 export const router = createRouter({

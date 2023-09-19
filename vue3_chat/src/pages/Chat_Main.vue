@@ -142,14 +142,16 @@ const clickInput = () => {
   inputDom.value?.click();
 };
 
-//自分のツイートは右側に
-//他のユーザーのツイートは左側に
-//mynameData.idが一致していたら、右
-//そうでなければ、左。
-//list側で色と左右の方向を書くのか？
+const drawer = () => {
+  router.push("/Drawer");
+};
 </script>
 
 <template>
+  <div class="q-pa-md q-gutter-sm">
+    <q-icon name="menu" />
+  </div>
+  <button @click="drawer">drawer</button>
   <div class="container">
     <div class="friend-list" @click="friendListButton">フレンド一覧へ</div>
     <h1>トークルーム</h1>
@@ -201,6 +203,7 @@ h1 {
   padding-bottom: 24px;
   border-bottom: 1px solid rgb(0, 22, 47);
   margin-top: 0;
+  /* font-size: 24px; */
 }
 .talk-area {
   display: flex;
