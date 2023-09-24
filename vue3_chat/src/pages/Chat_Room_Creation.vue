@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { router } from "../router/index";
 import { ref, onMounted, computed, watch } from "vue";
+import Drawer from "./Drawer.vue";
 
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 import ChatCheckbox from "../components/Chat_Data/ChatCheckbox.vue";
@@ -98,37 +99,47 @@ console.log(chatRoom.value.roomname);
 const friendListButton = () => {
   router.push("/ChatFriendList");
 };
+
+const isDrawer = ref(false);
 </script>
 
 <template>
-  <div class="container">
-    <div class="friend-list" @click="friendListButton">フレンド一覧へ</div>
-    <div class="header-container">
-      <div class="title">チャットルームを作成</div>
+  <Drawer v-model="isDrawer" />
+  <div class="main-display" v-if="!isDrawer">
+    <div class="container">
+      <div class="q-gutter-sm menu-style">
+        <q-icon name="menu" @click="isDrawer = !isDrawer" />
+      </div>
+      <!-- <div class="friend-list" @click="friendListButton">フレンド一覧へ</div> -->
+      <div class="header-container">
+        <div class="title">チャットルームを作成</div>
+      </div>
+      <div class="search-room" @click="createChatRoom">
+        チャットルームを保存
+      </div>
     </div>
-    <div class="search-room" @click="createChatRoom">チャットルームを保存</div>
-  </div>
-  <div class="room-main-container">
-    <div class="room-container">
-      <div class="room-name">チャットルーム名:</div>
-      <Chat_Input class="room-name-input" v-model="chatRoom.roomname" />
-      <div class="room-friend">友達を検索:</div>
-      <Chat_Input placeholder="🔍 友達検索" class="friend-search" />
-      <!-- <div class="search-name" @click="searchNameData">検索</div> -->
-    </div>
-    <div class="fc">
-      <div class="fc2">
-        <div class="room-friend-container" v-for="t in result">
-          <div class="friend-check">フレンドを選択:</div>
-          <div class="friend-select-container">
-            <ChatCheckbox :text="t.name" v-model="friendsid[t.nameid].val" />
-            <!-- <ChatCheckbox :text="t.name" v-model="friendsid[t.name]" /> -->
+    <div class="room-main-container">
+      <div class="room-container">
+        <div class="room-name">チャットルーム名:</div>
+        <Chat_Input class="room-name-input" v-model="chatRoom.roomname" />
+        <div class="room-friend">友達を検索:</div>
+        <Chat_Input placeholder="🔍 友達検索" class="friend-search" />
+        <!-- <div class="search-name" @click="searchNameData">検索</div> -->
+      </div>
+      <div class="fc">
+        <div class="fc2">
+          <div class="room-friend-container" v-for="t in result">
+            <div class="friend-check">フレンドを選択:</div>
+            <div class="friend-select-container">
+              <ChatCheckbox :text="t.name" v-model="friendsid[t.nameid].val" />
+              <!-- <ChatCheckbox :text="t.name" v-model="friendsid[t.name]" /> -->
+            </div>
           </div>
         </div>
-      </div>
-      <div class="fc3">
-        <div class="friend-check2" v-for="c in checkData">
-          {{ c }}
+        <div class="fc3">
+          <div class="friend-check2" v-for="c in checkData">
+            {{ c }}
+          </div>
         </div>
       </div>
     </div>
@@ -136,6 +147,12 @@ const friendListButton = () => {
 </template>
 
 <style scoped>
+.menu-style {
+  width: 64px;
+  font-size: 32px;
+  cursor: pointer;
+  margin: 0 0 0 auto;
+}
 .container {
   padding: 20px 0 40px 0;
   font-weight: bold;
@@ -150,6 +167,7 @@ const friendListButton = () => {
 
 .title {
   margin-left: 32px;
+  margin-top: -24px;
   font-size: 24px;
 }
 
@@ -167,6 +185,7 @@ const friendListButton = () => {
 
 .room-main-container {
   border: 1px solid rgb(187, 186, 186);
+  min-height: 100vh;
 }
 
 .room-container {

@@ -7,6 +7,7 @@ import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 import type { Tweet, ChatRoom } from "@/Types/TweetTypes";
 import { allChatRoomDocumentData, mynameData } from "@/db";
 import { logoutUser } from "@/firebase/firebaseAuth";
+import Drawer from "./Drawer.vue";
 
 const allChatRoomData = ref<ChatRoom[]>([]);
 
@@ -36,33 +37,47 @@ const friendSave = () => {
 const chatroomCreation = () => {
   router.push("/Chat_Room_Creation");
 };
+
+const isDrawer = ref(false);
 </script>
 
 <template>
-  <div class="container">
-    <div class="logout" @click="logoutUser">ログアウト</div>
-    <div class="header-container">
-      <div class="edit">編集</div>
-      <div class="friend-list" @click="friendSave">フレンド追加</div>
+  <Drawer v-model="isDrawer" />
+  <div class="main-display" v-if="!isDrawer">
+    <div class="container">
+      <div class="q-gutter-sm menu-style">
+        <q-icon name="menu" @click="isDrawer = !isDrawer" />
+      </div>
+      <!-- <div class="logout" @click="logoutUser">ログアウト</div> -->
+      <div class="header-container">
+        <div class="edit">編集</div>
+        <!-- <div class="friend-list" @click="friendSave">フレンド追加</div> -->
+      </div>
+      <!-- <div class="new-talkroom" @click="chatroomCreation">
+        チャットルームを作成
+      </div> -->
+      <div class="search-room">
+        <Chat_Input placeholder="🔍 検索" />
+      </div>
     </div>
-    <div class="new-talkroom" @click="chatroomCreation">
-      チャットルームを作成
+    <div class="room-container" v-for="t in result">
+      <div class="room-icon">アイコン</div>
+      <div class="room-list" @click="chatRoomButton(t.roomid)">
+        {{ t.roomname }}
+      </div>
+      <!-- <Chat_List class="room-list" /> -->
     </div>
-    <div class="search-room">
-      <Chat_Input placeholder="🔍 検索" />
-    </div>
+    <!-- <h1>トークルーム</h1> -->
   </div>
-  <div class="room-container" v-for="t in result">
-    <div class="room-icon">アイコン</div>
-    <div class="room-list" @click="chatRoomButton(t.roomid)">
-      {{ t.roomname }}
-    </div>
-    <!-- <Chat_List class="room-list" /> -->
-  </div>
-  <!-- <h1>トークルーム</h1> -->
 </template>
 
 <style scoped>
+.menu-style {
+  font-size: 32px;
+  margin: 0 0px 0 auto;
+  width: 80px;
+  cursor: pointer;
+}
 .container {
   padding: 20px 0 40px 0;
   font-weight: bold;
@@ -71,8 +86,10 @@ const chatroomCreation = () => {
 }
 
 .edit {
-  margin-left: 32px;
+  margin-left: 24px;
+  margin-top: -24px;
   cursor: pointer;
+  font-size: 24px;
 }
 .logout {
   width: 80px;
@@ -140,7 +157,7 @@ const chatroomCreation = () => {
     background: rgb(0, 22, 47);
   }
   .edit {
-    font-size: 14px;
+    font-size: 20px;
   }
 
   .logout {

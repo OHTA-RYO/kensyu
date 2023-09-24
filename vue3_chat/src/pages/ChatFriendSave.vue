@@ -15,6 +15,7 @@ import type { Name } from "@/Types/TweetTypes";
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 import { logoutUser } from "@/firebase/firebaseAuth";
+import Drawer from "./Drawer.vue";
 
 const chatName = ref<Name[]>([]); //型を配列に
 const nameid = ref(""); //フレンドid入力用に変数を作成。
@@ -102,47 +103,52 @@ watch(
   { deep: true }
 );
 
-// const username = ref<string | undefined | Promise<null>>(undefined);
-// username.value = userName(auth.currentUser!.uid);
-// console.log(username);
-
-//trueの時にtrueの情報だけを配列にして保存する。
+const isDrawer = ref(false);
 </script>
 
 <template>
-  <div class="container">
-    <div class="friend-container">
-      <div class="friend-title">フレンド追加</div>
-      <div class="friend-title">{{ mynameData?.name }}</div>
-      <!-- <div class="friend-addition" @click="friendSave">友達追加へ</div> -->
+  <Drawer v-model="isDrawer" />
+  <div class="main-display" v-if="!isDrawer">
+    <div class="container">
+      <div class="friend-container">
+        <div class="friend-title">フレンド追加</div>
+        <div class="friend-title">{{ mynameData?.name }}</div>
+        <!-- <div class="friend-addition" @click="friendSave">友達追加へ</div> -->
+      </div>
+
+      <div class="header-container">
+        <div class="edit" @click="nameidSearch()">検索</div>
+        <div class="edit" @click="friendsidUpdate()">追加</div>
+        <div class="edit" @click="nameDocument(mynameData?.nameid)">編集</div>
+        <div class="edit">削除</div>
+        <!-- <div class="new-talkroom" @click="friendList">フレンド一覧へ</div> -->
+        <div class="q-gutter-sm menu-style new-talkroom">
+          <q-icon name="menu" @click="isDrawer = !isDrawer" />
+        </div>
+      </div>
+      <div class="search-room">
+        <Chat_Input placeholder="🔍 フレンドID検索" v-model="nameid" />
+      </div>
+    </div>
+    <div class="room-container" v-for="t in chatName">
+      <div class="room-icon"></div>
+      <div class="checkbox-container">
+        <ChatCheckbox
+          :text="t.name"
+          class="checkbox"
+          v-model="friendsid[t.nameid]"
+        />
+      </div>
     </div>
 
-    <div class="header-container">
-      <div class="edit" @click="nameidSearch()">検索</div>
-      <div class="edit" @click="friendsidUpdate()">追加</div>
-      <div class="edit" @click="nameDocument(mynameData?.nameid)">編集</div>
-      <div class="edit">削除</div>
-      <div class="new-talkroom" @click="friendList">フレンド一覧へ</div>
-    </div>
-    <div class="search-room">
-      <Chat_Input placeholder="🔍 フレンドID検索" v-model="nameid" />
-    </div>
+    <!-- <h1>トークルーム</h1> -->
   </div>
-  <div class="room-container" v-for="t in chatName">
-    <div class="room-icon"></div>
-    <div class="checkbox-container">
-      <ChatCheckbox
-        :text="t.name"
-        class="checkbox"
-        v-model="friendsid[t.nameid]"
-      />
-    </div>
-  </div>
-
-  <!-- <h1>トークルーム</h1> -->
 </template>
 
 <style scoped>
+.menu-style {
+  font-size: 32px;
+}
 .container {
   padding: 40px 0;
   font-weight: bold;
@@ -176,6 +182,7 @@ watch(
 .new-talkroom {
   margin-left: auto;
   margin-right: 32px;
+  margin-top: -80px;
   cursor: pointer;
 }
 
@@ -223,8 +230,8 @@ watch(
   }
 
   .new-talkroom {
-    margin: -60px 16px 0 auto;
-    font-size: 14px;
+    margin: -80px 16px 0 auto;
+    font-size: 32px;
   }
   .edit {
     margin-left: 16px;

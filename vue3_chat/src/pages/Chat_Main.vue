@@ -25,7 +25,7 @@ import {
   Query,
 } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
-import { list } from "firebase/storage";
+import Drawer from "./Drawer.vue";
 
 const tweet = ref<Tweet>(defaultTweet());
 const saveTweet = ref<Tweet[]>([]);
@@ -141,44 +141,47 @@ const inputDom = ref<HTMLInputElement | null>(null);
 const clickInput = () => {
   inputDom.value?.click();
 };
-
-const drawer = () => {
-  router.push("/Drawer");
-};
+const isDrawer = ref(false);
 </script>
 
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-icon name="menu" />
-  </div>
-  <button @click="drawer">drawer</button>
-  <div class="container">
-    <div class="friend-list" @click="friendListButton">フレンド一覧へ</div>
-    <h1>トークルーム</h1>
-
-    <div v-for="t in saveTweet" class="talk-area">
-      <div class="tweet-area">
-        <div class="img-container">
-          <img :src="findData(t)" alt="" />
-        </div>
-        <div>{{ findName(t) }}</div>
-        <!-- <div v-if="t.message.text && t.image"> -->
-        <div>{{ t.message.sendAt }}</div>
-        <!-- </div> -->
+  <Drawer v-model="isDrawer" />
+  <div class="main-display" v-if="!isDrawer">
+    <div class="container">
+      <div class="q-gutter-sm menu-style">
+        <q-icon name="menu" @click="isDrawer = !isDrawer" />
       </div>
-      <Chat_List :text="t" :isTweet="change(t)" />
+      <!-- <div class="friend-list" @click="friendListButton">フレンド一覧へ</div> -->
+      <h1>トークルーム</h1>
+      <div v-for="t in saveTweet" class="talk-area">
+        <div class="tweet-area">
+          <div class="img-container">
+            <img :src="findData(t)" alt="" />
+          </div>
+          <div>{{ findName(t) }}</div>
+          <!-- <div v-if="t.message.text && t.image"> -->
+          <div>{{ t.message.sendAt }}</div>
+          <!-- </div> -->
+        </div>
+        <Chat_List :text="t" :isTweet="change(t)" />
+      </div>
     </div>
-  </div>
-  <div class="input-area">
-    <p class="image-up" @click="clickInput">＋</p>
-    <input type="file" @change="imgData" v-show="false" ref="inputDom" />
+    <div class="input-area">
+      <p class="image-up" @click="clickInput">＋</p>
+      <input type="file" @change="imgData" v-show="false" ref="inputDom" />
 
-    <Chat_Input v-model="tweet.message.text" class="inputarea" />
-    <p class="sending" @click="sendmessage" :disabled="tweet.message">送信</p>
+      <Chat_Input v-model="tweet.message.text" class="inputarea" />
+      <p class="sending" @click="sendmessage" :disabled="tweet.message">送信</p>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.menu-style {
+  font-size: 32px;
+  width: 64px;
+  margin: 16px 32px 0 auto;
+}
 .friend-list {
   width: 160px;
   color: rgb(0, 22, 47);
@@ -195,6 +198,7 @@ const drawer = () => {
 
 .container {
   text-align: center;
+  position: relative;
 }
 
 h1 {
@@ -202,8 +206,8 @@ h1 {
   color: rgb(0, 22, 47);
   padding-bottom: 24px;
   border-bottom: 1px solid rgb(0, 22, 47);
-  margin-top: 0;
-  /* font-size: 24px; */
+  margin-top: -56px;
+  font-size: 24px;
 }
 .talk-area {
   display: flex;
@@ -234,6 +238,9 @@ img {
   justify-content: center;
   margin: 240px 0 160px 0;
   align-items: center;
+  /* position: fixed;
+  bottom: 0;
+  left: 430px; */
 }
 
 .input-area input {
@@ -302,6 +309,12 @@ img {
     padding-right: 8px;
     padding-left: 8px;
     font-size: 12px;
+  }
+
+  .menu-style {
+    font-size: 32px;
+    width: 64px;
+    margin: 8px 8px 0 auto;
   }
 }
 </style>

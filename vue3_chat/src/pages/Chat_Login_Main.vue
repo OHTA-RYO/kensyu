@@ -124,8 +124,12 @@ p {
   .container p {
     width: 180px;
     margin: 8px 0 8px 0;
-    padding: px 0;
+    padding: 0;
     font-size: 16px;
+  }
+  .container input {
+    padding: 16px 0;
+    height: 60px;
   }
 }
 </style>

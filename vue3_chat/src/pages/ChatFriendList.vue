@@ -9,6 +9,7 @@ import {
 } from "@/db";
 import type { Name } from "@/Types/TweetTypes";
 import { logoutUser } from "@/firebase/firebaseAuth";
+import Drawer from "./Drawer.vue";
 
 // const friendNameData = ref<string | object>({});
 const allNameData = ref<Name[]>([]);
@@ -40,42 +41,54 @@ const roomButton = () => {
 const friendSave = () => {
   router.push("/ChatFriendSave");
 };
+const isDrawer = ref(false);
 </script>
 
 <template>
-  <div class="container">
-    <div class="route-area">
-      <!-- <div class="route-button" @click="topButton">Top</div> -->
-      <div class="route-button" @click="logoutUser">ログアウト</div>
-      <div class="route-button" @click="nameButton">プロフィールへ</div>
-    </div>
-    <div class="friend-container">
-      <div class="friend-title">フレンド一覧</div>
-      <!-- <div class="friend-title">{{ mynameData?.name }}</div> -->
-      <div class="friend-addition" @click="friendSave">友達追加へ</div>
-    </div>
+  <Drawer v-model="isDrawer" />
+  <div class="main-display" v-if="!isDrawer">
+    <div class="container">
+      <div class="route-area">
+        <!-- <div class="route-button" @click="topButton">Top</div> -->
+        <!-- <div class="route-button" @click="logoutUser">ログアウト</div> -->
+        <!-- <div class="route-button" @click="nameButton">プロフィールへ</div> -->
+      </div>
+      <div class="friend-container">
+        <div class="friend-title">フレンド一覧</div>
+        <div class="friend-title">{{ mynameData?.name }}</div>
+        <!-- <div class="friend-addition" @click="friendSave">友達追加へ</div> -->
+      </div>
 
-    <div class="header-container">
-      <div class="edit">編集</div>
-      <div class="edit">削除</div>
-      <div class="new-talkroom" @click="roomButton">チャットルーム一覧へ</div>
+      <div class="header-container">
+        <div class="edit">編集</div>
+        <div class="edit">削除</div>
+        <div class="q-gutter-sm menu-style">
+          <q-icon name="menu" @click="isDrawer = !isDrawer" />
+        </div>
+        <!-- <div class="new-talkroom" @click="roomButton">チャットルーム一覧へ</div> -->
+      </div>
+      <div class="search-room">
+        <Chat_Input placeholder="🔍 検索" />
+      </div>
     </div>
-    <div class="search-room">
-      <Chat_Input placeholder="🔍 検索" />
+    <div class="room-container" v-for="t in result">
+      <div class="room-icon">
+        <img :src="t.image" alt="" />
+      </div>
+      <!-- <Chat_List class="room-list" /> -->
+      <input type="checkbox" class="checkbox" v-if="false" />
+      <div class="room-list">{{ t.name }}</div>
     </div>
+    <!-- <h1>トークルーム</h1> -->
   </div>
-  <div class="room-container" v-for="t in result">
-    <div class="room-icon">
-      <img :src="t.image" alt="" />
-    </div>
-    <!-- <Chat_List class="room-list" /> -->
-    <input type="checkbox" class="checkbox" v-if="false" />
-    <div class="room-list">{{ t.name }}</div>
-  </div>
-  <!-- <h1>トークルーム</h1> -->
 </template>
 
 <style scoped>
+.menu-style {
+  font-size: 32px;
+  margin: -80px 32px 0 auto;
+  cursor: pointer;
+}
 .route-area {
   width: 240px;
   margin: 0 32px 0 auto;
@@ -113,7 +126,7 @@ img {
 }
 
 .friend-title {
-  margin: -16px 0 32px 32px;
+  margin: 16px 0 32px 32px;
   font-size: 28px;
 }
 
@@ -173,7 +186,7 @@ img {
 
 @media screen and (max-width: 430px) {
   .friend-title {
-    margin: -56px 0 16px 16px;
+    margin: 0 0 16px 16px;
     font-size: 18px;
   }
 
@@ -224,6 +237,11 @@ img {
 
   .room-list {
     font-size: 16px;
+  }
+
+  .menu-style {
+    font-size: 32px;
+    margin: -60px 40px 0 auto;
   }
 }
 </style>

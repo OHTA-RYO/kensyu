@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted } from "vue";
 import Chat_Login_Main from "./Chat_Login_Main.vue";
+import Drawer from "./Drawer.vue";
 import Chat_Input from "../components/Chat_Data/Chat_Input.vue";
 import { router } from "../router/";
 import { collection, addDoc } from "firebase/firestore";
 import { app, db, auth } from "../firebase/firebase";
 import type { Name } from "@/Types";
 import { defaultName, mynameData, updateDocment, imgUp } from "@/db";
-import { isLogin } from "@/firebase/firebaseAuth";
+// import { isLogin } from "@/firebase/firebaseAuth";
 
 const nameData = ref<Name>(defaultName());
 const file = ref<File | null>(null);
@@ -63,61 +64,87 @@ const friendList = () => {
 const friendSave = () => {
   router.push("/ChatFriendSave");
 };
+
+const inputDom = ref<HTMLInputElement | null>(null);
+const clickInput = () => {
+  inputDom.value?.click();
+};
+
+const isDrawer = ref(false);
 </script>
-
 <template>
-  <div class="border-area">
-    <div class="container">
-      <div class="profile-container">
-        <div class="naime-title">プロフィールページ</div>
-        <div class="friend-addition" @click="friendSave">友達追加へ</div>
+  <Drawer v-model="isDrawer" />
+  <div class="main-display" v-if="!isDrawer">
+    <div class="border-area">
+      <div class="container">
+        <div class="profile-container">
+          <div class="naime-title">プロフィールページ</div>
+          <!-- <div class="friend-addition" @click="friendSave">友達追加へ</div> -->
+          <div class="q-gutter-sm menu-style friend-addition">
+            <q-icon name="menu" @click="isDrawer = !isDrawer" />
+          </div>
+        </div>
+
+        <div class="header-container">
+          <!-- <div class="chatroom" @click="roomButton">チャットルーム一覧へ</div> -->
+        </div>
       </div>
 
-      <div class="header-container">
-        <div class="chatroom" @click="roomButton">チャットルーム一覧へ</div>
-      </div>
-    </div>
-
-    <div class="main-container">
-      <div class="title">
-        <h1 v-if="!mynameData?.nameid">ニックネームを登録して下さい。</h1>
-      </div>
-      <div class="name-container" v-if="!mynameData?.nameid">
-        <div class="container-parea">
-          <p>お名前</p>
+      <div class="main-container">
+        <div class="title">
+          <h1 v-if="!mynameData?.nameid">ニックネームを登録して下さい。</h1>
         </div>
-        <div class="container-inputarea">
-          <Chat_Input
-            :isRegistration="true"
-            type="text"
-            placeholder="ニックネームを入力して下さい。"
-            class="inputarea"
-            :height="46"
-            v-model="nameData.name"
-          />
+        <div class="name-container" v-if="!mynameData?.nameid">
+          <div class="container-parea">
+            <p>お名前</p>
+          </div>
+          <div class="container-inputarea">
+            <Chat_Input
+              :isRegistration="true"
+              type="text"
+              placeholder="ニックネームを入力して下さい。"
+              class="inputarea"
+              :height="46"
+              v-model="nameData.name"
+            />
+          </div>
+        </div>
+        <div class="save" v-if="!mynameData?.nameid">
+          <p @click="nameRegistration">登録</p>
+        </div>
+        <div class="sendarea" v-if="mynameData?.nameid">
+          <div class="file-save-area">
+            <h1 v-if="mynameData?.nameid">プロフィール画像を設定</h1>
+          </div>
+          <div class="file-area">
+            <button @click="clickInput">アイコンを選択</button>
+            <input
+              type="file"
+              @change="imgData"
+              v-show="false"
+              ref="inputDom"
+            />
+          </div>
+        </div>
+        <div class="file-save" v-if="mynameData?.nameid">
+          <p @click="myIconSet">アイコンを設定</p>
         </div>
       </div>
-      <div class="save" v-if="!mynameData?.nameid">
-        <p @click="nameRegistration">登録</p>
+      <div class="nameid-container">
+        <div class="nameid">{{ `${mynameData?.name}さんのID` }}</div>
+        <div class="nameid">{{ mynameData?.nameid }}</div>
       </div>
-      <div class="sendarea" v-if="mynameData?.nameid">
-        <div class="file-save-area">
-          <h1 v-if="mynameData?.nameid">プロフィール画像を設定</h1>
-        </div>
-        <div class="file-area"><input type="file" @change="imgData" /></div>
-      </div>
-      <div class="file-save" v-if="mynameData?.nameid">
-        <p @click="myIconSet">アイコンを設定</p>
-      </div>
-    </div>
-    <div class="nameid-container">
-      <div class="nameid">{{ `${mynameData?.name}さんのID` }}</div>
-      <div class="nameid">{{ mynameData?.nameid }}</div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.q-pa-md {
+  cursor: pointer;
+}
+.menu-style {
+  font-size: 30px;
+}
 .border-area {
   width: 100%;
   height: auto;
@@ -150,9 +177,9 @@ const friendSave = () => {
   cursor: pointer;
 }
 
-.name-container {
+/* .name-container {
   margin-top: 32px;
-}
+} */
 
 .header-container {
   display: flex;
@@ -169,7 +196,7 @@ const friendSave = () => {
 }
 
 h1 {
-  margin: 32px 0 32px 32px;
+  margin: 16px 0 16px 32px;
   font-size: 28px;
 }
 
@@ -221,8 +248,7 @@ p {
 }
 
 .file-area {
-  margin: 0 0 0 32px;
-  color: white;
+  margin: 0 0 0 40px;
 }
 .file-save {
   text-align: center;
@@ -230,7 +256,7 @@ p {
 
 .file-save p {
   width: 160px;
-  margin: -52px auto 32px;
+  margin: -40px auto 32px;
   padding: 8px 0;
   font-size: 20px;
   font-weight: bold;
@@ -245,6 +271,7 @@ p {
 .nameid {
   color: rgb(0, 22, 47);
   font-size: 24px;
+  padding-bottom: 16px;
 }
 
 @media screen and (max-width: 820px) {
@@ -266,6 +293,7 @@ p {
 
   h1 {
     font-size: 24px;
+    margin: 0 0 8px 16px;
   }
 
   .file-save p {
@@ -284,6 +312,9 @@ p {
 }
 
 @media screen and (max-width: 430px) {
+  .container {
+    padding: 40px 0 10px 0;
+  }
   .title {
     margin-top: 16px;
   }
@@ -299,11 +330,11 @@ p {
 
   .friend-addition {
     font-size: 14px;
-    margin: 16px 16px 0 auto;
+    margin: -16px 16px 0 auto;
   }
 
   .name-container {
-    margin-top: 16px;
+    margin-top: 0px;
   }
 
   .container-parea {
@@ -332,7 +363,7 @@ p {
 
   h1 {
     font-size: 18px;
-    margin: 0 0 32px 16px;
+    margin: 0 0 0 16px;
   }
 
   .save p {
@@ -342,7 +373,7 @@ p {
 
   .file-save p {
     width: 120px;
-    margin: -36px 16px 16px auto;
+    margin: -36px 32px 16px auto;
   }
 
   .file-area {
@@ -356,6 +387,9 @@ p {
   .nameid {
     color: rgb(0, 22, 47);
     font-size: 18px;
+  }
+  .menu-style {
+    font-size: 32px;
   }
 }
 </style>
